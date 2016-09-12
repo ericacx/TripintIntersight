@@ -1,6 +1,6 @@
 # Add project specific ProGuard rules here.
 # By default, the flags in this file are appended to flags specified
-# in /Users/Eric/Desktop/Myself/android-sdk_r24.4.1-macosx/tools/proguard/proguard-android.txt
+# in /Users/lirichen/Library/tools/proguard/proguard-android.txt
 # You can edit the include path and order by changing the proguardFiles
 # directive in build.gradle.
 #
@@ -15,5 +15,3 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
--keep class com.bumptech.glide.integration.okhttp3.OkHttpGlideModule
--keep public class * implements com.bumptech.glide.module.GlideModule
