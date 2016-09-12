@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.tripint.intersight.MainActivity">
+
+    <FrameLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        ></FrameLayout>
+
+    <RadioGroup
+        android:id="@+id/main_tabBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#000"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        >
+        <RadioButton
+            android:id="@+id/main_interplus"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:layout_height="wrap_content"
+            android:text="洞察+"
+            android:textColor="@color/selector_textcolor"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:drawableTop="@mipmap/ic_launcher"
+            />
+
+
+        <RadioButton
+            android:id="@+id/main_ask"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:layout_height="wrap_content"
+            android:text="提问"
+            android:textColor="@color/selector_textcolor"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:drawableTop="@mipmap/ic_launcher"
+            />
+
+        <RadioButton
+            android:id="@+id/main_mine"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:layout_height="wrap_content"
+            android:text="我的"
+            android:textColor="@color/selector_textcolor"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:drawableTop="@mipmap/ic_launcher"
+            />
+
+    </RadioGroup>
+</LinearLayout>

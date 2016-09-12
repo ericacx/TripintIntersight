@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tripint.intersight.activity.GuideActivity">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/guide_viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <RadioGroup
+        android:id="@+id/guide_tabBar"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="60dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/guide_buttonOne"
+            android:clickable="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/guide_buttonTwo"
+            android:clickable="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/guide_buttonThree"
+            android:clickable="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RadioGroup>
+</FrameLayout>

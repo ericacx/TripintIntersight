@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@mipmap/background"
+    tools:context="com.tripint.intersight.fragment.IntersightPlusFragment">
+
+    <!-- tabBackground:点击设置背景
+
+     -->
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:tabSelectedTextColor="@color/blue"
+        app:tabTextColor="@color/line"
+        app:tabIndicatorHeight= "0dp"
+        app:tabTextAppearance="@style/TabLayoutTextStyle"
+        />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+</LinearLayout>

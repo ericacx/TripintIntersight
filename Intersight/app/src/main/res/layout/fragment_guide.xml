@@ -1,0 +1,28 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tripint.intersight.fragment.GuideFragment">
+
+    <ImageView
+        android:id="@+id/guide_imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        />
+    <TextView
+        android:id="@+id/goToSee"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:text="开启洞察+"
+        android:background="@drawable/btn_shape"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="100dp"
+        android:visibility="gone"
+        />
+
+</FrameLayout>
