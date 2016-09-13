@@ -11,15 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="40dp">
 
-        <ImageView
-            android:id="@+id/login_back"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="19dp"
-            android:layout_marginLeft="21dp"
-            android:src="@mipmap/ic_launcher" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,7 +35,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_marginTop="40dp"
@@ -52,9 +43,10 @@
 
         <ImageView
             android:layout_width="0dp"
+            android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/iconfont_email" />
 
         <EditText
             android:id="@+id/login_et_username"
@@ -78,7 +70,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:orientation="horizontal">
@@ -86,8 +78,9 @@
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/iconfont_mima" />
 
         <EditText
             android:id="@+id/login_et_password"
@@ -187,21 +180,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
+        <ImageView
             android:id="@+id/login_thirdLogin_linkedin"
-            android:text="Linkedin"
-            android:textSize="10sp"
-            android:textColor="@color/line"
-            android:drawableTop="@mipmap/ic_launcher"
+            android:src="@mipmap/iconfont_linkedin"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <TextView
+        <ImageView
             android:id="@+id/login_thirdLogin_wechat"
-            android:text="Wechat"
-            android:textColor="@color/line"
-            android:textSize="10sp"
-            android:drawableTop="@mipmap/ic_launcher"
+            android:src="@mipmap/iconfont_wechat"
             android:layout_marginLeft="60dp"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"

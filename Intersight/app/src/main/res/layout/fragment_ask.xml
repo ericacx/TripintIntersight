@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.tripint.intersight.fragment.AskFragment">
 
     <LinearLayout
@@ -27,5 +28,11 @@
                 android:src="@mipmap/ic_launcher"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+        <com.bigkoo.convenientbanner.ConvenientBanner
+            android:id="@+id/convenientBanner"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:canLoop="true" />
+
     </LinearLayout>
 </FrameLayout>
