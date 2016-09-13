@@ -23,7 +23,7 @@
         android:textColor="@color/line"
         android:layout_gravity="center"
         android:layout_marginBottom="152dp"
-        android:visibility="visible"
+        android:visibility="gone"
         />
 
 </FrameLayout>

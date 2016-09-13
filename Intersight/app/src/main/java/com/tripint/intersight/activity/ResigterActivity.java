@@ -13,29 +13,29 @@ import android.widget.TextView;
 
 import com.tripint.intersight.R;
 
-import butterknife.BindView;
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ResigterActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @BindView(R.id.register_back)
+    @Bind(R.id.register_back)
     ImageView registerBack;//返回
-    @BindView(R.id.register_et_phone)
+    @Bind(R.id.register_et_phone)
     EditText registerEtPhone;//输入的手机号
-    @BindView(R.id.register_verify_code)
+    @Bind(R.id.register_verify_code)
     Button registerVerifyCode;//发送验证码
-    @BindView(R.id.register_create_password)
+    @Bind(R.id.register_create_password)
     EditText registerCreatePassword;//创建密码
-    @BindView(R.id.register_input_password)
+    @Bind(R.id.register_input_password)
     EditText registerInputPassword;//再次输入密码
-    @BindView(R.id.register_input_verify_code)
+    @Bind(R.id.register_input_verify_code)
     EditText registerInputVerifyCode;//输入验证码
-    @BindView(R.id.register_tv_userProtocol)
+    @Bind(R.id.register_tv_userProtocol)
     TextView registerTvUserProtocol;//用户协议
-    @BindView(R.id.register_button_register)
+    @Bind(R.id.register_button_register)
     Button registerButtonRegister;//注册按钮
-    @BindView(R.id.register_button_reset)
+    @Bind(R.id.register_button_reset)
     Button registerButtonReset;//重置按钮
 
     private String phone, create_password, input_password, verify_code;

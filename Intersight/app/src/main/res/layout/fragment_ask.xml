@@ -15,16 +15,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <EditText
+                android:id="@+id/asdEtInput"
                 android:layout_width="0dp"
-                android:layout_weight="7"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="6"
                 android:layout_margin="5dp"
                 android:hint="搜索关键字"
+                android:textColor="@color/white"
+                android:textSize="12sp"
                 android:textColorHint="@color/line"
                 android:background="@drawable/btn_shape"
                 android:layout_height="wrap_content" />
             <ImageView
+                android:id="@+id/askIvSearch"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:layout_gravity="center_vertical"
                 android:src="@mipmap/ic_launcher"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -34,5 +40,10 @@
             android:layout_height="200dp"
             app:canLoop="true" />
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/askRecyclerView"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 </FrameLayout>

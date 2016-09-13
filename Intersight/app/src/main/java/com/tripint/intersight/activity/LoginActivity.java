@@ -12,26 +12,26 @@ import android.widget.TextView;
 import com.tripint.intersight.MainActivity;
 import com.tripint.intersight.R;
 
-import butterknife.BindView;
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @BindView(R.id.login_et_username)
-    EditText loginEtUsername;//用户名
-    @BindView(R.id.login_et_password)
-    EditText loginEtPassword;//密码
-    @BindView(R.id.login_forget_pwd)
-    TextView loginForgetPwd;//忘记密码
-    @BindView(R.id.login_button_login)
-    Button loginButtonLogin;//登录按钮
-    @BindView(R.id.login_button_register)
-    Button loginButtonRegister;//注册按钮
-    @BindView(R.id.login_thirdLogin_linkedin)
-    TextView loginThirdLoginLinkedin;//领英登录
-    @BindView(R.id.login_thirdLogin_wechat)
-    TextView loginThirdLoginWechat;//微信登录
+    @Bind(R.id.login_et_username)
+    EditText login_et_username;//用户名
+    @Bind(R.id.login_et_password)
+    EditText login_et_password;//密码
+    @Bind(R.id.login_forget_pwd)
+    TextView login_forget_pwd;//忘记密码
+    @Bind(R.id.login_button_login)
+    Button login_button_login;//登录按钮
+    @Bind(R.id.login_button_register)
+    Button login_button_register;//注册按钮
+    @Bind(R.id.login_thirdLogin_linkedin)
+    ImageView login_thirdLogin_linkedin;//领英登录
+    @Bind(R.id.login_thirdLogin_wechat)
+    ImageView login_thirdLogin_wechat;//微信登录
 
     private Intent intent;
 

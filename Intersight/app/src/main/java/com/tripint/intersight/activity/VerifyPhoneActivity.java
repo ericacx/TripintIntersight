@@ -11,21 +11,21 @@ import android.widget.ImageView;
 
 import com.tripint.intersight.R;
 
-import butterknife.BindView;
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class VerifyPhoneActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @BindView(R.id.iv_back)
+    @Bind(R.id.iv_back)
     ImageView ivBack;//返回退出页面
-    @BindView(R.id.et_phoneNumber)
+    @Bind(R.id.et_phoneNumber)
     EditText etPhoneNumber;//手机号
-    @BindView(R.id.btn_verifyCode)
+    @Bind(R.id.btn_verifyCode)
     Button btnVerifyCode;//输入验证码
-    @BindView(R.id.et_input_verifyCode)
+    @Bind(R.id.et_input_verifyCode)
     EditText etInputVerifyCode;//发送验证码
-    @BindView(R.id.btn_next)
+    @Bind(R.id.btn_next)
     Button btnNext;//下一步
 
     private int time = 60;
