@@ -18,7 +18,7 @@
             android:layout_marginTop="19dp"
             android:layout_marginLeft="21dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/iconfont_back" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -32,13 +32,16 @@
             android:typeface="normal" />
     </RelativeLayout>
 
+    <ImageView
+        android:src="@mipmap/img_choseone"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content" />
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />

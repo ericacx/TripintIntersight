@@ -50,7 +50,7 @@ public class IntersightPlusFragment extends Fragment {
 
     private void initView(View view) {
         tabLayout = ((TabLayout) view.findViewById(R.id.tabLayout));
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+//        tabLayout.setTabMode(TabLayout.MODE_FIXED);
         viewPager = ((ViewPager) view.findViewById(R.id.viewPager));
 
         stringList = new ArrayList<String>();

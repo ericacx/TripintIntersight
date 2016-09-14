@@ -37,7 +37,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 //当新版本与旧版本一致时直接跳转进入主界面
                 if(newVersion.equals(version)){
 
-                    Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
+                    Intent intent = new Intent(WelcomeActivity.this,MainActivity.class);
 
                     startActivity(intent);
 

@@ -83,5 +83,4 @@ public class AskAnswerFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabsFromPagerAdapter(myTabPagerAdapter);
     }
-
 }

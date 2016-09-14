@@ -45,9 +45,9 @@ public class GuideFragment extends Fragment {
         List<Integer> images = new ArrayList<>();
 
         // 把图片添加到集合images中
-        images.add(R.mipmap.ic_launcher);
-        images.add(R.mipmap.ic_launcher);
-        images.add(R.mipmap.ic_launcher);
+        images.add(R.mipmap.guide_one);
+        images.add(R.mipmap.guide_two);
+        images.add(R.mipmap.guide_three);
 
         //获取来自activity中传递过来的值
         Bundle arguments = getArguments();

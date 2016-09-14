@@ -20,16 +20,19 @@
         <RadioButton
             android:id="@+id/guide_buttonOne"
             android:clickable="false"
+            android:button="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <RadioButton
             android:id="@+id/guide_buttonTwo"
             android:clickable="false"
+            android:button="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <RadioButton
             android:id="@+id/guide_buttonThree"
             android:clickable="false"
+            android:button="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
