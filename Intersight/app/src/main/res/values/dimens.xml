@@ -5,7 +5,6 @@
     <dimen name="text_size">16sp</dimen>
     <dimen name="textsize_16sp">16sp</dimen>
     <dimen name="text_size_forget_pwd">11sp</dimen>
-    <dimen name="text_size_1">10sp</dimen>
     <dimen name="margin">40dp</dimen>
     <dimen name="margin_left">50dp</dimen>
 
