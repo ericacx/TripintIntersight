@@ -5,33 +5,21 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.tripint.intersight.R;
-import com.tripint.intersight.adapter.AskRecyclerViewAdapter;
-import com.tripint.intersight.bean.DataEntity;
-import com.tripint.intersight.view.NetworkImageHolderView;
+import com.tripint.intersight.widget.image.BannerViewHolder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -41,16 +29,7 @@ import butterknife.OnClick;
 public class AskFragment extends Fragment implements AdapterView.OnItemClickListener, ViewPager.OnPageChangeListener, OnItemClickListener {
 
 
-    @Bind(R.id.asdEtInput)
-    EditText asdEtInput;
-    @Bind(R.id.askIvSearch)
-    ImageView askIvSearch;
-
-    ConvenientBanner convenientBanner;
-    RecyclerView askRecyclerView;
-
-    private List<DataEntity> entityList;
-    private AskRecyclerViewAdapter askRecyclerViewAdapter;
+    private ConvenientBanner convenientBanner;
     private List<String> networkImages;
 
     private String[] images = {
@@ -59,7 +38,7 @@ public class AskFragment extends Fragment implements AdapterView.OnItemClickList
             "http://d.3987.com/sqmy_131219/001.jpg",
     };
     private LinearLayoutManager linearLayoutManager;
-    private DataEntity dataEntity;
+//    private DataEntity dataEntity;
     public AskFragment() {
         // Required empty public constructor
     }
@@ -71,53 +50,27 @@ public class AskFragment extends Fragment implements AdapterView.OnItemClickList
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ask, container, false);
 
-        entityList = new ArrayList<DataEntity>();
-
-        for (int i = 0; i < 30; i++) {
-            dataEntity = new DataEntity(R.mipmap.ic_launcher, "Susan", "8年+", "销售总监", "腾讯（科技）信息有限公司", "互联网 | 游戏 | 软件");
-            entityList.add(dataEntity);
-        }
+//        entityList = new ArrayList<DataEntity>();
+//
+//        for (int i = 0; i < 30; i++) {
+//            dataEntity = new DataEntity(R.mipmap.ic_launcher, "Susan", "8年+", "销售总监", "腾讯（科技）信息有限公司", "互联网 | 游戏 | 软件");
+//            entityList.add(dataEntity);
+//        }
 
         convenientBanner = ((ConvenientBanner) view.findViewById(R.id.convenientBanner));
-        askRecyclerView = ((RecyclerView) view.findViewById(R.id.askRecyclerView));
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        askRecyclerViewAdapter = new AskRecyclerViewAdapter(getActivity(), entityList);
-        askRecyclerView.setLayoutManager(linearLayoutManager);
-        askRecyclerView.setAdapter(askRecyclerViewAdapter);
-
-
-        initImageLoader();
 
         //网络加载
-        networkImages = Arrays.asList(images);
-        convenientBanner.setPages(new CBViewHolderCreator<NetworkImageHolderView>() {
+        networkImages= Arrays.asList(images);
+        convenientBanner.setPages(new CBViewHolderCreator<BannerViewHolder>() {
             @Override
-            public NetworkImageHolderView createHolder() {
-                return new NetworkImageHolderView();
+            public BannerViewHolder createHolder() {
+                return new BannerViewHolder();
             }
         }, networkImages)
                 //小圆点
                 .setPageIndicator(new int[]{R.mipmap.ic_page_indicator, R.mipmap.ic_page_indicator_focused});
 
-        ButterKnife.bind(this, view);
         return view;
-    }
-
-
-    //初始化网络图片缓存库
-    private void initImageLoader() {
-        //网络图片例子,结合常用的图片缓存库UIL,你可以根据自己需求自己换其他网络图片库
-        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().
-                showImageForEmptyUri(R.mipmap.ic_launcher)
-                .cacheInMemory(true).cacheOnDisk(true).build();
-
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-                getContext()).defaultDisplayImageOptions(defaultOptions)
-                .threadPriority(Thread.NORM_PRIORITY - 2)
-                .denyCacheImageMultipleSizesInMemory()
-                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
-                .tasksProcessingOrder(QueueProcessingType.LIFO).build();
-        ImageLoader.getInstance().init(config);
     }
 
 
