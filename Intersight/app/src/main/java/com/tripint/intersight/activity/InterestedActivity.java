@@ -6,7 +6,7 @@ import android.os.Bundle;
 import com.tripint.intersight.R;
 import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.service.HttpRequest;
-import com.tripint.intersight.utils.ToastUtil;
+import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 

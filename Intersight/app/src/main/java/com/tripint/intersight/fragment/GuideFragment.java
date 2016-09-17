@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tripint.intersight.MainActivity;
 import com.tripint.intersight.R;
 import com.tripint.intersight.activity.LoginActivity;
 

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tripint.intersight.R;
-import com.tripint.intersight.utils.StringUtils;
+import com.tripint.intersight.common.utils.StringUtils;
 
 
 /**
@@ -61,8 +61,8 @@ public class RequestImageView extends ImageView {
         try {
             Glide.with(this.getContext()).load(url)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.mipmap.loading_normal_icon)
-                    .error(R.mipmap.loading_normal_icon)
+                    .placeholder(R.mipmap.ic_page_indicator)
+                    .error(R.mipmap.ic_page_indicator)
                     .fitCenter()
                     .crossFade()
                     .dontAnimate()

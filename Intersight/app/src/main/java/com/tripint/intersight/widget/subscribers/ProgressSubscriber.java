@@ -17,7 +17,7 @@ import rx.Subscriber;
  * 调用者自己对请求数据进行处理
  * Created by liukun on 16/3/10.
  */
-public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCancelListener{
+public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCancelListener {
 
     private PageDataSubscriberOnNext mPageDataSubscriberOnNext;
     private ProgressDialogHandler mProgressDialogHandler;

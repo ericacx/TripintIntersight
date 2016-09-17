@@ -1,0 +1,113 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_20_80"
+    android:orientation="horizontal"
+    android:background="@color/indigo_900">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:orientation="vertical">
+
+        <com.tripint.intersight.common.widget.widget.image.CircleImageView
+            android:id="@+id/image_ask_profile"
+            android:layout_width="@dimen/width_22_80"
+            android:layout_height="@dimen/height_12_80"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/dongcha" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/image_ask_profile"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/image_item_like"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/spacing"
+                android:src="@mipmap/iconfont_wechat" />
+
+            <TextView
+                android:id="@+id/textView_item_liked_number"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="9999"
+                android:textSize="@dimen/text_size_10"
+                android:textColor="@color/grey_500" />
+
+            <ImageView
+                android:id="@+id/image_item_listened"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/spacing_02"
+                android:src="@mipmap/iconfont_wechat" />
+
+            <TextView
+                android:id="@+id/textView_item_listened_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="9999"
+                android:textSize="@dimen/text_size_10"
+                android:textColor="@color/grey_500" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="7"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textView_item_ask_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:lines="2"
+            android:textColor="@color/grey_100"
+            android:text="目前AR技术的整体发展ngukey未来演讲方向????"
+            android:textSize="@dimen/text_size_20"
+            android:layout_margin="@dimen/spacing_pad04"/>
+        <TextView
+            android:id="@+id/textView_item_ask_specialist"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_4_80"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/grey_500"
+            android:text="目前AR技术的整体发展ngukey未来演讲方向????"
+            android:textSize="@dimen/text_size_14"
+            android:layout_margin="@dimen/spacing_pad04"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_5_80"
+            android:orientation="horizontal"
+            android:background="@mipmap/bg_voice"
+            android:layout_margin="@dimen/spacing_pad04">
+            <TextView
+                android:id="@+id/textView_item_ask_voice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/grey_500"
+                android:text=""
+                android:textSize="@dimen/text_size_20" />
+            </LinearLayout>
+    </LinearLayout>
+
+    <com.tripint.intersight.common.widget.widget.image.TouchImageView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:src="@mipmap/iconfont_back" />
+</LinearLayout>

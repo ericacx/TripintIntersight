@@ -10,7 +10,7 @@ import android.widget.RadioGroup;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.GuideAdapter;
 import com.tripint.intersight.fragment.GuideFragment;
-import com.tripint.intersight.utils.PackageUtils;
+import com.tripint.intersight.common.utils.PackageUtils;
 
 import java.util.ArrayList;
 

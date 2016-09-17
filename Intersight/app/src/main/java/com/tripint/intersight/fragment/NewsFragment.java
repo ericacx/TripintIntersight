@@ -11,7 +11,6 @@ import com.tripint.intersight.R;
 import com.tripint.intersight.fragment.flipview.FlipAdapter;
 
 import se.emilsjolander.flipview.FlipView;
-import se.emilsjolander.flipview.OverFlipMode;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -4,6 +4,4 @@
     <item name="expand_collapse" type="id" />
     <item name="footer_close_button" type="id" />
     <item name="footer_confirm_button" type="id" />
-    <item name="cb_item_tag" type="id"></item>
-    <item name="request_image_view" type="id"/>
 </resources>

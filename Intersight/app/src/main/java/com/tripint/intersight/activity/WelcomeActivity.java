@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 import com.tripint.intersight.MainActivity;
 import com.tripint.intersight.R;
-import com.tripint.intersight.utils.PackageUtils;
+import com.tripint.intersight.common.utils.PackageUtils;
 
 public class WelcomeActivity extends AppCompatActivity {
 
