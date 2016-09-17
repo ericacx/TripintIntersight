@@ -10,7 +10,7 @@
         android:layout_weight="4"
         android:orientation="vertical">
 
-        <com.tripint.intersight.common.widget.widget.image.CircleImageView
+        <com.tripint.intersight.widget.image.CircleImageView
             android:id="@+id/image_ask_profile"
             android:layout_width="@dimen/width_22_80"
             android:layout_height="@dimen/height_12_80"
@@ -105,7 +105,7 @@
             </LinearLayout>
     </LinearLayout>
 
-    <com.tripint.intersight.common.widget.widget.image.TouchImageView
+    <com.tripint.intersight.widget.image.TouchImageView
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"

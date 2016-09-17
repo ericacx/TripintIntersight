@@ -42,6 +42,6 @@ dependencies {
     compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
     compile 'com.bigkoo:convenientbanner:2.0.5'
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile project(':commonLib')
+    compile project(':common')
     compile project(':data')
 }
