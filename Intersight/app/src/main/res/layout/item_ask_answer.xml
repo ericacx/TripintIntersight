@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/height_20_80"
     android:orientation="horizontal"
-    android:background="@color/indigo_900">
+    android:background="@android:color/transparent">
 
     <RelativeLayout
         android:layout_width="0dp"
