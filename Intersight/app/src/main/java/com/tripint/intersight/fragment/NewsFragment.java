@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tripint.intersight.R;
+import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.fragment.flipview.FlipAdapter;
 
 import se.emilsjolander.flipview.FlipView;
@@ -15,16 +16,20 @@ import se.emilsjolander.flipview.FlipView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewsFragment extends Fragment {
+public class NewsFragment extends BaseBackFragment {
 
 
     private FlipView mFlipView;
     private FlipAdapter mAdapter;
 
-    public NewsFragment() {
-        // Required empty public constructor
-    }
+    public static NewsFragment newInstance() {
 
+        Bundle args = new Bundle();
+
+        NewsFragment fragment = new NewsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

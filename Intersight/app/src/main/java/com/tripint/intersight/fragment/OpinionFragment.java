@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.tripint.intersight.R;
 
 /**
@@ -14,8 +15,13 @@ import com.tripint.intersight.R;
 public class OpinionFragment extends Fragment{
 
 
-    public OpinionFragment() {
-        // Required empty public constructor
+    public static OpinionFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        OpinionFragment fragment = new OpinionFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
 

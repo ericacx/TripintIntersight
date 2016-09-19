@@ -14,6 +14,7 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.tripint.intersight.R;
+import com.tripint.intersight.fragment.base.BaseFragment;
 import com.tripint.intersight.widget.BannerViewHolder;
 
 import java.util.Arrays;
@@ -25,11 +26,11 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AskFragment extends Fragment implements AdapterView.OnItemClickListener, ViewPager.OnPageChangeListener, OnItemClickListener {
+public class AskFragment extends BaseFragment implements AdapterView.OnItemClickListener, ViewPager.OnPageChangeListener, OnItemClickListener {
 
 
     private ConvenientBanner convenientBanner;
-    private List<String> networkImages;
+    private List<String> networkImaAskFragmentges;
 
     private String[] images = {
             "http://img2.imgtn.bdimg.com/it/u=3093785514,1341050958&fm=21&gp=0.jpg",
@@ -37,9 +38,16 @@ public class AskFragment extends Fragment implements AdapterView.OnItemClickList
             "http://d.3987.com/sqmy_131219/001.jpg",
     };
     private LinearLayoutManager linearLayoutManager;
+
+    private List<String> networkImages;
 //    private DataEntity dataEntity;
-    public AskFragment() {
-        // Required empty public constructor
+public static AskFragment newInstance() {
+
+    Bundle args = new Bundle();
+
+    AskFragment fragment = new AskFragment();
+    fragment.setArguments(args);
+    return fragment;
     }
 
 

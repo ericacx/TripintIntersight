@@ -10,19 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tripint.intersight.R;
+import com.tripint.intersight.adapter.InterSightPagerFragmentAdapter;
 import com.tripint.intersight.adapter.MyTabPagerAdapter;
+import com.tripint.intersight.fragment.base.BaseFragment;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class IntersightPlusFragment extends Fragment {
+public class IntersightPlusFragment extends BaseFragment {
 
     private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private ViewPager mViewPager;
 
     private List<Fragment> fragmentList;
     private TabLayout.Tab tabOne,tabTwo,tabThree;//标签栏目
@@ -33,8 +34,13 @@ public class IntersightPlusFragment extends Fragment {
     private List<String> stringList;
     private MyTabPagerAdapter myTabPagerAdapter;
 
-    public IntersightPlusFragment() {
-        // Required empty public constructor
+    public static IntersightPlusFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        IntersightPlusFragment fragment = new IntersightPlusFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
 
@@ -48,41 +54,24 @@ public class IntersightPlusFragment extends Fragment {
     }
 
     private void initView(View view) {
+
         tabLayout = ((TabLayout) view.findViewById(R.id.tabLayout));
 //        tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        viewPager = ((ViewPager) view.findViewById(R.id.viewPager));
+        mViewPager = ((ViewPager) view.findViewById(R.id.viewPager));
 
         stringList = new ArrayList<String>();
         stringList.add("问答");
         stringList.add("观点");
         stringList.add("资讯");
 
-        fragmentList = new LinkedList<Fragment>();
-        askAnswerFragment = new AskAnswerFragment();
-        opinionFragment = new OpinionFragment();
-        newsFragment = new NewsFragment();
 
-        fragmentList.add(askAnswerFragment);
-        fragmentList.add(opinionFragment);
-        fragmentList.add(newsFragment);
+        tabLayout.addTab(tabLayout.newTab());
+        tabLayout.addTab(tabLayout.newTab());
+        tabLayout.addTab(tabLayout.newTab());
 
-        tabOne = tabLayout.newTab();
-        tabTwo = tabLayout.newTab();
-        tabThree = tabLayout.newTab();
+        mViewPager.setAdapter(new InterSightPagerFragmentAdapter(getChildFragmentManager()));
+        tabLayout.setupWithViewPager(mViewPager);
 
-        tabOne.setText(stringList.get(0));
-        tabOne.setText(stringList.get(1));
-        tabOne.setText(stringList.get(2));
-
-        tabLayout.addTab(tabOne);
-        tabLayout.addTab(tabTwo);
-        tabLayout.addTab(tabThree);
-
-        myTabPagerAdapter = new MyTabPagerAdapter(getChildFragmentManager(),stringList,fragmentList);
-        viewPager.setAdapter(myTabPagerAdapter);
-
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setTabsFromPagerAdapter(myTabPagerAdapter);
     }
 
 }

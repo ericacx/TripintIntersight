@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tripint.intersight.MainActivity;
 import com.tripint.intersight.R;
 
 import butterknife.Bind;

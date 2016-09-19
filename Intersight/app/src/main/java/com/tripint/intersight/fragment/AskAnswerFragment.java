@@ -2,7 +2,6 @@ package com.tripint.intersight.fragment;
 
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,14 +16,13 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.AskAnswerPageAdapter;
-import com.tripint.intersight.adapter.MyTabPagerAdapter;
 import com.tripint.intersight.common.utils.ToastUtil;
-import com.tripint.intersight.model.QAModel;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
+import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.model.QAModel;
 import com.tripint.intersight.widget.BannerViewHolder;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,7 +33,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AskAnswerFragment extends Fragment {
+public class AskAnswerFragment extends BaseBackFragment {
 
     @Bind(R.id.recycler_view_ask_answer)
     RecyclerView mRecyclerView;
@@ -59,8 +57,13 @@ public class AskAnswerFragment extends Fragment {
             "http://img2.3lian.com/2014/f2/37/d/40.jpg",
             "http://d.3987.com/sqmy_131219/001.jpg"};
 
-    public AskAnswerFragment() {
-        // Required empty public constructor
+    public static AskAnswerFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        AskAnswerFragment fragment = new AskAnswerFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
 
@@ -172,4 +175,5 @@ public class AskAnswerFragment extends Fragment {
             }
         };
     }
+
 }

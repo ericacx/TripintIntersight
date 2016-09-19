@@ -2,10 +2,9 @@ package com.tripint.intersight.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-import com.tripint.intersight.MainActivity;
 import com.tripint.intersight.R;
 import com.tripint.intersight.common.utils.PackageUtils;
 

@@ -1,0 +1,42 @@
+package com.tripint.intersight.adapter;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+
+import com.tripint.intersight.fragment.AskAnswerFragment;
+import com.tripint.intersight.fragment.NewsFragment;
+import com.tripint.intersight.fragment.OpinionFragment;
+
+
+/**
+ * Created by YoKeyword on 16/6/5.
+ */
+public class InterSightPagerFragmentAdapter extends FragmentPagerAdapter {
+    private String[] mTab = new String[]{"问答", "观点", "资讯"};
+
+    public InterSightPagerFragmentAdapter(FragmentManager fm) {
+        super(fm);
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        if (position == 0) {
+            return AskAnswerFragment.newInstance();
+        } else if (position == 1) {
+            return OpinionFragment.newInstance();
+        } else {
+            return NewsFragment.newInstance();
+        }
+    }
+
+    @Override
+    public int getCount() {
+        return mTab.length;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return mTab[position];
+    }
+}
