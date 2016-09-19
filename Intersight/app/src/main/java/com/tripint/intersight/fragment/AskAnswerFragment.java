@@ -19,7 +19,7 @@ import com.tripint.intersight.adapter.AskAnswerPageAdapter;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
-import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.fragment.base.BaseFragment;
 import com.tripint.intersight.model.QAModel;
 import com.tripint.intersight.widget.BannerViewHolder;
 
@@ -33,7 +33,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AskAnswerFragment extends BaseBackFragment {
+public class AskAnswerFragment extends BaseFragment {
 
     @Bind(R.id.recycler_view_ask_answer)
     RecyclerView mRecyclerView;

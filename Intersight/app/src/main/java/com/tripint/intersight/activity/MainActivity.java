@@ -1,20 +1,20 @@
 package com.tripint.intersight.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tripint.intersight.R;
-import com.tripint.intersight.activity.base.BaseActivity;
+import com.tripint.intersight.common.fragmentation.SupportActivity;
 import com.tripint.intersight.common.fragmentation.SupportFragment;
+import com.tripint.intersight.common.fragmentation.anim.FragmentAnimator;
 import com.tripint.intersight.event.TabSelectedEvent;
 import com.tripint.intersight.fragment.AskFragment;
 import com.tripint.intersight.fragment.IntersightPlusFragment;
 import com.tripint.intersight.fragment.MainContentFragment;
 import com.tripint.intersight.fragment.MineFragment;
+import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
 import com.tripint.intersight.widget.tabbar.BottomTabBar;
 import com.tripint.intersight.widget.tabbar.BottomTabBarItem;
 
@@ -24,14 +24,13 @@ import org.greenrobot.eventbus.Subscribe;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends SupportActivity implements BaseLazyMainFragment.OnBackToFirstListener {
 
-    private Fragment fragment;//fragment控件
     private Toast toast;
     private TextView main_tvTitle;
     private boolean currentBackState;//返回键退出程序
 
-    private SupportFragment[] mFragments = new SupportFragment[4];
+    private SupportFragment[] mFragments = new SupportFragment[3];
 
     @Bind(R.id.bottomBar)
     BottomTabBar mBottomTabBar;
@@ -39,7 +38,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         if (savedInstanceState == null) {
@@ -74,9 +73,9 @@ public class MainActivity extends BaseActivity {
         FrameLayout main_container = ((FrameLayout) findViewById(R.id.main_container));
 
         mBottomTabBar
-                .addItem(new BottomTabBarItem(this, R.mipmap.ic_launcher, "消息"))
-                .addItem(new BottomTabBarItem(this, R.drawable.ic_expandable, "联系人"))
-                .addItem(new BottomTabBarItem(this, R.drawable.ic_expandable, "发现"));
+                .addItem(new BottomTabBarItem(this, R.mipmap.ic_launcher, "洞察+"))
+                .addItem(new BottomTabBarItem(this, R.drawable.ic_expandable, "提问"))
+                .addItem(new BottomTabBarItem(this, R.drawable.ic_expandable, "个人"));
 
         mBottomTabBar.setOnTabSelectedListener(new BottomTabBar.OnTabSelectedListener() {
             @Override
@@ -117,11 +116,25 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected FragmentAnimator onCreateFragmentAnimator() {
+        return super.onCreateFragmentAnimator();
+    }
+
     @Subscribe
     public void onEvent(TabSelectedEvent event) {/* Do something */}
 
-    ;
 
+    @Override
+    public void onBackPressedSupport() {
+        // 对于 4个类别的主Fragment内的回退back逻辑,已经在其onBackPressedSupport里各自处理了
+        super.onBackPressedSupport();
+    }
+
+    @Override
+    public void onBackToFirstFragment() {
+        mBottomTabBar.setCurrentItem(1);
+    }
 
     /**
      * 提示按回退键退出程序

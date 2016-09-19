@@ -14,7 +14,6 @@ import com.tripint.intersight.adapter.InterSightPagerFragmentAdapter;
 import com.tripint.intersight.adapter.MyTabPagerAdapter;
 import com.tripint.intersight.fragment.base.BaseFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,11 +21,11 @@ import java.util.List;
  */
 public class IntersightPlusFragment extends BaseFragment {
 
-    private TabLayout tabLayout;
+    private TabLayout mTab;
     private ViewPager mViewPager;
 
     private List<Fragment> fragmentList;
-    private TabLayout.Tab tabOne,tabTwo,tabThree;//标签栏目
+    private TabLayout.Tab tabOne, tabTwo, tabThree;//标签栏目
     private AskAnswerFragment askAnswerFragment;
     private OpinionFragment opinionFragment;
     private NewsFragment newsFragment;
@@ -54,24 +53,19 @@ public class IntersightPlusFragment extends BaseFragment {
     }
 
     private void initView(View view) {
-
-        tabLayout = ((TabLayout) view.findViewById(R.id.tabLayout));
+        mTab = ((TabLayout) view.findViewById(R.id.tab));
 //        tabLayout.setTabMode(TabLayout.MODE_FIXED);
         mViewPager = ((ViewPager) view.findViewById(R.id.viewPager));
 
-        stringList = new ArrayList<String>();
-        stringList.add("问答");
-        stringList.add("观点");
-        stringList.add("资讯");
+        mTab = (TabLayout) view.findViewById(R.id.tab);
+        mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
 
-
-        tabLayout.addTab(tabLayout.newTab());
-        tabLayout.addTab(tabLayout.newTab());
-        tabLayout.addTab(tabLayout.newTab());
+        mTab.addTab(mTab.newTab());
+        mTab.addTab(mTab.newTab());
+        mTab.addTab(mTab.newTab());
 
         mViewPager.setAdapter(new InterSightPagerFragmentAdapter(getChildFragmentManager()));
-        tabLayout.setupWithViewPager(mViewPager);
-
+        mTab.setupWithViewPager(mViewPager);
     }
 
 }

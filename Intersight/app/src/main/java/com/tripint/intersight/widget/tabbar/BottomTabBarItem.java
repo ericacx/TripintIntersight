@@ -2,6 +2,7 @@ package com.tripint.intersight.widget.tabbar;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
@@ -69,7 +70,7 @@ public class BottomTabBarItem extends FrameLayout {
         mTvTitle.setTextColor(ContextCompat.getColor(context, R.color.tab_unselect));
         mTvTitle.setLayoutParams(paramsTv);
         lLContainer.addView(mTvTitle);
-
+        setBackgroundColor(Color.BLACK);
         addView(lLContainer);
     }
 

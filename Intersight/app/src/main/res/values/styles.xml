@@ -42,4 +42,7 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
+    <style name="tab_appearance">
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>

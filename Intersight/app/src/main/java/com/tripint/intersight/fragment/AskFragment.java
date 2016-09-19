@@ -2,6 +2,7 @@ package com.tripint.intersight.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +15,7 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.tripint.intersight.R;
-import com.tripint.intersight.fragment.base.BaseFragment;
+import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
 import com.tripint.intersight.widget.BannerViewHolder;
 
 import java.util.Arrays;
@@ -26,7 +27,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AskFragment extends BaseFragment implements AdapterView.OnItemClickListener, ViewPager.OnPageChangeListener, OnItemClickListener {
+public class AskFragment extends BaseLazyMainFragment implements AdapterView.OnItemClickListener, ViewPager.OnPageChangeListener, OnItemClickListener {
 
 
     private ConvenientBanner convenientBanner;
@@ -96,6 +97,10 @@ public static AskFragment newInstance() {
         convenientBanner.stopTurning();
     }
 
+    @Override
+    protected void initLazyView(@Nullable Bundle savedInstanceState) {
+
+    }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

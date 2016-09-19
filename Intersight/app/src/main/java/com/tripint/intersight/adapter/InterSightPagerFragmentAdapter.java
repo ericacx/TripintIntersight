@@ -2,7 +2,7 @@ package com.tripint.intersight.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.tripint.intersight.fragment.AskAnswerFragment;
 import com.tripint.intersight.fragment.NewsFragment;
@@ -12,7 +12,7 @@ import com.tripint.intersight.fragment.OpinionFragment;
 /**
  * Created by YoKeyword on 16/6/5.
  */
-public class InterSightPagerFragmentAdapter extends FragmentPagerAdapter {
+public class InterSightPagerFragmentAdapter extends FragmentStatePagerAdapter {
     private String[] mTab = new String[]{"问答", "观点", "资讯"};
 
     public InterSightPagerFragmentAdapter(FragmentManager fm) {
