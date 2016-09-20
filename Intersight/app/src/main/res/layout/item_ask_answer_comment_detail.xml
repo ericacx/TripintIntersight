@@ -1,0 +1,92 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line_grey" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <com.tripint.intersight.widget.image.CircleImageView
+                android:id="@+id/image_ask_profile"
+                android:layout_width="@dimen/width_12_80"
+                android:layout_height="@dimen/height_6_80"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="@dimen/width_4_80"
+                android:src="@mipmap/dongcha" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_5_80"
+                android:layout_margin="@dimen/spacing_pad04"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_item_ask_voice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="高高 巨人网络"
+                    android:textColor="@color/grey_500"
+                    android:textSize="@dimen/text_size_20" />
+
+                <com.tripint.intersight.widget.image.TouchImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_launcher" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textView_item_ask_specialist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/spacing_pad04"
+                android:background="@mipmap/bg_voice"
+                android:lines="2"
+                android:text="目前AR技术的整体发展ngukey未来演讲方向????"
+                android:textColor="@color/grey_500"
+                android:textSize="@dimen/text_size_14" />
+
+            <TextView
+                android:id="@+id/textView_item_ask_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/spacing_pad04"
+                android:lines="1"
+                android:text="目前AR技术的整体发展ngukey未来演讲方向????"
+                android:textColor="@color/grey_100"
+                android:textSize="@dimen/text_size_20" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

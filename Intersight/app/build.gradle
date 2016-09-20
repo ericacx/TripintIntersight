@@ -1,15 +1,33 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+
+    signingConfigs {
+        release {
+            storeFile file("/Users/lirichen/Desktop/intersight.jks")
+//            storeFile file('D:/Android/springtour_release.keystore')
+            storePassword STORE_PASSWORD
+            keyAlias KEYALIAS
+            keyPassword KEY_PASSWORD
+        }
+        debug {
+            storeFile file("/Users/lirichen/Desktop/intersight.jks")
+//            storeFile file('D:/Android/springtour_release.keystore')
+            storePassword STORE_PASSWORD
+            keyAlias KEYALIAS
+            keyPassword KEY_PASSWORD
+        }
+    }
+
+    compileSdkVersion COMPILE_SDK_VERSION as int
+    buildToolsVersion BUILD_TOOLS_VERSION
 
     defaultConfig {
         applicationId "com.tripint.intersight"
-        minSdkVersion 15
-        targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion MIN_SDK_VERSION as int
+        targetSdkVersion TARGET_SDK_VERSION as int
+        versionCode VERSION_CODE as int
+        versionName VERSION_NAME
     }
     buildTypes {
         release {
@@ -21,15 +39,24 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+
+    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.android.support:support-v4:24.2.0'
-    compile 'com.android.support:design:24.2.0'
-    compile 'com.android.support:cardview-v7:24.2.0'
+    compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT}"
+    compile "com.android.support:support-v4:${ANDROID_SUPPORT}"
+    compile "com.android.support:design:${ANDROID_SUPPORT}"
+    compile "com.android.support:cardview-v7:${ANDROID_SUPPORT}"
     compile 'junit:junit:4.12'
     compile 'com.oguzdev:CircularFloatingActionMenu:1.0.2'
     compile 'se.emilsjolander:android-flipview:1.1.0'

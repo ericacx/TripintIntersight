@@ -2,6 +2,7 @@ package com.tripint.intersight.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -12,14 +13,16 @@ import android.view.ViewGroup;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.InterSightPagerFragmentAdapter;
 import com.tripint.intersight.adapter.MyTabPagerAdapter;
+import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.fragment.base.BaseFragment;
+import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
 
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class IntersightPlusFragment extends BaseFragment {
+public class IntersightPlusFragment extends BaseLazyMainFragment {
 
     private TabLayout mTab;
     private ViewPager mViewPager;
@@ -64,8 +67,12 @@ public class IntersightPlusFragment extends BaseFragment {
         mTab.addTab(mTab.newTab());
         mTab.addTab(mTab.newTab());
 
+
+    }
+
+    @Override
+    protected void initLazyView(@Nullable Bundle savedInstanceState) {
         mViewPager.setAdapter(new InterSightPagerFragmentAdapter(getChildFragmentManager()));
         mTab.setupWithViewPager(mViewPager);
     }
-
 }

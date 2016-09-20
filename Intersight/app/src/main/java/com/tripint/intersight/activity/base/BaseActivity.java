@@ -11,17 +11,12 @@ import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
  * 主要功能:页面公用管理
  * 创建时间：2016/09/11 12:46
  */
-public class BaseActivity extends SupportActivity implements BaseLazyMainFragment.OnBackToFirstListener {
+public class BaseActivity extends SupportActivity {
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onBackToFirstFragment() {
-
     }
 
     @Override

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#55ACEE</color>
+    <color name="colorToolbarPrimary">#040A28</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorBottomBarPrimary">#77040A28</color>
+
     <color name="blue">#4A90E2</color>
     <color name="line">#BABABA</color>
     <color name="tab_unselect">#c9c9c9</color>

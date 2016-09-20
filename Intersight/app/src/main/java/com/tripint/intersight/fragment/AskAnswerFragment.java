@@ -1,11 +1,13 @@
 package com.tripint.intersight.fragment;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +18,17 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.AskAnswerPageAdapter;
+import com.tripint.intersight.common.fragmentation.SupportFragment;
+import com.tripint.intersight.common.transition.DetailTransition;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
+import com.tripint.intersight.event.StartBrotherEvent;
 import com.tripint.intersight.fragment.base.BaseFragment;
 import com.tripint.intersight.model.QAModel;
 import com.tripint.intersight.widget.BannerViewHolder;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Arrays;
 import java.util.List;
@@ -146,6 +153,7 @@ public class AskAnswerFragment extends BaseFragment {
     private void initAdapter() {
         mAdapter = new AskAnswerPageAdapter();
         mAdapter.openLoadAnimation();
+
         mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -159,7 +167,18 @@ public class AskAnswerFragment extends BaseFragment {
                         content = "name:" + status.getTitle();
                         break;
                 }
-                Toast.makeText(getActivity(), content, Toast.LENGTH_LONG).show();
+                AskAnswerDetailFragment fragment = AskAnswerDetailFragment.newInstance();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+//                    setExitTransition(new Fade());
+//                    setSharedElementEnterTransition(new DetailTransition());
+//                    fragment.setSharedElementEnterTransition(new DetailTransition());
+//                    ((SupportFragment)getParentFragment()).startWithSharedElement(fragment, view.findViewById(R.id.image_ask_profile), getResources().getString(R.string.image_transition));
+//                    ((SupportFragment)getParentFragment()).start(fragment);
+                    EventBus.getDefault().post(new StartBrotherEvent(AskAnswerDetailFragment.newInstance()));
+                } else {
+//                    ((SupportFragment)getParentFragment()).start(fragment);
+                    EventBus.getDefault().post(new StartBrotherEvent(AskAnswerDetailFragment.newInstance()));
+                }
             }
         });
 

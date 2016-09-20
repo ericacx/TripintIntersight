@@ -70,7 +70,7 @@ public class BottomTabBarItem extends FrameLayout {
         mTvTitle.setTextColor(ContextCompat.getColor(context, R.color.tab_unselect));
         mTvTitle.setLayoutParams(paramsTv);
         lLContainer.addView(mTvTitle);
-        setBackgroundColor(Color.BLACK);
+        setBackgroundColor(Color.TRANSPARENT);
         addView(lLContainer);
     }
 
