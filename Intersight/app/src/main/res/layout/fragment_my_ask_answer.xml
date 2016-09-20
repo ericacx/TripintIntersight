@@ -2,15 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:flipview="http://schemas.android.com/apk/res-auto"
-    tools:context="com.tripint.intersight.fragment.NewsFragment">
+    tools:context="com.tripint.intersight.fragment.MyAskAnswerFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <se.emilsjolander.flipview.FlipView
-        android:id="@+id/newsFlipView"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        flipview:orientation="vertical"
-        flipview:overFlipMode="glow" />
+        android:text="@string/hello_blank_fragment" />
 
 </FrameLayout>

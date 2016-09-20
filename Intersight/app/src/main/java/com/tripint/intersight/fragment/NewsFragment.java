@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
-import com.tripint.intersight.fragment.flipview.FlipAdapter;
+import com.tripint.intersight.fragment.flipview.NewsFlipViewAdapter;
 
 import se.emilsjolander.flipview.FlipView;
 
@@ -20,8 +20,7 @@ public class NewsFragment extends BaseBackFragment {
 
 
     private FlipView mFlipView;
-    private FlipAdapter mAdapter;
-
+    private NewsFlipViewAdapter mNewsFlipViewAdapter;
     public static NewsFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -36,9 +35,9 @@ public class NewsFragment extends BaseBackFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_news, container, false);
-        mFlipView = (FlipView) view.findViewById(R.id.flip_view);
-        mAdapter = new FlipAdapter(getActivity());
-        mFlipView.setAdapter(mAdapter);
+        mFlipView = (FlipView) view.findViewById(R.id.newsFlipView);
+        mNewsFlipViewAdapter = new NewsFlipViewAdapter(getActivity());
+        mFlipView.setAdapter(mNewsFlipViewAdapter);
         return view;
     }
 

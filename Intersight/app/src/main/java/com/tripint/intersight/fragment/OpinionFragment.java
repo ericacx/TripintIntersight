@@ -8,12 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tripint.intersight.R;
+import com.tripint.intersight.fragment.flipview.OpinionFlipViewAdapter;
+import com.tripint.intersight.fragment.flipview.OpinionFlipViewAdapter2;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import se.emilsjolander.flipview.FlipView;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class OpinionFragment extends Fragment{
+public class OpinionFragment extends Fragment {
 
+    @Bind(R.id.opinionFlipView)
+    FlipView opinionFlipView;
+    private OpinionFlipViewAdapter2 mOpinionFlipViewAdapter2;
 
     public static OpinionFragment newInstance() {
 
@@ -31,7 +40,16 @@ public class OpinionFragment extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_opinion, container, false);
 
+        ButterKnife.bind(this, view);
+
+        mOpinionFlipViewAdapter2 = new OpinionFlipViewAdapter2(getContext());
+        opinionFlipView.setAdapter(mOpinionFlipViewAdapter2);
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
 }

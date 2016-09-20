@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/spacing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/newsFlipViewTvTitleOne"
+                android:text="@string/news_text_title"
+                android:padding="@dimen/spacing"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:id="@+id/newsFlipViewTvTradeOne"
+                    android:text="好奇心日报"
+                    android:textColor="@color/line"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:textSize="@dimen/text_size_12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/newsFlipViewTvNameOne"
+                    android:layout_toRightOf="@id/newsFlipViewTvTradeOne"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:textSize="@dimen/text_size_12"
+                    android:textColor="@color/line"
+                    android:text="文/王尼马"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_marginTop="@dimen/spacing"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/newsFlipViewAgreeOne"
+                    android:src="@mipmap/iconfont_mima"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/newsFlipViewAgreeNumOne"
+                    android:text="285"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/iconfont_mima"
+                    android:textColor="@color/line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/newsFlipViewTalkOne"
+                    android:src="@mipmap/iconfont_mima"
+                    android:layout_marginLeft="@dimen/single_view_ic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/newsFlipViewTalkNumOne"
+                    android:text="5"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/newsFlipViewReportOne"
+                    android:src="@mipmap/iconfont_mima"
+                    android:layout_marginLeft="@dimen/single_view_ic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/newsFlipViewTvContentOne"
+                android:text="@string/news_text_content"
+                android:textSize="@dimen/text_size_12"
+                android:padding="@dimen/spacing"
+                android:textColor="@color/white"
+                android:lines="10"
+                android:ellipsize="end"
+                android:lineSpacingMultiplier="1.5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/spacing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/newsFlipViewTvTitleTwo"
+                android:text="@string/news_text_title"
+                android:padding="@dimen/spacing"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:id="@+id/newsFlipViewTvTradeTwo"
+                    android:text="好奇心日报"
+                    android:textColor="@color/line"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:textSize="@dimen/text_size_12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/newsFlipViewTvNameTwo"
+                    android:layout_toRightOf="@id/newsFlipViewTvTradeTwo"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:textSize="@dimen/text_size_12"
+                    android:textColor="@color/line"
+                    android:text="文/王尼马"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_marginTop="@dimen/spacing"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/newsFlipViewAgreeTwo"
+                    android:src="@mipmap/iconfont_mima"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/newsFlipViewAgreeNumTwo"
+                    android:text="285"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/iconfont_mima"
+                    android:textColor="@color/line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/newsFlipViewTalkTwo"
+                    android:src="@mipmap/iconfont_mima"
+                    android:layout_marginLeft="@dimen/single_view_ic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/newsFlipViewTalkNumTwo"
+                    android:text="5"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/newsFlipViewReportTwo"
+                    android:src="@mipmap/iconfont_mima"
+                    android:layout_marginLeft="@dimen/single_view_ic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/newsFlipViewTvContentTwo"
+                android:text="@string/news_text_content"
+                android:textSize="@dimen/text_size_12"
+                android:padding="@dimen/spacing"
+                android:textColor="@color/white"
+                android:ellipsize="end"
+                android:lineSpacingMultiplier="1.5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
