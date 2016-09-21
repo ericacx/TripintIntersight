@@ -1,120 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/background"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
-    >
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="286dp">
-
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp"
-            android:background="@mipmap/background"
-            >
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.tripint.intersight.widget.image.CircleImageView
-                    android:id="@+id/mineCIVPersonalInfo"
-                    android:layout_marginTop="60dp"
-                    android:src="@mipmap/p1"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <RelativeLayout
-                    android:layout_marginTop="@dimen/spacing"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@+id/mineTvName"
-                        android:text="Susan"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/line"
-                        android:textSize="@dimen/text_size_15"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <ImageView
-                        android:id="@+id/mineIvRewriteInfo"
-                        android:layout_toRightOf="@id/mineTvName"
-                        android:layout_marginLeft="@dimen/spacing"
-                        android:src="@mipmap/iconfont_mima"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    app:layout_collapseMode="pin">
-
-                    <ImageView
-                        android:id="@+id/mineIvBack"
-                        android:src="@mipmap/iconfont_back"
-                        android:layout_gravity="left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:text="我的"
-                        android:textColor="@color/line"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <ImageView
-                        android:id="@+id/mineIvMessage"
-                        android:src="@mipmap/iconfont_email"
-                        android:layout_gravity="right"
-                        android:layout_marginRight="@dimen/spacing"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </android.support.v7.widget.Toolbar>
-
-
-            </RelativeLayout>
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-
-    </android.support.design.widget.AppBarLayout>
-
-
-    <android.support.v4.widget.NestedScrollView
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.tripint.intersight.widget.image.CircleImageView
+                android:id="@+id/mineCIVPersonalInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="60dp"
+                android:src="@mipmap/p1" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing">
+
+                <TextView
+                    android:id="@+id/mineTvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="Susan"
+                    android:textColor="@color/line"
+                    android:textSize="@dimen/text_size_15" />
+
+                <ImageView
+                    android:id="@+id/mineIvRewriteInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:layout_toRightOf="@id/mineTvName"
+                    android:src="@mipmap/iconfont_bi" />
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_marginTop="@dimen/spacing"
                 android:layout_width="match_parent"
-                android:layout_gravity="center"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/spacing"
                 android:orientation="horizontal">
 
                 <TextView
@@ -122,7 +68,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableTop="@mipmap/iconfont_mima"
+                    android:drawableTop="@mipmap/iconfont_wenda"
                     android:gravity="center_horizontal"
                     android:text="我的问答"
                     android:textColor="@color/line" />
@@ -138,7 +84,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableTop="@mipmap/iconfont_mima"
+                    android:drawableTop="@mipmap/iconfont_fangtan"
                     android:gravity="center_horizontal"
                     android:text="我的访谈"
                     android:textColor="@color/line" />
@@ -154,7 +100,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableTop="@mipmap/iconfont_mima"
+                    android:drawableTop="@mipmap/iconfont_guandian"
                     android:gravity="center_horizontal"
                     android:text="我的观点"
                     android:textColor="@color/line" />
@@ -177,7 +123,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/iconfont_mima" />
+                        android:src="@mipmap/iconfont_yu_e" />
 
                     <TextView
                         android:id="@+id/mineTvMoney"
@@ -216,7 +162,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/iconfont_mima" />
+                        android:src="@mipmap/iconfont_mingxi" />
 
                     <TextView
                         android:id="@+id/mineTvMoneyDetail"
@@ -234,7 +180,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/iconfont_back"
+                        android:src="@mipmap/iconfont_nextarticle"
                         android:textColor="@color/line" />
                 </RelativeLayout>
 
@@ -254,7 +200,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/iconfont_mima" />
+                        android:src="@mipmap/iconfont_guanzhu" />
 
                     <TextView
                         android:id="@+id/mineTvFocus"
@@ -272,7 +218,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/iconfont_back"
+                        android:src="@mipmap/iconfont_nextarticle"
                         android:textColor="@color/line" />
                 </RelativeLayout>
 
@@ -292,7 +238,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/iconfont_mima" />
+                        android:src="@mipmap/iconfont_mingxing" />
 
                     <TextView
                         android:id="@+id/mineTvStar"
@@ -310,7 +256,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/iconfont_back"
+                        android:src="@mipmap/iconfont_nextarticle"
                         android:textColor="@color/line" />
                 </RelativeLayout>
 
@@ -330,7 +276,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/iconfont_mima" />
+                        android:src="@mipmap/iconfont_bangzhu" />
 
                     <TextView
                         android:id="@+id/mineTvHelp"
@@ -348,7 +294,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/iconfont_back"
+                        android:src="@mipmap/iconfont_nextarticle"
                         android:textColor="@color/line" />
                 </RelativeLayout>
 
@@ -369,7 +315,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/iconfont_mima" />
+                        android:src="@mipmap/iconfont_shezhi" />
 
                     <TextView
                         android:id="@+id/mineTvSetting"
@@ -387,7 +333,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/iconfont_back"
+                        android:src="@mipmap/iconfont_nextarticle"
                         android:textColor="@color/line" />
                 </RelativeLayout>
 
@@ -399,7 +345,8 @@
             </LinearLayout>
 
         </LinearLayout>
+    </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
 
-</android.support.design.widget.CoordinatorLayout>
+
+</android.support.v4.widget.NestedScrollView>

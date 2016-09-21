@@ -80,7 +80,6 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
         return fragment;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -170,8 +169,6 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
     public static List<MultipleChatItemModel> getSampleData(int lenth) {
         List<MultipleChatItemModel> list = new ArrayList<>();
         for (int i = 0; i < lenth; i++) {
-
-
             QADetailModel status = new QADetailModel();
             status.setCompany("腾讯信息科技" + i);
             status.setJobTitle("设计总经理" + "");
