@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@mipmap/background_02"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_margin="@dimen/spacing"
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent">
+        <ImageView
+            android:src="@mipmap/iconfont_mima"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_margin="@dimen/spacing"
+        android:layout_width="0dp"
+        android:layout_weight="6"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_15"
+                android:text="高高"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textColor="@color/line"
+                android:textSize="@dimen/text_size_15"
+                android:text="巨人网络"
+                android:layout_marginLeft="@dimen/spacing_02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="销售总监"
+                android:layout_marginLeft="@dimen/spacing_02"
+                android:textSize="@dimen/text_size_15"
+                android:textColor="@color/line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/spacing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="回复 高高:"
+                android:visibility="visible"
+                android:textColor="@color/line"
+                android:layout_marginRight="@dimen/spacing"
+                android:textSize="@dimen/text_size_15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/white"
+                android:text="谢谢您,您对这行业也了解很多,值得我学习。"
+                android:textSize="@dimen/text_size_15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="2016.09.15"
+                android:textColor="@color/line"
+                android:textSize="@dimen/text_size_12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/line"
+                android:textSize="@dimen/text_size_12"
+                android:layout_marginLeft="@dimen/spacing"
+                android:text="13:30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
