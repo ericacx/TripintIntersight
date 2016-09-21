@@ -1,0 +1,83 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/background_02"
+    tools:context="com.tripint.intersight.fragment.HisAskAnswerFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
+    <RadioGroup
+        android:id="@+id/hisAskAnswerVG"
+        android:layout_below="@id/toolbar"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:text="他的问答"
+            android:textColor="@color/line"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:button="@null"
+            android:textSize="@dimen/text_size_15"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:text="他关注的问答"
+            android:textColor="@color/line"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:button="@null"
+            android:textSize="@dimen/text_size_15"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/hisAskAnswerRecyclerView"
+        android:layout_below="@id/hisAskAnswerVG"
+        android:layout_marginBottom="@dimen/height_7_80"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:id="@+id/hisAskAnswerLL"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_7_80">
+
+        <Button
+            android:text="10.00向他提问"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_15"
+            android:background="@drawable/btn_shape1"
+            android:layout_marginLeft="@dimen/spacing_02"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:layout_height="@dimen/height_4_80" />
+        <View
+            android:layout_width="20dp"
+            android:layout_height="match_parent"/>
+        <Button
+            android:text="约他访谈"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_15"
+            android:background="@drawable/btn_shape1"
+            android:layout_marginRight="@dimen/spacing_02"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:layout_height="@dimen/height_4_80" />
+    </LinearLayout>
+</RelativeLayout>

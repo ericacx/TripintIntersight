@@ -2,13 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@mipmap/background_02"
     android:orientation="horizontal">
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_margin="@dimen/spacing"
         android:layout_weight="1"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <com.tripint.intersight.widget.image.CircleImageView
             android:src="@mipmap/p1"
@@ -30,41 +31,35 @@
             android:orientation="horizontal">
             <TextView
                 android:text="门门"
+                android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:text="发表了观点"
+                android:text="8年+"
+                android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <TextView
-                android:text="2016.09.06"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:text="15:30"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <TextView
             android:layout_marginTop="@dimen/spacing"
-            android:text="盛大游戏之后的交互设计会更侧重于营销吗?"
+            android:text="腾讯（科技）深圳有限公司"
+            android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:visibility="gone"
             android:layout_marginTop="@dimen/spacing"
-            android:text="我觉得最为深刻的体会就是,这里的交互设计发噶来电管家了讲啦关卡就睡了该哭就哭"
-            android:singleLine="true"
+            android:text="销售总监"
+            android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <Button
-            android:visibility="gone"
+        <TextView
             android:layout_marginTop="@dimen/spacing"
-            android:text="10元即听"
+            android:text="互联网 | 游戏 | 软件"
+            android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -75,10 +70,21 @@
         android:layout_weight="1"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:src="@mipmap/iconfont_nextarticle"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:src="@mipmap/iconfont_mima"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="关注"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </RelativeLayout>
+
 </LinearLayout>

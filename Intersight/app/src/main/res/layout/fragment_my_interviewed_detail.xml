@@ -1,0 +1,223 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@mipmap/background_02"
+    tools:context="com.tripint.intersight.fragment.MyInterviewedDetailFragment">
+
+    <include layout="@layout/toolbar"/>
+
+    <LinearLayout
+        android:layout_margin="@dimen/spacing"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/spacing"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="访谈状态:"
+                android:textColor="@color/white"
+                android:layout_width="@dimen/width_18_80"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="联系中"
+                android:textColor="@color/line"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/spacing"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="访谈形式:"
+                android:textColor="@color/white"
+                android:layout_width="@dimen/width_18_80"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="电话访谈"
+                android:textColor="@color/line"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/spacing"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="会议邀请码:"
+                android:textColor="@color/white"
+                android:layout_width="@dimen/width_18_80"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="2563254"
+                android:textColor="@color/line"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/spacing"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="访谈时间:"
+                android:textColor="@color/white"
+                android:layout_width="@dimen/width_18_80"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="2016.02.03"
+                android:textColor="@color/line"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="13:30"
+                android:textColor="@color/line"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/spacing"
+            android:background="@drawable/btn_shape1"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_20_80">
+
+            <TextView
+                android:textSize="@dimen/text_size_15"
+                android:textColor="@color/white"
+                android:text="市场一片顶礼膜拜,锂电池是否是跨越新能源的关键?"
+                android:layout_marginTop="@dimen/spacing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="@dimen/text_size_12"
+                android:textColor="@color/line"
+                android:layout_marginTop="@dimen/spacing"
+                android:text="比如,石墨负极终究会被取代,但是硅电极,金属氧化物电极等等哪个才是未来的主力?"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/spacing_02"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="约访人:"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_12"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="高高"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/text_size_12"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="巨人网络"
+                    android:textSize="@dimen/text_size_12"
+                    android:textColor="@color/line"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="销售总监"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/line"
+                    android:textSize="@dimen/text_size_12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:src="@mipmap/iconfont_mima"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/spacing"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="@dimen/spacing_02"
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="查看评论"
+                android:textColor="@color/blue"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/kefu"
+                android:text="联系客服"
+                android:textColor="@color/white"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/btn_shape1"
+                android:layout_width="wrap_content"
+                android:layout_height="31dp" />
+
+            <Button
+                android:text="向他提问"
+                android:layout_toLeftOf="@id/kefu"
+                android:layout_marginRight="@dimen/spacing"
+                android:textColor="@color/white"
+                android:layout_centerVertical="true"
+                android:background="@drawable/btn_shape1"
+                android:layout_width="wrap_content"
+                android:layout_height="31dp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/myInterviewedDetailRecyclerView"
+        android:layout_marginTop="@dimen/spacing"
+        android:layout_marginLeft="@dimen/spacing"
+        android:layout_marginRight="@dimen/spacing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>
