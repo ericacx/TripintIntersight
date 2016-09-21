@@ -1,6 +1,7 @@
 package com.tripint.intersight.widget.subscribers;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.tripint.intersight.widget.progress.ProgressCancelListener;
@@ -19,6 +20,7 @@ import rx.Subscriber;
  */
 public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCancelListener {
 
+    private final String TAG = "Tripint_Intersight";
     private PageDataSubscriberOnNext mPageDataSubscriberOnNext;
     private ProgressDialogHandler mProgressDialogHandler;
 
@@ -73,6 +75,7 @@ public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCanc
             Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.d(TAG, e.getMessage());
         }
         dismissProgressDialog();
 

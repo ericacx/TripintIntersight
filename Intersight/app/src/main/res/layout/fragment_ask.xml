@@ -5,35 +5,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.tripint.intersight.fragment.AskFragment">
 
+    <include layout="@layout/toolbar_search" />
+
     <LinearLayout
         android:orientation="vertical"
+        android:layout_marginTop="@dimen/height_7_80"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/asdEtInput"
-                android:layout_width="0dp"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="6"
-                android:layout_margin="5dp"
-                android:hint="搜索关键字"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textColorHint="@color/line"
-                android:background="@drawable/btn_shape"
-                android:layout_height="wrap_content" />
-            <ImageView
-                android:id="@+id/askIvSearch"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:src="@mipmap/ic_launcher"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
         <com.bigkoo.convenientbanner.ConvenientBanner
             android:id="@+id/convenientBanner"
             android:layout_width="match_parent"

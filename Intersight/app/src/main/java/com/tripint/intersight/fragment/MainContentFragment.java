@@ -5,16 +5,13 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.common.fragmentation.SupportFragment;
 import com.tripint.intersight.common.fragmentation.anim.FragmentAnimator;
-import com.tripint.intersight.event.StartBrotherEvent;
+import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.event.TabSelectedEvent;
 import com.tripint.intersight.fragment.base.BaseFragment;
-import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
 import com.tripint.intersight.widget.tabbar.BottomTabBar;
 import com.tripint.intersight.widget.tabbar.BottomTabBarItem;
 
@@ -118,7 +115,7 @@ public class MainContentFragment extends BaseFragment {
 
 
     @Subscribe
-    public void startFragment(StartBrotherEvent event) {
+    public void startFragment(StartFragmentEvent event) {
         start(event.targetFragment);
     }
 

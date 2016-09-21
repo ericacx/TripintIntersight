@@ -4,18 +4,18 @@ android {
 
     signingConfigs {
         release {
-//            storeFile file("/Users/lirichen/Desktop/intersight.jks")
+            storeFile file("/etc/intersight.jks")
 //            storeFile file('D:/Android/springtour_release.keystore')
-//            storePassword STORE_PASSWORD
-//            keyAlias KEYALIAS
-//            keyPassword KEY_PASSWORD
+            storePassword STORE_PASSWORD
+            keyAlias KEYALIAS
+            keyPassword KEY_PASSWORD
         }
         debug {
-//            storeFile file("/Users/lirichen/Desktop/intersight.jks")
+            storeFile file("/etc/intersight.jks")
 //            storeFile file('D:/Android/springtour_release.keystore')
-//            storePassword STORE_PASSWORD
-//            keyAlias KEYALIAS
-//            keyPassword KEY_PASSWORD
+            storePassword STORE_PASSWORD
+            keyAlias KEYALIAS
+            keyPassword KEY_PASSWORD
         }
     }
 
@@ -52,12 +52,11 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
     compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT}"
     compile "com.android.support:support-v4:${ANDROID_SUPPORT}"
     compile "com.android.support:design:${ANDROID_SUPPORT}"
     compile "com.android.support:cardview-v7:${ANDROID_SUPPORT}"
-    compile project(':common')
-    compile project(':data')
     compile 'junit:junit:4.12'
     compile 'com.oguzdev:CircularFloatingActionMenu:1.0.2'
     compile 'se.emilsjolander:android-flipview:1.1.0'
@@ -72,6 +71,6 @@ dependencies {
     compile 'com.bigkoo:convenientbanner:2.0.5'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.android.support:support-v4:23.4.0'
-    testCompile 'junit:junit:4.12'
+    compile project(':common')
+    compile project(':data')
 }

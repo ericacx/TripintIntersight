@@ -1,12 +1,12 @@
 package com.tripint.intersight.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.tripint.intersight.R;
-import com.tripint.intersight.entity.Industry;
-import com.tripint.intersight.service.HttpRequest;
 import com.tripint.intersight.common.utils.ToastUtil;
+import com.tripint.intersight.entity.Industry;
+import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
@@ -33,6 +33,6 @@ public class InterestedActivity extends AppCompatActivity {
             }
         };
 
-        HttpRequest.getInstance().getTopMovie(new ProgressSubscriber(subscriber, InterestedActivity.this), 0, 10);
+        BaseDataHttpRequest.getInstance().getIndustry(new ProgressSubscriber(subscriber, InterestedActivity.this), 0, 10);
     }
 }

@@ -6,10 +6,10 @@ import com.tripint.intersight.common.fragmentation.SupportFragment;
 /**
  * Created by YoKeyword on 16/6/30.
  */
-public class StartBrotherEvent {
+public class StartFragmentEvent {
     public SupportFragment targetFragment;
 
-    public StartBrotherEvent(SupportFragment targetFragment) {
+    public StartFragmentEvent(SupportFragment targetFragment) {
         this.targetFragment = targetFragment;
     }
 }

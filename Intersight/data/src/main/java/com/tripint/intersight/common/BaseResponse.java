@@ -7,6 +7,8 @@ public class BaseResponse<T> {
 
     private int code;
     private String msg;
+    private int total;
+    private int status;
 
     //用来模仿Data
     private T data;
@@ -34,5 +36,21 @@ public class BaseResponse<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

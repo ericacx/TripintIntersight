@@ -6,21 +6,30 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.tripint.intersight.R;
+import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
+import com.tripint.intersight.fragment.search.SearchMainFragment;
 import com.tripint.intersight.widget.BannerViewHolder;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Arrays;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -30,7 +39,16 @@ import butterknife.OnClick;
 public class AskFragment extends BaseLazyMainFragment implements AdapterView.OnItemClickListener, ViewPager.OnPageChangeListener, OnItemClickListener {
 
 
-    private ConvenientBanner convenientBanner;
+    @Bind(R.id.toolbar_search_text)
+    TextView toolbarSearchText;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.convenientBanner)
+    ConvenientBanner convenientBanner;
+    @Bind(R.id.askRecyclerView)
+    RecyclerView askRecyclerView;
+    @Bind(R.id.toolbar_search_button)
+    ImageView toolbarSearchButton;
     private List<String> networkImaAskFragmentges;
 
     private String[] images = {
@@ -41,14 +59,15 @@ public class AskFragment extends BaseLazyMainFragment implements AdapterView.OnI
     private LinearLayoutManager linearLayoutManager;
 
     private List<String> networkImages;
-//    private DataEntity dataEntity;
-public static AskFragment newInstance() {
 
-    Bundle args = new Bundle();
+    //    private DataEntity dataEntity;
+    public static AskFragment newInstance() {
 
-    AskFragment fragment = new AskFragment();
-    fragment.setArguments(args);
-    return fragment;
+        Bundle args = new Bundle();
+
+        AskFragment fragment = new AskFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
 
@@ -57,18 +76,15 @@ public static AskFragment newInstance() {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ask, container, false);
+        ButterKnife.bind(this, view);
 
-//        entityList = new ArrayList<DataEntity>();
-//
-//        for (int i = 0; i < 30; i++) {
-//            dataEntity = new DataEntity(R.mipmap.ic_launcher, "Susan", "8年+", "销售总监", "腾讯（科技）信息有限公司", "互联网 | 游戏 | 软件");
-//            entityList.add(dataEntity);
-//        }
+        initView();
+        return view;
+    }
 
-        convenientBanner = ((ConvenientBanner) view.findViewById(R.id.convenientBanner));
-
+    private void initView() {
         //网络加载
-        networkImages= Arrays.asList(images);
+        networkImages = Arrays.asList(images);
         convenientBanner.setPages(new CBViewHolderCreator<BannerViewHolder>() {
             @Override
             public BannerViewHolder createHolder() {
@@ -77,10 +93,27 @@ public static AskFragment newInstance() {
         }, networkImages)
                 //小圆点
                 .setPageIndicator(new int[]{R.mipmap.ic_page_indicator, R.mipmap.ic_page_indicator_focused});
-
-        return view;
+//        toolbarSearchText.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                EventBus.getDefault().post(new StartFragmentEvent(SearchMainFragment.newInstance()));
+//            }
+//        });
     }
 
+    @OnClick({R.id.toolbar_search_button, R.id.toolbar_search_text})
+    public void onClick(View view) {
+        switch (view.getId()) {
+
+            case R.id.toolbar_search_button: //行业领域
+                EventBus.getDefault().post(new StartFragmentEvent(SearchMainFragment.newInstance()));
+                break;
+            case R.id.toolbar_search_text: //行业领域
+                EventBus.getDefault().post(new StartFragmentEvent(SearchMainFragment.newInstance()));
+                break;
+
+        }
+    }
 
     //开始自动翻页
     @Override
@@ -133,12 +166,4 @@ public static AskFragment newInstance() {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.askIvSearch})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.askIvSearch:
-                break;
-
-        }
-    }
 }

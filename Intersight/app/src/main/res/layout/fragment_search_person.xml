@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_search_edit" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/background_default"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/company_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/text_28px_styles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/width_3_80"
+                    android:paddingBottom="@dimen/height_1_80"
+                    android:paddingTop="@dimen/height_1_5_80"
+                    android:text="热门行业"
+                    android:textColor="@color/text_colors_grey" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/padding_1px"
+                    android:layout_marginLeft="@dimen/width_3_80"
+                    android:layout_marginRight="@dimen/width_3_80"
+                    android:background="@color/text_colors_divider" />
+
+                <com.tripint.intersight.common.flowlayout.TagFlowLayout
+                    android:id="@+id/company_flowlayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/width_2_80"
+                    android:paddingRight="@dimen/width_2_80"
+                    android:paddingTop="@dimen/width_2_80"
+                    zhy:max_select="1" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/hot_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/text_28px_styles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/width_3_80"
+                    android:paddingBottom="@dimen/height_1_80"
+                    android:paddingTop="@dimen/height_2_80"
+                    android:text="热门职业"
+                    android:textColor="@color/text_colors_grey" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/padding_1px"
+                    android:layout_marginLeft="@dimen/width_3_80"
+                    android:layout_marginRight="@dimen/width_3_80"
+                    android:background="@color/text_colors_divider" />
+
+                <com.tripint.intersight.common.flowlayout.TagFlowLayout
+                    android:id="@+id/hot_flowlayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/width_2_80"
+                    android:paddingRight="@dimen/width_2_80"
+                    android:paddingTop="@dimen/width_2_80"
+                    zhy:max_select="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/keyword_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/text_28px_styles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/width_3_80"
+                    android:paddingBottom="@dimen/height_1_80"
+                    android:paddingTop="@dimen/height_1_5_80"
+                    android:text="热门关键词"
+                    android:textColor="@color/text_colors_grey" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/padding_1px"
+                    android:layout_marginLeft="@dimen/width_3_80"
+                    android:layout_marginRight="@dimen/width_3_80"
+                    android:background="@color/text_colors_divider" />
+
+                <com.tripint.intersight.common.flowlayout.TagFlowLayout
+                    android:id="@+id/keyword_flowlayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/width_2_80"
+                    android:paddingRight="@dimen/width_2_80"
+                    android:paddingTop="@dimen/width_2_80"
+                    zhy:max_select="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/history_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/text_28px_styles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/width_3_80"
+                    android:paddingBottom="@dimen/height_1_80"
+                    android:paddingTop="@dimen/height_1_5_80"
+                    android:text="搜索历史"
+                    android:textColor="@color/text_colors_grey" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/padding_1px"
+                    android:layout_marginLeft="@dimen/width_3_80"
+                    android:layout_marginRight="@dimen/width_3_80"
+                    android:background="@color/text_colors_divider" />
+
+                <com.tripint.intersight.common.flowlayout.TagFlowLayout
+                    android:id="@+id/history_flowlayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/width_2_80"
+                    android:paddingRight="@dimen/width_2_80"
+                    android:paddingTop="@dimen/width_2_80"
+                    zhy:max_select="1" />
+
+                <TextView
+                    android:id="@+id/btn_empty"
+                    style="@style/text_24px_styles"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:drawableLeft="@mipmap/iconfont_search"
+                    android:padding="@dimen/width_1_80"
+                    android:text="清空历史"
+                    android:textColor="@color/text_colors_black_light" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

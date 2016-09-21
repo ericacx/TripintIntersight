@@ -3,6 +3,7 @@ package com.tripint.intersight.service;
 
 import com.tripint.intersight.common.BaseResponse;
 import com.tripint.intersight.entity.Industry;
+import com.tripint.intersight.entity.SearchFilterEntity;
 
 import java.util.List;
 
@@ -17,4 +18,7 @@ public interface BaseDataService {
 
     @GET("industry")
     Observable<BaseResponse<List<Industry>>> getIndustry(@Query("start") int start, @Query("count") int count);
+
+    @GET("filter")
+    Observable<BaseResponse<SearchFilterEntity>> getSearchFilter();
 }

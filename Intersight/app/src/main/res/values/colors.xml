@@ -3,10 +3,12 @@
     <color name="colorPrimary">#55ACEE</color>
     <color name="colorToolbarPrimary">#040A28</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#FFFFFF</color>
     <color name="colorBottomBarPrimary">#77040A28</color>
 
     <color name="blue">#4A90E2</color>
     <color name="line">#BABABA</color>
     <color name="tab_unselect">#c9c9c9</color>
+    <color name="color_black_t30">#1EFFFFFF</color>
+    <color name="color_blue_t30">#1E4A90E2</color>
 </resources>

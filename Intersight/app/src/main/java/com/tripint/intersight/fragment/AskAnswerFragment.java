@@ -7,23 +7,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.AskAnswerPageAdapter;
-import com.tripint.intersight.common.fragmentation.SupportFragment;
-import com.tripint.intersight.common.transition.DetailTransition;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
-import com.tripint.intersight.event.StartBrotherEvent;
+import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseFragment;
 import com.tripint.intersight.model.QAModel;
 import com.tripint.intersight.widget.BannerViewHolder;
@@ -174,10 +170,10 @@ public class AskAnswerFragment extends BaseFragment {
 //                    fragment.setSharedElementEnterTransition(new DetailTransition());
 //                    ((SupportFragment)getParentFragment()).startWithSharedElement(fragment, view.findViewById(R.id.image_ask_profile), getResources().getString(R.string.image_transition));
 //                    ((SupportFragment)getParentFragment()).start(fragment);
-                    EventBus.getDefault().post(new StartBrotherEvent(AskAnswerDetailFragment.newInstance()));
+                    EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance()));
                 } else {
 //                    ((SupportFragment)getParentFragment()).start(fragment);
-                    EventBus.getDefault().post(new StartBrotherEvent(AskAnswerDetailFragment.newInstance()));
+                    EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance()));
                 }
             }
         });
