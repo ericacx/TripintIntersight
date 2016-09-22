@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_container_item_ask_answer"
     android:layout_width="match_parent"
     android:layout_height="@dimen/height_20_80"
     android:orientation="horizontal"
@@ -32,7 +33,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/spacing"
-                android:src="@mipmap/iconfont_wechat" />
+                android:src="@mipmap/iconfont_heartbig02" />
 
             <TextView
                 android:id="@+id/textView_item_liked_number"
@@ -40,7 +41,7 @@
 
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="9999"
+                android:text=""
                 android:textSize="@dimen/text_size_10"
                 android:textColor="@color/grey_500" />
 
@@ -50,14 +51,14 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/spacing_02"
-                android:src="@mipmap/iconfont_wechat" />
+                android:src="@mipmap/iconfont_heartbig01" />
 
             <TextView
                 android:id="@+id/textView_item_listened_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="9999"
+                android:text=""
                 android:textSize="@dimen/text_size_10"
                 android:textColor="@color/grey_500" />
         </LinearLayout>
@@ -92,7 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_5_80"
             android:orientation="horizontal"
-            android:background="@mipmap/bg_voice"
+            android:background="@drawable/img_yuyin_gary"
             android:layout_margin="@dimen/spacing_pad04">
             <TextView
                 android:id="@+id/textView_item_ask_voice"
@@ -109,5 +110,5 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:src="@mipmap/iconfont_back" />
+        android:src="@mipmap/iconfont_nextarticle" />
 </LinearLayout>

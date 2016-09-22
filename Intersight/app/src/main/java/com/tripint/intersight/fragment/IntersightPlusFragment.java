@@ -13,9 +13,8 @@ import android.view.ViewGroup;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.InterSightPagerFragmentAdapter;
 import com.tripint.intersight.adapter.MyTabPagerAdapter;
-import com.tripint.intersight.fragment.base.BaseBackFragment;
-import com.tripint.intersight.fragment.base.BaseFragment;
 import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
+import com.tripint.intersight.fragment.discuss.AskAnswerFragment;
 
 import java.util.List;
 
