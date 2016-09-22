@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tripint.intersight.R;
+import com.tripint.intersight.common.cache.ACache;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,14 +33,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Bind(R.id.login_thirdLogin_wechat)
     ImageView login_thirdLogin_wechat;//微信登录
 
+
     private Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-
+        ACache.get(this);
         initView();//初始化页面
     }
 

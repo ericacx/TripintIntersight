@@ -7,6 +7,7 @@
         android:icon="@mipmap/dongchajia"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:name=".app.InterSightApp"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".activity.WelcomeActivity"
@@ -23,7 +24,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait" />
@@ -62,15 +63,26 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AboutIntersightActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+
+        <!-- ###################注册SDK使用的Activity###################### -->
 
         <meta-data
             android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
             android:value="GlideModule" />
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="57e38f46e0f55a4e8d0035f2" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${CHANNEL_NAME}" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- 网络状态权限 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+
 
 </manifest>

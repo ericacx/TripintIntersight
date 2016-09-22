@@ -12,7 +12,6 @@ import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
 import java.util.List;
 
 /**
- * https://github.com/CymChad/BaseRecyclerViewAdapterHelper
  */
 public class AskAnswerPageAdapter extends BaseQuickAdapter<DiscussEntiry> {
     public AskAnswerPageAdapter(List<DiscussEntiry> discussEntiries) {

@@ -17,3 +17,21 @@
 #}
 -keep class com.bumptech.glide.integration.okhttp3.OkHttpGlideModule
 -keep public class * implements com.bumptech.glide.module.GlideModule
+
+## umeng
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+
+-keep public class com.tripint.intersight.R$*{
+public static final int *;
+}
+
+-keep public class com.tripint.intersight.common.R$*{
+public static final int *;
+}
+
+## BUGLY
+
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

@@ -93,12 +93,7 @@ public class AskFragment extends BaseLazyMainFragment implements AdapterView.OnI
         }, networkImages)
                 //小圆点
                 .setPageIndicator(new int[]{R.mipmap.ic_page_indicator, R.mipmap.ic_page_indicator_focused});
-//        toolbarSearchText.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                EventBus.getDefault().post(new StartFragmentEvent(SearchMainFragment.newInstance()));
-//            }
-//        });
+
     }
 
     @OnClick({R.id.toolbar_search_button, R.id.toolbar_search_text})

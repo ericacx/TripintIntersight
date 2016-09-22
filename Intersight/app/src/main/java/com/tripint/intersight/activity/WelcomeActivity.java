@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.common.utils.PackageUtils;
+import com.umeng.analytics.MobclickAgent;
 
 public class WelcomeActivity extends Activity {
 
@@ -52,5 +53,15 @@ public class WelcomeActivity extends Activity {
             }
         });
         thread.start();
+    }
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }
