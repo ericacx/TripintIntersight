@@ -78,9 +78,9 @@ public class MainContentFragment extends BaseFragment {
         //盛放Fragment的容器
 
         mBottomTabBar
-                .addItem(new BottomTabBarItem(mActivity, R.mipmap.ic_launcher, "洞察+"))
-                .addItem(new BottomTabBarItem(mActivity, R.drawable.ic_expandable, "提问"))
-                .addItem(new BottomTabBarItem(mActivity, R.drawable.ic_expandable, "个人"));
+                .addItem(new BottomTabBarItem(mActivity, R.drawable.selector_shouye, "洞察+"))
+                .addItem(new BottomTabBarItem(mActivity, R.drawable.selector_tiwen, "提问"))
+                .addItem(new BottomTabBarItem(mActivity, R.drawable.selector_geren, "个人"));
         mBottomTabBar.setBackgroundColor(getResources().getColor(R.color.colorToolbarPrimary));
 
         mBottomTabBar.setOnTabSelectedListener(new BottomTabBar.OnTabSelectedListener() {
