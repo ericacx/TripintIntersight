@@ -9,22 +9,22 @@ import java.util.List;
 
 public class SearchFilterEntity implements Serializable {
     private List<Industry> industry;
-    private List<Ability> function;
-    private List<Ability> keywords;
+    private List<Ability> ability;
+    private List<Company> keywords;
 
-    public List<Ability> getFunction() {
-        return function;
+    public List<Ability> getAbility() {
+        return ability;
     }
 
-    public void setFunction(List<Ability> function) {
-        this.function = function;
+    public void setAbility(List<Ability> ability) {
+        this.ability = ability;
     }
 
-    public List<Ability> getKeywords() {
+    public List<Company> getKeywords() {
         return keywords;
     }
 
-    public void setKeywords(List<Ability> keywords) {
+    public void setKeywords(List<Company> keywords) {
         this.keywords = keywords;
     }
 

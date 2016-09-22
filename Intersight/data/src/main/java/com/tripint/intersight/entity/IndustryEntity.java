@@ -3,12 +3,11 @@ package com.tripint.intersight.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by lirichen on 16/9/12.
  */
-public class Industry implements Serializable{
+public class IndustryEntity implements Serializable {
     private int id;
     private int pid;
     private String name;
@@ -16,7 +15,6 @@ public class Industry implements Serializable{
     private int status;
     private int sort;
 
-    private List<IndustryChild> industry_sub;
 
     public int getId() {
         return id;
@@ -68,11 +66,4 @@ public class Industry implements Serializable{
         this.icon = icon;
     }
 
-    public List<IndustryChild> getIndustry_sub() {
-        return industry_sub;
-    }
-
-    public void setIndustry_sub(List<IndustryChild> industry_sub) {
-        this.industry_sub = industry_sub;
-    }
 }

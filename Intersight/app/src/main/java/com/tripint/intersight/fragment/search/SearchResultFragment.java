@@ -13,8 +13,12 @@ import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.SearchDropMenuAdapter;
 import com.tripint.intersight.common.widget.filter.DropDownMenu;
 import com.tripint.intersight.common.widget.filter.interfaces.OnFilterDoneListener;
+import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.search.FilterUrl;
+import com.tripint.intersight.service.BaseDataHttpRequest;
+import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
+import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,6 +47,11 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
     TextView mFilterContentView;
     @Bind(R.id.search_drop_down_menu)
     DropDownMenu searchDropDownMenu;
+
+    private SearchFilterEntity searchFilterEntity; //搜索过滤条件数据
+
+    private PageDataSubscriberOnNext<SearchFilterEntity> subscriber;
+
 
     private int searchType; //1:人 ;  2:内容
 
@@ -78,15 +87,29 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search_result, container, false);
         ButterKnife.bind(this, view);
+        httpRequestData();
 
-        initView(view);
-        initFilterDropDownView();
         return view;
     }
 
+    private void httpRequestData() {
+        subscriber = new PageDataSubscriberOnNext<SearchFilterEntity>() {
+            @Override
+            public void onNext(SearchFilterEntity entity) {
+                //接口请求成功后处理
+                searchFilterEntity = entity;
+//                ToastUtil.showToast(mActivity, entity.getAbility().toString() +"");
+                initView(null);
+                initFilterDropDownView();
+            }
+        };
+
+        BaseDataHttpRequest.getInstance().getSearchFilterArticles(new ProgressSubscriber(subscriber, mActivity));
+    }
+
     private void initFilterDropDownView() {
-        String[] titleList = new String[]{"第一个", "第二个", "第三个", "第四个"};
-        searchDropDownMenu.setMenuAdapter(new SearchDropMenuAdapter(mActivity, titleList, this));
+        String[] titleList = new String[]{"行业", "职能", "排序"};
+        searchDropDownMenu.setMenuAdapter(new SearchDropMenuAdapter(mActivity, titleList, searchFilterEntity, this));
     }
 
     @Override

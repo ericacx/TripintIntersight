@@ -20,5 +20,5 @@ public interface BaseDataService {
     Observable<BaseResponse<List<Industry>>> getIndustry(@Query("start") int start, @Query("count") int count);
 
     @GET("filter")
-    Observable<BaseResponse<SearchFilterEntity>> getSearchFilter();
+    Observable<BaseResponse<SearchFilterEntity>> getSearchFilter(@Query("type") String type);
 }

@@ -1,5 +1,7 @@
 package com.tripint.intersight.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 
 /**
@@ -37,6 +39,7 @@ public class Company implements Serializable {
         this.name = name;
     }
 
+    @JsonIgnore
     public String getLogo() {
         return logo;
     }
@@ -45,6 +48,7 @@ public class Company implements Serializable {
         this.logo = logo;
     }
 
+    @JsonIgnore
     public int getStatus() {
         return status;
     }

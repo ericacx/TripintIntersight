@@ -16,11 +16,15 @@ import com.tripint.intersight.common.widget.filter.typeview.SingleListView;
 import com.tripint.intersight.common.widget.filter.util.CommonUtil;
 import com.tripint.intersight.common.widget.filter.util.UIUtil;
 import com.tripint.intersight.common.widget.filter.view.FilterCheckedTextView;
-import com.tripint.intersight.model.search.FilterType;
+import com.tripint.intersight.entity.Ability;
+import com.tripint.intersight.entity.Industry;
+import com.tripint.intersight.entity.IndustryChild;
+import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.model.search.FilterUrl;
 import com.tripint.intersight.view.grid.BetterDoubleGridView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,11 +36,35 @@ public class SearchDropMenuAdapter implements MenuAdapter {
     private final Context mContext;
     private OnFilterDoneListener onFilterDoneListener;
     private String[] titles;
+    private SearchFilterEntity data;
+    private List<Industry> industies = new ArrayList<>(); //行业数据
+    private List<String> abilities = new ArrayList<>(); //职能数据
+    private List<String> sorts = new ArrayList<>(); //职能数据
+
+    private String[] sortArray = {"智能排序", "问答数量从高到低", "访谈数量从高到低", "观点数量从高到低", "被关注数量从高到低"}; //排序数据
 
     public SearchDropMenuAdapter(Context context, String[] titles, OnFilterDoneListener onFilterDoneListener) {
         this.mContext = context;
         this.titles = titles;
         this.onFilterDoneListener = onFilterDoneListener;
+    }
+
+    public SearchDropMenuAdapter(Context context, String[] titles, SearchFilterEntity data, OnFilterDoneListener onFilterDoneListener) {
+        this.mContext = context;
+        this.data = data;
+        this.titles = titles;
+        this.onFilterDoneListener = onFilterDoneListener;
+        for (Industry industry : this.data.getIndustry()) {
+            industies.add(industry);
+        }
+
+        for (Ability ability : this.data.getAbility()) {
+            abilities.add(ability.getName());
+        }
+
+        sorts = Arrays.asList(sortArray);
+
+
     }
 
     @Override
@@ -63,25 +91,29 @@ public class SearchDropMenuAdapter implements MenuAdapter {
         View view = parentContainer.getChildAt(position);
 
         switch (position) {
+
             case 0:
-                view = createSingleListView();
-                break;
-            case 1:
                 view = createDoubleListView();
                 break;
+            case 1:
+                view = createSingleListView(abilities);
+                break;
             case 2:
-                view = createSingleGridView();
+                view = createSingleListView(sorts);
                 break;
-            case 3:
-                // view = createDoubleGrid();
-                view = createBetterDoubleGrid();
-                break;
+//            case 2:
+//                view = createSingleGridView();
+//                break;
+//            case 3:
+//                // view = createDoubleGrid();
+//                view = createBetterDoubleGrid();
+//                break;
         }
 
         return view;
     }
 
-    private View createSingleListView() {
+    private View createSingleListView(List<String> list) {
         SingleListView<String> singleListView = new SingleListView<String>(mContext)
                 .adapter(new SimpleTextAdapter<String>(null, mContext) {
                     @Override
@@ -91,7 +123,7 @@ public class SearchDropMenuAdapter implements MenuAdapter {
 
                     @Override
                     protected void initCheckedTextView(FilterCheckedTextView checkedTextView) {
-                        int dp = UIUtil.dp(mContext, 15);
+                        int dp = UIUtil.dp(mContext, 12);
                         checkedTextView.setPadding(dp, dp, 0, dp);
                     }
                 })
@@ -107,10 +139,6 @@ public class SearchDropMenuAdapter implements MenuAdapter {
                     }
                 });
 
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 10; ++i) {
-            list.add("" + i);
-        }
         singleListView.setList(list, -1);
 
         return singleListView;
@@ -118,40 +146,40 @@ public class SearchDropMenuAdapter implements MenuAdapter {
 
 
     private View createDoubleListView() {
-        DoubleListView<FilterType, String> comTypeDoubleListView = new DoubleListView<FilterType, String>(mContext)
-                .leftAdapter(new SimpleTextAdapter<FilterType>(null, mContext) {
+        DoubleListView<Industry, IndustryChild> comTypeDoubleListView = new DoubleListView<Industry, IndustryChild>(mContext)
+                .leftAdapter(new SimpleTextAdapter<Industry>(null, mContext) {
                     @Override
-                    public String provideText(FilterType filterType) {
-                        return filterType.desc;
+                    public String provideText(Industry Industry) {
+                        return Industry.getName();
                     }
 
                     @Override
                     protected void initCheckedTextView(FilterCheckedTextView checkedTextView) {
-                        checkedTextView.setPadding(UIUtil.dp(mContext, 44), UIUtil.dp(mContext, 15), 0, UIUtil.dp(mContext, 15));
+                        checkedTextView.setPadding(UIUtil.dp(mContext, 12), UIUtil.dp(mContext, 12), 0, UIUtil.dp(mContext, 12));
                     }
                 })
-                .rightAdapter(new SimpleTextAdapter<String>(null, mContext) {
+                .rightAdapter(new SimpleTextAdapter<IndustryChild>(null, mContext) {
                     @Override
-                    public String provideText(String s) {
-                        return s;
+                    public String provideText(IndustryChild s) {
+                        return s.getName();
                     }
 
                     @Override
                     protected void initCheckedTextView(FilterCheckedTextView checkedTextView) {
-                        checkedTextView.setPadding(UIUtil.dp(mContext, 30), UIUtil.dp(mContext, 15), 0, UIUtil.dp(mContext, 15));
+                        checkedTextView.setPadding(UIUtil.dp(mContext, 12), UIUtil.dp(mContext, 12), 0, UIUtil.dp(mContext, 12));
                         checkedTextView.setBackgroundResource(android.R.color.white);
                     }
                 })
-                .onLeftItemClickListener(new DoubleListView.OnLeftItemClickListener<FilterType, String>() {
+                .onLeftItemClickListener(new DoubleListView.OnLeftItemClickListener<Industry, IndustryChild>() {
                     @Override
-                    public List<String> provideRightList(FilterType item, int position) {
-                        List<String> child = item.child;
+                    public List<IndustryChild> provideRightList(Industry item, int position) {
+                        List<IndustryChild> child = item.getIndustry_sub();
                         if (CommonUtil.isEmpty(child)) {
-                            FilterUrl.instance().doubleListLeft = item.desc;
+                            FilterUrl.instance().doubleListLeft = item.getName();
                             FilterUrl.instance().doubleListRight = "";
 
                             FilterUrl.instance().position = 1;
-                            FilterUrl.instance().positionTitle = item.desc;
+                            FilterUrl.instance().positionTitle = item.getName();
 
                             onFilterDone();
                         }
@@ -159,50 +187,24 @@ public class SearchDropMenuAdapter implements MenuAdapter {
                         return child;
                     }
                 })
-                .onRightItemClickListener(new DoubleListView.OnRightItemClickListener<FilterType, String>() {
+                .onRightItemClickListener(new DoubleListView.OnRightItemClickListener<Industry, IndustryChild>() {
                     @Override
-                    public void onRightItemClick(FilterType item, String string) {
-                        FilterUrl.instance().doubleListLeft = item.desc;
-                        FilterUrl.instance().doubleListRight = string;
+                    public void onRightItemClick(Industry item, IndustryChild childItem) {
+                        FilterUrl.instance().doubleListLeft = item.getName();
+                        FilterUrl.instance().doubleListRight = childItem.getName();
 
                         FilterUrl.instance().position = 1;
-                        FilterUrl.instance().positionTitle = string;
+                        FilterUrl.instance().positionTitle = childItem.getName();
 
                         onFilterDone();
                     }
                 });
 
 
-        List<FilterType> list = new ArrayList<>();
-
-        //第一项
-        FilterType filterType = new FilterType();
-        filterType.desc = "10";
-        list.add(filterType);
-
-        //第二项
-        filterType = new FilterType();
-        filterType.desc = "11";
-        List<String> childList = new ArrayList<>();
-        for (int i = 0; i < 13; ++i) {
-            childList.add("11" + i);
-        }
-        filterType.child = childList;
-        list.add(filterType);
-
-        //第三项
-        filterType = new FilterType();
-        filterType.desc = "12";
-        childList = new ArrayList<>();
-        for (int i = 0; i < 3; ++i) {
-            childList.add("12" + i);
-        }
-        filterType.child = childList;
-        list.add(filterType);
 
         //初始化选中.
-        comTypeDoubleListView.setLeftList(list, 1);
-        comTypeDoubleListView.setRightList(list.get(1).child, -1);
+        comTypeDoubleListView.setLeftList(industies, 1);
+        comTypeDoubleListView.setRightList(industies.get(1).getIndustry_sub(), -1);
         comTypeDoubleListView.getLeftListView().setBackgroundColor(mContext.getResources().getColor(R.color.b_c_fafafa));
 
         return comTypeDoubleListView;

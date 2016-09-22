@@ -24,6 +24,7 @@ import com.tripint.intersight.common.flowlayout.TagFlowLayout;
 import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.entity.Ability;
+import com.tripint.intersight.entity.Company;
 import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
@@ -144,7 +145,7 @@ public class SearchPersonFragment extends BaseBackFragment {
             }
         };
 
-        BaseDataHttpRequest.getInstance().getSearchFilter(new ProgressSubscriber(subscriber, mActivity));
+        BaseDataHttpRequest.getInstance().getSearchFilterInterviewer(new ProgressSubscriber(subscriber, mActivity));
     }
 
 
@@ -272,15 +273,15 @@ public class SearchPersonFragment extends BaseBackFragment {
             keywordsList.add(industry.getName());
         }
 
-        for (Ability ability : this.searchFilterEntity.getFunction()) {
+        for (Ability ability : this.searchFilterEntity.getAbility()) {
             historyList.add(ability.getName());
         }
 
-        for (Ability industry : this.searchFilterEntity.getKeywords()) {
-            companyList.add(industry.getName());
+        for (Company company : this.searchFilterEntity.getKeywords()) {
+            companyList.add(company.getName());
         }
 
-        for (Ability ability : this.searchFilterEntity.getFunction()) {
+        for (Ability ability : this.searchFilterEntity.getAbility()) {
             hotList.add(ability.getName());
         }
 

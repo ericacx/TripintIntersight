@@ -14,6 +14,9 @@ import rx.Subscriber;
 
 public class BaseDataHttpRequest extends HttpRequest {
 
+    private final String FLITER_TYPE_INTERVIEWER = "interviewer";
+    private final String FLITER_TYPE_ARTICLES = "articles";
+
     private BaseDataService baseDataService;
 
     private BaseDataHttpRequest() {
@@ -52,9 +55,22 @@ public class BaseDataHttpRequest extends HttpRequest {
      *
      * @param subscriber 由调用者传过来的观察者对象
      */
-    public void getSearchFilter(Subscriber<SearchFilterEntity> subscriber) {
+    public void getSearchFilterInterviewer(Subscriber<SearchFilterEntity> subscriber) {
 
-        Observable observable = baseDataService.getSearchFilter()
+        Observable observable = baseDataService.getSearchFilter(FLITER_TYPE_INTERVIEWER)
+                .map(new HttpResultFunc<SearchFilterEntity>());
+
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 用于获取搜索的过滤条件数据
+     *
+     * @param subscriber 由调用者传过来的观察者对象
+     */
+    public void getSearchFilterArticles(Subscriber<SearchFilterEntity> subscriber) {
+
+        Observable observable = baseDataService.getSearchFilter(FLITER_TYPE_ARTICLES)
                 .map(new HttpResultFunc<SearchFilterEntity>());
 
         toSubscribe(observable, subscriber);
