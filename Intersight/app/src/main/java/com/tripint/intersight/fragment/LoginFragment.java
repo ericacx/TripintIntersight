@@ -18,10 +18,17 @@ import com.tripint.intersight.activity.MainActivity;
 import com.tripint.intersight.activity.ResigterActivity;
 import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.fragment.base.BaseCloseFragment;
+import com.tripint.intersight.helper.CommonUtils;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 
 public class LoginFragment extends BaseCloseFragment {
 
@@ -41,6 +48,8 @@ public class LoginFragment extends BaseCloseFragment {
     ImageView login_thirdLogin_wechat;//微信登录
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
+    UMShareAPI mShareAPI;
 
 
     public static LoginFragment newInstance() {
@@ -92,12 +101,41 @@ public class LoginFragment extends BaseCloseFragment {
             case R.id.login_thirdLogin_linkedin:
                 break;
             case R.id.login_thirdLogin_wechat:
+                SHARE_MEDIA platform = SHARE_MEDIA.WEIXIN;
+                sharedLogin(platform);
                 break;
         }
     }
 
 
     protected void initLazyView(@Nullable Bundle savedInstanceState) {
+
+    }
+
+    private UMAuthListener umAuthListener = new UMAuthListener() {
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+            CommonUtils.showToast("Authorize succeed");
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+            CommonUtils.showToast("Authorize failed");
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+            CommonUtils.showToast("Authorize cancel");
+        }
+    };
+
+    protected void sharedLogin(SHARE_MEDIA platform) {
+        mShareAPI = UMShareAPI.get(mActivity);
+
+        mShareAPI.doOauthVerify(mActivity, platform, umAuthListener);
+
+
+
 
     }
 

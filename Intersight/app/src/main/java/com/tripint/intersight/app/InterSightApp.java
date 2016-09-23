@@ -76,7 +76,7 @@ public class InterSightApp extends Application {
     //各个平台的配置，建议放在全局Application或者程序入口
     {
         //微信
-        PlatformConfig.setWeixin("wxacb1dfc76b932d77", "f06fa229332f9b271d182b15c29f50bf");
+        PlatformConfig.setWeixin(Constants.WX_APP_ID, Constants.WX_APP_SECRET);
         //新浪微博
 //        PlatformConfig.setSinaWeibo("1374619301", "9a98812343eae184440afb67e45477e7");
         PlatformConfig.setSinaWeibo("2917336160", "16d6ccf2d1d5c97266408741e07434dc"); //新key

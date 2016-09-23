@@ -11,5 +11,9 @@ public class Constants {
 
     public static final String BUGLY_APP_KEY = "f2bf37ef-9f59-41ba-bb30-e3b4bf89df6b";
 
-    public static final String WX_PAY_ID = "6880f74b-1382-487b-b2aa-07bd5b223b5c";
+    public static final String WX_PAY_ID = "wxc179ce907846f2ab";
+
+    public static final String WX_APP_ID = "wxc179ce907846f2ab";
+
+    public static final String WX_APP_SECRET = "bbdf335b91c270214a53b0c6a148ea8b";
 }
