@@ -26,11 +26,6 @@ public class InterSightApp extends Application {
 
     private boolean userLogin = false; //登陆为 true 未登陆为 false
     private boolean isBinding = false; //是否绑定第三方账号（第一次）
-    private boolean isOutsider = false; //非会员登录为 true
-    private boolean isClickOutSide = false; //点击非会员登录按钮
-
-    private String phoneOutSide; //非会员账号
-    public boolean isRedPackage = false; //是否第一次请求注册领取优惠券
 
 
     public PermissionsChecker mPermissionsChecker; // 权限检测器
@@ -89,12 +84,6 @@ public class InterSightApp extends Application {
         PlatformConfig.setQQZone("100998019", "9a77e1afb11032783b02767ed4583874");
     }
 
-//    public static RefWatcher getRefWatcher(Context context) {
-//        ProjectApp application = (ProjectApp) context.getApplicationContext();
-//        return application.refWatcher;
-//    }
-
-//    private RefWatcher refWatcher;
 
     @Override
     public void onCreate() {
@@ -109,46 +98,22 @@ public class InterSightApp extends Application {
      */
     private void init() {
 
+        //友盟统计
         MobclickAgent.openActivityDurationTrack(false);
         MobclickAgent.setCatchUncaughtExceptions(false);
 
+        //Bugly 异常统计
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(getApplicationContext());
         strategy.setAppChannel(CommonUtils.getUmengChannel());
         strategy.setAppReportDelay(60);
-        CrashReport.initCrashReport(getApplicationContext(), Constants.BUGLY_APP_ID, false, strategy);
+        CrashReport.initCrashReport(getApplicationContext(), Constants.BUGLY_APP_ID, false);
+
+        //Glide 图片加载
         Glide.get(this)
                 .register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(new OkHttpClient()));
 
     }
 
-
-    public boolean isUserLogin() {
-        return userLogin;
-    }
-
-    public boolean isOutsider() {
-        return isOutsider;
-    }
-
-    public void setIsOutsider(boolean isOutsider) {
-        this.isOutsider = isOutsider;
-    }
-
-    public String getPhoneOutSide() {
-        return phoneOutSide;
-    }
-
-    public void setPhoneOutSide(String phoneOutSide) {
-        this.phoneOutSide = phoneOutSide;
-    }
-
-    public boolean getIsClickOutSide() {
-        return isClickOutSide;
-    }
-
-    public void setIsClickOutSide(boolean isClickOutSide) {
-        this.isClickOutSide = isClickOutSide;
-    }
 
     /**
      * 权限检测器
