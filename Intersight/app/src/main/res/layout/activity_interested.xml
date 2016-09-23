@@ -1,72 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@mipmap/background"
     tools:context="com.tripint.intersight.activity.InterestedActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/register_back"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="19dp"
-            android:layout_marginLeft="21dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/iconfont_back" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="19dp"
-            android:text="两步打造您的专属洞察+"
-            android:textColor="@color/line"
-            android:textSize="@dimen/text_size"
-            android:typeface="normal" />
-    </RelativeLayout>
-
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
     <ImageView
+        android:id="@+id/imageView"
         android:src="@mipmap/img_choseone"
-        android:layout_gravity="center_horizontal"
+        android:layout_below="@id/toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/height_2_80"
         android:layout_width="150dp"
         android:layout_height="wrap_content" />
-    <LinearLayout
-        android:orientation="vertical"
+
+    <GridView
+        android:id="@+id/interestedGridView"
+        android:layout_below="@id/imageView"
+        android:layout_above="@id/interestedNext"
+        android:numColumns="1"
+        android:layout_marginTop="@dimen/height_2_80"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/interestedNext"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_4_80"
+        android:layout_gravity="center"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="@dimen/height_2_80"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/btn_shape"
+        android:text="下一步"
+        android:textSize="14sp"
+        android:textColor="@color/line" />
 
-        <Button
-            android:id="@+id/register_button_register"
-            android:layout_width="match_parent"
-            android:layout_height="31dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/btn_shape"
-            android:text="下一步"
-            android:textSize="14sp"
-            android:textColor="@color/line" />
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

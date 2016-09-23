@@ -8,6 +8,7 @@ import java.util.List;
  */
 
 public class SearchFilterEntity implements Serializable {
+
     private List<Industry> industry;
     private List<Ability> ability;
     private List<Company> keywords;

@@ -1,5 +1,6 @@
 package com.tripint.intersight.service;
 
+import com.tripint.intersight.entity.CodeDataEntity;
 import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.SearchFilterEntity;
 
@@ -75,4 +76,31 @@ public class BaseDataHttpRequest extends HttpRequest {
 
         toSubscribe(observable, subscriber);
     }
+
+
+    /***
+     * 用于获取注册数据
+     * @param subscriber
+     */
+    public void postRegister(Subscriber<CodeDataEntity> subscriber,String email,String password,String code){
+
+        Observable observable = baseDataService.postRegister(email,password,code)
+                .map(new HttpResultFunc<CodeDataEntity>());
+
+        toSubscribe(observable, subscriber);
+    }
+
+    /***
+     * 用于获取手机验证码数据
+     * @param subscriber
+     */
+    public void getCode(Subscriber<CodeDataEntity> subscriber, String mobile){
+
+        Observable observable = baseDataService.getCode(mobile)
+                .map(new HttpResultFunc<CodeDataEntity>());
+
+        toSubscribe(observable, subscriber);
+    }
+
+
 }
