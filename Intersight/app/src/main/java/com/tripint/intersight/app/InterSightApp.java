@@ -3,6 +3,7 @@ package com.tripint.intersight.app;
 import android.Manifest;
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
@@ -70,7 +71,7 @@ public class InterSightApp extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-//        MultiDex.install(this);
+        MultiDex.install(this);
     }
 
     //各个平台的配置，建议放在全局Application或者程序入口

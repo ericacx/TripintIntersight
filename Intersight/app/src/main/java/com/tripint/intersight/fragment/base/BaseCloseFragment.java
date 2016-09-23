@@ -5,14 +5,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.tripint.intersight.R;
-import com.tripint.intersight.common.fragmentation.SwipeBackFragment;
 
 
 /**
  * Created by YoKeyword on 16/2/7.
  */
-public class BaseCloseFragment extends SwipeBackFragment {
-    private static final String TAG = "Fragmentation";
+public class BaseCloseFragment extends BaseFragment {
+    private static final String TAG = "Intersight";
 
     protected void initToolbarNav(Toolbar toolbar) {
         toolbar.setNavigationIcon(R.mipmap.iconfont_close);
@@ -23,7 +22,6 @@ public class BaseCloseFragment extends SwipeBackFragment {
             }
         });
 
-        initToolbarMenu(toolbar);
     }
 
     protected void initToolbarMenu(Toolbar toolbar) {

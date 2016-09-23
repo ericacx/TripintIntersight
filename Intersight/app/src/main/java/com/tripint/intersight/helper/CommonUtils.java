@@ -35,7 +35,7 @@ public class CommonUtils {
      */
     public static void showToast(String msg) {
         try {
-            CommonUtils.showToast(msg, Toast.LENGTH_SHORT);
+            CommonUtils.showToast(msg, Toast.LENGTH_LONG);
         } catch (Exception e) {
 
         }

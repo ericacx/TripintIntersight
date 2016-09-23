@@ -14,15 +14,17 @@ import android.widget.TextView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.activity.ForgetPasswordActivity;
+import com.tripint.intersight.activity.LoginActivity;
 import com.tripint.intersight.activity.MainActivity;
 import com.tripint.intersight.activity.ResigterActivity;
+import com.tripint.intersight.activity.base.BaseActivity;
 import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.fragment.base.BaseCloseFragment;
 import com.tripint.intersight.helper.CommonUtils;
 import com.umeng.socialize.UMAuthListener;
-import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -49,7 +51,11 @@ public class LoginFragment extends BaseCloseFragment {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    UMShareAPI mShareAPI;
+
+    private LoginActivity mContext;
+
+    private HashMap<String, String> params = new HashMap<String, String>();
+
 
 
     public static LoginFragment newInstance() {
@@ -61,13 +67,20 @@ public class LoginFragment extends BaseCloseFragment {
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getActivity() instanceof BaseActivity) {
+            mContext = (LoginActivity) getActivity();
+        }
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_login, container, false);
         ButterKnife.bind(this, view);
-        ACache.get(mActivity);
+        ACache.get(mContext);
         initView();//初始化页面
         return view;
     }
@@ -89,10 +102,10 @@ public class LoginFragment extends BaseCloseFragment {
                 break;
             case R.id.login_button_login:
                 intent.setClass(mActivity, MainActivity.class);
-//                startActivity(intent);
-                Bundle bundle = new Bundle();
+                startActivity(intent);
+//                Bundle bundle = new Bundle();
 
-                setFramgentResult(RESULT_OK, bundle);
+//                setFramgentResult(RESULT_OK, bundle);
                 break;
             case R.id.login_button_register:
                 intent.setClass(mActivity, ResigterActivity.class);
@@ -102,6 +115,7 @@ public class LoginFragment extends BaseCloseFragment {
                 break;
             case R.id.login_thirdLogin_wechat:
                 SHARE_MEDIA platform = SHARE_MEDIA.WEIXIN;
+//                EventBus.getDefault().post(new ShareLoginEvent(platform));
                 sharedLogin(platform);
                 break;
         }
@@ -112,32 +126,98 @@ public class LoginFragment extends BaseCloseFragment {
 
     }
 
-    private UMAuthListener umAuthListener = new UMAuthListener() {
-        @Override
-        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
-            CommonUtils.showToast("Authorize succeed");
-        }
+    protected void sharedLogin(final SHARE_MEDIA platform) {
 
-        @Override
-        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
-            CommonUtils.showToast("Authorize failed");
-        }
+        mContext.mShareAPI.doOauthVerify(mContext, platform, new UMAuthListener() {
+            @Override
+            public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
+//                mContext.showProgress("正在验证授权信息……");
+                for (Map.Entry<String, String> entry : map.entrySet()) {
+                    if ("access_token".equals(entry.getKey())) {
+                        params.put(entry.getKey(), entry.getValue());
+                    }
+                    if ("uid".equals(entry.getKey())) {
+                        params.put(entry.getKey(), entry.getValue());
+                    }
+                    if ("screen_name".equals(entry.getKey())) {
+                        params.put(entry.getKey(), entry.getValue());
+                    }
+                    if ("version".equals(entry.getKey())) {
+                        params.put(entry.getKey(), entry.getValue());
+                    }
+                }
+                params.put("version", "1");
+//                MLog.d("授权第一步=" + params.toString());
+                mContext.mShareAPI.getPlatformInfo(mContext, platform, new UMAuthListener() {
+                    @Override
+                    public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
+                        if (null != map) {
+                            for (Map.Entry<String, String> entry : map.entrySet()) {
+//                                params.put(entry.getKey(), entry.getValue());
+                                if ("access_token".equals(entry.getKey())) {
+                                    params.put(entry.getKey(), entry.getValue());
+                                }
+                                if ("screen_name".equals(entry.getKey())) {
+                                    params.put(entry.getKey(), entry.getValue());
+                                }
+                                if ("version".equals(entry.getKey())) {
+                                    params.put(entry.getKey(), entry.getValue());
+                                }
+                                if (share_media == SHARE_MEDIA.WEIXIN) {
+                                    if (entry.getKey().equals("openid")) {
+                                        params.put("uid", entry.getValue());
+                                    }
+                                } else {
+                                    if ("uid".equals(entry.getKey())) {
+                                        params.put(entry.getKey(), entry.getValue());
+                                    }
+                                }
+                            }
+//                            MLog.d("授权第二步=" + params.toString());
+//                            submitLoginInfo(url, params, flag, media);
+                        } else {
+                            CommonUtils.showToast("授权失败");
+//                            mContext.dismissProgressDialog();
+                        }
+                    }
 
-        @Override
-        public void onCancel(SHARE_MEDIA platform, int action) {
-            CommonUtils.showToast("Authorize cancel");
-        }
-    };
+                    @Override
+                    public void onError(SHARE_MEDIA share_media, int i, Throwable e) {
+//                        mContext.dismissProgressDialog();
+                        CommonUtils.showToast("授权失败");
+                    }
 
-    protected void sharedLogin(SHARE_MEDIA platform) {
-        mShareAPI = UMShareAPI.get(mActivity);
+                    @Override
+                    public void onCancel(SHARE_MEDIA share_media, int i) {
+//                        mContext.dismissProgressDialog();
+                        CommonUtils.showToast("授权失败");
+                    }
+                });
+            }
 
-        mShareAPI.doOauthVerify(mActivity, platform, umAuthListener);
+            @Override
+            public void onError(SHARE_MEDIA share_media, int i, Throwable e) {
+//                mContext.dismissProgressDialog();
+//                mContext.httpError(e);
+                CommonUtils.showToast("授权失败");
+            }
 
+            @Override
+            public void onCancel(SHARE_MEDIA share_media, int i) {
+//                mContext.dismissProgressDialog();
+                CommonUtils.showToast("授权失败");
+            }
 
-
+        });
 
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mContext.mShareAPI.onActivityResult(requestCode, resultCode, data);
+    }
+
 
     @Override
     public void onDestroyView() {
