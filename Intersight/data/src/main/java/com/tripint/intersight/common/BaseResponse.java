@@ -13,7 +13,6 @@ public class BaseResponse<T> {
     //用来模仿Data
     private T data;
 
-
     public int getCode() {
         return code;
     }

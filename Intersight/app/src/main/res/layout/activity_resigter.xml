@@ -54,6 +54,7 @@
             android:layout_weight="6"
             android:background="@null"
             android:hint="@string/hint_phone_name"
+            android:textColor="@color/line"
             android:paddingLeft="10dp"
             android:textColorHint="@color/line" />
 
@@ -97,6 +98,7 @@
             android:layout_weight="8"
             android:background="@null"
             android:hint="@string/hint_pwd_name"
+            android:textColor="@color/line"
             android:paddingLeft="10dp"
             android:textColorHint="@color/line" />
     </LinearLayout>
@@ -128,6 +130,7 @@
             android:layout_height="match_parent"
             android:layout_weight="8"
             android:background="@null"
+            android:textColor="@color/line"
             android:hint="@string/hint_pwd_name2"
             android:paddingLeft="10dp"
             android:textColorHint="@color/line" />
@@ -161,6 +164,7 @@
             android:layout_weight="8"
             android:background="@null"
             android:hint="@string/hint_code_name"
+            android:textColor="@color/line"
             android:paddingLeft="10dp"
             android:textColorHint="@color/line" />
     </LinearLayout>
@@ -181,7 +185,8 @@
         android:layout_marginRight="50dp"
         android:orientation="horizontal">
 
-        <RadioButton
+        <CheckBox
+            android:checked="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

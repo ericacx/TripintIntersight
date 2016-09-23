@@ -1,6 +1,8 @@
 package com.tripint.intersight.service;
 
 
+import android.util.Log;
+
 import com.tripint.intersight.common.ApiException;
 import com.tripint.intersight.common.BaseResponse;
 import com.tripint.intersight.executor.JobExecutor;
@@ -81,6 +83,7 @@ public class HttpRequest {
 
         @Override
         public T call(BaseResponse<T> response) {
+
             if (response.getCode() != 200) {
                 throw new ApiException(response.getCode());
             }
