@@ -28,6 +28,12 @@ android {
         targetSdkVersion TARGET_SDK_VERSION as int
         versionCode VERSION_CODE as int
         versionName VERSION_NAME
+
+        //bugly ndk
+        //ndk {
+            // 设置支持的SO库架构
+        //    abiFilters 'armeabi', 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        //}
     }
     buildTypes {
         release {
@@ -40,6 +46,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
+    sourceSets {
+        main.jniLibs.srcDirs = ['libs']
+    }
+
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
@@ -47,6 +57,30 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/DEPENDENCIES'
 
+    }
+
+
+    productFlavors {
+        App {
+            manifestPlaceholders = [CHANNEL_NAME: "App", APP_ROOT_URL: "http://www.intersight.com", APP_HOST_URL: "http://www.intersight.com"]
+        }
+
+        taobaoApp {
+            manifestPlaceholders = [CHANNEL_NAME: "taobaoApp", APP_ROOT_URL: "http://www.intersight.com", APP_HOST_URL: "http://www.intersight.com"]
+        }
+
+        yingyongbaoApp {
+            manifestPlaceholders = [CHANNEL_NAME: "yingyongbaoApp", APP_ROOT_URL: "http://www.intersight.com", APP_HOST_URL: "http://www.intersight.com"]
+        }
+        App360 {
+            manifestPlaceholders = [CHANNEL_NAME: "App360", APP_ROOT_URL: "http://www.intersight.com", APP_HOST_URL: "http://www.intersight.com"]
+        }
+        xiaomiApp {
+            manifestPlaceholders = [CHANNEL_NAME: "xiaomiApp", APP_ROOT_URL: "http://www.intersight.com", APP_HOST_URL: "http://www.intersight.com"]
+        }
+        baiduApp {
+            manifestPlaceholders = [CHANNEL_NAME: "baiduApp", APP_ROOT_URL: "http://www.intersight.com", APP_HOST_URL: "http://www.intersight.com"]
+        }
     }
 }
 
@@ -57,7 +91,6 @@ dependencies {
     compile "com.android.support:support-v4:${ANDROID_SUPPORT}"
     compile "com.android.support:design:${ANDROID_SUPPORT}"
     compile "com.android.support:cardview-v7:${ANDROID_SUPPORT}"
-    compile 'junit:junit:4.12'
     compile 'com.oguzdev:CircularFloatingActionMenu:1.0.2'
     compile 'se.emilsjolander:android-flipview:1.1.0'
     compile 'io.reactivex:rxjava:1.1.0'
@@ -71,6 +104,9 @@ dependencies {
     compile 'com.bigkoo:convenientbanner:2.0.5'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.umeng.analytics:analytics:6.0.1'
+    compile 'com.tencent.bugly:crashreport:2.2.0'
     compile project(':common')
     compile project(':data')
+    compile project(':sharedsdk')
 }

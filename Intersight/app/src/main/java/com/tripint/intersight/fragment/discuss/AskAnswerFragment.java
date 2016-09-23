@@ -1,4 +1,4 @@
-package com.tripint.intersight.fragment;
+package com.tripint.intersight.fragment.discuss;
 
 
 import android.os.Build;
@@ -19,10 +19,14 @@ import com.tripint.intersight.adapter.AskAnswerPageAdapter;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
+import com.tripint.intersight.entity.discuss.DiscussPageEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseFragment;
 import com.tripint.intersight.model.QAModel;
+import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.widget.BannerViewHolder;
+import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
+import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -53,6 +57,11 @@ public class AskAnswerFragment extends BaseFragment {
 
     private AskAnswerPageAdapter mAdapter;
 
+    private PageDataSubscriberOnNext<DiscussPageEntity> subscriber;
+
+    private DiscussPageEntity data;
+
+
     private List<String> networkImages;
 
     private String[] images = {
@@ -77,10 +86,25 @@ public class AskAnswerFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_ask_answer, container, false);
         ButterKnife.bind(this, view);
 
-        initView(view);
-        initAdapter();
-        setTab(0);//默认选中第一个TAB
+        httpRequestData(0);
         return view;
+    }
+
+    private void httpRequestData(int type) {
+        subscriber = new PageDataSubscriberOnNext<DiscussPageEntity>() {
+            @Override
+            public void onNext(DiscussPageEntity entity) {
+                //接口请求成功后处理
+                data = entity;
+//                ToastUtil.showToast(mActivity, entity.getAbility().toString() +"");
+                initView(null);
+                initAdapter();
+                setTab(0);//默认选中第一个TAB
+            }
+        };
+
+
+        DiscussDataHttpRequest.getInstance().getDiscusses(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
     }
 
     private void initView(View view) {
@@ -142,12 +166,12 @@ public class AskAnswerFragment extends BaseFragment {
         mQAPrefessionButton.setSelected(tab == 0);
         mQAInterestrButton.setSelected(tab == 1);
         mQARecommendButton.setSelected(tab == 2);
-//        httpLocationRelationShips(RequestParameters.homePssociate[tab]);
+        httpRequestData(tab);
     }
 
 
     private void initAdapter() {
-        mAdapter = new AskAnswerPageAdapter();
+        mAdapter = new AskAnswerPageAdapter(data.getDiscusses());
         mAdapter.openLoadAnimation();
 
         mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
