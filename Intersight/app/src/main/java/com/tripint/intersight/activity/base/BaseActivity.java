@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.tripint.intersight.common.fragmentation.SupportActivity;
-import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 作者：lirichen
@@ -19,14 +19,15 @@ public class BaseActivity extends SupportActivity {
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override

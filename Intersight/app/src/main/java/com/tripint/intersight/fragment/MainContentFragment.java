@@ -10,8 +10,11 @@ import com.tripint.intersight.R;
 import com.tripint.intersight.common.fragmentation.SupportFragment;
 import com.tripint.intersight.common.fragmentation.anim.FragmentAnimator;
 import com.tripint.intersight.event.StartFragmentEvent;
+import com.tripint.intersight.event.StartFragmentForResultEvent;
 import com.tripint.intersight.event.TabSelectedEvent;
+import com.tripint.intersight.event.UserLoginEvent;
 import com.tripint.intersight.fragment.base.BaseFragment;
+import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.widget.tabbar.BottomTabBar;
 import com.tripint.intersight.widget.tabbar.BottomTabBarItem;
 
@@ -117,6 +120,21 @@ public class MainContentFragment extends BaseFragment {
     @Subscribe
     public void startFragment(StartFragmentEvent event) {
         start(event.targetFragment);
+    }
+
+
+    @Subscribe
+    public void startLoginFragment(StartFragmentForResultEvent event) {
+        startForResult(event.targetFragment, event.requestCode);
+    }
+
+    @Override
+    protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        if (requestCode == StartFragmentForResultEvent.REQ_LOGIN_FRAGMENT && resultCode == RESULT_OK) {
+            CommonUtils.showToast("登录成功");
+            EventBus.getDefault().post(new UserLoginEvent(true));
+        }
     }
 
     @Override

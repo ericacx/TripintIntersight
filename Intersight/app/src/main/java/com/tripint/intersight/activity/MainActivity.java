@@ -3,15 +3,13 @@ package com.tripint.intersight.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.tencent.bugly.crashreport.CrashReport;
 import com.tripint.intersight.R;
-import com.tripint.intersight.common.fragmentation.SupportActivity;
+import com.tripint.intersight.activity.base.BaseActivity;
 import com.tripint.intersight.common.fragmentation.anim.DefaultHorizontalAnimator;
 import com.tripint.intersight.common.fragmentation.anim.FragmentAnimator;
 import com.tripint.intersight.fragment.MainContentFragment;
-import com.umeng.analytics.MobclickAgent;
 
-public class MainActivity extends SupportActivity {
+public class MainActivity extends BaseActivity {
 
 
     @Override
@@ -21,8 +19,6 @@ public class MainActivity extends SupportActivity {
         if(savedInstanceState == null){
             loadRootFragment(R.id.main_container, MainContentFragment.newInstance());
         }
-        CrashReport.testJavaCrash();
-
     }
 
     @Override
@@ -35,13 +31,5 @@ public class MainActivity extends SupportActivity {
         return new DefaultHorizontalAnimator();
     }
 
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
 
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
 }

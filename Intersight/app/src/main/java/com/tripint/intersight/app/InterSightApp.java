@@ -24,7 +24,7 @@ import okhttp3.OkHttpClient;
  */
 public class InterSightApp extends Application {
 
-    private boolean userLogin = false; //登陆为 true 未登陆为 false
+    private boolean isUserLogin = false; //登陆为 true 未登陆为 false
     private boolean isBinding = false; //是否绑定第三方账号（第一次）
 
 
@@ -114,6 +114,22 @@ public class InterSightApp extends Application {
 
     }
 
+
+    public boolean isUserLogin() {
+        return isUserLogin;
+    }
+
+    public void setUserLogin(boolean userLogin) {
+        isUserLogin = userLogin;
+    }
+
+    public boolean isBinding() {
+        return isBinding;
+    }
+
+    public void setBinding(boolean binding) {
+        isBinding = binding;
+    }
 
     /**
      * 权限检测器
