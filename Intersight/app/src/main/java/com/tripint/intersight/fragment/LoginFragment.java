@@ -128,6 +128,24 @@ public class LoginFragment extends BaseCloseFragment {
 
     protected void sharedLogin(final SHARE_MEDIA platform) {
 
+//        mContext.mShareAPI.doShare(mContext, , new UMShareListener(){
+//            @Override
+//            public void onResult(SHARE_MEDIA share_media) {
+//
+//            }
+//
+//            @Override
+//            public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+//
+//            }
+//
+//            @Override
+//            public void onCancel(SHARE_MEDIA share_media) {
+//
+//            }
+//        });
+
+
         mContext.mShareAPI.doOauthVerify(mContext, platform, new UMAuthListener() {
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {

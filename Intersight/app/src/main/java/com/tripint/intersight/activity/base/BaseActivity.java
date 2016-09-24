@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 
 import com.tripint.intersight.common.fragmentation.SupportActivity;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.socialize.UMShareAPI;
 
 /**
  * 作者：lirichen
@@ -14,13 +13,11 @@ import com.umeng.socialize.UMShareAPI;
  */
 public class BaseActivity extends SupportActivity {
 
-    public UMShareAPI mShareAPI;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mShareAPI = UMShareAPI.get(this);
+
     }
 
 

@@ -30,22 +30,26 @@ android {
 
     defaultConfig {
         applicationId "com.tripint.intersight"
-        minSdkVersion MIN_SDK_VERSION as int
+        minSdkVersion 16
         targetSdkVersion TARGET_SDK_VERSION as int
-        versionCode VERSION_CODE as int
         versionName VERSION_NAME
-
         //bugly ndk
         //ndk {
-            // 设置支持的SO库架构
+        // 设置支持的SO库架构
         //    abiFilters 'armeabi', 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
         //}
         multiDexEnabled true
-
+        signingConfig signingConfigs.debug
     }
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -71,9 +75,6 @@ android {
     productFlavors {
         App {
             manifestPlaceholders = [CHANNEL_NAME: "App", APP_ROOT_URL: "http://www.intersight.com", APP_HOST_URL: "http://www.intersight.com"]
-            minSdkVersion 16
-            signingConfig signingConfigs.release
-            targetSdkVersion 23
         }
         taobaoApp {
             manifestPlaceholders = [CHANNEL_NAME: "taobaoApp", APP_ROOT_URL: "http://www.intersight.com", APP_HOST_URL: "http://www.intersight.com"]
@@ -118,5 +119,5 @@ dependencies {
     compile 'com.tencent.bugly:crashreport:2.2.0'
     compile project(':common')
     compile project(':data')
-    compile project(':sharedsdk')
+    compile project(':sharesdk')
 }
