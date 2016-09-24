@@ -1,5 +1,6 @@
 package com.tripint.intersight.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,13 +12,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.linkedin.platform.LISession;
+import com.linkedin.platform.LISessionManager;
+import com.linkedin.platform.errors.LIAuthError;
+import com.linkedin.platform.listeners.AuthListener;
+import com.linkedin.platform.utils.Scope;
 import com.tripint.intersight.R;
 import com.tripint.intersight.activity.ForgetPasswordActivity;
 import com.tripint.intersight.activity.LoginActivity;
 import com.tripint.intersight.activity.MainActivity;
 import com.tripint.intersight.activity.ResigterActivity;
 import com.tripint.intersight.activity.base.BaseActivity;
+import com.tripint.intersight.app.InterSightApp;
 import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.fragment.base.BaseCloseFragment;
 import com.tripint.intersight.helper.CommonUtils;
@@ -55,6 +63,8 @@ public class LoginFragment extends BaseCloseFragment {
 
     private LoginActivity mContext;
 
+    private Context mAppContext;
+
     private HashMap<String, String> params = new HashMap<String, String>();
 
 
@@ -74,6 +84,7 @@ public class LoginFragment extends BaseCloseFragment {
         if (getActivity() instanceof BaseActivity) {
             mContext = (LoginActivity) getActivity();
         }
+        mAppContext = InterSightApp.getApp().getApplicationContext();
     }
 
     @Nullable
@@ -113,6 +124,7 @@ public class LoginFragment extends BaseCloseFragment {
                 startActivity(intent);
                 break;
             case R.id.login_thirdLogin_linkedin:
+                sharedLinkedInLogin();
                 break;
             case R.id.login_thirdLogin_wechat:
                 SHARE_MEDIA platform = SHARE_MEDIA.WEIXIN;
@@ -125,6 +137,38 @@ public class LoginFragment extends BaseCloseFragment {
 
     protected void initLazyView(@Nullable Bundle savedInstanceState) {
 
+    }
+
+    private void sharedLinkedInLogin() {
+
+        LISessionManager.getInstance(mActivity).init(mActivity, buildScope(), new AuthListener() {
+            @Override
+            public void onAuthSuccess() {
+                setUpdateState();
+                Toast.makeText(mActivity, "success" + LISessionManager.getInstance(mActivity).getSession().getAccessToken().toString(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onAuthError(LIAuthError error) {
+                setUpdateState();
+                Toast.makeText(InterSightApp.getApp().getApplicationContext(), "failed " + error.toString(), Toast.LENGTH_LONG).show();
+            }
+        }, true);
+    }
+
+    private void setUpdateState() {
+        LISessionManager sessionManager = LISessionManager.getInstance(mActivity);
+        LISession session = sessionManager.getSession();
+        boolean accessTokenValid = session.isValid();
+
+        CommonUtils.showToast(
+                accessTokenValid ? session.getAccessToken().toString() : "Sync with LinkedIn to enable these buttons");
+
+
+    }
+
+    private static Scope buildScope() {
+        return Scope.build(Scope.R_BASICPROFILE, Scope.W_SHARE);
     }
 
     protected void sharedLogin(final SHARE_MEDIA platform) {
