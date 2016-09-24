@@ -30,7 +30,7 @@ android {
 
     defaultConfig {
         applicationId "com.tripint.intersight"
-        minSdkVersion 16
+        minSdkVersion MIN_SDK_VERSION as int
         targetSdkVersion TARGET_SDK_VERSION as int
         versionName VERSION_NAME
         //bugly ndk

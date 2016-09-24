@@ -5,6 +5,7 @@ import android.view.MenuItem;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.common.fragmentation.SupportFragment;
+import com.tripint.intersight.helper.ProgressDialogUtils;
 
 
 /**
@@ -27,5 +28,13 @@ public class BaseFragment extends SupportFragment {
                 return true;
             }
         });
+    }
+
+    protected void showProgressDialog(){
+        ProgressDialogUtils.getInstants(mActivity).show();
+    }
+
+    protected void dismissProgressDialog(){
+        ProgressDialogUtils.getInstants(mActivity).dismiss();
     }
 }

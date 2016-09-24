@@ -1,1 +1,1 @@
-include ':app', ':data', ':common', ':sharesdk'
+include ':app', ':data', ':common', ':sharesdk', ':linkedinsdk'

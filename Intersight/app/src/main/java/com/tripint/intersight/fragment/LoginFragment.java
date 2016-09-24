@@ -1,5 +1,6 @@
 package com.tripint.intersight.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,16 +12,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.linkedin.platform.LISession;
+import com.linkedin.platform.LISessionManager;
+import com.linkedin.platform.errors.LIAuthError;
+import com.linkedin.platform.listeners.AuthListener;
+import com.linkedin.platform.utils.Scope;
 import com.tripint.intersight.R;
 import com.tripint.intersight.activity.ForgetPasswordActivity;
 import com.tripint.intersight.activity.LoginActivity;
 import com.tripint.intersight.activity.MainActivity;
 import com.tripint.intersight.activity.ResigterActivity;
 import com.tripint.intersight.activity.base.BaseActivity;
+import com.tripint.intersight.app.InterSightApp;
 import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.fragment.base.BaseCloseFragment;
 import com.tripint.intersight.helper.CommonUtils;
+import com.tripint.intersight.helper.ProgressDialogUtils;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
@@ -54,6 +63,8 @@ public class LoginFragment extends BaseCloseFragment {
 
     private LoginActivity mContext;
 
+    private Context mAppContext;
+
     private HashMap<String, String> params = new HashMap<String, String>();
 
 
@@ -73,6 +84,7 @@ public class LoginFragment extends BaseCloseFragment {
         if (getActivity() instanceof BaseActivity) {
             mContext = (LoginActivity) getActivity();
         }
+        mAppContext = InterSightApp.getApp().getApplicationContext();
     }
 
     @Nullable
@@ -112,10 +124,10 @@ public class LoginFragment extends BaseCloseFragment {
                 startActivity(intent);
                 break;
             case R.id.login_thirdLogin_linkedin:
+                sharedLinkedInLogin();
                 break;
             case R.id.login_thirdLogin_wechat:
                 SHARE_MEDIA platform = SHARE_MEDIA.WEIXIN;
-//                EventBus.getDefault().post(new ShareLoginEvent(platform));
                 sharedLogin(platform);
                 break;
         }
@@ -126,30 +138,48 @@ public class LoginFragment extends BaseCloseFragment {
 
     }
 
+    private void sharedLinkedInLogin() {
+        showProgressDialog();
+        LISessionManager.getInstance(mActivity).init(mActivity, buildScope(), new AuthListener() {
+            @Override
+            public void onAuthSuccess() {
+                dismissProgressDialog();
+                setUpdateState();
+                Toast.makeText(mActivity, "success" + LISessionManager.getInstance(mActivity).getSession().getAccessToken().toString(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onAuthError(LIAuthError error) {
+                dismissProgressDialog();
+                setUpdateState();
+                Toast.makeText(InterSightApp.getApp().getApplicationContext(), "failed " + error.toString(), Toast.LENGTH_LONG).show();
+            }
+        }, true);
+    }
+
+    private void setUpdateState() {
+        LISessionManager sessionManager = LISessionManager.getInstance(mActivity);
+        LISession session = sessionManager.getSession();
+        boolean accessTokenValid = session.isValid();
+
+        CommonUtils.showToast(
+                accessTokenValid ? session.getAccessToken().toString() : "Sync with LinkedIn to enable these buttons");
+
+
+    }
+
+    private static Scope buildScope() {
+        return Scope.build(Scope.R_BASICPROFILE, Scope.W_SHARE);
+    }
+
     protected void sharedLogin(final SHARE_MEDIA platform) {
 
-//        mContext.mShareAPI.doShare(mContext, , new UMShareListener(){
-//            @Override
-//            public void onResult(SHARE_MEDIA share_media) {
-//
-//            }
-//
-//            @Override
-//            public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-//
-//            }
-//
-//            @Override
-//            public void onCancel(SHARE_MEDIA share_media) {
-//
-//            }
-//        });
-
-
+        showProgressDialog();
         mContext.mShareAPI.doOauthVerify(mContext, platform, new UMAuthListener() {
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
 //                mContext.showProgress("正在验证授权信息……");
+
                 for (Map.Entry<String, String> entry : map.entrySet()) {
                     if ("access_token".equals(entry.getKey())) {
                         params.put(entry.getKey(), entry.getValue());
@@ -217,12 +247,16 @@ public class LoginFragment extends BaseCloseFragment {
             public void onError(SHARE_MEDIA share_media, int i, Throwable e) {
 //                mContext.dismissProgressDialog();
 //                mContext.httpError(e);
+                dismissProgressDialog();
+
                 CommonUtils.showToast("授权失败");
             }
 
             @Override
             public void onCancel(SHARE_MEDIA share_media, int i) {
 //                mContext.dismissProgressDialog();
+                dismissProgressDialog();
+
                 CommonUtils.showToast("授权失败");
             }
 
