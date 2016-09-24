@@ -1,8 +1,12 @@
 package com.tripint.intersight.service;
 
 import com.tripint.intersight.entity.CodeDataEntity;
+import com.tripint.intersight.entity.ForgetPasswordEntity;
 import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.SearchFilterEntity;
+import com.tripint.intersight.entity.UserInfoEntity;
+import com.tripint.intersight.entity.user.RegisterEntity;
+import com.tripint.intersight.entity.user.User;
 
 import java.util.List;
 
@@ -82,10 +86,10 @@ public class BaseDataHttpRequest extends HttpRequest {
      * 用于获取注册数据
      * @param subscriber
      */
-    public void postRegister(Subscriber<CodeDataEntity> subscriber,String email,String password,String code){
+    public void postRegister(Subscriber<RegisterEntity> subscriber, User user){
 
-        Observable observable = baseDataService.postRegister(email,password,code)
-                .map(new HttpResultFunc<CodeDataEntity>());
+        Observable observable = baseDataService.postRegister(user)
+                .map(new HttpResultFunc<RegisterEntity>());
 
         toSubscribe(observable, subscriber);
     }
@@ -101,6 +105,33 @@ public class BaseDataHttpRequest extends HttpRequest {
 
         toSubscribe(observable, subscriber);
     }
+
+    /**
+     * 用于获取忘记密码数据
+     * @param subscriber
+     * @param mobile
+     */
+    public void postForgetpassword(Subscriber<ForgetPasswordEntity> subscriber, String mobile){
+
+        Observable observable = baseDataService.postForgetpassword(mobile)
+                .map(new HttpResultFunc<ForgetPasswordEntity>());
+
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 用于获取个人信息数据
+     * @param subscriber
+     * @param userInfoEntity
+     */
+    public void postUserInfo(Subscriber<UserInfoEntity> subscriber, UserInfoEntity userInfoEntity){
+
+        Observable observable = baseDataService.postUserInfo(userInfoEntity)
+                .map(new HttpResultFunc<UserInfoEntity>());
+
+        toSubscribe(observable, subscriber);
+    }
+
 
 
 }
