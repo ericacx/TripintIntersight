@@ -128,7 +128,6 @@ public class LoginFragment extends BaseCloseFragment {
                 break;
             case R.id.login_thirdLogin_wechat:
                 SHARE_MEDIA platform = SHARE_MEDIA.WEIXIN;
-//                EventBus.getDefault().post(new ShareLoginEvent(platform));
                 sharedLogin(platform);
                 break;
         }
@@ -140,16 +139,18 @@ public class LoginFragment extends BaseCloseFragment {
     }
 
     private void sharedLinkedInLogin() {
-
+        showProgressDialog();
         LISessionManager.getInstance(mActivity).init(mActivity, buildScope(), new AuthListener() {
             @Override
             public void onAuthSuccess() {
+                dismissProgressDialog();
                 setUpdateState();
                 Toast.makeText(mActivity, "success" + LISessionManager.getInstance(mActivity).getSession().getAccessToken().toString(), Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onAuthError(LIAuthError error) {
+                dismissProgressDialog();
                 setUpdateState();
                 Toast.makeText(InterSightApp.getApp().getApplicationContext(), "failed " + error.toString(), Toast.LENGTH_LONG).show();
             }
@@ -173,13 +174,11 @@ public class LoginFragment extends BaseCloseFragment {
 
     protected void sharedLogin(final SHARE_MEDIA platform) {
 
-        ProgressDialogUtils.getInstants(mContext).show();
-
+        showProgressDialog();
         mContext.mShareAPI.doOauthVerify(mContext, platform, new UMAuthListener() {
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
 //                mContext.showProgress("正在验证授权信息……");
-                ProgressDialogUtils.getInstants(mContext).dismiss();
 
                 for (Map.Entry<String, String> entry : map.entrySet()) {
                     if ("access_token".equals(entry.getKey())) {
@@ -248,7 +247,7 @@ public class LoginFragment extends BaseCloseFragment {
             public void onError(SHARE_MEDIA share_media, int i, Throwable e) {
 //                mContext.dismissProgressDialog();
 //                mContext.httpError(e);
-                ProgressDialogUtils.getInstants(mContext).dismiss();
+                dismissProgressDialog();
 
                 CommonUtils.showToast("授权失败");
             }
@@ -256,7 +255,7 @@ public class LoginFragment extends BaseCloseFragment {
             @Override
             public void onCancel(SHARE_MEDIA share_media, int i) {
 //                mContext.dismissProgressDialog();
-                ProgressDialogUtils.getInstants(mContext).dismiss();
+                dismissProgressDialog();
 
                 CommonUtils.showToast("授权失败");
             }

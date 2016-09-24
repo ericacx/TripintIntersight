@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.linkedin.platform.LISessionManager;
 import com.tripint.intersight.R;
 import com.tripint.intersight.activity.base.BaseActivity;
 import com.tripint.intersight.common.fragmentation.anim.DefaultVerticalAnimator;
@@ -31,7 +32,13 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mShareAPI.onActivityResult(requestCode, resultCode, data);
+        if(data!= null && data.getAction().contains("com.linkedin.thirdparty.authorize.RESULT_ACTION")){
+            LISessionManager.getInstance(getApplicationContext()).onActivityResult(this, requestCode, resultCode, data);
+        } else {
+            mShareAPI.onActivityResult(requestCode, resultCode, data);
+        }
+
+
     }
 
     @Override
