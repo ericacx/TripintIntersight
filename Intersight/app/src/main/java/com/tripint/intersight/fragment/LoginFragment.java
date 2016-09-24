@@ -21,6 +21,7 @@ import com.tripint.intersight.activity.base.BaseActivity;
 import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.fragment.base.BaseCloseFragment;
 import com.tripint.intersight.helper.CommonUtils;
+import com.tripint.intersight.helper.ProgressDialogUtils;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
@@ -128,28 +129,14 @@ public class LoginFragment extends BaseCloseFragment {
 
     protected void sharedLogin(final SHARE_MEDIA platform) {
 
-//        mContext.mShareAPI.doShare(mContext, , new UMShareListener(){
-//            @Override
-//            public void onResult(SHARE_MEDIA share_media) {
-//
-//            }
-//
-//            @Override
-//            public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-//
-//            }
-//
-//            @Override
-//            public void onCancel(SHARE_MEDIA share_media) {
-//
-//            }
-//        });
-
+        ProgressDialogUtils.getInstants(mContext).show();
 
         mContext.mShareAPI.doOauthVerify(mContext, platform, new UMAuthListener() {
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
 //                mContext.showProgress("正在验证授权信息……");
+                ProgressDialogUtils.getInstants(mContext).dismiss();
+
                 for (Map.Entry<String, String> entry : map.entrySet()) {
                     if ("access_token".equals(entry.getKey())) {
                         params.put(entry.getKey(), entry.getValue());
@@ -217,12 +204,16 @@ public class LoginFragment extends BaseCloseFragment {
             public void onError(SHARE_MEDIA share_media, int i, Throwable e) {
 //                mContext.dismissProgressDialog();
 //                mContext.httpError(e);
+                ProgressDialogUtils.getInstants(mContext).dismiss();
+
                 CommonUtils.showToast("授权失败");
             }
 
             @Override
             public void onCancel(SHARE_MEDIA share_media, int i) {
 //                mContext.dismissProgressDialog();
+                ProgressDialogUtils.getInstants(mContext).dismiss();
+
                 CommonUtils.showToast("授权失败");
             }
 

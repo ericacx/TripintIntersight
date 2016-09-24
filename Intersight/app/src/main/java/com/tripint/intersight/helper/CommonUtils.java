@@ -50,12 +50,7 @@ public class CommonUtils {
      */
     public static void showToast(String msg, int duration) {
         try {
-
-            Toast toast = new Toast(InterSightApp.getApp());
-            toast.setDuration(duration);
-//            toast.setView(layout);
-            toast.show();
-//            Toast.makeText(ProjectApp.getApp(), msg, duration).show();
+            Toast.makeText(InterSightApp.getApp(), msg, duration).show();
         } catch (Exception e) {
 
         }
