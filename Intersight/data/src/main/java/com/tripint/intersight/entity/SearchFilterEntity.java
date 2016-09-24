@@ -1,12 +1,14 @@
 package com.tripint.intersight.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by lirichen on 2016/9/21.
  */
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SearchFilterEntity implements Serializable {
 
     private List<Industry> industry;

@@ -33,17 +33,17 @@ public class AskAnswerPageAdapter extends BaseQuickAdapter<DiscussEntiry> {
         }
 
         helper.setText(R.id.textView_item_ask_title, item.getContent())
-                .setText(R.id.textView_item_ask_specialist, item.getUser().getCompany().getName())
+                .setText(R.id.textView_item_ask_specialist, sperialist)
                 .setText(R.id.textView_item_liked_number, item.getFollowsCount() + "")
                 .setText(R.id.textView_item_listened_number, item.getListenCount() + "")
                 .setText(R.id.textView_item_ask_voice, item.getVoiceId() + "")
                 .addOnClickListener(R.id.textView_item_liked_number)
                 .addOnClickListener(R.id.textView_item_ask_title)
-                .linkify(R.id.layout_container_item_ask_answer);
+                .linkify(R.id.textView_item_ask_specialist);
 
         Glide.with(mContext).load(avatar)
                 .crossFade()
-                .placeholder(R.mipmap.iconfont_wechat)
+                .placeholder(R.mipmap.loading_normal_icon)
                 .transform(new GlideCircleTransform(mContext))
                 .into((ImageView) helper.getView(R.id.image_ask_profile));
     }

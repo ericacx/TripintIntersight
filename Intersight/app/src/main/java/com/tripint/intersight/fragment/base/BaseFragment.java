@@ -2,6 +2,7 @@ package com.tripint.intersight.fragment.base;
 
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.common.fragmentation.SupportFragment;
@@ -37,4 +38,5 @@ public class BaseFragment extends SupportFragment {
     protected void dismissProgressDialog(){
         ProgressDialogUtils.getInstants(mActivity).dismiss();
     }
+
 }

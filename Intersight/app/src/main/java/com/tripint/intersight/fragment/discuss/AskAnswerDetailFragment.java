@@ -2,6 +2,7 @@ package com.tripint.intersight.fragment.discuss;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,10 +20,16 @@ import com.tripint.intersight.adapter.AskAnswerPageDetailMultipleAdapter;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
+import com.tripint.intersight.entity.discuss.DiscussDetailEntiry;
+import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.discuss.DiscussPageEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.MultipleChatItemModel;
 import com.tripint.intersight.model.QADetailModel;
 import com.tripint.intersight.model.QAModel;
+import com.tripint.intersight.service.DiscussDataHttpRequest;
+import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
+import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 import com.tripint.intersight.widget.tabbar.BottomTabBar;
 import com.tripint.intersight.widget.tabbar.BottomTabBarItem;
 
@@ -36,6 +43,8 @@ import butterknife.ButterKnife;
  * A simple {@link Fragment} subclass.
  */
 public class AskAnswerDetailFragment extends BaseBackFragment {
+
+    public static final String ARG_DISCUSS_ID = "arg_discuss_id";
 
     @Bind(R.id.recycler_view_ask_answer_detail)
     RecyclerView recyclerViewAskAnswerDetail;
@@ -58,14 +67,28 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
     private AskAnswerPageDetailMultipleAdapter mAdapter;
 
+    private PageDataSubscriberOnNext<DiscussDetailEntiry> subscriber;
 
-    public static AskAnswerDetailFragment newInstance() {
+    private DiscussDetailEntiry data;
+
+    private int mDiscussId;
+
+    public static AskAnswerDetailFragment newInstance(DiscussEntiry entiry) {
 
         Bundle args = new Bundle();
-
+        args.putInt(AskAnswerDetailFragment.ARG_DISCUSS_ID, entiry.getId());
         AskAnswerDetailFragment fragment = new AskAnswerDetailFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            mDiscussId = bundle.getInt(ARG_DISCUSS_ID);
+        }
     }
 
     @Override
@@ -75,21 +98,20 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
         View view = inflater.inflate(R.layout.fragment_ask_answer_detail, container, false);
         ButterKnife.bind(this, view);
 
-        initView(view);
-        initAdapter();
+        httpRequestData();
         return view;
     }
 
     private void initView(View view) {
 
-        toolbar.setTitle("问答");
+        toolbar.setTitle("问答详情");
         initToolbarNav(toolbar);
         initToolbarMenu(toolbar);
         //网络加载
         userCommentBar
-                .addItem(new BottomTabBarItem(mActivity, R.mipmap.ic_launcher, "赞157"))
-                .addItem(new BottomTabBarItem(mActivity, R.drawable.ic_expandable, "关注"))
-                .addItem(new BottomTabBarItem(mActivity, R.drawable.ic_expandable, "举报"));
+                .addItem(new BottomTabBarItem(mActivity, R.mipmap.iconfont_zan02, "赞157"))
+                .addItem(new BottomTabBarItem(mActivity, R.mipmap.iconfont_heartbig01, "关注"))
+                .addItem(new BottomTabBarItem(mActivity, R.mipmap.iconfont_jubao, "举报"));
         userCommentBar.setBackgroundColor(getResources().getColor(R.color.colorBottomBarPrimary));
         userCommentBar.setOnTabSelectedListener(new BottomTabBar.OnTabSelectedListener() {
             @Override
@@ -112,8 +134,35 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
     }
 
 
+    private void httpRequestData() {
+        subscriber = new PageDataSubscriberOnNext<DiscussDetailEntiry>() {
+            @Override
+            public void onNext(DiscussDetailEntiry entity) {
+                //接口请求成功后处理
+                data = entity;
+//                ToastUtil.showToast(mActivity, entity.getAbility().toString() +"");
+                initView(null);
+                initAdapter();
+            }
+        };
+
+
+        DiscussDataHttpRequest.getInstance().getDiscussDetail(new ProgressSubscriber(subscriber, mActivity), mDiscussId);
+    }
+
+
     private void initAdapter() {
-        mAdapter = new AskAnswerPageDetailMultipleAdapter(getSampleData(1));
+        List<MultipleChatItemModel> models = new ArrayList<>();
+
+        int i = 1;
+        for (DiscussEntiry entiry : data.getDiscussDetail()){
+            int type = i % 2;
+
+            models.add(new MultipleChatItemModel(type, entiry));
+            i++;
+        }
+
+        mAdapter = new AskAnswerPageDetailMultipleAdapter(models);
         final GridLayoutManager layoutManager = new GridLayoutManager(mActivity, 1);
         mAdapter.openLoadAnimation();
         recyclerViewAskAnswerDetail.addOnItemTouchListener(new OnItemChildClickListener() {
@@ -150,26 +199,9 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
         ButterKnife.unbind(this);
     }
 
 
-    public static List<MultipleChatItemModel> getSampleData(int lenth) {
-        List<MultipleChatItemModel> list = new ArrayList<>();
-        for (int i = 0; i < lenth; i++) {
-            QADetailModel status = new QADetailModel();
-            status.setCompany("腾讯信息科技" + i);
-            status.setJobTitle("设计总经理" + "");
-            status.setPersonName("Maggie ");
-            status.setMessage("目前AR技术的整体发展情况及未来发展情况与未来的发展方向,最新动态最新内容说明" + i);
-            status.setProfileImgUrl("https://avatars2.githubusercontent.com/u/6078720?v=3&s=200");
-            status.setVoiceMessageUrl("https://avatars2.githubusercontent.com/u/6066620?v=3&s=400");
-//            model.setContent(status);
-            MultipleChatItemModel model = new MultipleChatItemModel(MultipleChatItemModel.CHAT_LEFT, status);
-            list.add(model);
-            MultipleChatItemModel model1 = new MultipleChatItemModel(MultipleChatItemModel.CHAT_RIGHT, status);
-            list.add(model1);
-        }
-        return list;
-    }
 }

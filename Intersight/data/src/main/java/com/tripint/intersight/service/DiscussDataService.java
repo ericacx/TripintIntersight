@@ -2,9 +2,11 @@ package com.tripint.intersight.service;
 
 
 import com.tripint.intersight.common.BaseResponse;
+import com.tripint.intersight.entity.discuss.DiscussDetailEntiry;
 import com.tripint.intersight.entity.discuss.DiscussPageEntity;
 
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -18,4 +20,7 @@ public interface DiscussDataService {
 
     @GET("mine/discuss")
     Observable<BaseResponse<DiscussPageEntity>> getSearchFilter(@Query("type") String type);
+
+    @GET("discuss/{id}")
+    Observable<BaseResponse<DiscussDetailEntiry>> getDiscussDetail(@Path("id") int id);
 }

@@ -19,6 +19,7 @@ import com.tripint.intersight.adapter.AskAnswerPageAdapter;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
+import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.discuss.DiscussPageEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseFragment;
@@ -85,8 +86,9 @@ public class AskAnswerFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ask_answer, container, false);
         ButterKnife.bind(this, view);
+        setTab(0);//默认选中第一个TAB
 
-        httpRequestData(0);
+//        httpRequestData(0);
         return view;
     }
 
@@ -99,7 +101,6 @@ public class AskAnswerFragment extends BaseFragment {
 //                ToastUtil.showToast(mActivity, entity.getAbility().toString() +"");
                 initView(null);
                 initAdapter();
-                setTab(0);//默认选中第一个TAB
             }
         };
 
@@ -107,7 +108,7 @@ public class AskAnswerFragment extends BaseFragment {
         DiscussDataHttpRequest.getInstance().getDiscusses(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
     }
 
-    private void initView(View view) {
+    protected void initView(View view) {
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -171,34 +172,24 @@ public class AskAnswerFragment extends BaseFragment {
 
 
     private void initAdapter() {
-        mAdapter = new AskAnswerPageAdapter(data.getDiscusses());
+        mAdapter = new AskAnswerPageAdapter(data.getDiscuss());
         mAdapter.openLoadAnimation();
 
         mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 String content = null;
-                QAModel status = (QAModel) adapter.getItem(position);
-                switch (view.getId()) {
-                    case R.id.image_ask_profile:
-                        content = "img:" + status.getProfileImage();
-                        break;
-                    case R.id.textView_item_ask_title:
-                        content = "name:" + status.getTitle();
-                        break;
-                }
-                AskAnswerDetailFragment fragment = AskAnswerDetailFragment.newInstance();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-//                    setExitTransition(new Fade());
-//                    setSharedElementEnterTransition(new DetailTransition());
-//                    fragment.setSharedElementEnterTransition(new DetailTransition());
-//                    ((SupportFragment)getParentFragment()).startWithSharedElement(fragment, view.findViewById(R.id.image_ask_profile), getResources().getString(R.string.image_transition));
-//                    ((SupportFragment)getParentFragment()).start(fragment);
-                    EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance()));
-                } else {
-//                    ((SupportFragment)getParentFragment()).start(fragment);
-                    EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance()));
-                }
+                DiscussEntiry entity = (DiscussEntiry) adapter.getItem(position);
+//                switch (view.getId()) {
+//                    case R.id.image_ask_profile:
+//                        content = "img:" + status.get();
+//                        break;
+//                    case R.id.textView_item_ask_title:
+//                        content = "name:" + status.getTitle();
+//                        break;
+//                }
+                EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity)));
+
             }
         });
 
