@@ -44,7 +44,7 @@
             android:layout_marginRight="@dimen/spacing_01"
             android:layout_marginTop="@dimen/spacing_pad"
             android:layout_weight="1"
-            android:background="@drawable/btn_record_selector"
+            android:background="@drawable/button_blue"
             android:drawableLeft="@mipmap/iconfont_email"
             android:drawablePadding="@dimen/width_2_80"
             android:gravity="center"

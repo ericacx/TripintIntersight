@@ -1,5 +1,6 @@
 package com.tripint.intersight.service;
 
+import com.tripint.intersight.entity.discuss.DiscussDetailEntiry;
 import com.tripint.intersight.entity.discuss.DiscussPageEntity;
 
 import rx.Observable;
@@ -53,6 +54,22 @@ public class DiscussDataHttpRequest extends HttpRequest {
             observable = service.getDiscuss(start, count)
                     .map(new HttpResultFunc<DiscussPageEntity>());
         }
+
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 用得问答详情数据。
+     *
+     * @param subscriber 由调用者传过来的观察者对象
+     * @param
+     */
+    public void getDiscussDetail(Subscriber<DiscussDetailEntiry> subscriber, int discussId) {
+
+        Observable observable
+                = service.getDiscussDetail(discussId)
+                .map(new HttpResultFunc<DiscussDetailEntiry>());
+
 
         toSubscribe(observable, subscriber);
     }

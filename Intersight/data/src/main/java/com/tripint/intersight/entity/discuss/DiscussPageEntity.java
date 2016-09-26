@@ -1,5 +1,6 @@
 package com.tripint.intersight.entity.discuss;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tripint.intersight.entity.common.BannerEntity;
 
 import java.io.Serializable;
@@ -9,9 +10,10 @@ import java.util.List;
  * Created by lirichen on 2016/9/22.
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DiscussPageEntity implements Serializable {
     private List<BannerEntity> banners;
-    private List<DiscussEntiry> discusses;
+    private List<DiscussEntiry> discuss;
 
     public List<BannerEntity> getBanners() {
         return banners;
@@ -21,11 +23,11 @@ public class DiscussPageEntity implements Serializable {
         this.banners = banners;
     }
 
-    public List<DiscussEntiry> getDiscusses() {
-        return discusses;
+    public List<DiscussEntiry> getDiscuss() {
+        return discuss;
     }
 
-    public void setDiscusses(List<DiscussEntiry> discusses) {
-        this.discusses = discusses;
+    public void setDiscuss(List<DiscussEntiry> discuss) {
+        this.discuss = discuss;
     }
 }

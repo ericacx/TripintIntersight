@@ -30,14 +30,25 @@ public class AskAnswerPageDetailMultipleAdapter extends BaseMultiItemQuickAdapte
 
     @Override
     protected void convert(BaseViewHolder helper, MultipleChatItemModel item) {
+        String sperialist = "";
+        String avatar = "";
+        if (item.getContent().getUser() != null) {
+            if (item.getContent().getUser().getCompany() != null) {
+                sperialist = item.getContent().getUser().getCompany().getName();
+            }
+            if (item.getContent().getUser().getAbility() != null) {
+                sperialist += item.getContent().getUser().getAbility().getName();
+            }
+            avatar = item.getContent().getUser().getAvatar();
+        }
         switch (helper.getItemViewType()){
             case MultipleChatItemModel.CHAT_LEFT:
-                helper.setText(R.id.textView_item_ask_specialist, item.getContent().getPersonName() + item.getContent().getCompany() + item.getContent().getJobTitle())
-                        .setText(R.id.textView_item_ask_title, StringUtils.null2Length0(item.getContent().getMessage()))
-                        .setText(R.id.textView_item_ask_date_time, StringUtils.null2Length0(item.getContent().getDatetime()))
+                helper.setText(R.id.textView_item_ask_specialist, sperialist)
+                        .setText(R.id.textView_item_ask_title, StringUtils.null2Length0(item.getContent().getContent()))
+                        .setText(R.id.textView_item_ask_date_time, StringUtils.null2Length0(item.getContent().getContent()))
                 ;
 
-                Glide.with(mContext).load(item.getContent().getProfileImgUrl())
+                Glide.with(mContext).load(avatar)
                         .crossFade()
                         .placeholder(R.mipmap.iconfont_wechat)
                         .transform(new GlideCircleTransform(mContext))
@@ -45,12 +56,12 @@ public class AskAnswerPageDetailMultipleAdapter extends BaseMultiItemQuickAdapte
 
                 break;
             case MultipleChatItemModel.CHAT_RIGHT:
-                helper.setText(R.id.textView_item_ask_specialist, item.getContent().getPersonName() + item.getContent().getCompany() + item.getContent().getJobTitle())
-                        .setText(R.id.textView_item_ask_title, StringUtils.null2Length0(item.getContent().getMessage()))
-                        .setText(R.id.textView_item_ask_date_time, StringUtils.null2Length0(item.getContent().getDatetime()))
+                helper.setText(R.id.textView_item_ask_specialist, sperialist)
+                        .setText(R.id.textView_item_ask_title, StringUtils.null2Length0(item.getContent().getContent()))
+                        .setText(R.id.textView_item_ask_date_time, StringUtils.null2Length0(item.getContent().getContent()))
                 ;
 
-                Glide.with(mContext).load(item.getContent().getProfileImgUrl())
+                Glide.with(mContext).load(avatar)
                         .crossFade()
                         .placeholder(R.mipmap.iconfont_wechat)
                         .transform(new GlideCircleTransform(mContext))

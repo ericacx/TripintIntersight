@@ -1,6 +1,7 @@
 package com.tripint.intersight.model;
 
 import com.tripint.intersight.common.widget.recyclerviewadapter.entity.MultiItemEntity;
+import com.tripint.intersight.entity.discuss.DiscussEntiry;
 
 /**
  * Created by lirichen on 2016/9/20.
@@ -13,21 +14,21 @@ public class MultipleChatItemModel implements MultiItemEntity{
 
     public static final int SPAN_SIZE = 1;
 
-    public MultipleChatItemModel(int itemType, QADetailModel model){
+
+    private int itemType;
+    private DiscussEntiry content;
+
+
+    public MultipleChatItemModel(int itemType, DiscussEntiry model){
         this.itemType = itemType;
         this.content = model;
     }
 
-    private int itemType;
-    private QADetailModel content;
-
-
-
-    public QADetailModel getContent() {
+    public DiscussEntiry getContent() {
         return content;
     }
 
-    public void setContent(QADetailModel content) {
+    public void setContent(DiscussEntiry content) {
         this.content = content;
     }
 

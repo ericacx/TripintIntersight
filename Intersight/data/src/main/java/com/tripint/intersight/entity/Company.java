@@ -1,6 +1,7 @@
 package com.tripint.intersight.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
  * Created by lirichen on 2016/9/21.
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Company implements Serializable {
     private int id;
     private int pid;

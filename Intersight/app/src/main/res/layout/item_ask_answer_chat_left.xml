@@ -25,7 +25,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="7"
+        android:layout_weight="8"
         android:orientation="vertical">
 
         <TextView
@@ -34,9 +34,9 @@
             android:layout_height="@dimen/height_4_80"
             android:layout_gravity="center_vertical"
             android:textColor="@color/grey_500"
-            android:background="@mipmap/bg_voice"
+            android:gravity="center_vertical"
             android:text="目前AR技术的整体发展ngukey未来演讲方向????"
-            android:textSize="@dimen/text_size_14"
+            android:textSize="@dimen/text_size_12"
             android:layout_margin="@dimen/spacing_pad04"/>
 
         <TextView
@@ -46,8 +46,9 @@
             android:layout_gravity="center_vertical"
             android:lines="2"
             android:textColor="@color/grey_100"
+            android:background="@drawable/img_yuyin_gary"
             android:text="目前AR技术的整体发展ngukey未来演讲方向????"
-            android:textSize="@dimen/text_size_20"
+            android:textSize="@dimen/text_size_14"
             android:layout_margin="@dimen/spacing_pad04"/>
 
 
@@ -59,7 +60,7 @@
                 android:layout_gravity="right"
                 android:textColor="@color/grey_500"
                 android:text="2016.09.12 12:00:00"
-                android:textSize="@dimen/text_size_20"
+                android:textSize="@dimen/text_size_9"
                 android:layout_margin="@dimen/spacing_pad04"/>
 
     </LinearLayout>

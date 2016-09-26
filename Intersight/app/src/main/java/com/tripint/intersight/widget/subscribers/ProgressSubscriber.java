@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.widget.progress.ProgressCancelListener;
 import com.tripint.intersight.widget.progress.ProgressDialogHandler;
 
@@ -70,12 +71,12 @@ public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCanc
     @Override
     public void onError(Throwable e) {
         if (e instanceof SocketTimeoutException) {
-            Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
+            CommonUtils.showToast("网络中断，请检查您的网络状态");
         } else if (e instanceof ConnectException) {
-            Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
+            CommonUtils.showToast("网络中断，请检查您的网络状态");
         } else {
-            Toast.makeText(context, "error: unknown", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, e.getMessage());
+            CommonUtils.showToast("未知错误,请查看日志异常");
+            Log.e(TAG, e.getMessage());
         }
         dismissProgressDialog();
 
@@ -102,4 +103,5 @@ public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCanc
             this.unsubscribe();
         }
     }
+
 }
