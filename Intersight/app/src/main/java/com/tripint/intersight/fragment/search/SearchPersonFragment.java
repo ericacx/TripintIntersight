@@ -145,7 +145,7 @@ public class SearchPersonFragment extends BaseBackFragment {
             }
         };
 
-        BaseDataHttpRequest.getInstance().getSearchFilterInterviewer(new ProgressSubscriber(subscriber, mActivity));
+        BaseDataHttpRequest.getInstance(mActivity).getSearchFilterInterviewer(new ProgressSubscriber(subscriber, mActivity));
     }
 
 

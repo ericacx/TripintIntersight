@@ -1,4 +1,4 @@
-package com.tripint.intersight.fragment.discuss;
+package com.tripint.intersight.fragment.home;
 
 
 import android.os.Bundle;
@@ -22,10 +22,8 @@ import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
 import com.tripint.intersight.entity.discuss.DiscussDetailEntiry;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
-import com.tripint.intersight.entity.discuss.DiscussPageEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.MultipleChatItemModel;
-import com.tripint.intersight.model.QADetailModel;
 import com.tripint.intersight.model.QAModel;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
@@ -147,7 +145,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
         };
 
 
-        DiscussDataHttpRequest.getInstance().getDiscussDetail(new ProgressSubscriber(subscriber, mActivity), mDiscussId);
+        DiscussDataHttpRequest.getInstance(mActivity).getDiscussDetail(new ProgressSubscriber(subscriber, mActivity), mDiscussId);
     }
 
 

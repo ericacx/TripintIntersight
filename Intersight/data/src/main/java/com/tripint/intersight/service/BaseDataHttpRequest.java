@@ -1,5 +1,7 @@
 package com.tripint.intersight.service;
 
+import android.content.Context;
+
 import com.tripint.intersight.entity.CodeDataEntity;
 import com.tripint.intersight.entity.ForgetPasswordEntity;
 import com.tripint.intersight.entity.Industry;
@@ -25,19 +27,20 @@ public class BaseDataHttpRequest extends HttpRequest {
 
     private BaseDataService baseDataService;
 
-    private BaseDataHttpRequest() {
-        super();
+    private BaseDataHttpRequest(Context context) {
+        super(context);
         baseDataService = retrofit.create(BaseDataService.class);
 
     }
 
-    //在访问HttpMethods时创建单例
-    private static class SingletonHolder {
-        private static final BaseDataHttpRequest INSTANCE = new BaseDataHttpRequest();
-    }
+    private static BaseDataHttpRequest instants;
 
-    public static BaseDataHttpRequest getInstance() {
-        return SingletonHolder.INSTANCE;
+
+    public static BaseDataHttpRequest getInstance(Context context) {
+        if (instants == null) {
+            instants = new BaseDataHttpRequest(context);
+        }
+        return instants;
     }
 
 

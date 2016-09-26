@@ -104,7 +104,7 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
             }
         };
 
-        BaseDataHttpRequest.getInstance().getSearchFilterArticles(new ProgressSubscriber(subscriber, mActivity));
+        BaseDataHttpRequest.getInstance(mActivity).getSearchFilterArticles(new ProgressSubscriber(subscriber, mActivity));
     }
 
     private void initFilterDropDownView() {

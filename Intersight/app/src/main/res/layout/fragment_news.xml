@@ -6,7 +6,7 @@
     tools:context="com.tripint.intersight.fragment.NewsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <se.emilsjolander.flipview.FlipView
+    <com.tripint.intersight.common.widget.flipview.FlipView
         android:id="@+id/newsFlipView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

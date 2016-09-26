@@ -32,6 +32,6 @@ public class FocusTradeActivity extends AppCompatActivity {
             }
         };
 
-        BaseDataHttpRequest.getInstance().getIndustry(new ProgressSubscriber(subscriber, FocusTradeActivity.this), 0, 10);
+        BaseDataHttpRequest.getInstance(this).getIndustry(new ProgressSubscriber(subscriber, FocusTradeActivity.this), 0, 10);
     }
 }

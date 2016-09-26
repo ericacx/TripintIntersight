@@ -11,6 +11,13 @@ public class EnumKey {
     /**
      * 用于应用ACache缓存KEY
      */
+    public class User {
+        public static final String USER_TOKEN = "user_token"; //
+    }
+
+    /**
+     * 用于应用ACache缓存KEY
+     */
     public class ACacheKey {
         public static final String BUREAU_CITY = "bureauCity"; //当前城市
         public static final String LOGIN_INFO = "LoginInfo"; //保存登录账号信息KEY

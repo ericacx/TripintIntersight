@@ -1,6 +1,7 @@
 package com.tripint.intersight.service;
 
 
+import android.content.Context;
 import android.util.Log;
 
 import com.tripint.intersight.common.ApiException;
@@ -38,14 +39,17 @@ public class HttpRequest {
 
     protected Retrofit retrofit;
 
+    protected Context mContext;
+
     //构造方法私有
-    protected HttpRequest() {
+    protected HttpRequest(Context context) {
         //手动创建一个OkHttpClient并设置超时时间
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addNetworkInterceptor(new LoggingInterceptor());
         builder.addInterceptor(new ParameterInterceptor());
-        builder.addInterceptor(new HeaderInterceptor());
+        builder.addInterceptor(new HeaderInterceptor(context));
         builder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+        mContext = context;
 
         retrofit = new Retrofit.Builder()
                 .client(builder.build())
@@ -54,16 +58,6 @@ public class HttpRequest {
                 .baseUrl(BASE_URL)
                 .build();
 
-    }
-
-    //在访问HttpMethods时创建单例
-    private static class SingletonHolder{
-        private static final HttpRequest INSTANCE = new HttpRequest();
-    }
-
-    //获取单例
-    public static HttpRequest getInstance(){
-        return SingletonHolder.INSTANCE;
     }
 
 

@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tripint.intersight.R;
+import com.tripint.intersight.common.cache.ACache;
+import com.tripint.intersight.common.enumkey.EnumKey;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.entity.CodeDataEntity;
 import com.tripint.intersight.entity.user.RegisterEntity;
@@ -88,6 +90,8 @@ public class ResigterActivity extends AppCompatActivity implements View.OnClickL
             public void onNext(RegisterEntity entity) {
                 //接口请求成功后处理
                 registerEntity = entity;
+                ACache.get(ResigterActivity.this).put(EnumKey.User.USER_TOKEN, entity.getToken());
+
                 Log.e("bbb","发送注册请求回调");
 
 //                intent.setClass(ResigterActivity.this, InterestedActivity.class);
@@ -134,7 +138,7 @@ public class ResigterActivity extends AppCompatActivity implements View.OnClickL
                 } else {
 //                    httpRequestCodeData();
                     //发送验证码请求
-                    BaseDataHttpRequest.getInstance().getCode(
+                    BaseDataHttpRequest.getInstance(this).getCode(
                             new ProgressSubscriber(subscriberCode, ResigterActivity.this)
                             , registerEtPhone.getText().toString());
                 }
@@ -170,7 +174,7 @@ public class ResigterActivity extends AppCompatActivity implements View.OnClickL
                 } else {
                     User user = new User(registerEtPhone.getText().toString(),registerCreatePassword.getText().toString(), Integer.parseInt(registerInputVerifyCode.getText().toString()));
                     //发送注册请求
-                    BaseDataHttpRequest.getInstance().postRegister(
+                    BaseDataHttpRequest.getInstance(this).postRegister(
                             new ProgressSubscriber(subscriber, ResigterActivity.this)
                             , user);
 

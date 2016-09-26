@@ -1,5 +1,7 @@
 package com.tripint.intersight.service;
 
+import android.content.Context;
+
 import com.tripint.intersight.entity.discuss.DiscussDetailEntiry;
 import com.tripint.intersight.entity.discuss.DiscussPageEntity;
 
@@ -17,19 +19,20 @@ public class DiscussDataHttpRequest extends HttpRequest {
 
     private DiscussDataService service;
 
-    private DiscussDataHttpRequest() {
-        super();
+    private DiscussDataHttpRequest(Context context) {
+        super(context);
         service = retrofit.create(DiscussDataService.class);
 
     }
 
-    //在访问HttpMethods时创建单例
-    private static class SingletonHolder {
-        private static final DiscussDataHttpRequest INSTANCE = new DiscussDataHttpRequest();
-    }
+    private static DiscussDataHttpRequest instants;
 
-    public static DiscussDataHttpRequest getInstance() {
-        return SingletonHolder.INSTANCE;
+
+    public static DiscussDataHttpRequest getInstance(Context context) {
+        if (instants == null) {
+            instants = new DiscussDataHttpRequest(context);
+        }
+        return instants;
     }
 
 

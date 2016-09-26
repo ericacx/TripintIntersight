@@ -103,7 +103,7 @@ public class ForgetPasswordActivity extends AppCompatActivity implements View.On
     //发送验证码请求
     private void httpRequestCodeData() {
 
-        BaseDataHttpRequest.getInstance().getCode(
+        BaseDataHttpRequest.getInstance(this).getCode(
                 new ProgressSubscriber(subscriberCode, ForgetPasswordActivity.this)
                 , forgetPasswordEtPhone.getText().toString());
     }

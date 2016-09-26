@@ -1,7 +1,6 @@
-package com.tripint.intersight.fragment.discuss;
+package com.tripint.intersight.fragment.home;
 
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -18,13 +17,11 @@ import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.AskAnswerPageAdapter;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
-import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.discuss.DiscussPageEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseFragment;
-import com.tripint.intersight.model.QAModel;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.widget.BannerViewHolder;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
@@ -106,7 +103,7 @@ public class AskAnswerFragment extends BaseFragment {
         };
 
 
-        DiscussDataHttpRequest.getInstance().getDiscusses(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
+        DiscussDataHttpRequest.getInstance(mActivity).getDiscusses(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
     }
 
     protected void initView(View view) {

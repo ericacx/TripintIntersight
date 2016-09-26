@@ -28,6 +28,7 @@ import com.tripint.intersight.activity.ResigterActivity;
 import com.tripint.intersight.activity.base.BaseActivity;
 import com.tripint.intersight.app.InterSightApp;
 import com.tripint.intersight.common.cache.ACache;
+import com.tripint.intersight.common.enumkey.EnumKey;
 import com.tripint.intersight.entity.user.LoginEntity;
 import com.tripint.intersight.entity.user.User;
 import com.tripint.intersight.fragment.base.BaseCloseFragment;
@@ -116,9 +117,10 @@ public class LoginFragment extends BaseCloseFragment {
                 //接口请求成功后处理
                 loginEntity = entity;
                 Log.e("aaa",entity.getToke());
-//                Intent intent = new Intent();
-//                intent.setClass(mContext,MainActivity.class);
-//                startActivity(intent);
+                ACache.get(mActivity).put(EnumKey.User.USER_TOKEN, entity.getToke());
+                Intent intent = new Intent();
+                intent.setClass(mContext, MainActivity.class);
+                startActivity(intent);
             }
         };
     }
@@ -136,7 +138,7 @@ public class LoginFragment extends BaseCloseFragment {
 
                 User user = new User(login_et_username.getText().toString().trim(),login_et_password.getText().toString().trim());
 
-                BaseDataHttpRequest.getInstance().postLogin(
+                BaseDataHttpRequest.getInstance(mActivity).postLogin(
                         new ProgressSubscriber(subscriber, mContext), user);
 
                 intent = new Intent();
