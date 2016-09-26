@@ -1,27 +1,20 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.tripint.intersight.fragment.AskFragment">
+
+    android:background="@mipmap/background_default">
 
     <include layout="@layout/toolbar_search" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/height_7_80"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <com.bigkoo.convenientbanner.ConvenientBanner
-            android:id="@+id/convenientBanner"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:canLoop="true" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/askRecyclerView"
-            android:scrollbars="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/askRecyclerView"
+        android:layout_marginTop="@dimen/actionbar_height"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:background="@android:color/transparent" />
+
 </FrameLayout>

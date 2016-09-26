@@ -1,160 +1,193 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/background_default"
     android:orientation="vertical"
     tools:context="com.tripint.intersight.fragment.SettingFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:src="@mipmap/ic_launcher"
-            android:layout_alignParentLeft="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:text="设置"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_6_80"
+            android:layout_marginTop="@dimen/spacing"
+            android:background="@drawable/bg_corners_grey">
 
-    </RelativeLayout>
-    <View
-        android:background="@color/line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+            <TextView
+                android:id="@+id/setting_tv_account"
+                style="@style/text_24px_styles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/spacing"
+                android:text="帐号信息"
+                android:textColor="@color/green_50" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/setting_tv_account"
-            android:text="帐号信息"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:src="@mipmap/ic_launcher"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/iconfont_nextarticle" />
+        </RelativeLayout>
 
-    <View
-        android:background="@color/line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="意见反馈"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:src="@mipmap/ic_launcher"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_container_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_6_80"
+            android:layout_marginTop="@dimen/spacing"
+            android:background="@drawable/bg_corners_grey">
 
-    <View
-        android:background="@color/line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+            <TextView
+                style="@style/text_24px_styles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/spacing"
+                android:text="意见反馈"
+                android:textColor="@color/green_50" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="关于洞察+"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:src="@mipmap/ic_launcher"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/iconfont_nextarticle" />
+        </RelativeLayout>
 
-    <View
-        android:background="@color/line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line" />
 
-    <RelativeLayout
-        android:id="@+id/setting_clear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="清除缓存"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/setting_tvCacheSize"
-            android:text="已用缓存:"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/setting_iv_arrow"
-            android:layout_marginRight="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:id="@+id/setting_iv_arrow"
-            android:src="@mipmap/ic_launcher"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_6_80"
+            android:background="@drawable/bg_corners_grey">
 
-    <View
-        android:background="@color/line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+            <TextView
+                style="@style/text_24px_styles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/spacing"
+                android:text="关于洞察+"
+                android:textColor="@color/green_50" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="检查更新"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:text="1.1.0"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/settingIvArrow"
-            android:layout_marginRight="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:id="@+id/settingIvArrow"
-            android:src="@mipmap/ic_launcher"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
-    <View
-        android:background="@color/line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/iconfont_nextarticle" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/setting_clear"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_6_80"
+            android:layout_marginTop="@dimen/spacing"
+            android:background="@drawable/bg_corners_grey">
+
+            <TextView
+                style="@style/text_24px_styles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/spacing"
+                android:text="清除缓存"
+                android:textColor="@color/green_50" />
+
+            <TextView
+                android:id="@+id/setting_tvCacheSize"
+                style="@style/text_24px_styles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/setting_iv_arrow"
+                android:text="已用缓存:"
+                android:textColor="@color/green_50" />
+
+            <ImageView
+                android:id="@+id/setting_iv_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/iconfont_nextarticle" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_6_80"
+            android:background="@drawable/bg_corners_grey">
+
+            <TextView
+                style="@style/text_24px_styles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/spacing"
+                android:text="检查更新"
+                android:textColor="@color/green_50" />
+
+            <TextView
+                style="@style/text_24px_styles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/spacing"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/settingIvArrow"
+                android:text="1.1.0"
+                android:textColor="@color/green_50" />
+
+            <ImageView
+                android:id="@+id/settingIvArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/iconfont_nextarticle" />
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <Button
-        android:text="退出登录"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="@dimen/spacing_04"
+        android:layout_marginRight="@dimen/spacing_04"
+        android:background="@drawable/btn_shape"
+        android:layout_marginBottom="@dimen/height_8_80"
+        android:text="退出登录" />
 
     <TextView
-        android:text="洞察+平台服务协议"
-        android:textColor="@color/blue"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
-</LinearLayout>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/height_4_80"
+        android:gravity="center"
+        android:text="洞察+平台服务协议"
+        android:textColor="@color/blue" />
+
+</FrameLayout>

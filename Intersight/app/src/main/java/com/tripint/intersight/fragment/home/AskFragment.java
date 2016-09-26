@@ -1,4 +1,4 @@
-package com.tripint.intersight.fragment;
+package com.tripint.intersight.fragment.home;
 
 
 import android.os.Bundle;
@@ -21,13 +21,13 @@ import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.AskAnswerPageAdapter;
+import com.tripint.intersight.adapter.AskRecyclerViewAdapter;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.discuss.DiscussPageEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
-import com.tripint.intersight.fragment.home.AskAnswerDetailFragment;
 import com.tripint.intersight.fragment.search.SearchMainFragment;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.widget.BannerViewHolder;
@@ -46,22 +46,19 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AskFragment extends BaseLazyMainFragment implements AdapterView.OnItemClickListener, ViewPager.OnPageChangeListener, OnItemClickListener {
+public class AskFragment extends BaseLazyMainFragment {
 
 
     @Bind(R.id.toolbar_search_text)
     TextView toolbarSearchText;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.convenientBanner)
-    ConvenientBanner convenientBanner;
     @Bind(R.id.askRecyclerView)
     RecyclerView mRecyclerView;
     @Bind(R.id.toolbar_search_button)
     ImageView toolbarSearchButton;
-    private List<String> networkImaAskFragmentges;
 
-    private AskAnswerPageAdapter mAdapter;
+    private AskRecyclerViewAdapter mAdapter;
 
 
     private PageDataSubscriberOnNext<DiscussPageEntity> subscriber;
@@ -95,11 +92,11 @@ public class AskFragment extends BaseLazyMainFragment implements AdapterView.OnI
         View view = inflater.inflate(R.layout.fragment_ask, container, false);
         ButterKnife.bind(this, view);
 
-        initView(view);
+        httpRequestData();
         return view;
     }
 
-    private void httpRequestData(int type) {
+    private void httpRequestData() {
         subscriber = new PageDataSubscriberOnNext<DiscussPageEntity>() {
             @Override
             public void onNext(DiscussPageEntity entity) {
@@ -112,7 +109,7 @@ public class AskFragment extends BaseLazyMainFragment implements AdapterView.OnI
         };
 
 
-        DiscussDataHttpRequest.getInstance(mActivity).getDiscusses(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
+        DiscussDataHttpRequest.getInstance(mActivity).getDiscusses(new ProgressSubscriber(subscriber, mActivity), 1, 10);
     }
 
     protected void initView(View view) {
@@ -120,23 +117,12 @@ public class AskFragment extends BaseLazyMainFragment implements AdapterView.OnI
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
-        //网络加载
         networkImages = Arrays.asList(images);
-        convenientBanner.setPages(new CBViewHolderCreator<BannerViewHolder>() {
-            @Override
-            public BannerViewHolder createHolder() {
-                return new BannerViewHolder();
-            }
-        }, networkImages)
-                //小圆点
-                .setPageIndicator(new int[]{R.mipmap.ic_page_indicator, R.mipmap.ic_page_indicator_focused});
-
 
     }
 
     private void initAdapter() {
-        mAdapter = new AskAnswerPageAdapter(data.getDiscuss());
+        mAdapter = new AskRecyclerViewAdapter(data.getDiscuss());
         mAdapter.openLoadAnimation();
 
         mRecyclerView.addOnItemTouchListener(new com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener() {
@@ -194,50 +180,11 @@ public class AskFragment extends BaseLazyMainFragment implements AdapterView.OnI
         };
     }
 
-    //开始自动翻页
-    @Override
-    public void onStart() {
-        super.onStart();
-        convenientBanner.startTurning(2000);
-    }
-
-    // 停止自动翻页
-    @Override
-    public void onStop() {
-        super.onStop();
-        //停止翻页
-        convenientBanner.stopTurning();
-    }
-
     @Override
     protected void initLazyView(@Nullable Bundle savedInstanceState) {
 
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
-
-    @Override
-    public void onItemClick(int position) {
-
-    }
 
     @Override
     public void onDestroyView() {
