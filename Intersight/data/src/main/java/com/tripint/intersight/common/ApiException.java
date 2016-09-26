@@ -7,6 +7,8 @@ public class ApiException extends RuntimeException {
 
     public static final int USER_NOT_EXIST = 100;
     public static final int WRONG_PASSWORD = 101;
+    public static final int WRONG_PASSWORD2 = 102;
+
 
     public ApiException(int resultCode) {
         this(getApiExceptionMessage(resultCode));
@@ -26,10 +28,10 @@ public class ApiException extends RuntimeException {
         String message = "";
         switch (code) {
             case USER_NOT_EXIST:
-                message = "该用户不存在";
+                message = "请选择角色";
                 break;
             case WRONG_PASSWORD:
-                message = "密码错误";
+                message = "选择感兴趣的行业";
                 break;
             default:
                 message = "未知错误";

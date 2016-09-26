@@ -84,10 +84,15 @@ public class HttpRequest {
         @Override
         public T call(BaseResponse<T> response) {
 
-            if (response.getCode() != 200) {
-                throw new ApiException(response.getCode());
+            if (response.getCode() == 200) {
+                return response.getData();
+
+            } else if (response.getCode() == 100){
+                return response.getData();
+            } else if (response.getCode() == 101){
+                return response.getData();
             }
-            return response.getData();
+            throw new ApiException(response.getCode());
         }
     }
 

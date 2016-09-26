@@ -5,6 +5,7 @@ import com.tripint.intersight.entity.ForgetPasswordEntity;
 import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
+import com.tripint.intersight.entity.user.LoginEntity;
 import com.tripint.intersight.entity.user.RegisterEntity;
 import com.tripint.intersight.entity.user.User;
 
@@ -77,6 +78,18 @@ public class BaseDataHttpRequest extends HttpRequest {
 
         Observable observable = baseDataService.getSearchFilter(FLITER_TYPE_ARTICLES)
                 .map(new HttpResultFunc<SearchFilterEntity>());
+
+        toSubscribe(observable, subscriber);
+    }
+
+    /***
+     * 用于获取登录数据
+     * @param subscriber
+     */
+    public void postLogin(Subscriber<LoginEntity.UserInfoBean> subscriber, User user){
+
+        Observable observable = baseDataService.postLogin(user)
+                .map(new HttpResultFunc<LoginEntity.UserInfoBean>());
 
         toSubscribe(observable, subscriber);
     }

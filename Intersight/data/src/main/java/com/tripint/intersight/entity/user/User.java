@@ -1,9 +1,11 @@
 package com.tripint.intersight.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by Eric on 16/9/23.
  */
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
     private String email;
@@ -11,6 +13,12 @@ public class User {
     private int code;
 
     public User() {
+    }
+
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
     }
 
     public User(String email, String password, int code) {

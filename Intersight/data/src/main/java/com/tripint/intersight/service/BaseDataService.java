@@ -7,6 +7,7 @@ import com.tripint.intersight.entity.ForgetPasswordEntity;
 import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
+import com.tripint.intersight.entity.user.LoginEntity;
 import com.tripint.intersight.entity.user.RegisterEntity;
 import com.tripint.intersight.entity.user.User;
 
@@ -37,6 +38,13 @@ public interface BaseDataService {
     Observable<BaseResponse<RegisterEntity>> postRegister(
             @Body User user
     );
+
+    //登录
+    @POST("login")
+    Observable<BaseResponse<LoginEntity.UserInfoBean>> postLogin(
+            @Body User user
+    );
+
 
     //手机发送短信
     @GET("send/code")

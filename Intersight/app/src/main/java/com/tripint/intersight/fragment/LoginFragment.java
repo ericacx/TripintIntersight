@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +28,14 @@ import com.tripint.intersight.activity.ResigterActivity;
 import com.tripint.intersight.activity.base.BaseActivity;
 import com.tripint.intersight.app.InterSightApp;
 import com.tripint.intersight.common.cache.ACache;
+import com.tripint.intersight.entity.user.LoginEntity;
+import com.tripint.intersight.entity.user.User;
 import com.tripint.intersight.fragment.base.BaseCloseFragment;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.helper.ProgressDialogUtils;
+import com.tripint.intersight.service.BaseDataHttpRequest;
+import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
+import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
@@ -39,6 +45,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscriber;
 
 
 public class LoginFragment extends BaseCloseFragment {
@@ -67,7 +74,8 @@ public class LoginFragment extends BaseCloseFragment {
 
     private HashMap<String, String> params = new HashMap<String, String>();
 
-
+    private LoginEntity.UserInfoBean loginEntity;
+    private PageDataSubscriberOnNext<LoginEntity.UserInfoBean> subscriber;
 
     public static LoginFragment newInstance() {
 
@@ -101,6 +109,18 @@ public class LoginFragment extends BaseCloseFragment {
 
         initToolbarNav(toolbar);
 
+        //验证码
+        subscriber = new PageDataSubscriberOnNext<LoginEntity.UserInfoBean>() {
+            @Override
+            public void onNext(LoginEntity.UserInfoBean entity) {
+                //接口请求成功后处理
+                loginEntity = entity;
+                Log.e("aaa",entity.getToke());
+//                Intent intent = new Intent();
+//                intent.setClass(mContext,MainActivity.class);
+//                startActivity(intent);
+            }
+        };
     }
 
 
@@ -113,11 +133,18 @@ public class LoginFragment extends BaseCloseFragment {
                 startActivity(intent);
                 break;
             case R.id.login_button_login:
-                intent.setClass(mActivity, MainActivity.class);
+
+                User user = new User(login_et_username.getText().toString().trim(),login_et_password.getText().toString().trim());
+
+                BaseDataHttpRequest.getInstance().postLogin(
+                        new ProgressSubscriber(subscriber, mContext), user);
+
+                intent = new Intent();
+                intent.setClass(mContext,MainActivity.class);
                 startActivity(intent);
 //                Bundle bundle = new Bundle();
-
 //                setFramgentResult(RESULT_OK, bundle);
+
                 break;
             case R.id.login_button_register:
                 intent.setClass(mActivity, ResigterActivity.class);
@@ -131,7 +158,7 @@ public class LoginFragment extends BaseCloseFragment {
                 sharedLogin(platform);
                 break;
         }
-    }
+      }
 
 
     protected void initLazyView(@Nullable Bundle savedInstanceState) {

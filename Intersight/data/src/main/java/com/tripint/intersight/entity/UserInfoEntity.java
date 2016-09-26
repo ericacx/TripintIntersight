@@ -1,5 +1,6 @@
 package com.tripint.intersight.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -8,7 +9,7 @@ import java.io.Serializable;
  * 个人信息
  * Created by Eric on 16/9/24.
  */
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserInfoEntity implements Serializable {
 
     private String nickname;

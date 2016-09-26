@@ -24,7 +24,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ForgetPasswordActivity extends AppCompatActivity {
+public class ForgetPasswordActivity extends AppCompatActivity implements View.OnClickListener{
 
     @Bind(R.id.register_back)
     ImageView registerBack;
@@ -73,9 +73,6 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     }
 
 
-
-
-
     @OnClick({R.id.forgetPasswordBtnCode, R.id.forgetPasswordBtnSubmit})
     public void onClick(View view) {
 
@@ -87,13 +84,9 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.forgetPasswordBtnCode:
                 if (TextUtils.isEmpty(phone)) {
-                    forgetPasswordBtnCode.setClickable(false);
                     ToastUtil.showToast(ForgetPasswordActivity.this, "手机号不能为空");
-                    return;
-                }
-                else if (PhoneUtils.isPhone(phone)) {
+                } else if (PhoneUtils.isPhone(phone)) {
                     ToastUtil.showToast(ForgetPasswordActivity.this, "请输入正确的手机号");
-                    return;
                 }else {
                     forgetPasswordBtnCode.setClickable(true);
                     forgetPasswordBtnCode.setText("重新获取(" + time + ")");
