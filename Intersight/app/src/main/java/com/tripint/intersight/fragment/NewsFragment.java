@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tripint.intersight.R;
+import com.tripint.intersight.common.widget.flipview.FlipView;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.fragment.flipview.NewsFlipViewAdapter;
 
-import se.emilsjolander.flipview.FlipView;
 
 /**
  * A simple {@link Fragment} subclass.

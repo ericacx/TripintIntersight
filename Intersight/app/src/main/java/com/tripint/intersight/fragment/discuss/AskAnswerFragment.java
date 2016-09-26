@@ -19,6 +19,7 @@ import com.tripint.intersight.adapter.AskAnswerPageAdapter;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
+import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.discuss.DiscussPageEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
@@ -175,21 +176,13 @@ public class AskAnswerFragment extends BaseFragment {
         mAdapter = new AskAnswerPageAdapter(data.getDiscuss());
         mAdapter.openLoadAnimation();
 
-        mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
+        mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
+
             @Override
-            public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
                 String content = null;
                 DiscussEntiry entity = (DiscussEntiry) adapter.getItem(position);
-//                switch (view.getId()) {
-//                    case R.id.image_ask_profile:
-//                        content = "img:" + status.get();
-//                        break;
-//                    case R.id.textView_item_ask_title:
-//                        content = "name:" + status.getTitle();
-//                        break;
-//                }
                 EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity)));
-
             }
         });
 

@@ -8,11 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tripint.intersight.R;
+import com.tripint.intersight.common.widget.flipview.FlipView;
 import com.tripint.intersight.fragment.flipview.OpinionFlipViewAdapter2;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import se.emilsjolander.flipview.FlipView;
 
 /**
  * 观点(文章)画面
