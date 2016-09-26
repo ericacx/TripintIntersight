@@ -3,6 +3,7 @@ package com.tripint.intersight.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import android.widget.RelativeLayout;
 import com.tripint.intersight.R;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
-import com.tripint.intersight.fragment.search.SearchMainFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -28,6 +28,8 @@ public class SettingFragment extends BaseBackFragment {
 
     @Bind(R.id.layout_container_feedback)
     RelativeLayout layoutContainerFeedback;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
     public SettingFragment() {
         // Required empty public constructor
@@ -49,6 +51,7 @@ public class SettingFragment extends BaseBackFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
         ButterKnife.bind(this, view);
+        toolbar.setTitle("设置");
         return view;
     }
 

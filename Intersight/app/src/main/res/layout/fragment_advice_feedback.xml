@@ -16,6 +16,7 @@
         android:layout_height="@dimen/height_32_80">
         <TextView
             android:gravity="center"
+            android:textColor="@color/green_50"
             android:layout_centerHorizontal="true"
             android:text="感谢您的建议"
             android:layout_width="match_parent"
