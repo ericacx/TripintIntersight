@@ -65,8 +65,6 @@ public class ResigterActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_resigter);
         ButterKnife.bind(this);
         initView();
-
-
     }
 
     /**
@@ -80,7 +78,7 @@ public class ResigterActivity extends AppCompatActivity implements View.OnClickL
             public void onNext(CodeDataEntity entity) {
                 //接口请求成功后处理
                 codeDataEntity = entity;
-                Log.e("aaa",entity.getFlg());
+                Log.e("aaa", entity.getFlg());
             }
         };
 
@@ -91,11 +89,14 @@ public class ResigterActivity extends AppCompatActivity implements View.OnClickL
                 //接口请求成功后处理
                 registerEntity = entity;
                 ACache.get(ResigterActivity.this).put(EnumKey.User.USER_TOKEN, entity.getToken());
-
-                Log.e("bbb","发送注册请求回调");
-
-//                intent.setClass(ResigterActivity.this, InterestedActivity.class);
-//                startActivity(intent);
+                Log.e("register",entity.getToken());
+                Log.e("register", String.valueOf(entity.getStatus()));
+                int status = entity.getStatus();
+                if (status == 100){
+                    Intent intent = new Intent();
+                    intent.setClass(ResigterActivity.this, InterestedActivity.class);
+                    startActivity(intent);
+                }
             }
         };
 
@@ -136,11 +137,10 @@ public class ResigterActivity extends AppCompatActivity implements View.OnClickL
                 } else if (registerEtPhone.getText().toString().length() != 11) {
                     ToastUtil.showToast(ResigterActivity.this, "请输入正确的手机号");
                 } else {
-//                    httpRequestCodeData();
                     //发送验证码请求
-                    BaseDataHttpRequest.getInstance(this).getCode(
+                    BaseDataHttpRequest.getInstance(ResigterActivity.this).getCode(
                             new ProgressSubscriber(subscriberCode, ResigterActivity.this)
-                            , registerEtPhone.getText().toString());
+                            , registerEtPhone.getText().toString().trim());
                 }
                 registerVerifyCode.setText("重新获取(" + time + ")");
                 registerVerifyCode.setClickable(false);
@@ -172,12 +172,11 @@ public class ResigterActivity extends AppCompatActivity implements View.OnClickL
                 } else if (registerInputPassword.getText().toString().length() < 6 || registerInputPassword.getText().toString().length() > 16) {
                     ToastUtil.showToast(ResigterActivity.this, "请输入6~16位的字符或者数字作为密码");
                 } else {
-                    User user = new User(registerEtPhone.getText().toString(),registerCreatePassword.getText().toString(), Integer.parseInt(registerInputVerifyCode.getText().toString()));
+                    User user = new User(registerEtPhone.getText().toString(), registerCreatePassword.getText().toString(), Integer.parseInt(registerInputVerifyCode.getText().toString()));
                     //发送注册请求
-                    BaseDataHttpRequest.getInstance(this).postRegister(
+                    BaseDataHttpRequest.getInstance(ResigterActivity.this).postRegister(
                             new ProgressSubscriber(subscriber, ResigterActivity.this)
                             , user);
-
                 }
                 break;
 

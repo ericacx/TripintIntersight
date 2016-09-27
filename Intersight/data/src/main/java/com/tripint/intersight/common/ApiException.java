@@ -5,9 +5,12 @@ package com.tripint.intersight.common;
  */
 public class ApiException extends RuntimeException {
 
-    public static final int USER_NOT_EXIST = 100;
-    public static final int WRONG_PASSWORD = 101;
-    public static final int WRONG_PASSWORD2 = 102;
+    public static final int CHOOSE_ROLE = 100;
+    public static final int CHOOSE_TRADE = 101;
+    public static final int INTER_MAIN = 102;
+    public static final int INPUT_REEOR = 406;
+    public static final int REGISTER_USER_EXIST = 409;
+
 
 
     public ApiException(int resultCode) {
@@ -27,15 +30,24 @@ public class ApiException extends RuntimeException {
     private static String getApiExceptionMessage(int code){
         String message = "";
         switch (code) {
-            case USER_NOT_EXIST:
+            case CHOOSE_ROLE://100
                 message = "请选择角色";
                 break;
-            case WRONG_PASSWORD:
+            case CHOOSE_TRADE://101
                 message = "选择感兴趣的行业";
+                break;
+            case INTER_MAIN://102
+                message = "进入主页";
+                break;
+            case REGISTER_USER_EXIST://409
+                message = "用户已经注册";
+                break;
+            case INPUT_REEOR://406
+                message = "手机号或者密码输入有误";
                 break;
             default:
                 message = "未知错误";
-
+                break;
         }
         return message;
     }

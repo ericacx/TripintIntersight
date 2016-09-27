@@ -16,6 +16,7 @@ public class RegisterEntity implements Serializable {
      */
 
     private String token;
+    private int status;
 
     public String getToken() {
         return token;
@@ -23,5 +24,13 @@ public class RegisterEntity implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getStatus() {
+        return status;
     }
 }

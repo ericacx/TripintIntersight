@@ -21,14 +21,19 @@ import com.linkedin.platform.errors.LIAuthError;
 import com.linkedin.platform.listeners.AuthListener;
 import com.linkedin.platform.utils.Scope;
 import com.tripint.intersight.R;
+import com.tripint.intersight.activity.FocusTradeActivity;
 import com.tripint.intersight.activity.ForgetPasswordActivity;
+import com.tripint.intersight.activity.InterestedActivity;
 import com.tripint.intersight.activity.LoginActivity;
 import com.tripint.intersight.activity.MainActivity;
 import com.tripint.intersight.activity.ResigterActivity;
 import com.tripint.intersight.activity.base.BaseActivity;
 import com.tripint.intersight.app.InterSightApp;
+import com.tripint.intersight.common.ApiException;
 import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.common.enumkey.EnumKey;
+import com.tripint.intersight.common.utils.StringUtils;
+import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.entity.user.LoginEntity;
 import com.tripint.intersight.entity.user.User;
 import com.tripint.intersight.fragment.base.BaseCloseFragment;
@@ -75,8 +80,8 @@ public class LoginFragment extends BaseCloseFragment {
 
     private HashMap<String, String> params = new HashMap<String, String>();
 
-    private LoginEntity.UserInfoBean loginEntity;
-    private PageDataSubscriberOnNext<LoginEntity.UserInfoBean> subscriber;
+    private LoginEntity loginEntity;
+    private PageDataSubscriberOnNext<LoginEntity> subscriber;
 
     public static LoginFragment newInstance() {
 
@@ -110,17 +115,27 @@ public class LoginFragment extends BaseCloseFragment {
 
         initToolbarNav(toolbar);
 
-        //验证码
-        subscriber = new PageDataSubscriberOnNext<LoginEntity.UserInfoBean>() {
+        //登录
+        subscriber = new PageDataSubscriberOnNext<LoginEntity>() {
             @Override
-            public void onNext(LoginEntity.UserInfoBean entity) {
+            public void onNext(LoginEntity entity) {
                 //接口请求成功后处理
                 loginEntity = entity;
-                Log.e("aaa",entity.getToke());
-                ACache.get(mActivity).put(EnumKey.User.USER_TOKEN, entity.getToke());
+                ACache.get(mActivity).put(EnumKey.User.USER_TOKEN, entity.getUserInfo().getToke());
+                Log.e("login",entity.getUserInfo().getNickname());
+                int status = entity.getStatus();
                 Intent intent = new Intent();
-                intent.setClass(mContext, MainActivity.class);
-                startActivity(intent);
+                if (status == 100){
+                    intent.setClass(mContext,InterestedActivity.class);
+                    startActivity(intent);
+                } else if (status == 101){
+                    intent.setClass(mContext,FocusTradeActivity.class);
+                    startActivity(intent);
+                } else if (status == 102){
+                    intent.setClass(mContext, MainActivity.class);
+                    startActivity(intent);
+                }
+
             }
         };
     }
@@ -136,14 +151,15 @@ public class LoginFragment extends BaseCloseFragment {
                 break;
             case R.id.login_button_login:
 
-                User user = new User(login_et_username.getText().toString().trim(),login_et_password.getText().toString().trim());
-
-                BaseDataHttpRequest.getInstance(mActivity).postLogin(
-                        new ProgressSubscriber(subscriber, mContext), user);
-
-                intent = new Intent();
-                intent.setClass(mContext,MainActivity.class);
-                startActivity(intent);
+                User user = new User(login_et_username.getText().toString().trim(), login_et_password.getText().toString().trim());
+                if (StringUtils.isEmpty(login_et_username.getText().toString().trim())) {
+                    ToastUtil.showToast(mContext, "输入的手机号或者邮箱不能为空");
+                } else if (StringUtils.isEmpty(login_et_password.getText().toString().trim())) {
+                    ToastUtil.showToast(mContext, "输入的密码不能为空");
+                } else {
+                    BaseDataHttpRequest.getInstance(mActivity).postLogin(
+                            new ProgressSubscriber(subscriber, mContext), user);
+                }
 //                Bundle bundle = new Bundle();
 //                setFramgentResult(RESULT_OK, bundle);
 
@@ -160,7 +176,7 @@ public class LoginFragment extends BaseCloseFragment {
                 sharedLogin(platform);
                 break;
         }
-      }
+    }
 
 
     protected void initLazyView(@Nullable Bundle savedInstanceState) {

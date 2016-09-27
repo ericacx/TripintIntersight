@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,6 +14,11 @@ import android.widget.ListView;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.InterestedRecyclerViewAdapter;
 import com.tripint.intersight.bean.InterestedDataEntity;
+import com.tripint.intersight.entity.CodeDataEntity;
+import com.tripint.intersight.entity.user.ChooseEntity;
+import com.tripint.intersight.service.BaseDataHttpRequest;
+import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
+import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,16 +42,40 @@ public class InterestedActivity extends AppCompatActivity {
 
     private InterestedRecyclerViewAdapter interestedRecyclerViewAdapter;
     private List<InterestedDataEntity> entityList;
+
+    private ChooseEntity chooseEntity;
+    private PageDataSubscriberOnNext<ChooseEntity> subscriber;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interested);
         ButterKnife.bind(this);
 
+        initView();
         initData();
 
         interestedRecyclerViewAdapter = new InterestedRecyclerViewAdapter(InterestedActivity.this,entityList);
         interestedGridView.setAdapter(interestedRecyclerViewAdapter);
+    }
+
+    private void initView() {
+        //验证码
+        subscriber = new PageDataSubscriberOnNext<ChooseEntity>() {
+            @Override
+            public void onNext(ChooseEntity entity) {
+                //接口请求成功后处理
+                chooseEntity = entity;
+                Log.e("interested", String.valueOf(entity.getStatus()));
+                int status = entity.getStatus();
+                if (status == 101){
+                    Intent intent = new Intent();
+                    intent.setClass(InterestedActivity.this,FocusTradeActivity.class);
+                    startActivity(intent);
+                }
+            }
+        };
     }
 
     private void initData() {
@@ -60,9 +90,9 @@ public class InterestedActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.interestedNext:
-                Intent intent = new Intent();
-                intent.setClass(InterestedActivity.this,FocusTradeActivity.class);
-                startActivity(intent);
+                BaseDataHttpRequest.getInstance(InterestedActivity.this).postChooseRole(
+                        new ProgressSubscriber(subscriber, InterestedActivity.this)
+                        , "1");
                 break;
         }
     }

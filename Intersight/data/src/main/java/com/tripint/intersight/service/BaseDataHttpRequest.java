@@ -7,6 +7,7 @@ import com.tripint.intersight.entity.ForgetPasswordEntity;
 import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
+import com.tripint.intersight.entity.user.ChooseEntity;
 import com.tripint.intersight.entity.user.LoginEntity;
 import com.tripint.intersight.entity.user.RegisterEntity;
 import com.tripint.intersight.entity.user.User;
@@ -89,14 +90,21 @@ public class BaseDataHttpRequest extends HttpRequest {
      * 用于获取登录数据
      * @param subscriber
      */
-    public void postLogin(Subscriber<LoginEntity.UserInfoBean> subscriber, User user){
+    public void postLogin(Subscriber<LoginEntity> subscriber, User user){
 
         Observable observable = baseDataService.postLogin(user)
-                .map(new HttpResultFunc<LoginEntity.UserInfoBean>());
+                .map(new HttpResultFunc<LoginEntity>());
 
         toSubscribe(observable, subscriber);
     }
 
+
+//    public void getLogin(Subscriber<LoginEntity.UserInfoBean> subscriber, String email,String password){
+//        Observable observable = baseDataService.getLogin(email,password)
+//                .map(new HttpResultFunc<LoginEntity.UserInfoBean>());
+//
+//        toSubscribe(observable, subscriber);
+//    }
 
     /***
      * 用于获取注册数据
@@ -148,6 +156,26 @@ public class BaseDataHttpRequest extends HttpRequest {
         toSubscribe(observable, subscriber);
     }
 
+    /***
+     * 用于获取选择角色数据
+     * @param subscriber
+     */
+    public void postChooseRole(Subscriber<ChooseEntity> subscriber, String role){
 
+        Observable observable = baseDataService.postChooseRole(role)
+                .map(new HttpResultFunc<ChooseEntity>());
 
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 用于获取选择关注的行业数据
+     * @param subscriber
+     * @param strings
+     */
+    public void postInsterestIndustry(Subscriber<ChooseEntity> subscriber, String strings){
+        Observable observable = baseDataService.postInterestIndustry(strings)
+                .map(new HttpResultFunc<ChooseEntity>());
+        toSubscribe(observable,subscriber);
+    }
 }

@@ -7,6 +7,7 @@ import com.tripint.intersight.entity.ForgetPasswordEntity;
 import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
+import com.tripint.intersight.entity.user.ChooseEntity;
 import com.tripint.intersight.entity.user.LoginEntity;
 import com.tripint.intersight.entity.user.RegisterEntity;
 import com.tripint.intersight.entity.user.User;
@@ -41,9 +42,17 @@ public interface BaseDataService {
 
     //登录
     @POST("login")
-    Observable<BaseResponse<LoginEntity.UserInfoBean>> postLogin(
+    Observable<BaseResponse<LoginEntity>> postLogin(
             @Body User user
     );
+
+//    @FormUrlEncoded
+//    @POST("login")
+//    Observable<BaseResponse<LoginEntity.UserInfoBean>> getLogin(
+//            @Field("email") String email,
+//            @Field("password") String password
+//
+//    );
 
 
     //手机发送短信
@@ -64,5 +73,12 @@ public interface BaseDataService {
     //选择角色
     @FormUrlEncoded
     @POST("choose/role")
-    Observable<BaseResponse<CodeDataEntity>> postChooseRole(@Field("role") String role);
+    Observable<BaseResponse<ChooseEntity>> postChooseRole(@Field("role") String role);
+
+    //关注的行业
+    @FormUrlEncoded
+    @POST("interest/industry")
+    Observable<BaseResponse<ChooseEntity>> postInterestIndustry(
+            @Field("industryId") String strings
+    );
 }

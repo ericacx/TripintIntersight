@@ -80,10 +80,11 @@ public class HttpRequest {
 
             if (response.getCode() == 200) {
                 return response.getData();
-
             } else if (response.getCode() == 100){
                 return response.getData();
             } else if (response.getCode() == 101){
+                return response.getData();
+            } else if (response.getCode() == 102){
                 return response.getData();
             }
             throw new ApiException(response.getCode());

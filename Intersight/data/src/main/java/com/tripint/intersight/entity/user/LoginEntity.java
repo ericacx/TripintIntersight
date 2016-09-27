@@ -17,8 +17,16 @@ public class LoginEntity implements Serializable {
      * nickname : 刘进52
      * avatar : http://oc153j0jh.bkt.clouddn.com/1472448319003R52335-17.jpg
      */
-
+    private int status;
     private UserInfoBean userInfo;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public UserInfoBean getUserInfo() {
         return userInfo;
