@@ -6,7 +6,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,6 +90,7 @@ public class ResigterFragment extends BaseBackFragment {
     private void initView() {
 
         initToolbarNav(toolbar);
+
         //验证码
         subscriberCode = new PageDataSubscriberOnNext<CodeDataEntity>() {
             @Override
@@ -105,8 +108,6 @@ public class ResigterFragment extends BaseBackFragment {
                 //接口请求成功后处理
                 registerEntity = entity;
                 ACache.get(mActivity).put(EnumKey.User.USER_TOKEN, entity.getToken());
-                Log.e("register", entity.getToken());
-                Log.e("register", String.valueOf(entity.getStatus()));
                 int status = entity.getStatus();
                 if (status == 100) {
                     Intent intent = new Intent();
@@ -139,25 +140,23 @@ public class ResigterFragment extends BaseBackFragment {
     };
 
     @OnClick({R.id.register_verify_code, R.id.register_tv_userProtocol, R.id.register_button_register, R.id.register_button_reset})
+
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.register_verify_code://发送验证码
 
-                if (TextUtils.isEmpty(registerEtPhone.getText().toString())) {
-                    ToastUtil.showToast(mActivity, "手机号不能为空");
-                    registerVerifyCode.setClickable(false);
-                } else if (registerEtPhone.getText().toString().length() != 11) {
+                if (registerEtPhone.getText().toString().length() != 11) {
                     ToastUtil.showToast(mActivity, "请输入正确的手机号");
                 } else {
                     //发送验证码请求
                     BaseDataHttpRequest.getInstance(mActivity).getCode(
                             new ProgressSubscriber(subscriberCode, mActivity)
                             , registerEtPhone.getText().toString().trim());
+                    registerVerifyCode.setText("重新获取(" + time + ")");
+                    registerVerifyCode.setClickable(false);
+                    handler.sendEmptyMessageDelayed(100, 1000);
                 }
-                registerVerifyCode.setText("重新获取(" + time + ")");
-                registerVerifyCode.setClickable(false);
-                handler.sendEmptyMessageDelayed(100, 1000);
                 break;
 
             case R.id.register_tv_userProtocol:
@@ -167,25 +166,24 @@ public class ResigterFragment extends BaseBackFragment {
 
             case R.id.register_button_register://注册按钮
 
-                if (TextUtils.isEmpty(registerEtPhone.getText().toString())) {
-                    ToastUtil.showToast(mActivity, "手机号不能为空");
-
-                } else if (registerEtPhone.getText().toString().length() != 11) {
+                if (registerEtPhone.getText().toString().trim().length() != 11) {
                     ToastUtil.showToast(mActivity, "请输入正确的手机号");
-                } else if (TextUtils.isEmpty(registerCreatePassword.getText().toString())) {
+                } else if (TextUtils.isEmpty(registerCreatePassword.getText().toString().trim())) {
                     ToastUtil.showToast(mActivity, "创建的密码不能为空");
-                } else if (TextUtils.isEmpty(registerInputPassword.getText().toString())) {
+                } else if (TextUtils.isEmpty(registerInputPassword.getText().toString().trim())) {
                     ToastUtil.showToast(mActivity, "再次输入的密码不能为空");
-                } else if (!(registerCreatePassword.getText().toString().trim().equals(registerInputPassword.getText().toString().trim()))) {
-                    Log.e("et1", registerCreatePassword.getText().toString());
-                    Log.e("et2", registerInputPassword.getText().toString());
+                } else if (!(registerCreatePassword.getText().toString().trim().
+                        equals(registerInputPassword.getText().toString().trim()))) {
                     ToastUtil.showToast(mActivity, "两次输入密码不一致,请重新输入");
-                } else if (TextUtils.isEmpty(registerInputVerifyCode.getText().toString())) {
+                } else if (TextUtils.isEmpty(registerInputVerifyCode.getText().toString().trim())) {
                     ToastUtil.showToast(mActivity, "验证码不能为空");
-                } else if (registerInputPassword.getText().toString().length() < 6 || registerInputPassword.getText().toString().length() > 16) {
+                } else if (registerInputPassword.getText().toString().trim().length() < 6 ||
+                        registerInputPassword.getText().toString().trim().length() > 16) {
                     ToastUtil.showToast(mActivity, "请输入6~16位的字符或者数字作为密码");
                 } else {
-                    User user = new User(registerEtPhone.getText().toString(), registerCreatePassword.getText().toString(), Integer.parseInt(registerInputVerifyCode.getText().toString()));
+                    User user = new User(registerEtPhone.getText().toString().trim(),
+                            registerCreatePassword.getText().toString().trim(),
+                            Integer.parseInt(registerInputVerifyCode.getText().toString().trim()));
                     //发送注册请求
                     BaseDataHttpRequest.getInstance(mActivity).postRegister(
                             new ProgressSubscriber(subscriber, mActivity)
@@ -202,6 +200,7 @@ public class ResigterFragment extends BaseBackFragment {
                 break;
         }
     }
+
 
     /**
      * 发送手机短信验证码

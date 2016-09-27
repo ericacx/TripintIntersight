@@ -88,6 +88,10 @@ public class FocusTradeActivity extends AppCompatActivity {
                         .postInsterestIndustry(
                                 new ProgressSubscriber<ChooseEntity>(subscriber,FocusTradeActivity.this)
                                 ,s);
+
+                Intent intent = new Intent();
+                intent.setClass(FocusTradeActivity.this,MainActivity.class);
+                startActivity(intent);
                 break;
         }
     }

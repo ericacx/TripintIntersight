@@ -162,11 +162,7 @@ public class LoginFragment extends BaseCloseFragment {
                 startActivity(intent);
                 break;
             case R.id.login_button_login:
-
                 submit();
-//                Bundle bundle = new Bundle();
-//                setFramgentResult(RESULT_OK, bundle);
-
                 break;
             case R.id.login_button_register:
                 start(ResigterFragment.newInstance());

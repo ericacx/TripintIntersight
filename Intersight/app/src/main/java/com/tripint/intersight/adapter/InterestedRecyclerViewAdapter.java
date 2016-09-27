@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.bean.InterestedDataEntity;
-import com.tripint.intersight.fragment.flipview.OpinionFlipViewAdapter;
+//import com.tripint.intersight.fragment.flipview.OpinionFlipViewAdapter;
 
 import java.util.List;
 

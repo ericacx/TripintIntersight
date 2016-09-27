@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tripint.intersight.R;
@@ -25,7 +24,6 @@ import butterknife.Bind;
  */
 public class OpinionFlipViewAdapter2 extends BaseAdapter implements View.OnClickListener {
 
-    ;
     private Context context;
     private List<TextView> textViews;
     private List<String> resList;
@@ -89,10 +87,6 @@ public class OpinionFlipViewAdapter2 extends BaseAdapter implements View.OnClick
             switch (type) {
                 case VIEWTYPE_ONE:
                     convertView = LayoutInflater.from(context).inflate(R.layout.opinion_flipview_one, parent, false);
-//                    viewHolderOne.opinionFlipViewPager = ((ViewPager) convertView.findViewById(R.id.opinionFlipViewPager));
-//                    viewHolderOne.opinionFlipViewTv1 = ((TextView) convertView.findViewById(R.id.opinionFlipViewTv1));
-//                    viewHolderOne.opinionFlipViewTv2 = ((TextView) convertView.findViewById(R.id.opinionFlipViewTv2));
-//                    viewHolderOne.opinionFlipViewTv3 = ((TextView) convertView.findViewById(R.id.opinionFlipViewTv3));
                     convertView.setTag(viewHolderOne);
                     break;
                 case VIEWTYPE_TWO:
@@ -122,41 +116,41 @@ public class OpinionFlipViewAdapter2 extends BaseAdapter implements View.OnClick
 
         }
 
+        //设置资源
         switch (type) {
             case VIEWTYPE_ONE:
-                textViews = new ArrayList<TextView>();
 
-                textViews.add(viewHolderOne.opinionFlipViewTv1);
-                textViews.add(viewHolderOne.opinionFlipViewTv2);
-                textViews.add(viewHolderOne.opinionFlipViewTv3);
+                textViews = new ArrayList<TextView>();
+                textViews.add(viewHolderOne.opinionFlipviewOneTv1);
+                textViews.add(viewHolderOne.opinionFlipviewOneTv2);
+                textViews.add(viewHolderOne.opinionFlipviewOneTv3);
 
                 final ViewHolderOne finalViewHolderOne = viewHolderOne;
-                viewHolderOne.opinionFlipViewTv1.setOnClickListener(new View.OnClickListener() {
+                viewHolderOne.opinionFlipviewOneTv1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        finalViewHolderOne.opinionFlipViewPager.setCurrentItem(finalViewHolderOne.opinionFlipViewPager.getCurrentItem() - finalViewHolderOne.opinionFlipViewPager.getCurrentItem() % 3);
+                        finalViewHolderOne.opinionFlipviewOneViewpager.setCurrentItem(finalViewHolderOne.opinionFlipviewOneViewpager.getCurrentItem() - finalViewHolderOne.opinionFlipviewOneViewpager.getCurrentItem() % 3);
                     }
                 });
                 final ViewHolderOne finalViewHolderOne1 = viewHolderOne;
-                viewHolderOne.opinionFlipViewTv2.setOnClickListener(new View.OnClickListener() {
+                viewHolderOne.opinionFlipviewOneTv2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        finalViewHolderOne1.opinionFlipViewPager.setCurrentItem(finalViewHolderOne1.opinionFlipViewPager.getCurrentItem() - finalViewHolderOne1.opinionFlipViewPager.getCurrentItem() % 3 + 1);
+                        finalViewHolderOne1.opinionFlipviewOneViewpager.setCurrentItem(finalViewHolderOne1.opinionFlipviewOneViewpager.getCurrentItem() - finalViewHolderOne1.opinionFlipviewOneViewpager.getCurrentItem() % 3 + 1);
                     }
                 });
                 final ViewHolderOne finalViewHolderOne2 = viewHolderOne;
-                viewHolderOne.opinionFlipViewTv3.setOnClickListener(new View.OnClickListener() {
+                viewHolderOne.opinionFlipviewOneTv3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        finalViewHolderOne2.opinionFlipViewPager.setCurrentItem(finalViewHolderOne2.opinionFlipViewPager.getCurrentItem() - finalViewHolderOne2.opinionFlipViewPager.getCurrentItem() % 3 + 2);
+                        finalViewHolderOne2.opinionFlipviewOneViewpager.setCurrentItem(finalViewHolderOne2.opinionFlipviewOneViewpager.getCurrentItem() - finalViewHolderOne2.opinionFlipviewOneViewpager.getCurrentItem() % 3 + 2);
                     }
                 });
 
-
-                viewHolderOne.opinionFlipViewPager.setAdapter(new ViewPagerBannerAdapter(context, resList));
-                viewHolderOne.opinionFlipViewPager.setCurrentItem(1200);
-                Log.e("position", viewHolderOne.opinionFlipViewPager.getCurrentItem() + "");
-                viewHolderOne.opinionFlipViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                viewHolderOne.opinionFlipviewOneViewpager.setAdapter(new ViewPagerBannerAdapter(context, resList));
+                viewHolderOne.opinionFlipviewOneViewpager.setCurrentItem(resList.size() * 100);
+                Log.e("position", viewHolderOne.opinionFlipviewOneViewpager.getCurrentItem() + "");
+                viewHolderOne.opinionFlipviewOneViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -184,8 +178,6 @@ public class OpinionFlipViewAdapter2 extends BaseAdapter implements View.OnClick
 
                 break;
         }
-
-
         return convertView;
     }
 
@@ -196,50 +188,89 @@ public class OpinionFlipViewAdapter2 extends BaseAdapter implements View.OnClick
 
 
     class ViewHolderOne {
-        ViewPager opinionFlipViewPager;
-        TextView opinionFlipViewTv1;
-        TextView opinionFlipViewTv2;
-        TextView opinionFlipViewTv3;
-        TextView opinionFlipViewTvTitle;
-        TextView opinionFlipViewTvContent;
-        TextView opinionTvName;
-        TextView opinionTvTrade;
-        TextView opinionTvTitle;
-        TextView opinionTvTime;
-        ImageView opinionIvDown;
+        @Bind(R.id.opinion_flipview_one_viewpager)
+        ViewPager opinionFlipviewOneViewpager;
+        @Bind(R.id.opinion_flipview_one_tv1)
+        TextView opinionFlipviewOneTv1;
+        @Bind(R.id.opinion_flipview_one_tv2)
+        TextView opinionFlipviewOneTv2;
+        @Bind(R.id.opinion_flipview_one_tv3)
+        TextView opinionFlipviewOneTv3;
+        @Bind(R.id.opinion_flipview_one_header)
+        TextView opinionFlipviewOneHeader;//标题
+        @Bind(R.id.opinion_flipview_one_content)
+        TextView opinionFlipviewOneContent;//内容
+        @Bind(R.id.opinion_flipview_one_name)
+        TextView opinionFlipviewOneName;//名字
+        @Bind(R.id.opinion_flipview_one_trade)
+        TextView opinionFlipviewOneTrade;//行业
+        @Bind(R.id.opinion_flipview_one_title)
+        TextView opinionFlipviewOneTitle;//职位
+        @Bind(R.id.opinion_flipview_one_time)
+        TextView opinionFlipviewOneTime;//时间
+        @Bind(R.id.opinion_flipview_one_down)
+        ImageView opinionFlipviewOneDown;//下滑
     }
 
     class ViewHolderTwo {
-        @Bind(R.id.opinionFlipIvPic)
-        ImageView opinionFlipIvPic;
-        @Bind(R.id.opinionFlipViewTvTitle)
-        TextView opinionFlipViewTvTitle;
-        @Bind(R.id.opinionFlipViewTvName)
-        TextView opinionFlipViewTvName;
-        @Bind(R.id.opinionFlipViewTvTrade)
-        TextView opinionFlipViewTvTrade;
-        @Bind(R.id.opinionFlipViewTvPos)
-        TextView opinionFlipViewTvPos;
-        @Bind(R.id.opinionFlipViewAgree)
-        ImageView opinionFlipViewAgree;
-        @Bind(R.id.opinionFlipViewAgreeNum)
-        TextView opinionFlipViewAgreeNum;
-        @Bind(R.id.opinionFlipViewTalk)
-        ImageView opinionFlipViewTalk;
-        @Bind(R.id.opinionFlipViewTalkNum)
-        TextView opinionFlipViewTalkNum;
-        @Bind(R.id.opinionFlipViewReport)
-        ImageView opinionFlipViewReport;
-        @Bind(R.id.opinionFlipViewTvContent)
-        TextView opinionFlipViewTvContent;
-        @Bind(R.id.opioionFlipBtnSubmit)
-        Button opioionFlipBtnSubmit;
-        @Bind(R.id.linearlayout)
-        LinearLayout linearlayout;
+        @Bind(R.id.opinion_flipview_two_pic)
+        ImageView opinionFlipviewTwoPic;//图片
+        @Bind(R.id.opioion_flipview_two_submit)
+        Button opioionFlipviewTwoSubmit;//发表观点按钮
+        @Bind(R.id.opinion_flipview_two_header)
+        TextView opinionFlipviewTwoHeader;//标题
+        @Bind(R.id.opinion_flipview_two_name)
+        TextView opinionFlipviewTwoName;//名字
+        @Bind(R.id.opinion_flipview_two_trade)
+        TextView opinionFlipviewTwoTrade;//行业
+        @Bind(R.id.opinion_flipview_two_title)
+        TextView opinionFlipviewTwoTitle;//职位
+        @Bind(R.id.opinion_flipview_two_agreeNum)
+        TextView opinionFlipviewTwoAgreeNum;//赞数
+        @Bind(R.id.opinion_flipview_two_talkNum)
+        TextView opinionFlipviewTwoTalkNum;//评论数
+        @Bind(R.id.opinion_flipview_two_report)
+        TextView opinionFlipviewTwoReport;//举报
+        @Bind(R.id.opinion_flipview_two_content)
+        TextView opinionFlipviewTwoContent;//内容
     }
 
     class ViewHolderThree {
+        @Bind(R.id.opinion_flipview_three_photo1)
+        ImageView opinionFlipviewThreePhoto1;
+        @Bind(R.id.opinionflipview_three_name1)
+        TextView opinionflipviewThreeName1;
+        @Bind(R.id.opinion_flipview_three_trade1)
+        TextView opinionFlipviewThreeTrade1;
+        @Bind(R.id.opinion_flipview_three_title1)
+        TextView opinionFlipviewThreeTitle1;
+        @Bind(R.id.opinion_flipview_time1)
+        TextView opinionFlipviewTime1;
+        @Bind(R.id.opioion_flipview_three_content1)
+        TextView opioionFlipviewThreeContent1;
+        @Bind(R.id.iv1)
+        ImageView iv1;
+        @Bind(R.id.iv2)
+        ImageView iv2;
+        @Bind(R.id.iv3)
+        ImageView iv3;
 
+        @Bind(R.id.opinion_flipview_three_photo2)
+        ImageView opinionFlipviewThreePhoto2;
+        @Bind(R.id.opinionflipview_three_name2)
+        TextView opinionflipviewThreeName2;
+        @Bind(R.id.opinion_flipview_three_trade2)
+        TextView opinionFlipviewThreeTrade2;
+        @Bind(R.id.opinion_flipview_three_title2)
+        TextView opinionFlipviewThreeTitle2;
+        @Bind(R.id.opinion_flipview_three_time2)
+        TextView opinionFlipviewThreeTime2;
+        @Bind(R.id.iv4)
+        ImageView iv4;
+        @Bind(R.id.iv5)
+        ImageView iv5;
+        @Bind(R.id.iv6)
+        ImageView iv6;
     }
 
 }
