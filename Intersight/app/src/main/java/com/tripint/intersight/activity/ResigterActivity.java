@@ -50,7 +50,7 @@ public class ResigterActivity extends AppCompatActivity implements View.OnClickL
     @Bind(R.id.register_button_reset)
     Button registerButtonReset;//重置按钮
 
-    private int time = 60;
+    private int time = 10;
 
     private CodeDataEntity codeDataEntity;
     private PageDataSubscriberOnNext<CodeDataEntity> subscriberCode;
@@ -110,7 +110,7 @@ public class ResigterActivity extends AppCompatActivity implements View.OnClickL
             switch (msg.what) {
                 case 100:
                     if (time == 0) {
-                        time = 60;
+                        time = 10;
                         registerVerifyCode.setClickable(true);
                         registerVerifyCode.setText("获取验证码");
                     } else {

@@ -2,41 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:background="#00f"
-    android:orientation="horizontal">
-
-    <RelativeLayout
-        android:layout_weight="2"
-        android:layout_width="0dp"
-        android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/askIvIcon"
-            android:src="@mipmap/ic_launcher"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.tripint.intersight.widget.image.CircleImageView
+            android:id="@+id/image_ask_profile"
+            android:layout_margin="@dimen/spacing"
+            android:layout_width="80dip"
+            android:layout_height="80dip"
+            android:src="@mipmap/dongcha"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+
+        <LinearLayout
         android:orientation="vertical"
         android:layout_width="0dp"
-        android:layout_weight="5"
+            android:layout_weight="8"
         android:layout_height="wrap_content">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
+            android:layout_margin="@dimen/spacing"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/askTvName"
+                android:id="@+id/textView_item_ask_title"
                 android:text="Susan"
                 android:textSize="15sp"
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/askTvWorkTime"
+                android:id="@+id/textView_item_ask_time"
                 android:text="8年+"
                 android:textSize="12sp"
                 android:textColor="@color/line"
@@ -46,40 +49,52 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/askTvCompany"
+            android:id="@+id/textView_item_ask_company"
             android:text="腾讯（科技）深圳有限公司"
             android:textColor="@color/white"
             android:textSize="12sp"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="@dimen/spacing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:id="@+id/askTvTitle"
+            android:id="@+id/textView_item_ask_job_title"
             android:text="销售总监"
             android:textColor="@color/white"
+            android:layout_marginLeft="@dimen/spacing"
             android:textSize="12sp"
             android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:id="@+id/askTvTrade"
+            android:id="@+id/textView_item_ask_job_industry"
             android:text="互联网 | 游戏 | 软件"
             android:textColor="@color/line"
+            android:layout_marginLeft="@dimen/spacing"
             android:textSize="12sp"
             android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent">
         <ImageView
             android:id="@+id/askIvArrow"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/iconfont_nextarticle"
             android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_pad05" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spacing"
+            android:background="@drawable/line_grey" />
     </LinearLayout>
 </LinearLayout>

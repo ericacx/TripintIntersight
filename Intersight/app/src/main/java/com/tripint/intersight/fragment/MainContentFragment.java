@@ -14,6 +14,7 @@ import com.tripint.intersight.event.StartFragmentForResultEvent;
 import com.tripint.intersight.event.TabSelectedEvent;
 import com.tripint.intersight.event.UserLoginEvent;
 import com.tripint.intersight.fragment.base.BaseFragment;
+import com.tripint.intersight.fragment.home.AskFragment;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.widget.tabbar.BottomTabBar;
 import com.tripint.intersight.widget.tabbar.BottomTabBarItem;

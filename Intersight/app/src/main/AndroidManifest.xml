@@ -53,13 +53,7 @@
             android:name=".activity.MessageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.SettingActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.PersonalInfoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.AdviceFeedbackActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AboutIntersightActivity"

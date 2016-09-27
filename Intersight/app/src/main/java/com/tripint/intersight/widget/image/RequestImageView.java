@@ -68,7 +68,7 @@ public class RequestImageView extends ImageView {
                     .dontAnimate()
                     .into(this);
         } catch (Exception e) {
-            Log.e("春秋旅游", "图片加载=" + e.getMessage());
+            Log.e("TRIPINT", "图片加载=" + e.getMessage());
         }
     }
 

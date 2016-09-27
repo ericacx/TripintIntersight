@@ -77,5 +77,21 @@ public class DiscussDataHttpRequest extends HttpRequest {
         toSubscribe(observable, subscriber);
     }
 
+    /**
+     * 用于取得行业数据
+     *
+     * @param subscriber 由调用者传过来的观察者对象
+     * @param start      起始位置
+     * @param count      获取长度
+     */
+    public void getDiscusses(Subscriber<DiscussPageEntity> subscriber, int start, int count) {
+
+        Observable observable = service.getDiscuss(start, count)
+                .map(new HttpResultFunc<DiscussPageEntity>());
+
+
+        toSubscribe(observable, subscriber);
+    }
+
 
 }
