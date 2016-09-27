@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.tripint.intersight.R;
 import com.tripint.intersight.common.widget.flipview.FlipView;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
+import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.fragment.flipview.OpinionFlipViewAdapter2;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
@@ -26,7 +27,7 @@ import butterknife.ButterKnife;
  * 观点(文章)画面
  * A simple {@link Fragment} subclass.
  */
-public class OpinionFragment extends Fragment {
+public class OpinionFragment extends BaseBackFragment {
 
     @Bind(R.id.opinionFlipView)
     FlipView opinionFlipView;
@@ -34,6 +35,7 @@ public class OpinionFragment extends Fragment {
     private List<String> stringList;
     private ArticleBannerEntity articleBannerEntity;
     private PageDataSubscriberOnNext<ArticleBannerEntity> subscriber;
+
     public static OpinionFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -62,10 +64,10 @@ public class OpinionFragment extends Fragment {
                 }
             }
         };
-        BaseDataHttpRequest.getInstance(getContext()).getArticleBanner(
-                new ProgressSubscriber(subscriber, getContext()),2);
+        BaseDataHttpRequest.getInstance(mActivity).getArticleBanner(
+                new ProgressSubscriber(subscriber, mActivity),2);
 
-        mOpinionFlipViewAdapter2 = new OpinionFlipViewAdapter2(getContext(),stringList);
+        mOpinionFlipViewAdapter2 = new OpinionFlipViewAdapter2(mActivity,stringList);
         opinionFlipView.setAdapter(mOpinionFlipViewAdapter2);
         return view;
     }
