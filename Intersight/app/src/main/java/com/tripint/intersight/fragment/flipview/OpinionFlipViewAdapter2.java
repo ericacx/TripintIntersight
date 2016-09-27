@@ -89,10 +89,10 @@ public class OpinionFlipViewAdapter2 extends BaseAdapter implements View.OnClick
             switch (type) {
                 case VIEWTYPE_ONE:
                     convertView = LayoutInflater.from(context).inflate(R.layout.opinion_flipview_one, parent, false);
-                    viewHolderOne.opinionFlipViewPager = ((ViewPager) convertView.findViewById(R.id.opinionFlipViewPager));
-                    viewHolderOne.opinionFlipViewTv1 = ((TextView) convertView.findViewById(R.id.opinionFlipViewTv1));
-                    viewHolderOne.opinionFlipViewTv2 = ((TextView) convertView.findViewById(R.id.opinionFlipViewTv2));
-                    viewHolderOne.opinionFlipViewTv3 = ((TextView) convertView.findViewById(R.id.opinionFlipViewTv3));
+//                    viewHolderOne.opinionFlipViewPager = ((ViewPager) convertView.findViewById(R.id.opinionFlipViewPager));
+//                    viewHolderOne.opinionFlipViewTv1 = ((TextView) convertView.findViewById(R.id.opinionFlipViewTv1));
+//                    viewHolderOne.opinionFlipViewTv2 = ((TextView) convertView.findViewById(R.id.opinionFlipViewTv2));
+//                    viewHolderOne.opinionFlipViewTv3 = ((TextView) convertView.findViewById(R.id.opinionFlipViewTv3));
                     convertView.setTag(viewHolderOne);
                     break;
                 case VIEWTYPE_TWO:

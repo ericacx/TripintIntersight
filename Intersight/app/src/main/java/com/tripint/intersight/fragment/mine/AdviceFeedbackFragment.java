@@ -1,4 +1,4 @@
-package com.tripint.intersight.fragment;
+package com.tripint.intersight.fragment.mine;
 
 
 import android.os.Bundle;
@@ -9,21 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.tripint.intersight.R;
-import com.tripint.intersight.common.widget.filter.util.CommonUtil;
-import com.tripint.intersight.entity.discuss.DiscussPageEntity;
-import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
-import com.tripint.intersight.fragment.home.AskAnswerFragment;
 import com.tripint.intersight.helper.CommonUtils;
-import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

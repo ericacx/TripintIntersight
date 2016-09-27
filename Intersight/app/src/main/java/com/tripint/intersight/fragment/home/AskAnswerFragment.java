@@ -157,7 +157,7 @@ public class AskAnswerFragment extends BaseFragment {
     }
 
     /**
-     * 请求不同的关键字 精选自由行、省心国内游、品质出境游
+     * 请求不同的
      *
      * @param tab
      */

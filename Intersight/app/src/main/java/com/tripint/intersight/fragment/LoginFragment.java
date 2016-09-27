@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,10 +28,8 @@ import com.tripint.intersight.activity.ForgetPasswordActivity;
 import com.tripint.intersight.activity.InterestedActivity;
 import com.tripint.intersight.activity.LoginActivity;
 import com.tripint.intersight.activity.MainActivity;
-import com.tripint.intersight.activity.ResigterActivity;
 import com.tripint.intersight.activity.base.BaseActivity;
 import com.tripint.intersight.app.InterSightApp;
-import com.tripint.intersight.common.ApiException;
 import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.common.enumkey.EnumKey;
 import com.tripint.intersight.common.utils.StringUtils;
@@ -37,8 +37,8 @@ import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.entity.user.LoginEntity;
 import com.tripint.intersight.entity.user.User;
 import com.tripint.intersight.fragment.base.BaseCloseFragment;
+import com.tripint.intersight.fragment.mine.MyOpinionFragment;
 import com.tripint.intersight.helper.CommonUtils;
-import com.tripint.intersight.helper.ProgressDialogUtils;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
@@ -51,7 +51,6 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscriber;
 
 
 public class LoginFragment extends BaseCloseFragment {
@@ -115,6 +114,19 @@ public class LoginFragment extends BaseCloseFragment {
 
         initToolbarNav(toolbar);
 
+        login_et_password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (!StringUtils.isEmpty(v.getText().toString())) {
+                    if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                        submit();
+                    }
+                }
+                return false;
+            }
+        });
+
         //登录
         subscriber = new PageDataSubscriberOnNext<LoginEntity>() {
             @Override
@@ -151,25 +163,17 @@ public class LoginFragment extends BaseCloseFragment {
                 break;
             case R.id.login_button_login:
 
-                User user = new User(login_et_username.getText().toString().trim(), login_et_password.getText().toString().trim());
-                if (StringUtils.isEmpty(login_et_username.getText().toString().trim())) {
-                    ToastUtil.showToast(mContext, "输入的手机号或者邮箱不能为空");
-                } else if (StringUtils.isEmpty(login_et_password.getText().toString().trim())) {
-                    ToastUtil.showToast(mContext, "输入的密码不能为空");
-                } else {
-                    BaseDataHttpRequest.getInstance(mActivity).postLogin(
-                            new ProgressSubscriber(subscriber, mContext), user);
-                }
+                submit();
 //                Bundle bundle = new Bundle();
 //                setFramgentResult(RESULT_OK, bundle);
 
                 break;
             case R.id.login_button_register:
-                intent.setClass(mActivity, ResigterActivity.class);
-                startActivity(intent);
+                start(ResigterFragment.newInstance());
                 break;
             case R.id.login_thirdLogin_linkedin:
-                sharedLinkedInLogin();
+//                sharedLinkedInLogin();
+                start(MyOpinionFragment.newInstance());
                 break;
             case R.id.login_thirdLogin_wechat:
                 SHARE_MEDIA platform = SHARE_MEDIA.WEIXIN;
@@ -178,6 +182,18 @@ public class LoginFragment extends BaseCloseFragment {
         }
     }
 
+
+    private void submit() {
+        User user = new User(login_et_username.getText().toString().trim(), login_et_password.getText().toString().trim());
+        if (StringUtils.isEmpty(login_et_username.getText().toString().trim())) {
+            ToastUtil.showToast(mContext, "输入的手机号或者邮箱不能为空");
+        } else if (StringUtils.isEmpty(login_et_password.getText().toString().trim())) {
+            ToastUtil.showToast(mContext, "输入的密码不能为空");
+        } else {
+            BaseDataHttpRequest.getInstance(mActivity).postLogin(
+                    new ProgressSubscriber(subscriber, mContext), user);
+        }
+    }
 
     protected void initLazyView(@Nullable Bundle savedInstanceState) {
 

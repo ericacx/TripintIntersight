@@ -40,10 +40,12 @@
             android:layout_weight="8"
             android:background="@null"
             android:textSize="@dimen/text_size"
+            android:maxLines="1"
+            android:inputType="number"
             android:textColor="@color/line"
             android:hint="@string/hint_phoneoremail_name"
             android:paddingLeft="10dp"
-            android:textColorHint="@color/line" />
+            android:textColorHint="@color/text_colors_gray_deep" />
     </LinearLayout>
 
     <View
@@ -74,10 +76,13 @@
             android:layout_weight="8"
             android:background="@null"
             android:textSize="@dimen/text_size"
+            android:maxLines="1"
+            android:inputType="textPassword"
             android:textColor="@color/line"
             android:hint="@string/hint_input_pwd_name"
+            android:imeOptions="actionDone"
             android:paddingLeft="10dp"
-            android:textColorHint="@color/line" />
+            android:textColorHint="@color/text_colors_gray_deep" />
     </LinearLayout>
 
     <View

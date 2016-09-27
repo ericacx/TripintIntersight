@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@mipmap/background"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
     android:orientation="vertical">
 
     <LinearLayout
@@ -13,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="7"
+            android:layout_weight="8"
             android:orientation="vertical"
             android:layout_height="wrap_content">
 
@@ -24,8 +24,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:id="@+id/imageView_owner_profile"
                     android:layout_gravity="center_vertical"
-                    android:src="@mipmap/iconfont_mima"
+                    android:src="@mipmap/iconfont_mingxi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <RelativeLayout
@@ -33,32 +34,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:id="@+id/myOpinionTvName"
+                        android:id="@+id/textView_owner_name"
                         android:text="高高"
                         android:textColor="@color/line"
                         android:layout_marginBottom="@dimen/spacing"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
-                        android:id="@+id/myOpinionTvTitle"
+                        android:id="@+id/textView_owner_job_title_company"
                         android:text="销售总监"
                         android:textColor="@color/line"
-                        android:layout_below="@id/myOpinionTvName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:id="@+id/myOpinionTvCompany"
-                        android:text="巨人网络"
-                        android:layout_marginLeft="@dimen/spacing"
-                        android:textColor="@color/line"
-                        android:layout_below="@id/myOpinionTvName"
-                        android:layout_toRightOf="@id/myOpinionTvTitle"
+                        android:layout_below="@id/textView_owner_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </RelativeLayout>
             </LinearLayout>
 
             <TextView
+                android:id="@+id/textView_mine_title_main"
                 android:text="市场一片顶礼膜拜,锂电池是否是跨越新能源的关键?"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_15"
@@ -66,6 +59,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:id="@+id/textView_mine_sub_title"
                 android:text="近段时间,国家对二新能源车的扶持政策日益增多,主要包括"
                 android:textColor="@color/line"
                 android:singleLine="true"
@@ -79,77 +73,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-
-
-
-
-
-
-
-
                 <TextView
-                    android:id="@+id/myOpinionTvFocus"
+                    android:id="@+id/textView_item_industry_name"
                     android:textColor="@color/line"
                     android:text="个关注"
                     android:textSize="@dimen/text_size_12"
+                    android:layout_marginLeft="@dimen/spacing_04"
                     android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/myOpinionTvFocusNum"
-                    android:layout_toLeftOf="@id/myOpinionTvFocus"
+                    android:id="@+id/textView_item_numbers"
+                    android:layout_toLeftOf="@id/textView_item_industry_name"
                     android:text="5"
                     android:textSize="@dimen/text_size_12"
                     android:textColor="@color/line"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/myOpinionTvDiscuss"
-                    android:textColor="@color/line"
-                    android:text="个评论"
-                    android:textSize="@dimen/text_size_12"
-                    android:layout_toLeftOf="@id/myOpinionTvFocusNum"
-                    android:layout_marginRight="@dimen/spacing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/myOpinionTvDiscussNum"
-                    android:layout_toLeftOf="@id/myOpinionTvDiscuss"
-                    android:text="2"
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/line"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/myOpinionTvAgree"
-                    android:textColor="@color/line"
-                    android:text="个赞"
-                    android:textSize="@dimen/text_size_12"
-                    android:layout_toLeftOf="@id/myOpinionTvDiscussNum"
-                    android:layout_marginRight="@dimen/spacing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/myOpinionTvAgreeNum"
-                    android:layout_toLeftOf="@id/myOpinionTvAgree"
-                    android:text="22"
-                    android:textSize="@dimen/text_size_12"
-                    android:layout_marginLeft="@dimen/spacing"
-                    android:textColor="@color/line"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/myOpinionTvTrade"
                     android:text="电子 | 通信 | 硬件"
                     android:textColor="@color/line"
                     android:textSize="@dimen/text_size_12"
-                    android:layout_toLeftOf="@id/myOpinionTvAgreeNum"
+                    android:layout_toLeftOf="@id/textView_item_industry_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

@@ -1,4 +1,4 @@
-package com.tripint.intersight.fragment;
+package com.tripint.intersight.fragment.mine;
 
 
 import android.content.Intent;

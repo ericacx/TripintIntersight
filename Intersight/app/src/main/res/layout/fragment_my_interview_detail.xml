@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@mipmap/background_default"
-    tools:context="com.tripint.intersight.fragment.MyInterviewDetailFragment">
+    tools:context="com.tripint.intersight.fragment.mine.MyInterviewDetailFragment">
 
     <include layout="@layout/toolbar"/>
 

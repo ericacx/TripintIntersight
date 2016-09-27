@@ -29,7 +29,7 @@
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ResigterActivity"
+            android:name=".fragment.ResigterFragment"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ForgetPasswordActivity"

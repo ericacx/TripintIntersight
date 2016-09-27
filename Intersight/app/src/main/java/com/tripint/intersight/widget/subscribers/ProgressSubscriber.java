@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.tripint.intersight.common.ApiException;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.widget.progress.ProgressCancelListener;
 import com.tripint.intersight.widget.progress.ProgressDialogHandler;
@@ -21,7 +22,7 @@ import rx.Subscriber;
  */
 public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCancelListener {
 
-    private final String TAG = "Tripint_Intersight";
+    private final String TAG = "Intersight";
     private PageDataSubscriberOnNext mPageDataSubscriberOnNext;
     private ProgressDialogHandler mProgressDialogHandler;
 
@@ -74,6 +75,9 @@ public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCanc
             CommonUtils.showToast("网络中断，请检查您的网络状态");
         } else if (e instanceof ConnectException) {
             CommonUtils.showToast("网络中断，请检查您的网络状态");
+        } else if (e instanceof ApiException) {
+            CommonUtils.showToast(e.getMessage());
+            Log.e(TAG, e.getMessage());
         } else {
             CommonUtils.showToast("未知错误,请查看日志异常");
             Log.e(TAG, e.getMessage());

@@ -10,6 +10,9 @@ import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tripint.intersight.common.Constants;
+import com.tripint.intersight.common.cache.ACache;
+import com.tripint.intersight.common.enumkey.EnumKey;
+import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.helper.PermissionsChecker;
 import com.umeng.analytics.MobclickAgent;
@@ -118,8 +121,12 @@ public class InterSightApp extends Application {
     }
 
 
+    /**
+     * @return true 已登录  false 未登录
+     */
     public boolean isUserLogin() {
-        return isUserLogin;
+        String token = ACache.get(this).getAsString(EnumKey.User.USER_TOKEN);
+        return !StringUtils.isEmpty(token);
     }
 
     public void setUserLogin(boolean userLogin) {

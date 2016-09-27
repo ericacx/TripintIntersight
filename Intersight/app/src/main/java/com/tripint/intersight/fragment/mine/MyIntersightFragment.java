@@ -1,4 +1,4 @@
-package com.tripint.intersight.fragment;
+package com.tripint.intersight.fragment.mine;
 
 
 import android.os.Bundle;
@@ -10,13 +10,13 @@ import android.view.ViewGroup;
 import com.tripint.intersight.R;
 
 /**
- * 我的问答页面
+ * 我的洞察家
  * A simple {@link Fragment} subclass.
  */
-public class MyAskAnswerFragment extends Fragment {
+public class MyIntersightFragment extends Fragment {
 
 
-    public MyAskAnswerFragment() {
+    public MyIntersightFragment() {
         // Required empty public constructor
     }
 
@@ -25,7 +25,7 @@ public class MyAskAnswerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_ask_answer, container, false);
+        return inflater.inflate(R.layout.fragment_my_intersight, container, false);
     }
 
 }

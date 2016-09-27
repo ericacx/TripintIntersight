@@ -5,39 +5,16 @@
     android:layout_height="match_parent"
     android:background="@mipmap/background"
     android:orientation="vertical"
-    tools:context="com.tripint.intersight.activity.ResigterActivity">
+    tools:context="com.tripint.intersight.fragment.ResigterFragment">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/register_back"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="19dp"
-            android:layout_marginLeft="21dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/iconfont_back" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="19dp"
-            android:text="@string/register_name"
-            android:textColor="@color/line"
-            android:textSize="@dimen/text_size"
-            android:typeface="normal" />
-    </RelativeLayout>
+    <include layout="@layout/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="@dimen/actionbar_height"
         android:orientation="horizontal">
 
         <ImageView
@@ -56,7 +33,9 @@
             android:hint="@string/hint_phone_name"
             android:textColor="@color/line"
             android:paddingLeft="10dp"
-            android:textColorHint="@color/line" />
+            android:textColorHint="@color/text_colors_gray_deep"
+            android:maxLines="1"
+            android:inputType="number" />
 
         <Button
             android:id="@+id/register_verify_code"
@@ -102,7 +81,9 @@
             android:hint="@string/hint_pwd_name"
             android:textColor="@color/line"
             android:paddingLeft="10dp"
-            android:textColorHint="@color/line" />
+            android:textColorHint="@color/text_colors_gray_deep"
+            android:maxLines="1"
+            android:inputType="textPassword" />
     </LinearLayout>
 
     <View
@@ -135,7 +116,9 @@
             android:textColor="@color/line"
             android:hint="@string/hint_pwd_name2"
             android:paddingLeft="10dp"
-            android:textColorHint="@color/line" />
+            android:textColorHint="@color/text_colors_gray_deep"
+            android:maxLines="1"
+            android:inputType="textPassword" />
     </LinearLayout>
 
     <View
@@ -168,7 +151,10 @@
             android:hint="@string/hint_code_name"
             android:textColor="@color/line"
             android:paddingLeft="10dp"
-            android:textColorHint="@color/line" />
+            android:textColorHint="@color/text_colors_gray_deep"
+            android:maxLines="1"
+            android:imeOptions="actionDone"
+            android:inputType="number" />
     </LinearLayout>
 
     <View
@@ -210,11 +196,11 @@
     <Button
         android:id="@+id/register_button_register"
         android:layout_width="match_parent"
-        android:layout_height="31dp"
+        android:layout_height="@dimen/height_5_80"
         android:layout_gravity="center"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="@dimen/height_2_80"
         android:background="@drawable/btn_shape"
         android:text="@string/register_name"
         android:textSize="14sp"
@@ -224,7 +210,7 @@
     <Button
         android:id="@+id/register_button_reset"
         android:layout_width="match_parent"
-        android:layout_height="31dp"
+        android:layout_height="@dimen/height_5_80"
         android:layout_gravity="center"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"
