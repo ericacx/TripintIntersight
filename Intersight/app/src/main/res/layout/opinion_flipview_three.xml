@@ -22,48 +22,48 @@
                 >
 
                 <ImageView
-                    android:id="@+id/opinionFlipIvPhoto"
+                    android:id="@+id/opinion_flipview_three_photo1"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/height_5_80"
                     android:src="@mipmap/iconfont_mima" />
 
                 <TextView
-                    android:id="@+id/opinionFlipTvName"
+                    android:id="@+id/opinionflipview_three_name1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/spacing"
-                    android:layout_alignTop="@id/opinionFlipIvPhoto"
-                    android:layout_toRightOf="@id/opinionFlipIvPhoto"
+                    android:layout_alignTop="@id/opinion_flipview_three_photo1"
+                    android:layout_toRightOf="@id/opinion_flipview_three_photo1"
                     android:text="Susan"
                     android:textColor="@color/line" />
 
                 <TextView
-                    android:id="@+id/opinionFlipTvTrade"
+                    android:id="@+id/opinion_flipview_three_trade1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/opinionFlipIvPhoto"
-                    android:layout_toRightOf="@id/opinionFlipIvPhoto"
-                    android:layout_alignLeft="@id/opinionFlipTvName"
+                    android:layout_alignBottom="@id/opinion_flipview_three_photo1"
+                    android:layout_toRightOf="@id/opinion_flipview_three_photo1"
+                    android:layout_alignLeft="@id/opinionflipview_three_name1"
                     android:text="金融"
                     android:textColor="@color/line" />
 
 
                 <TextView
-                    android:id="@+id/opinionFlipTvTitle"
+                    android:id="@+id/opinion_flipview_three_title1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/opinionFlipTvTrade"
-                    android:layout_alignBottom="@id/opinionFlipTvTrade"
+                    android:layout_toRightOf="@id/opinion_flipview_three_trade1"
+                    android:layout_alignBottom="@id/opinion_flipview_three_trade1"
                     android:text="研究员"
                     android:layout_marginLeft="@dimen/spacing"
                     android:textColor="@color/line" />
 
                 <TextView
-                    android:id="@+id/opinionFlipTvTime"
+                    android:id="@+id/opinion_flipview_time1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/opinionFlipTvTitle"
-                    android:layout_alignBottom="@id/opinionFlipTvTitle"
+                    android:layout_toRightOf="@id/opinion_flipview_three_title1"
+                    android:layout_alignBottom="@id/opinion_flipview_three_title1"
                     android:layout_alignParentRight="true"
                     android:gravity="end"
                     android:textSize="@dimen/text_size_12"
@@ -73,6 +73,7 @@
 
 
             <TextView
+                android:id="@+id/opioion_flipview_three_content1"
                 android:text="@string/opinion_text_content"
                 android:textSize="@dimen/text_size_12"
                 android:textColor="@color/white"
@@ -131,48 +132,48 @@
                     >
 
                     <ImageView
-                        android:id="@+id/opinionFlipIvPhoto2"
+                        android:id="@+id/opinion_flipview_three_photo2"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/height_5_80"
                         android:src="@mipmap/iconfont_mima" />
 
                     <TextView
-                        android:id="@+id/opinionFlipTvName2"
+                        android:id="@+id/opinionflipview_three_name2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/spacing"
-                        android:layout_alignTop="@id/opinionFlipIvPhoto2"
-                        android:layout_toRightOf="@id/opinionFlipIvPhoto2"
+                        android:layout_alignTop="@id/opinion_flipview_three_photo2"
+                        android:layout_toRightOf="@id/opinion_flipview_three_photo2"
                         android:text="Susan"
                         android:textColor="@color/line" />
 
                     <TextView
-                        android:id="@+id/opinionFlipTvTrade2"
+                        android:id="@+id/opinion_flipview_three_trade2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/opinionFlipIvPhoto2"
-                        android:layout_toRightOf="@id/opinionFlipIvPhoto2"
-                        android:layout_alignLeft="@id/opinionFlipTvName2"
+                        android:layout_alignBottom="@id/opinion_flipview_three_photo2"
+                        android:layout_toRightOf="@id/opinion_flipview_three_photo2"
+                        android:layout_alignLeft="@id/opinionflipview_three_name2"
                         android:text="金融"
                         android:textColor="@color/line" />
 
 
                     <TextView
-                        android:id="@+id/opinionFlipTvTitle2"
+                        android:id="@+id/opinion_flipview_three_title2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/opinionFlipTvTrade2"
-                        android:layout_alignBottom="@id/opinionFlipTvTrade2"
+                        android:layout_toRightOf="@id/opinion_flipview_three_trade2"
+                        android:layout_alignBottom="@id/opinion_flipview_three_trade2"
                         android:text="研究员"
                         android:layout_marginLeft="@dimen/spacing"
                         android:textColor="@color/line" />
 
                     <TextView
-                        android:id="@+id/opinionFlipTvTime2"
+                        android:id="@+id/opinion_flipview_three_time2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/opinionFlipTvTitle2"
-                        android:layout_alignBottom="@id/opinionFlipTvTitle2"
+                        android:layout_toRightOf="@id/opinion_flipview_three_title2"
+                        android:layout_alignBottom="@id/opinion_flipview_three_title2"
                         android:layout_alignParentRight="true"
                         android:gravity="end"
                         android:textSize="@dimen/text_size_12"

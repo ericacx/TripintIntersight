@@ -7,6 +7,7 @@ import com.tripint.intersight.entity.ForgetPasswordEntity;
 import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
+import com.tripint.intersight.entity.article.ArticleBannerEntity;
 import com.tripint.intersight.entity.user.ChooseEntity;
 import com.tripint.intersight.entity.user.LoginEntity;
 import com.tripint.intersight.entity.user.RegisterEntity;
@@ -81,4 +82,12 @@ public interface BaseDataService {
     Observable<BaseResponse<ChooseEntity>> postInterestIndustry(
             @Field("industryId") String strings
     );
+
+    //观点列表
+    @GET("articles")
+    Observable<BaseResponse> getArticles();
+
+    //观点banner
+    @GET("banner")
+    Observable<BaseResponse<ArticleBannerEntity>> getArticleBanner(@Query("type") int type);
 }

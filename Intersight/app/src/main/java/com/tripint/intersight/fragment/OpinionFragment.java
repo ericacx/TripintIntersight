@@ -39,11 +39,11 @@ public class OpinionFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_opinion, container, false);
-
         ButterKnife.bind(this, view);
 
-        mOpinionFlipViewAdapter2 = new OpinionFlipViewAdapter2(getContext());
-        opinionFlipView.setAdapter(mOpinionFlipViewAdapter2);
+//
+//        mOpinionFlipViewAdapter2 = new OpinionFlipViewAdapter2(getContext());
+//        opinionFlipView.setAdapter(mOpinionFlipViewAdapter2);
         return view;
     }
 

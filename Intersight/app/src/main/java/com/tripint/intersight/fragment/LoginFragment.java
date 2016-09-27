@@ -121,8 +121,8 @@ public class LoginFragment extends BaseCloseFragment {
             public void onNext(LoginEntity entity) {
                 //接口请求成功后处理
                 loginEntity = entity;
-                ACache.get(mActivity).put(EnumKey.User.USER_TOKEN, entity.getUserInfo().getToke());
-                Log.e("login",entity.getUserInfo().getNickname());
+                ACache.get(mActivity).put(EnumKey.User.USER_TOKEN, entity.getToken());
+                Log.e("login",entity.getToken());
                 int status = entity.getStatus();
                 Intent intent = new Intent();
                 if (status == 100){

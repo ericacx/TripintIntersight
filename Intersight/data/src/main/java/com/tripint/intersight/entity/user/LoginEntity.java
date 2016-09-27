@@ -13,12 +13,20 @@ public class LoginEntity implements Serializable {
 
 
     /**
-     * toke : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjUyfQ.1a2ry-hMsyIy1Ylcotq0rm6xp9KsK7f00iCqEsAIPpw
-     * nickname : 刘进52
-     * avatar : http://oc153j0jh.bkt.clouddn.com/1472448319003R52335-17.jpg
+     * token : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOm51bGx9.uDN9jJP0fE2kRfMIRNFL_GxQvWqT8HiA9hM0rhL5bXI
+     * status : 102
      */
+
+    private String token;
     private int status;
-    private UserInfoBean userInfo;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public int getStatus() {
         return status;
@@ -26,43 +34,5 @@ public class LoginEntity implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public UserInfoBean getUserInfo() {
-        return userInfo;
-    }
-
-    public void setUserInfo(UserInfoBean userInfo) {
-        this.userInfo = userInfo;
-    }
-
-    public static class UserInfoBean {
-        private String toke;
-        private String nickname;
-        private String avatar;
-
-        public String getToke() {
-            return toke;
-        }
-
-        public void setToke(String toke) {
-            this.toke = toke;
-        }
-
-        public String getNickname() {
-            return nickname;
-        }
-
-        public void setNickname(String nickname) {
-            this.nickname = nickname;
-        }
-
-        public String getAvatar() {
-            return avatar;
-        }
-
-        public void setAvatar(String avatar) {
-            this.avatar = avatar;
-        }
     }
 }

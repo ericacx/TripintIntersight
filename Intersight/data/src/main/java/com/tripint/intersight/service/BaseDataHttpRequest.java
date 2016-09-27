@@ -7,6 +7,7 @@ import com.tripint.intersight.entity.ForgetPasswordEntity;
 import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
+import com.tripint.intersight.entity.article.ArticleBannerEntity;
 import com.tripint.intersight.entity.user.ChooseEntity;
 import com.tripint.intersight.entity.user.LoginEntity;
 import com.tripint.intersight.entity.user.RegisterEntity;
@@ -176,6 +177,18 @@ public class BaseDataHttpRequest extends HttpRequest {
     public void postInsterestIndustry(Subscriber<ChooseEntity> subscriber, String strings){
         Observable observable = baseDataService.postInterestIndustry(strings)
                 .map(new HttpResultFunc<ChooseEntity>());
+        toSubscribe(observable,subscriber);
+    }
+
+
+    /**
+     * 用于获取观点页面的banner
+     * @param subscriber
+     * @param type
+     */
+    public void getArticleBanner(Subscriber<ArticleBannerEntity> subscriber,int type){
+        Observable observable = baseDataService.getArticleBanner(type)
+                .map(new HttpResultFunc<ArticleBannerEntity>());
         toSubscribe(observable,subscriber);
     }
 }
