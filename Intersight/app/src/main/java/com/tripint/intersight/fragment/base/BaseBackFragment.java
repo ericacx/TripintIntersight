@@ -11,7 +11,7 @@ import com.tripint.intersight.common.fragmentation.SwipeBackFragment;
 /**
  * Created by YoKeyword on 16/2/7.
  */
-public class BaseBackFragment extends SwipeBackFragment {
+public class BaseBackFragment extends BaseFragment {
     private static final String TAG = "Fragmentation";
 
     protected void initToolbarNav(Toolbar toolbar) {

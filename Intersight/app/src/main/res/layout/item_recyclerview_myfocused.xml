@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@mipmap/background_default"
+    android:background="@android:color/transparent"
     android:orientation="horizontal">
 
     <RelativeLayout
@@ -11,8 +11,8 @@
         android:layout_weight="1"
         android:layout_height="wrap_content">
 
-        <com.tripint.intersight.widget.image.CircleImageView
-            android:src="@mipmap/p1"
+        <ImageView
+            android:id="@+id/imageView_owner_profile"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="50dp" />
@@ -30,11 +30,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/textView_owner_name"
                 android:text="门门"
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/textView_owner_job_title_company"
                 android:text="8年+"
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
@@ -44,12 +46,14 @@
 
         <TextView
             android:layout_marginTop="@dimen/spacing"
+            android:id="@+id/textView_item_ask_company"
             android:text="腾讯（科技）深圳有限公司"
             android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/textView_item_ask_job_title"
             android:layout_marginTop="@dimen/spacing"
             android:text="销售总监"
             android:textColor="@color/white"
@@ -57,6 +61,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/textView_item_industry_name"
             android:layout_marginTop="@dimen/spacing"
             android:text="互联网 | 游戏 | 软件"
             android:textColor="@color/white"
@@ -76,12 +81,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:src="@mipmap/iconfont_mima"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:text="关注"
-                android:textColor="@color/white"
+                android:src="@mipmap/iconfont_nextarticle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

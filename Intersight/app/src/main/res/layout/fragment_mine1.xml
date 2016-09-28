@@ -9,8 +9,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-    <include layout="@layout/toolbar" />
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -25,18 +23,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.tripint.intersight.widget.image.CircleImageView
+                <ImageView
                     android:id="@+id/mineCIVPersonalInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/actionbar_height"
-                    android:src="@mipmap/p1" />
+                    android:layout_marginTop="@dimen/actionbar_height" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing">
+                    android:layout_marginTop="@dimen/spacing_pad04">
 
                     <TextView
                         android:id="@+id/mine_text_view_name"
@@ -44,7 +41,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:text="Susan"
+                        android:text=""
                         android:textColor="@color/line"
                         android:textSize="@dimen/text_size_15" />
 
@@ -53,7 +50,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/spacing"
-                        android:layout_toRightOf="@id/mineTvName"
+                        android:layout_toRightOf="@id/mine_text_view_name"
                         android:src="@mipmap/iconfont_bi" />
                 </RelativeLayout>
 
@@ -68,7 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/spacing"
+                    android:layout_margin="@dimen/spacing"
                     android:orientation="horizontal">
 
                     <TextView
@@ -118,190 +115,131 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:padding="@dimen/spacing">
+                    android:padding="@dimen/spacing_pad04"
+                    android:background="@drawable/bg_corners_grey">
 
                     <RelativeLayout
-                        android:id="@+id/layout_container_account_retain"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing">
-
-                        <ImageView
-                            android:id="@+id/mineIvMoney"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:src="@mipmap/iconfont_yu_e" />
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/mineTvMoney"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/height_5_80"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/spacing"
-                            android:layout_toRightOf="@id/mineIvMoney"
+                            android:drawableLeft="@mipmap/iconfont_yu_e"
+                            android:drawablePadding="@dimen/spacing"
+                            android:gravity="left|center_vertical"
                             android:text="账户余额"
                             android:textColor="@color/line" />
-
                         <TextView
-                            android:id="@+id/mineIvMoneyNum"
+                            android:id="@+id/text_view_my_money"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
+                            android:layout_height="@dimen/height_5_80"
                             android:layout_centerVertical="true"
-                            android:text="3000.00"
-                            android:textColor="@color/line" />
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/spacing"
+                            android:drawablePadding="@dimen/spacing"
+                            android:gravity="left|center_vertical"
+                            android:text="0.00"
+                            android:textColor="@color/red_400" />
+
                     </RelativeLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="@dimen/spacing"
+                        android:layout_margin="@dimen/spacing_pad04"
                         android:background="@color/line" />
 
-                    <RelativeLayout
-                        android:id="@+id/layout_container_account_detail"
+                    <TextView
+                        android:id="@+id/text_view_my_account_detail"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing">
+                        android:layout_height="@dimen/height_5_80"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/spacing"
+                        android:drawableLeft="@mipmap/iconfont_mingxi"
+                        android:drawablePadding="@dimen/spacing"
+                        android:drawableRight="@mipmap/iconfont_nextarticle"
+                        android:gravity="left|center_vertical"
+                        android:text="账户明细"
+                        android:textColor="@color/line" />
 
-                        <ImageView
-                            android:id="@+id/mineIvMoneyDetail"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:src="@mipmap/iconfont_mingxi" />
-
-                        <TextView
-                            android:id="@+id/mineTvMoneyDetail"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/spacing"
-                            android:layout_toRightOf="@id/mineIvMoneyDetail"
-                            android:text="账户明细"
-                            android:textColor="@color/line" />
-
-                        <ImageView
-                            android:id="@+id/mineTvMoneyDetailArrow"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:src="@mipmap/iconfont_nextarticle"
-                            android:textColor="@color/line" />
-                    </RelativeLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="@dimen/spacing"
+                        android:layout_margin="@dimen/spacing_pad04"
                         android:background="@color/line" />
 
-                    <RelativeLayout
-                        android:id="@+id/layout_container_my_focus"
+
+                    <TextView
+                        android:id="@+id/textView_my_focus"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing">
+                        android:layout_height="@dimen/height_5_80"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/spacing"
+                        android:drawableLeft="@mipmap/iconfont_guanzhu"
+                        android:drawablePadding="@dimen/spacing"
+                        android:drawableRight="@mipmap/iconfont_nextarticle"
+                        android:gravity="left|center_vertical"
+                        android:text="我的关注"
+                        android:textColor="@color/line" />
 
-                        <ImageView
-                            android:id="@+id/mineIvFocus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:src="@mipmap/iconfont_guanzhu" />
-
-                        <TextView
-                            android:id="@+id/mineTvFocus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/spacing"
-                            android:layout_toRightOf="@id/mineIvFocus"
-                            android:text="我的关注"
-                            android:textColor="@color/line" />
-
-                        <ImageView
-                            android:id="@+id/mineTvFocusArrow"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:src="@mipmap/iconfont_nextarticle"
-                            android:textColor="@color/line" />
-                    </RelativeLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="@dimen/spacing"
+                        android:layout_margin="@dimen/spacing_pad04"
                         android:background="@color/line" />
 
-                    <RelativeLayout
-                        android:id="@+id/layout_container_star"
+
+                    <TextView
+                        android:id="@+id/text_view_my_star"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing">
+                        android:layout_height="@dimen/height_5_80"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/spacing"
+                        android:drawableLeft="@mipmap/iconfont_mingxing"
+                        android:drawablePadding="@dimen/spacing"
+                        android:drawableRight="@mipmap/iconfont_nextarticle"
+                        android:gravity="left|center_vertical"
+                        android:text="明星洞察家"
+                        android:textColor="@color/line" />
 
-                        <ImageView
-                            android:id="@+id/mineIvStar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:src="@mipmap/iconfont_mingxing" />
-
-                        <TextView
-                            android:id="@+id/mineTvStar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/spacing"
-                            android:layout_toRightOf="@id/mineIvStar"
-                            android:text="明星洞察家"
-                            android:textColor="@color/line" />
-
-                        <ImageView
-                            android:id="@+id/mineTvStarArrow"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:src="@mipmap/iconfont_nextarticle"
-                            android:textColor="@color/line" />
-                    </RelativeLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="@dimen/spacing"
+                        android:layout_margin="@dimen/spacing_pad04"
                         android:background="@color/line" />
 
 
                     <TextView
                         android:id="@+id/text_view_help"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/height_6_80"
+                        android:layout_height="@dimen/height_5_80"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/spacing"
                         android:drawableLeft="@mipmap/iconfont_bangzhu"
                         android:drawablePadding="@dimen/spacing"
                         android:drawableRight="@mipmap/iconfont_nextarticle"
                         android:gravity="left|center_vertical"
-                        android:layout_toRightOf="@id/mineIvHelp"
                         android:text="使用帮助"
                         android:textColor="@color/line" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_margin="@dimen/spacing_pad04"
                         android:background="@color/line" />
 
 
                     <TextView
                         android:id="@+id/text_view_setting"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/height_6_80"
+                        android:layout_height="@dimen/height_5_80"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/spacing"
                         android:drawableLeft="@mipmap/iconfont_shezhi"
@@ -311,9 +249,15 @@
                         android:text="设置"
                         android:textColor="@color/line" />
 
-
                 </LinearLayout>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_5_80"
+                    android:layout_centerVertical="true"
+                    android:drawablePadding="@dimen/spacing"
+                    android:gravity="left|center_vertical"
+                    android:textColor="@color/line" />
             </LinearLayout>
         </LinearLayout>
 

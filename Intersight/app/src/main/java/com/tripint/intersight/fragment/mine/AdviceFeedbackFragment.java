@@ -17,6 +17,8 @@ import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -35,7 +37,7 @@ public class AdviceFeedbackFragment extends BaseBackFragment {
     @Bind(R.id.button_submit)
     Button buttonSubmit;
 
-    private PageDataSubscriberOnNext<String> subscriber;
+    private PageDataSubscriberOnNext<List<String>> subscriber;
 
 
     public AdviceFeedbackFragment() {
@@ -68,12 +70,13 @@ public class AdviceFeedbackFragment extends BaseBackFragment {
     }
 
     private void httpRequestData() {
-        subscriber = new PageDataSubscriberOnNext<String>() {
+        subscriber = new PageDataSubscriberOnNext<List<String>>() {
             @Override
-            public void onNext(String entity) {
+            public void onNext(List<String> entity) {
                 //接口请求成功后处理
 
                 CommonUtils.showToast("提交成功");
+                pop();
 
             }
         };

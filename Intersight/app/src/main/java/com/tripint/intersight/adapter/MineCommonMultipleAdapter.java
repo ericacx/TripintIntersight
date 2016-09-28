@@ -23,6 +23,8 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
     public MineCommonMultipleAdapter(List<MineMultipleItemModel> data) {
         super(data);
         addItemType(MineMultipleItemModel.MY_OPTION, R.layout.item_recyclerview_myopinion);
+        addItemType(MineMultipleItemModel.MY_OPTION_FOLLOW, R.layout.item_recyclerview_myopinion);
+
         addItemType(MineMultipleItemModel.MY_DISCUSS, R.layout.item_recyclerview_myaskanswer);
         addItemType(MineMultipleItemModel.MY_FOCUSE, R.layout.item_recyclerview_myfocused);
         addItemType(MineMultipleItemModel.MY_INTERVIEW, R.layout.item_recyclerview_myinterview);
@@ -59,19 +61,21 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
             case MineMultipleItemModel.MY_DISCUSS:
                 helper.setText(R.id.textView_mine_title_main, sperialist)
                         .setText(R.id.textView_mine_sub_title, StringUtils.null2Length0(item.getContent().getContent()))
-                        .setText(R.id.textView_owner_name, StringUtils.null2Length0(item.getContent().getContent()))
+                        .setText(R.id.text_view_my_item_data_time, StringUtils.null2Length0(item.getContent().getContent()))
+                        .setText(R.id.text_view_my_item_industry, StringUtils.null2Length0(item.getContent().getContent()))
+
                 ;
 
-                Glide.with(mContext).load(avatar)
-                        .crossFade()
-                        .placeholder(R.mipmap.loading_normal_icon)
-                        .transform(new GlideCircleTransform(mContext))
-                        .into((ImageView) helper.getView(R.id.imageView_owner_profile));
+//                Glide.with(mContext).load(avatar)
+//                        .crossFade()
+//                        .placeholder(R.mipmap.loading_normal_icon)
+//                        .transform(new GlideCircleTransform(mContext))
+//                        .into((ImageView) helper.getView(R.id.image_view_has_replay));
                 break;
             case MineMultipleItemModel.MY_INTERVIEW:
                 helper.setText(R.id.textView_mine_title_main, sperialist)
                         .setText(R.id.textView_mine_sub_title, StringUtils.null2Length0(item.getContent().getContent()))
-                        .setText(R.id.textView_owner_name, StringUtils.null2Length0(item.getContent().getContent()))
+                        .setText(R.id.text_view_my_item_data_time, StringUtils.null2Length0(item.getContent().getContent()))
                 ;
 
                 Glide.with(mContext).load(avatar)
@@ -82,9 +86,9 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
 
                 break;
             case MineMultipleItemModel.MY_FOCUSE:
-                helper.setText(R.id.textView_mine_title_main, sperialist)
-                        .setText(R.id.textView_mine_sub_title, StringUtils.null2Length0(item.getContent().getContent()))
-                        .setText(R.id.textView_owner_name, StringUtils.null2Length0(item.getContent().getContent()))
+                helper.setText(R.id.textView_item_ask_company, sperialist)
+                        .setText(R.id.textView_item_ask_job_title, StringUtils.null2Length0(item.getContent().getContent()))
+                        .setText(R.id.textView_item_industry_name, StringUtils.null2Length0(item.getContent().getContent()))
                 ;
 
                 Glide.with(mContext).load(avatar)

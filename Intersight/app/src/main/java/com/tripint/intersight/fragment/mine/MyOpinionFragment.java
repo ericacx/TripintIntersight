@@ -20,6 +20,7 @@ import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.discuss.DiscussPageEntity;
+import com.tripint.intersight.entity.mine.MineFollowPointEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.fragment.home.AskAnswerDetailFragment;
@@ -27,6 +28,7 @@ import com.tripint.intersight.fragment.home.AskAnswerFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
 import com.tripint.intersight.model.MultipleChatItemModel;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
+import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
@@ -55,11 +57,15 @@ public class MyOpinionFragment extends BaseBackFragment {
     TextView btnMyCommonHeaderRight;
     @Bind(R.id.recycler_view_main)
     RecyclerView mRecyclerView;
+
+
     private MineCommonMultipleAdapter mAdapter;
 
-    private PageDataSubscriberOnNext<DiscussPageEntity> subscriber;
+    private PageDataSubscriberOnNext<List<MineFollowPointEntity>> subscriber;
 
-    private DiscussPageEntity data;
+    private List<MineFollowPointEntity> data;
+
+    private int tab;
 
 
     public MyOpinionFragment() {
@@ -82,24 +88,31 @@ public class MyOpinionFragment extends BaseBackFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_opinion, container, false);
         ButterKnife.bind(this, view);
+        initToolbar();
         setTab(0);
         return view;
     }
 
+    private void initToolbar() {
+        initToolbarNav(toolbar);
+        toolbar.setTitle("我的观点");
+    }
+
     private void httpRequestData(int type) {
-        subscriber = new PageDataSubscriberOnNext<DiscussPageEntity>() {
+        subscriber = new PageDataSubscriberOnNext<List<MineFollowPointEntity>>() {
             @Override
-            public void onNext(DiscussPageEntity entity) {
+            public void onNext(List<MineFollowPointEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
 //                ToastUtil.showToast(mActivity, entity.getAbility().toString() +"");
                 initView(null);
-                initAdapter();
+                initAdapter(tab);
             }
         };
 
 
-        DiscussDataHttpRequest.getInstance(mActivity).getDiscusses(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
+        MineDataHttpRequest.getInstance(mActivity).getMyFollowPoint(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
+
     }
 
 
@@ -126,6 +139,7 @@ public class MyOpinionFragment extends BaseBackFragment {
      * @param tab
      */
     private void setTab(int tab) {
+        this.tab = tab;
         btnMyCommonHeaderLeft.setSelected(tab == 0);
         btnMyCommonHeaderRight.setSelected(tab == 1);
         httpRequestData(tab);
@@ -141,12 +155,12 @@ public class MyOpinionFragment extends BaseBackFragment {
 
     }
 
-    private void initAdapter() {
+    private void initAdapter(int tab) {
 
         List<MineMultipleItemModel> models = new ArrayList<>();
 
-        int type = MineMultipleItemModel.MY_OPTION;
-        for (DiscussEntiry entiry : data.getDiscuss()) {
+        int type = tab == 0 ? MineMultipleItemModel.MY_OPTION : MineMultipleItemModel.MY_OPTION_FOLLOW;
+        for (MineFollowPointEntity entiry : data) {
 
             models.add(new MineMultipleItemModel(type, entiry));
         }

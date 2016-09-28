@@ -28,7 +28,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/spacing"
                 android:text="帐号信息"
-                android:textColor="@color/green_50" />
+                android:textColor="@color/grey_50" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/spacing"
                 android:text="意见反馈"
-                android:textColor="@color/green_50" />
+                android:textColor="@color/grey_50" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -80,7 +80,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/spacing"
                 android:text="关于洞察+"
-                android:textColor="@color/green_50" />
+                android:textColor="@color/grey_50" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -105,7 +105,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/spacing"
                 android:text="清除缓存"
-                android:textColor="@color/green_50" />
+                android:textColor="@color/grey_50" />
 
             <TextView
                 android:id="@+id/setting_tvCacheSize"
@@ -116,7 +116,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@+id/setting_iv_arrow"
                 android:text="已用缓存:"
-                android:textColor="@color/green_50" />
+                android:textColor="@color/grey_50" />
 
             <ImageView
                 android:id="@+id/setting_iv_arrow"
@@ -144,7 +144,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/spacing"
                 android:text="检查更新"
-                android:textColor="@color/green_50" />
+                android:textColor="@color/grey_50" />
 
             <TextView
                 style="@style/text_24px_styles"
@@ -155,7 +155,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@+id/settingIvArrow"
                 android:text="1.1.0"
-                android:textColor="@color/green_50" />
+                android:textColor="@color/grey_50" />
 
             <ImageView
                 android:id="@+id/settingIvArrow"
@@ -169,9 +169,11 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/button_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:textColor="@color/grey_50"
         android:layout_marginLeft="@dimen/spacing_04"
         android:layout_marginRight="@dimen/spacing_04"
         android:background="@drawable/btn_shape"

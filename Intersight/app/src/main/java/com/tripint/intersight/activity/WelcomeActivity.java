@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.tripint.intersight.R;
+import com.tripint.intersight.app.InterSightApp;
 import com.tripint.intersight.common.utils.PackageUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -37,9 +38,15 @@ public class WelcomeActivity extends Activity {
                 //当新版本与旧版本一致时直接跳转进入主界面
                 if(newVersion.equals(version)){
 
-                    Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
+                    if (InterSightApp.getApp().isUserLogin()) {
+                        Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
 
-                    startActivity(intent);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+
+                        startActivity(intent);
+                    }
 
                     finish();
 

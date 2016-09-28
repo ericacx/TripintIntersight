@@ -146,6 +146,9 @@ public class LoginFragment extends BaseCloseFragment {
                 } else if (status == 102){
                     intent.setClass(mContext, MainActivity.class);
                     startActivity(intent);
+                } else {
+                    intent.setClass(mContext, MainActivity.class);
+                    startActivity(intent);
                 }
 
             }
