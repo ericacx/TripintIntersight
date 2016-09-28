@@ -110,24 +110,6 @@ public class InterSightApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-
-//        refWatcher = LeakCanary.install(this);
-        PushAgent mPushAgent = PushAgent.getInstance(this);
-//注册推送服务，每次调用register方法都会回调该接口
-        mPushAgent.register(new IUmengRegisterCallback() {
-
-            @Override
-            public void onSuccess(String deviceToken) {
-                UmLog.i("Intersight", "device token: " + deviceToken);
-//                sendBroadcast(new Intent(UPDATE_STATUS_ACTION));
-            }
-
-            @Override
-            public void onFailure(String s, String s1) {
-                UmLog.i("Intersight", "error: " + s);
-
-            }
-        });
         app = this;
         init();
     }
@@ -139,7 +121,7 @@ public class InterSightApp extends Application {
 
 
         initUmengAgent();
-//        initUmengMessage();
+        initUmengMessage();
         initBugly();
 
         //Glide 图片加载
