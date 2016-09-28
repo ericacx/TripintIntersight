@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tripint.intersight.R;
 import com.tripint.intersight.common.Constants;
 import com.tripint.intersight.common.cache.ACache;
@@ -95,8 +97,8 @@ public class InterSightApp extends Application {
     //各个平台的配置，建议放在全局Application或者程序入口
     {
         //微信
-//        PlatformConfig.setWeixin(Constants.WX_APP_ID, Constants.WX_APP_SECRET);
-        PlatformConfig.setWeixin("wxc179ce907846f2ab", "dc92c186ac3285cafbb0647f8cbc6b66");
+        PlatformConfig.setWeixin(Constants.WX_APP_ID, Constants.WX_APP_SECRET);
+//        PlatformConfig.setWeixin("wxc179ce907846f2ab", "dc92c186ac3285cafbb0647f8cbc6b66");
 
         //新浪微博
 //        PlatformConfig.setSinaWeibo("1374619301", "9a98812343eae184440afb67e45477e7");
@@ -109,7 +111,6 @@ public class InterSightApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         app = this;
         init();
     }
@@ -130,6 +131,11 @@ public class InterSightApp extends Application {
 
     }
 
+    private void initWXPay() {
+        final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
+// 将该app注册到微信
+        msgApi.registerApp(Constants.WX_PAY_ID);
+    }
 
     private void initUmengMessage() {
         PushAgent mPushAgent = PushAgent.getInstance(this);

@@ -17,5 +17,7 @@ public class Constants {
 
     public static final String WX_APP_SECRET = "bbdf335b91c270214a53b0c6a148ea8b";
 
+    public static final String WX_PARTNER_ID = "1388635002";
+
 
 }
