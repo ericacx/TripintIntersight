@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 public class GuideActivity extends AppCompatActivity {
 
+    private ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +46,7 @@ public class GuideActivity extends AppCompatActivity {
 
         guide_tabBar.setClickable(false);
 
-        ViewPager viewPager = ((ViewPager) findViewById(R.id.guide_viewPager));
+        viewPager = ((ViewPager) findViewById(R.id.guide_viewPager));
 
         ArrayList<Fragment> guideFragment = new ArrayList<>();
 

@@ -161,15 +161,10 @@ public class LoginFragment extends BaseCloseFragment {
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.login_forget_pwd:
-                intent.setClass(mActivity, ForgetPasswordActivity.class);
-                startActivity(intent);
+                start(ForgetPasswordFragment.newInstance());
                 break;
             case R.id.login_button_login:
-
                 submit();
-//                Bundle bundle = new Bundle();
-//                setFramgentResult(RESULT_OK, bundle);
-
                 break;
             case R.id.login_button_register:
                 start(ResigterFragment.newInstance());

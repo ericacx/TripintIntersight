@@ -1,139 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/background"
-    android:orientation="vertical">
+    android:background="@mipmap/background">
 
     <ImageView
-        android:id="@+id/opinionFlipIvPic"
+        android:id="@+id/opinion_flipview_two_pic"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_25_80"
         android:src="@mipmap/p1" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/spacing"
+
+    <Button
+        android:id="@+id/opioion_flipview_two_submit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/height_6_80"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/width_10_80"
+        android:layout_marginRight="@dimen/width_10_80"
+        android:background="@drawable/btn_shape"
+        android:text="发表观点"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_15" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/opioion_flipview_two_submit"
+        android:layout_below="@id/opinion_flipview_two_pic"
+        android:layout_marginTop="@dimen/spacing"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/opinionFlipViewTvTitle"
-            android:text="@string/opinion_text_title"
-            android:padding="@dimen/spacing"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_15"
+            android:id="@+id/opinion_flipview_two_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:padding="@dimen/spacing"
+            android:text="@string/opinion_text_title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_15" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/opinionFlipViewTvName"
+                android:id="@+id/opinion_flipview_two_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing"
                 android:text="Maggie"
                 android:textColor="@color/line"
-                android:layout_marginLeft="@dimen/spacing"
-                android:textSize="@dimen/text_size_12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/text_size_12" />
+
             <TextView
-                android:id="@+id/opinionFlipViewTvTrade"
-                android:layout_toRightOf="@id/opinionFlipViewTvName"
+                android:id="@+id/opinion_flipview_two_trade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing"
-                android:textSize="@dimen/text_size_12"
-                android:textColor="@color/line"
+                android:layout_toRightOf="@id/opinion_flipview_two_name"
                 android:text="互联网 | 游戏 | 软件"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textColor="@color/line"
+                android:textSize="@dimen/text_size_12" />
+
             <TextView
-                android:id="@+id/opinionFlipViewTvPos"
+                android:id="@+id/opinion_flipview_two_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_toRightOf="@id/opinion_flipview_two_trade"
                 android:text="销售总监"
                 android:textColor="@color/line"
-                android:layout_toRightOf="@id/opinionFlipViewTvTrade"
-                android:layout_marginLeft="@dimen/spacing"
-                android:textSize="@dimen/text_size_12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/text_size_12" />
 
         </RelativeLayout>
 
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/spacing"
             android:layout_marginTop="@dimen/spacing"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/opinionFlipViewAgree"
-                android:src="@mipmap/iconfont_mima"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/opinionFlipViewAgreeNum"
+                android:id="@+id/opinion_flipview_two_agreeNum"
+                android:layout_width="@dimen/width_15_80"
+                android:layout_height="@dimen/height_4_80"
+                android:gravity="center_vertical"
+                android:drawableLeft="@mipmap/iconfont_mima"
+                android:drawablePadding="@dimen/spacing"
+                android:layout_marginLeft="@dimen/spacing"
                 android:text="285"
-                android:layout_marginLeft="@dimen/spacing"
-                android:layout_gravity="center_vertical"
-                android:src="@mipmap/iconfont_mima"
-                android:textColor="@color/line"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <ImageView
-                android:id="@+id/opinionFlipViewTalk"
-                android:src="@mipmap/iconfont_mima"
-                android:layout_marginLeft="@dimen/single_view_ic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textColor="@color/line" />
+
             <TextView
-                android:id="@+id/opinionFlipViewTalkNum"
-                android:text="5"
+                android:id="@+id/opinion_flipview_two_talkNum"
+                android:layout_width="@dimen/width_15_80"
+                android:layout_height="@dimen/height_4_80"
+                android:gravity="center_vertical"
+                android:drawablePadding="@dimen/spacing"
                 android:layout_marginLeft="@dimen/spacing"
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/line"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <ImageView
-                android:id="@+id/opinionFlipViewReport"
-                android:src="@mipmap/iconfont_mima"
-                android:layout_marginLeft="@dimen/single_view_ic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:drawableLeft="@mipmap/iconfont_mima"
+                android:text="5"
+                android:textColor="@color/line" />
+
+            <TextView
+                android:id="@+id/opinion_flipview_two_report"
+                android:layout_width="@dimen/width_15_80"
+                android:layout_height="@dimen/height_4_80"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="@dimen/spacing"
+                android:drawablePadding="@dimen/spacing"
+                android:drawableLeft="@mipmap/iconfont_mima"
+                />
 
         </LinearLayout>
 
         <TextView
-            android:id="@+id/opinionFlipViewTvContent"
-            android:text="@string/opinion_text_content"
-            android:textSize="@dimen/text_size_12"
-            android:padding="@dimen/spacing"
-            android:textColor="@color/white"
-            android:maxLines="10"
+            android:id="@+id/opinion_flipview_two_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lineSpacingMultiplier="1.5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearlayout"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom" >
-        <Button
-            android:id="@+id/opioionFlipBtnSubmit"
-            android:layout_width="match_parent"
-            android:background="@drawable/btn_shape"
-            android:text="发表观点"
-            android:layout_marginLeft="@dimen/width_10_80"
-            android:layout_marginRight="@dimen/width_10_80"
+            android:maxLines="10"
+            android:padding="@dimen/spacing"
+            android:text="@string/opinion_text_content"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_15"
-            android:layout_height="@dimen/height_6_80" />
+            android:textSize="@dimen/text_size_12" />
+
     </LinearLayout>
 
-</LinearLayout>
+
+</RelativeLayout>
