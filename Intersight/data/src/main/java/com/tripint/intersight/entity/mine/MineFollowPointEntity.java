@@ -1,6 +1,7 @@
 package com.tripint.intersight.entity.mine;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Author: lirichen
@@ -35,6 +36,16 @@ public class MineFollowPointEntity implements Serializable{
     private String jobName;//职位
     private String companyName;//公司名
     private String industryName;//行业
+    /**
+     * id : 2
+     * title : 沃尔玛埃及棉床垫下架
+     * content :
+     * status : 0
+     * createAt : 1472529300
+     * name : 电子·通信·硬件
+     */
+
+
 
     public int getId() {
         return id;
@@ -124,4 +135,71 @@ public class MineFollowPointEntity implements Serializable{
         this.industryName = industryName;
     }
 
+
+    private List<PointBean> point;
+    public List<PointBean> getPoint() {
+        return point;
+    }
+
+    public void setPoint(List<PointBean> point) {
+        this.point = point;
+    }
+
+
+    public static class PointBean {
+        private int id;
+        private String title;
+        private String content;
+        private int status;
+        private int createAt;
+        private String name;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+
+        public int getCreateAt() {
+            return createAt;
+        }
+
+        public void setCreateAt(int createAt) {
+            this.createAt = createAt;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
 }
