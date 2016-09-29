@@ -19,16 +19,12 @@ import com.tripint.intersight.entity.mine.UserHomeEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.event.StartFragmentForResultEvent;
 import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
-import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.service.MineDataHttpRequest;
-import com.tripint.intersight.widget.image.CircleImageView;
 import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,7 +34,6 @@ import butterknife.OnClick;
  * A simple {@link Fragment} subclass.
  */
 public class MineFragment extends BaseLazyMainFragment {
-
 
     @Bind(R.id.mineCIVPersonalInfo)
     ImageView mineCIVPersonalInfo;
@@ -127,35 +122,37 @@ public class MineFragment extends BaseLazyMainFragment {
 
     }
 
-    @OnClick({R.id.text_view_setting, R.id.text_view_mine_ask_answer, R.id.text_view_mine_interview, R.id.text_view_my_option, R.id.textView_my_focus})
-    public void onClick(View view) {
-        switch (view.getId()) {
-
-            case R.id.text_view_setting: //设置
-                EventBus.getDefault().post(new StartFragmentEvent(SettingFragment.newInstance()));
-
-                break;
-
-            case R.id.text_view_mine_ask_answer: //
-                EventBus.getDefault().post(new StartFragmentEvent(MyAskAnswerFragment.newInstance()));
-
-                break;
-            case R.id.text_view_mine_interview: //
-                EventBus.getDefault().post(new StartFragmentEvent(MyInterviewFragment.newInstance()));
-
-                break;
-
-            case R.id.text_view_my_option: //
-                EventBus.getDefault().post(new StartFragmentEvent(MyOpinionFragment.newInstance()));
-
-                break;
-
-            case R.id.textView_my_focus: //
-                EventBus.getDefault().post(new StartFragmentEvent(MyFocusedFragment.newInstance()));
-
-                break;
-        }
-    }
+//    @OnClick({R.id.text_view_setting, R.id.text_view_mine_ask_answer, R.id.text_view_mine_interview,
+//            R.id.text_view_my_option})
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//
+//            case R.id.text_view_setting: //设置
+//                EventBus.getDefault().post(new StartFragmentEvent(SettingFragment.newInstance()));
+//
+//                break;
+//
+//            case R.id.text_view_mine_ask_answer: //我的问答
+//                EventBus.getDefault().post(new StartFragmentEvent(MyAskAnswerFragment.newInstance()));
+//
+//                break;
+//            case R.id.text_view_mine_interview: //我的访谈
+//                EventBus.getDefault().post(new StartFragmentEvent(MyInterviewFragment.newInstance()));
+//
+//                break;
+//
+//            case R.id.text_view_my_option: //我的观点
+//                EventBus.getDefault().post(new StartFragmentEvent(MyOpinionFragment.newInstance()));
+//                break;
+//
+//            case R.id.textView_my_focus: //我的关注
+//                EventBus.getDefault().post(new StartFragmentEvent(MyFocusedFragment.newInstance()));
+//                break;
+//            case R.id.text_view_my_account_detail: //账户明细
+//                EventBus.getDefault().post(new StartFragmentEvent(AccountDetailFragment.newInstance()));
+//                break;
+//        }
+//    }
 
     @Override
     protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
@@ -172,5 +169,41 @@ public class MineFragment extends BaseLazyMainFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @OnClick({R.id.mineIvRewriteInfo, R.id.text_view_mine_ask_answer, R.id.text_view_mine_interview,
+            R.id.text_view_my_option, R.id.text_view_my_money, R.id.text_view_my_account_detail,
+            R.id.textView_my_focus, R.id.text_view_my_star, R.id.text_view_help, R.id.text_view_setting})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.mineIvRewriteInfo:
+                break;
+            case R.id.text_view_mine_ask_answer://我的问答
+                EventBus.getDefault().post(new StartFragmentEvent(MyAskAnswerFragment.newInstance()));
+                break;
+            case R.id.text_view_mine_interview://我的访谈
+                EventBus.getDefault().post(new StartFragmentEvent(MyInterviewFragment.newInstance()));
+                break;
+            case R.id.text_view_my_option://我的观点
+                EventBus.getDefault().post(new StartFragmentEvent(MyOpinionFragment.newInstance()));
+                break;
+            case R.id.text_view_my_money:
+                break;
+            case R.id.text_view_my_account_detail://账户明细
+                EventBus.getDefault().post(new StartFragmentEvent(AccountDetailFragment.newInstance()));
+                break;
+            case R.id.textView_my_focus://我的关注
+                EventBus.getDefault().post(new StartFragmentEvent(MyFocusedFragment.newInstance()));
+                break;
+            case R.id.text_view_my_star://明星洞察家
+                EventBus.getDefault().post(new StartFragmentEvent(StarIntersighterFragment.newInstance()));
+                break;
+            case R.id.text_view_help://使用帮助
+                EventBus.getDefault().post(new StartFragmentEvent(UseHelpFragment.newInstance()));
+                break;
+            case R.id.text_view_setting://设置
+                EventBus.getDefault().post(new StartFragmentEvent(SettingFragment.newInstance()));
+                break;
+        }
     }
 }

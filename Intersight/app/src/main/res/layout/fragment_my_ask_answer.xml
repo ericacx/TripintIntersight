@@ -1,13 +1,66 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tripint.intersight.fragment.mine.MyAskAnswerFragment">
+    android:background="@mipmap/background_default"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_5_80"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btn_my_common_header_left"
+            style="@style/text_28px_styles"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/btn_selector_corners_grey"
+            android:gravity="center"
+            android:paddingBottom="@dimen/spacing_pad"
+            android:paddingLeft="@dimen/spacing_01"
+            android:paddingRight="@dimen/spacing_01"
+            android:paddingTop="@dimen/spacing_pad"
+            android:text="我的问答"
+            android:textColor="@color/grey_100" />
+
+        <TextView
+            android:id="@+id/btn_my_common_header_right"
+            style="@style/text_28px_styles"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/btn_selector_corners_grey"
+            android:gravity="center"
+            android:paddingBottom="@dimen/spacing_pad"
+            android:paddingLeft="@dimen/spacing_01"
+            android:paddingRight="@dimen/spacing_01"
+            android:paddingTop="@dimen/spacing_pad"
+            android:text="我关注的问答"
+            android:textColor="@color/grey_100" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
-</FrameLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@android:color/transparent"
+            android:fadingEdge="none" />
+
+    </LinearLayout>
+
+</LinearLayout>
+

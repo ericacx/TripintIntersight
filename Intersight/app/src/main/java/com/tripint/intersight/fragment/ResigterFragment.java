@@ -6,9 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +17,7 @@ import android.widget.TextView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.activity.InterestedActivity;
+import com.tripint.intersight.activity.MainActivity;
 import com.tripint.intersight.activity.UserProtocolActivity;
 import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.common.enumkey.EnumKey;

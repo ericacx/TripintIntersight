@@ -33,9 +33,11 @@ public interface MineDataService {
     Observable<BaseResponse<UserHomeEntity>> getUserHome();
 
 
+    //我的观点列表
     @GET("myPoint")
     Observable<BaseResponse<List<MineFollowPointEntity>>> getMyPointList(@Query("page") int page, @Query("size") int size);
 
+    //我关注的观点列表
     @GET("myFollowPoint")
     Observable<BaseResponse<List<MineFollowPointEntity>>> getMyFollowPointList(@Query("page") int page, @Query("size") int size);
 }

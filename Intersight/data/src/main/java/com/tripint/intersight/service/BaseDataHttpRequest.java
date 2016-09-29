@@ -144,6 +144,12 @@ public class BaseDataHttpRequest extends HttpRequest {
         toSubscribe(observable, subscriber);
     }
 
+    public void postResetpassword(Subscriber<CodeDataEntity> subscriber,User user){
+        Observable observable = baseDataService.postResetpassword(user)
+                .map(new HttpResultFunc<CodeDataEntity>());
+
+        toSubscribe(observable,subscriber);
+    }
     /**
      * 用于获取个人信息数据
      * @param subscriber

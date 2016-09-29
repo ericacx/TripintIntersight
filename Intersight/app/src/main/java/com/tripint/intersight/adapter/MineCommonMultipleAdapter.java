@@ -22,7 +22,9 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
 
     public MineCommonMultipleAdapter(List<MineMultipleItemModel> data) {
         super(data);
+        //我的观点
         addItemType(MineMultipleItemModel.MY_OPTION, R.layout.item_recyclerview_myopinion);
+        //我关注的观点
         addItemType(MineMultipleItemModel.MY_OPTION_FOLLOW, R.layout.item_recyclerview_myopinion);
 
         addItemType(MineMultipleItemModel.MY_DISCUSS, R.layout.item_recyclerview_myaskanswer);
@@ -44,19 +46,37 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
             }
             avatar = item.getContent().getUser().getAvatar();
         }
+
         switch (helper.getItemViewType()) {
-            case MineMultipleItemModel.MY_OPTION:
-                helper.setText(R.id.textView_mine_title_main, sperialist)
-                        .setText(R.id.textView_mine_sub_title, StringUtils.null2Length0(item.getContent().getContent()))
-                        .setText(R.id.textView_owner_name, StringUtils.null2Length0(item.getContent().getContent()))
+            case MineMultipleItemModel.MY_OPTION_FOLLOW://我关注的观点
+                helper
+                        .setText(R.id.opinion_textView_owner_name,StringUtils.null2Length0(item.getMineFollowPointEntity().getNickname()))
+                        .setText(R.id.opinion_textView_owner_job_title, StringUtils.null2Length0(item.getMineFollowPointEntity().getJobName()))
+                        .setText(R.id.opinion_textView_owner_job_company, StringUtils.null2Length0(item.getMineFollowPointEntity().getCompanyName()))
+                        .setText(R.id.opinion_textView_mine_title_main, StringUtils.null2Length0(item.getMineFollowPointEntity().getTitle()))
+                        .setText(R.id.opinion_textView_mine_sub_title, StringUtils.null2Length0(item.getMineFollowPointEntity().getContent()))
+                        .setText(R.id.opinion_textView_item_focusnum, item.getMineFollowPointEntity().getFollows())
+                        .setText(R.id.opinion_textView_item_talknum,item.getMineFollowPointEntity().getComments())
+                        .setText(R.id.opinion_textView_item_agreenum, item.getMineFollowPointEntity().getPraises())
+                        .setText(R.id.opinion_textView_item_trade, StringUtils.null2Length0(item.getMineFollowPointEntity().getIndustryName()))
                 ;
 
-                Glide.with(mContext).load(avatar)
+                Glide.with(mContext).load(item.getMineFollowPointEntity().getAvatar())
                         .crossFade()
                         .placeholder(R.mipmap.loading_normal_icon)
                         .transform(new GlideCircleTransform(mContext))
-                        .into((ImageView) helper.getView(R.id.imageView_owner_profile));
+                        .into((ImageView) helper.getView(R.id.opinion_imageView_owner_profile));
 
+                break;
+            case MineMultipleItemModel.MY_OPTION://我的观点
+                helper
+                        .setText(R.id.opinion_textView_mine_title_main, StringUtils.null2Length0(item.getMineFollowPointEntity().getTitle()))
+                        .setText(R.id.opinion_textView_mine_sub_title, StringUtils.null2Length0(item.getMineFollowPointEntity().getContent()))
+                        .setText(R.id.opinion_textView_item_focusnum, item.getMineFollowPointEntity().getFollows())
+                        .setText(R.id.opinion_textView_item_talknum,item.getMineFollowPointEntity().getComments())
+                        .setText(R.id.opinion_textView_item_agreenum, item.getMineFollowPointEntity().getPraises())
+                        .setText(R.id.opinion_textView_item_trade, StringUtils.null2Length0(item.getMineFollowPointEntity().getIndustryName()))
+                ;
                 break;
             case MineMultipleItemModel.MY_DISCUSS:
                 helper.setText(R.id.textView_mine_title_main, sperialist)

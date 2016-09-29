@@ -1,6 +1,10 @@
 package com.tripint.intersight.fragment.flipview;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,155 +14,283 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tripint.intersight.R;
-import com.tripint.intersight.bean.OpinionData;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Eric on 16/9/14.
- */
+import butterknife.Bind;
 
-//public class OpinionFlipViewAdapter extends BaseAdapter implements View.OnClickListener {
-//
-//    public interface Callback {
-//        public void onPageRequested(int page);
-//    }
-//
-//
-//    private LayoutInflater inflater;
-//    private Callback callback;
-//
-//    private List<OpinionData> items = new ArrayList<OpinionData>();
-//
-//    public OpinionFlipViewAdapter(Context context) {
-//        inflater = LayoutInflater.from(context);
-//        for (int i = 0; i < 10; i++) {
-//            items.add(new OpinionData("AR技术可以利用计算机生成一种逼真的视,听,力,触和动等感觉的虚拟环境,通过各种传感设备使用户沉浸到该环境中\n" +
-//                    "        ,实现用户和环境直接进行自然交互.此前曾有一种技术名为Virtual Reality（虚拟实境）技术,这项技术可以创造出一套全新的虚拟环境,\n" +
-//                    "        听起来与AR技术很像.不过略为不同的是,AR技术强调虚实结合,例如谷歌眼镜就应用了AR技术,通过虚拟菜单实现了拍照,录像等功能.\n" +
-//                    "        正是这种特性,让AR技术有了广阔的应用前景.AR技术可以模拟出试衣间,用户在试衣间可以挑选......", R.mipmap.p1, "目前AR技术的整体发展情况以及未来演讲方向?", "Susan", "互联网 | 游戏 |软件", "销售总监", R.mipmap.iconfont_mima, "485", R.mipmap.iconfont_mima, "485", R.mipmap.iconfont_mima));
-//        }
-//    }
-//
-//    public void setCallback(Callback callback) {
-//        this.callback = callback;
-//    }
-//
-//    @Override
-//    public int getCount() {
-//        return items.size();
-//    }
-//
-//    @Override
-//    public Object getItem(int position) {
-//        return position;
-//    }
-//
-//    @Override
-//    public long getItemId(int position) {
-////        return items.get(position).getId();
-//        return 0;
-//    }
-//
-//    @Override
-//    public boolean hasStableIds() {
-//        return true;
-//    }
-//
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        ViewHolder holder;
-//
-//        if (convertView == null) {
-//            holder = new ViewHolder();
-//            convertView = inflater.inflate(R.layout.opinion_flipview_two, parent, false);
-//
-//            holder.opinionFlipViewTvTitle = (TextView) convertView.findViewById(R.id.opinionFlipViewTvTitle);
-//            holder.opinionFlipViewTvName = (TextView) convertView.findViewById(R.id.opinionFlipViewTvName);
-//            holder.opinionFlipViewTvTrade = (TextView) convertView.findViewById(R.id.opinionFlipViewTvTrade);
-//            holder.opinionFlipViewTvPos = (TextView) convertView.findViewById(R.id.opinionFlipViewTvPos);
-//            holder.opinionFlipViewAgreeNum = (TextView) convertView.findViewById(R.id.opinionFlipViewAgreeNum);
-//            holder.opinionFlipViewTalkNum = (TextView) convertView.findViewById(R.id.opinionFlipViewTalkNum);
-//            holder.opinionFlipViewTvContent = (TextView) convertView.findViewById(R.id.opinionFlipViewTvContent);
-//
-//            holder.opinionFlipIvPic = (ImageView) convertView.findViewById(R.id.opinionFlipIvPic);
-//            holder.opinionFlipViewAgree = (ImageView) convertView.findViewById(R.id.opinionFlipViewAgree);
-//            holder.opinionFlipViewTalk = (ImageView) convertView.findViewById(R.id.opinionFlipViewTalk);
-//            holder.opinionFlipViewReport = (ImageView) convertView.findViewById(R.id.opinionFlipViewReport);
-//
-//            holder.opioionFlipBtnSubmit = (Button) convertView.findViewById(R.id.opioionFlipBtnSubmit);
-//
-//            holder.opioionFlipBtnSubmit.setOnClickListener(this);
-//
-//            convertView.setTag(holder);
-//        } else {
-//            holder = (ViewHolder) convertView.getTag();
-//        }
-//
-//        //TODO set a text with the id as well
-//        holder.opinionFlipViewTvTitle.setText(items.get(position).getTitle() + ":" + position);
-//        holder.opinionFlipViewTvName.setText(items.get(position).getName() + ":" + position);
-//        holder.opinionFlipViewTvTrade.setText(items.get(position).getTrade() + ":" + position);
-//        holder.opinionFlipViewTvPos.setText(items.get(position).getPosition() + ":" + position);
-//        holder.opinionFlipViewAgreeNum.setText(items.get(position).getAgreeNum() + ":" + position);
-//        holder.opinionFlipViewTalkNum.setText(items.get(position).getTalkNum() + ":" + position);
-//        holder.opinionFlipViewTvContent.setText(items.get(position).getContent() + ":" + position);
-//
-//
-//        holder.opinionFlipIvPic.setImageResource(items.get(position).getPhoto());
-//        holder.opinionFlipViewAgree.setImageResource(items.get(position).getAgree());
-//        holder.opinionFlipViewTalk.setImageResource(items.get(position).getTalk());
-//        holder.opinionFlipViewReport.setImageResource(items.get(position).getReport());
-//
-//        return convertView;
-//    }
-//
-//    static class ViewHolder {
-//
-//        ImageView opinionFlipIvPic;
-//        ImageView opinionFlipViewAgree;
-//        ImageView opinionFlipViewTalk;
-//        ImageView opinionFlipViewReport;
-//
-//        TextView opinionFlipViewTvTitle;
-//        TextView opinionFlipViewTvName;
-//        TextView opinionFlipViewTvTrade;
-//        TextView opinionFlipViewTvPos;
-//        TextView opinionFlipViewAgreeNum;
-//        TextView opinionFlipViewTalkNum;
-//        TextView opinionFlipViewTvContent;
-//
-//        Button opioionFlipBtnSubmit;
-//    }
-//
-//    @Override
-//    public void onClick(View v) {
-////        switch(v.getId()){
-////            case R.id.first_page:
-////                if(callback != null){
-////                    callback.onPageRequested(0);
-////                }
-////                break;
-////            case R.id.last_page:
-////                if(callback != null){
-////                    callback.onPageRequested(getCount()-1);
-////                }
-////                break;
-////        }
-//    }
-//
-//    public void addItems(int amount) {
-//        for (int i = 0; i < amount; i++) {
-////            items.add(new Item());
-//        }
-//        notifyDataSetChanged();
-//    }
-//
-//    public void addItemsBefore(int amount) {
-//        for (int i = 0; i < amount; i++) {
-////            items.add(0, new Item());
-//        }
-//        notifyDataSetChanged();
-//    }
-//}
+/**
+ * Created by Eric on 16/9/20.
+ */
+public class OpinionFlipViewAdapter extends BaseAdapter {
+
+    private Context context;
+    private List<TextView> textViews;
+    private List<String> resList;
+    private final int VIEWTYPE_ONE = 0;//首页,带有banner
+    private final int VIEWTYPE_TWO = 1;//图文
+    private final int VIEWTYPE_THREE = 2;//只有文字
+
+
+    public OpinionFlipViewAdapter(Context context, List<String> list) {
+        this.context = context;
+        this.resList = list;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) {
+            return VIEWTYPE_ONE;//第1个条目加载第1种布局
+        } else if (position == 1) {
+            return VIEWTYPE_TWO;//第2个条目加载第2种布局
+        }else {
+            return VIEWTYPE_THREE;//其他的条目加载第3种布局
+        }
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 3;//三种类型的布局
+    }
+
+    @Override
+    public int getCount() {
+        return 5;
+    }
+
+    @Override
+    public Object getItem(int i) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        int type = getItemViewType(position);
+
+        ViewHolderOne viewHolderOne = null;
+        ViewHolderTwo viewHolderTwo = null;
+        ViewHolderThree viewHolderThree = null;
+
+        //设置视图
+        if (convertView == null) {
+
+            viewHolderOne = new ViewHolderOne();
+            viewHolderTwo = new ViewHolderTwo();
+            viewHolderThree = new ViewHolderThree();
+
+            //确定布局
+            switch (type) {
+                case VIEWTYPE_ONE:
+                    convertView = LayoutInflater.from(context).inflate(R.layout.opinion_flipview_one, parent, false);
+                    viewHolderOne.opinionFlipviewOneViewpager = ((ViewPager) convertView.findViewById(R.id.opinion_flipview_one_viewpager));
+                    viewHolderOne.opinionFlipviewOneTv1 = (TextView) convertView.findViewById(R.id.opinion_flipview_one_tv1);
+                    viewHolderOne.opinionFlipviewOneTv2 = ((TextView) convertView.findViewById(R.id.opinion_flipview_one_tv2));
+                    viewHolderOne.opinionFlipviewOneTv3 = ((TextView) convertView.findViewById(R.id.opinion_flipview_one_tv3));
+                    convertView.setTag(viewHolderOne);
+                    break;
+                case VIEWTYPE_TWO:
+                    convertView = LayoutInflater.from(context).inflate(R.layout.opinion_flipview_two, parent, false);
+                    convertView.setTag(viewHolderTwo);
+                    break;
+                case VIEWTYPE_THREE:
+                    convertView = LayoutInflater.from(context).inflate(R.layout.opinion_flipview_three, parent, false);
+                    convertView.setTag(viewHolderThree);
+                    break;
+                default:
+                    break;
+            }
+
+        } else {
+
+            viewHolderOne = (ViewHolderOne) convertView.getTag();
+            switch (type) {
+                case VIEWTYPE_ONE:
+                    viewHolderOne = (ViewHolderOne) convertView.getTag();
+                    break;
+                case VIEWTYPE_TWO:
+                    viewHolderTwo = (ViewHolderTwo) convertView.getTag();
+                    break;
+                case VIEWTYPE_THREE:
+                    viewHolderThree = (ViewHolderThree) convertView.getTag();
+                    break;
+            }
+
+        }
+
+
+
+        //设置资源
+        switch (type) {
+            case VIEWTYPE_ONE:
+                textViews = new ArrayList<TextView>();
+                textViews.add(viewHolderOne.opinionFlipviewOneTv1);
+                textViews.add(viewHolderOne.opinionFlipviewOneTv2);
+                textViews.add(viewHolderOne.opinionFlipviewOneTv3);
+
+                final ViewHolderOne finalViewHolderOne1 = viewHolderOne;
+                viewHolderOne.opinionFlipviewOneTv1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        finalViewHolderOne1.opinionFlipviewOneViewpager.setCurrentItem(
+                                finalViewHolderOne1.opinionFlipviewOneViewpager.getCurrentItem()
+                                        - finalViewHolderOne1.opinionFlipviewOneViewpager.getCurrentItem() % 3);
+                    }
+                });
+
+                final ViewHolderOne finalViewHolderOne2 = viewHolderOne;
+                viewHolderOne.opinionFlipviewOneTv2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        finalViewHolderOne2.opinionFlipviewOneViewpager.setCurrentItem(
+                                finalViewHolderOne2.opinionFlipviewOneViewpager.getCurrentItem()
+                                        - finalViewHolderOne2.opinionFlipviewOneViewpager.getCurrentItem() % 3 + 1);
+                    }
+                });
+
+                final ViewHolderOne finalViewHolderOne3 = viewHolderOne;
+                viewHolderOne.opinionFlipviewOneTv3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        finalViewHolderOne3.opinionFlipviewOneViewpager.setCurrentItem(
+                                finalViewHolderOne3.opinionFlipviewOneViewpager.getCurrentItem()
+                                        - finalViewHolderOne3.opinionFlipviewOneViewpager.getCurrentItem() % 3 + 2);
+                    }
+                });
+
+                viewHolderOne.opinionFlipviewOneViewpager.setAdapter(new ViewPagerBannerAdapter(context, resList));
+                viewHolderOne.opinionFlipviewOneViewpager.setCurrentItem(1200);
+                Log.e("position", viewHolderOne.opinionFlipviewOneViewpager.getCurrentItem() + "");
+                viewHolderOne.opinionFlipviewOneViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+                        Log.e("po", position + "");
+                        for (int i = 0; i < textViews.size(); i++) {
+                            textViews.get(i).setTextColor(ContextCompat.getColor(context, R.color.gray));
+                        }
+                        textViews.get(position % 3).setTextColor(ContextCompat.getColor(context, R.color.white));
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+
+                    }
+                });
+
+                break;
+            case VIEWTYPE_TWO:
+
+                break;
+            case VIEWTYPE_THREE:
+
+                break;
+        }
+        return convertView;
+    }
+
+    /**
+     * 第1种布局的控件
+     */
+    class ViewHolderOne {
+        ViewPager opinionFlipviewOneViewpager;
+        @Bind(R.id.opinion_flipview_one_tv1)
+        TextView opinionFlipviewOneTv1;
+        @Bind(R.id.opinion_flipview_one_tv2)
+        TextView opinionFlipviewOneTv2;
+        @Bind(R.id.opinion_flipview_one_tv3)
+        TextView opinionFlipviewOneTv3;
+        @Bind(R.id.opinion_flipview_one_header)
+        TextView opinionFlipviewOneHeader;//标题
+        @Bind(R.id.opinion_flipview_one_content)
+        TextView opinionFlipviewOneContent;//内容
+        @Bind(R.id.opinion_flipview_one_name)
+        TextView opinionFlipviewOneName;//名字
+        @Bind(R.id.opinion_flipview_one_trade)
+        TextView opinionFlipviewOneTrade;//行业
+        @Bind(R.id.opinion_flipview_one_title)
+        TextView opinionFlipviewOneTitle;//职位
+        @Bind(R.id.opinion_flipview_one_time)
+        TextView opinionFlipviewOneTime;//时间
+        @Bind(R.id.opinion_flipview_one_down)
+        ImageView opinionFlipviewOneDown;//下滑
+    }
+
+    /**
+     * 第2种布局的控件
+     */
+    class ViewHolderTwo {
+        @Bind(R.id.opinion_flipview_two_pic)
+        ImageView opinionFlipviewTwoPic;//图片
+        @Bind(R.id.opioion_flipview_two_submit)
+        Button opioionFlipviewTwoSubmit;//发表观点按钮
+        @Bind(R.id.opinion_flipview_two_header)
+        TextView opinionFlipviewTwoHeader;//标题
+        @Bind(R.id.opinion_flipview_two_name)
+        TextView opinionFlipviewTwoName;//名字
+        @Bind(R.id.opinion_flipview_two_trade)
+        TextView opinionFlipviewTwoTrade;//行业
+        @Bind(R.id.opinion_flipview_two_title)
+        TextView opinionFlipviewTwoTitle;//职位
+        @Bind(R.id.opinion_flipview_two_agreeNum)
+        TextView opinionFlipviewTwoAgreeNum;//赞数
+        @Bind(R.id.opinion_flipview_two_talkNum)
+        TextView opinionFlipviewTwoTalkNum;//评论数
+        @Bind(R.id.opinion_flipview_two_report)
+        TextView opinionFlipviewTwoReport;//举报
+        @Bind(R.id.opinion_flipview_two_content)
+        TextView opinionFlipviewTwoContent;//内容
+    }
+
+    /**
+     * 第3种布局的控件
+     */
+    class ViewHolderThree {
+        @Bind(R.id.opinion_flipview_three_photo1)
+        ImageView opinionFlipviewThreePhoto1;
+        @Bind(R.id.opinionflipview_three_name1)
+        TextView opinionflipviewThreeName1;
+        @Bind(R.id.opinion_flipview_three_trade1)
+        TextView opinionFlipviewThreeTrade1;
+        @Bind(R.id.opinion_flipview_three_title1)
+        TextView opinionFlipviewThreeTitle1;
+        @Bind(R.id.opinion_flipview_time1)
+        TextView opinionFlipviewTime1;
+        @Bind(R.id.opioion_flipview_three_content1)
+        TextView opioionFlipviewThreeContent1;
+        @Bind(R.id.iv1)
+        ImageView iv1;
+        @Bind(R.id.iv2)
+        ImageView iv2;
+        @Bind(R.id.iv3)
+        ImageView iv3;
+
+        @Bind(R.id.opinion_flipview_three_photo2)
+        ImageView opinionFlipviewThreePhoto2;
+        @Bind(R.id.opinionflipview_three_name2)
+        TextView opinionflipviewThreeName2;
+        @Bind(R.id.opinion_flipview_three_trade2)
+        TextView opinionFlipviewThreeTrade2;
+        @Bind(R.id.opinion_flipview_three_title2)
+        TextView opinionFlipviewThreeTitle2;
+        @Bind(R.id.opinion_flipview_three_time2)
+        TextView opinionFlipviewThreeTime2;
+        @Bind(R.id.iv4)
+        ImageView iv4;
+        @Bind(R.id.iv5)
+        ImageView iv5;
+        @Bind(R.id.iv6)
+        ImageView iv6;
+    }
+
+}

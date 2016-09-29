@@ -12,6 +12,7 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DiscussPageEntity implements Serializable {
+
     private List<BannerEntity> banners;
     private List<DiscussEntiry> discuss;
 

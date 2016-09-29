@@ -26,7 +26,7 @@ public class ViewPagerBannerAdapter extends PagerAdapter{
 
 
     private Context context;
-    private List<String> resList;
+    private List<String> resList;//图片url集合
 
     public ViewPagerBannerAdapter(Context context, List<String> resList){
         this.context = context;

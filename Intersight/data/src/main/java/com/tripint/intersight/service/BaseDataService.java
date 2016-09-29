@@ -65,6 +65,11 @@ public interface BaseDataService {
     @POST("password/forget")
     Observable<BaseResponse<ForgetPasswordEntity>> postForgetpassword(@Field("mobile") String mobile);
 
+    //重置密码
+    @POST("password/reset")
+    Observable<BaseResponse<CodeDataEntity>> postResetpassword(
+            @Body User user);
+
     //填写个人信息
     @POST("user/info")
     Observable<BaseResponse<UserInfoEntity>> postUserInfo(

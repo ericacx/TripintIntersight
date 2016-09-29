@@ -11,7 +11,8 @@ import com.tripint.intersight.entity.mine.MineFollowPointEntity;
 public class MineMultipleItemModel implements MultiItemEntity {
 
     public static final int MY_OPTION = 10; //我的观点
-    public static final int MY_OPTION_FOLLOW = 11; //我的观点
+    public static final int MY_OPTION_FOLLOW = 11; //我关注的观点
+
     public static final int MY_FOCUSE = 20; //
     public static final int MY_FOCUSE_FOLLOW = 21; //
 

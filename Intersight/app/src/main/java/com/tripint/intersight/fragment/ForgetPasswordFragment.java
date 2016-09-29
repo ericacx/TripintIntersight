@@ -18,6 +18,7 @@ import android.widget.EditText;
 import com.tripint.intersight.R;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.entity.CodeDataEntity;
+import com.tripint.intersight.entity.user.User;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
@@ -49,11 +50,12 @@ public class ForgetPasswordFragment extends BaseBackFragment {
     Button forgetpasswordBtnSubmit;//提交按钮
 
 
-    private int time = 10;
+    private int time = 60;
 
     private CodeDataEntity codeDataEntity;
     private PageDataSubscriberOnNext<CodeDataEntity> subscriberCode;
 
+    private PageDataSubscriberOnNext<CodeDataEntity> subscriber;
 
     public static ForgetPasswordFragment newInstance() {
 
@@ -87,6 +89,15 @@ public class ForgetPasswordFragment extends BaseBackFragment {
             }
         };
 
+        //重置密码
+        subscriber = new PageDataSubscriberOnNext<CodeDataEntity>() {
+            @Override
+            public void onNext(CodeDataEntity entity) {
+                //接口请求成功后处理
+                codeDataEntity = entity;
+                pop();
+            }
+        };
 
     }
 
@@ -147,7 +158,13 @@ public class ForgetPasswordFragment extends BaseBackFragment {
                         forgetpasswordEtNewpassword.getText().toString().trim().length() > 16) {
                     ToastUtil.showToast(mActivity, "请输入6~16位的字符或者数字作为密码");
                 } else {
-
+                    User user = new User(forgetpasswordEtHone.getText().toString().trim(),
+                            forgetpasswordEtNewpassword.getText().toString().trim(),
+                            Integer.parseInt(forgetpasswordEtInputcode.getText().toString().trim()));
+                    BaseDataHttpRequest.getInstance(mActivity).postResetpassword(
+                            new ProgressSubscriber<CodeDataEntity>(subscriber,mActivity)
+                            ,user
+                    );
                 }
                 break;
         }

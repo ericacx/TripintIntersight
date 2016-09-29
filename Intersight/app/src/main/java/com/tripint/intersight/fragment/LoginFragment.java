@@ -37,7 +37,11 @@ import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.entity.user.LoginEntity;
 import com.tripint.intersight.entity.user.User;
 import com.tripint.intersight.fragment.base.BaseCloseFragment;
+import com.tripint.intersight.fragment.home.AskAnswerFragment;
+import com.tripint.intersight.fragment.home.AskFragment;
+import com.tripint.intersight.fragment.mine.MineFragment;
 import com.tripint.intersight.fragment.mine.MyOpinionFragment;
+import com.tripint.intersight.fragment.search.SearchMainFragment;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
@@ -171,7 +175,7 @@ public class LoginFragment extends BaseCloseFragment {
                 break;
             case R.id.login_thirdLogin_linkedin:
 //                sharedLinkedInLogin();
-                start(MyOpinionFragment.newInstance());
+                start(SearchMainFragment.newInstance());
                 break;
             case R.id.login_thirdLogin_wechat:
                 SHARE_MEDIA platform = SHARE_MEDIA.WEIXIN;

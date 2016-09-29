@@ -69,12 +69,13 @@ public class SearchMainFragment extends BaseBackFragment {
     public void onClick(View view) {
         switch (view.getId()) {
 
-            case R.id.layout_find_people: //行业领域
+            case R.id.layout_find_people: //找人
                 EventBus.getDefault().post(new StartFragmentEvent(SearchPersonFragment.newInstance()));
-
+//                start(SearchPersonFragment.newInstance());
                 break;
-            case R.id.layout_find_resource: //我的关注
+            case R.id.layout_find_resource: //找内容
                 EventBus.getDefault().post(new StartFragmentEvent(SearchResultFragment.newInstance(SearchResultFragment.ARG_SEARCH_TYPE_RESOURCE)));
+//                start(SearchResultFragment.newInstance(1));
                 break;
 
         }

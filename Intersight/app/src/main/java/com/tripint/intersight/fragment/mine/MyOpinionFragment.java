@@ -104,15 +104,12 @@ public class MyOpinionFragment extends BaseBackFragment {
             public void onNext(List<MineFollowPointEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
-//                ToastUtil.showToast(mActivity, entity.getAbility().toString() +"");
                 initView(null);
                 initAdapter(tab);
             }
         };
 
-
         MineDataHttpRequest.getInstance(mActivity).getMyFollowPoint(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
-
     }
 
 
@@ -120,12 +117,12 @@ public class MyOpinionFragment extends BaseBackFragment {
     public void onTabBarClick(View view) {
         switch (view.getId()) {
 
-            case R.id.btn_my_common_header_left: //行业领域
+            case R.id.btn_my_common_header_left: //我的观点
                 if (!btnMyCommonHeaderLeft.isSelected()) {
                     setTab(0);
                 }
                 break;
-            case R.id.btn_my_common_header_right: //我的关注
+            case R.id.btn_my_common_header_right: //我关注的观点
                 if (!btnMyCommonHeaderRight.isSelected()) {
                     setTab(1);
                 }
@@ -147,12 +144,9 @@ public class MyOpinionFragment extends BaseBackFragment {
 
 
     protected void initView(View view) {
-
         initToolbarNav(toolbar);
         toolbar.setTitle("我的观点");
         mRecyclerView.setHasFixedSize(true);
-
-
     }
 
     private void initAdapter(int tab) {

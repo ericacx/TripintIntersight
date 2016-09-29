@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@mipmap/background_default">
-
     <include layout="@layout/toolbar" />
 
     <LinearLayout

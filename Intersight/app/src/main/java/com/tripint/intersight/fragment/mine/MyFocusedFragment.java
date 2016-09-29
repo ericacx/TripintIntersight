@@ -52,9 +52,6 @@ public class MyFocusedFragment extends BaseBackFragment {
     private DiscussPageEntity data;
 
 
-    public MyFocusedFragment() {
-        // Required empty public constructor
-    }
 
     public static MyFocusedFragment newInstance() {
 
@@ -70,7 +67,7 @@ public class MyFocusedFragment extends BaseBackFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_my_opinion, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_focused, container, false);
         ButterKnife.bind(this, view);
 
         initToolbarNav(toolbar);

@@ -11,6 +11,7 @@ import java.io.Serializable;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DiscussEntiry implements Serializable {
+
     private int id;
     private int uid;
     private String content;
