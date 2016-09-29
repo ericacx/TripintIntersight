@@ -2,8 +2,10 @@ package com.tripint.intersight.fragment.home;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,12 +18,16 @@ import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.AskAnswerPageAdapter;
 import com.tripint.intersight.common.utils.ToastUtil;
+import com.tripint.intersight.common.widget.pulltorefresh.PtrClassicFrameLayout;
+import com.tripint.intersight.common.widget.pulltorefresh.PtrDefaultHandler;
+import com.tripint.intersight.common.widget.pulltorefresh.PtrFrameLayout;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.discuss.DiscussPageEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseFragment;
+import com.tripint.intersight.model.PaginationModel;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.widget.BannerViewHolder;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
@@ -39,7 +45,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AskAnswerFragment extends BaseFragment {
+public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
     @Bind(R.id.recycler_view_ask_answer)
     RecyclerView mRecyclerView;
@@ -53,12 +59,23 @@ public class AskAnswerFragment extends BaseFragment {
     @Bind(R.id.btn_qa_recommend)
     TextView mQARecommendButton;
 
+    @Bind(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    private final int PAGE_SIZE = 1;
+
+
+    private int TOTAL_COUNTER = 4;
+
+    private int mCurrentCounter = 0;
 
     private AskAnswerPageAdapter mAdapter;
 
     private PageDataSubscriberOnNext<DiscussPageEntity> subscriber;
 
-    private DiscussPageEntity data;
+    private DiscussPageEntity data = new DiscussPageEntity();
+
+    private PaginationModel pageModel = new PaginationModel();
 
 
     private List<String> networkImages;
@@ -84,10 +101,18 @@ public class AskAnswerFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ask_answer, container, false);
         ButterKnife.bind(this, view);
+
+        initView(null);
+        initAdapter();
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         setTab(0);//默认选中第一个TAB
 
-//        httpRequestData(0);
-        return view;
     }
 
     private void httpRequestData(int type) {
@@ -96,32 +121,30 @@ public class AskAnswerFragment extends BaseFragment {
             public void onNext(DiscussPageEntity entity) {
                 //接口请求成功后处理
                 data = entity;
-//                ToastUtil.showToast(mActivity, entity.getAbility().toString() +"");
-                initView(null);
-                initAdapter();
+                mAdapter.addData(data.getDiscuss());
             }
         };
 
 
-        DiscussDataHttpRequest.getInstance(mActivity).getDiscusses(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
+        DiscussDataHttpRequest.getInstance(mActivity).getDiscusses(new ProgressSubscriber(subscriber, mActivity), type, 1, PAGE_SIZE);
     }
 
     protected void initView(View view) {
 
+        swipeRefreshLayout.setOnRefreshListener(this);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         //网络加载
-        networkImages= Arrays.asList(images);
-
+        networkImages = Arrays.asList(images);
 
 
     }
 
-    private View getHeaderView(View.OnClickListener clickListener){
+    private View getHeaderView(View.OnClickListener clickListener) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_ask_answer_banner_header, null);
-        view.setLayoutParams(new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
-        ConvenientBanner mainBanner = (ConvenientBanner)view.findViewById(R.id.banner_qa_main);
+        view.setLayoutParams(new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        ConvenientBanner mainBanner = (ConvenientBanner) view.findViewById(R.id.banner_qa_main);
         mainBanner.setPages(new CBViewHolderCreator<BannerViewHolder>() {
             @Override
             public BannerViewHolder createHolder() {
@@ -134,8 +157,13 @@ public class AskAnswerFragment extends BaseFragment {
         return view;
     }
 
+    private View getLoadMoreView() {
+        final View customLoading = LayoutInflater.from(mActivity).inflate(R.layout.common_loading, (ViewGroup) mRecyclerView.getParent(), false);
+        return customLoading;
+    }
+
     @OnClick({R.id.btn_qa_recommend, R.id.btn_qa_interest, R.id.btn_qa_profession})
-    public void onTabBarClick(View view){
+    public void onTabBarClick(View view) {
         switch (view.getId()) {
 
             case R.id.btn_qa_profession: //行业领域
@@ -173,6 +201,8 @@ public class AskAnswerFragment extends BaseFragment {
         mAdapter = new AskAnswerPageAdapter(data.getDiscuss());
         mAdapter.openLoadAnimation();
 
+        mAdapter.openLoadMore(PAGE_SIZE);
+        mAdapter.setOnLoadMoreListener(this);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
@@ -184,11 +214,13 @@ public class AskAnswerFragment extends BaseFragment {
         });
 
         mAdapter.addHeaderView(getHeaderView(getHeaderViewClickListener()));
+        mAdapter.setLoadingView(getLoadMoreView());
+
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private View.OnClickListener getHeaderViewClickListener(){
-        return new View.OnClickListener(){
+    private View.OnClickListener getHeaderViewClickListener() {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ToastUtil.showToast(getActivity(), "Header view Click");
@@ -196,4 +228,39 @@ public class AskAnswerFragment extends BaseFragment {
         };
     }
 
+
+    @Override
+    public void onRefresh() {
+        mAdapter.setNewData(data.getDiscuss());
+        mAdapter.openLoadMore(PAGE_SIZE);
+        mAdapter.removeAllFooterView();
+        mCurrentCounter = PAGE_SIZE;
+        swipeRefreshLayout.setRefreshing(false);
+
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+
+        mRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mCurrentCounter >= TOTAL_COUNTER) {
+                    mAdapter.loadComplete();
+
+                } else {
+                    mAdapter.addData(data.getDiscuss());
+                    mCurrentCounter = mAdapter.getData().size();
+                }
+            }
+        }, 200);
+
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
 }
