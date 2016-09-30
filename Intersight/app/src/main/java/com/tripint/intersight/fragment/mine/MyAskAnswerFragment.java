@@ -20,6 +20,7 @@ import com.tripint.intersight.entity.discuss.DiscussPageEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
+import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
@@ -47,13 +48,10 @@ public class MyAskAnswerFragment extends BaseBackFragment {
 
     private MineCommonMultipleAdapter mAdapter;
 
-    private PageDataSubscriberOnNext<DiscussPageEntity> subscriber;
+    private PageDataSubscriberOnNext<List<DiscussEntiry>> subscriber;
 
-    private DiscussPageEntity data;
-
-    public MyAskAnswerFragment() {
-        // Required empty public constructor
-    }
+    private List<DiscussEntiry> data;
+    private int tab;
 
     public static MyAskAnswerFragment newInstance() {
 
@@ -77,19 +75,16 @@ public class MyAskAnswerFragment extends BaseBackFragment {
     }
 
     private void httpRequestData(int type) {
-        subscriber = new PageDataSubscriberOnNext<DiscussPageEntity>() {
+        subscriber = new PageDataSubscriberOnNext<List<DiscussEntiry>>() {
             @Override
-            public void onNext(DiscussPageEntity entity) {
+            public void onNext(List<DiscussEntiry> entity) {
                 //接口请求成功后处理
                 data = entity;
-//                ToastUtil.showToast(mActivity, entity.getAbility().toString() +"");
                 initView(null);
-                initAdapter();
+                initAdapter(tab);
             }
         };
-
-
-        DiscussDataHttpRequest.getInstance(mActivity).getDiscusses(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
+        MineDataHttpRequest.getInstance(mActivity).getMyAskAnswer(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
     }
 
 
@@ -127,20 +122,15 @@ public class MyAskAnswerFragment extends BaseBackFragment {
     }
 
     protected void initView(View view) {
-
-
         mRecyclerView.setHasFixedSize(true);
-
-
     }
 
-    private void initAdapter() {
+    private void initAdapter(int tab) {
 
         List<MineMultipleItemModel> models = new ArrayList<>();
 
-        int type = MineMultipleItemModel.MY_DISCUSS;
-        for (DiscussEntiry entiry : data.getDiscuss()) {
-
+        int type = tab == 0 ? MineMultipleItemModel.MY_DISCUSS : MineMultipleItemModel.MY_DISCUSS_FOLLOW;
+        for (DiscussEntiry entiry : data) {
             models.add(new MineMultipleItemModel(type, entiry));
         }
 

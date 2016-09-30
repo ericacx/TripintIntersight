@@ -1,6 +1,5 @@
 package com.tripint.intersight.fragment.mine;
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,26 +8,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.MineCommonMultipleAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
-import com.tripint.intersight.entity.discuss.DiscussEntiry;
-import com.tripint.intersight.entity.discuss.DiscussPageEntity;
+import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
-import com.tripint.intersight.service.DiscussDataHttpRequest;
+import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * 我的访谈
@@ -36,21 +29,15 @@ import butterknife.OnClick;
  */
 public class MyInterviewFragment extends BaseBackFragment {
 
-
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.btn_my_common_header_left)
-    TextView btnMyCommonHeaderLeft;
-    @Bind(R.id.btn_my_common_header_right)
-    TextView btnMyCommonHeaderRight;
-    @Bind(R.id.recycler_view_main)
+    @Bind(R.id.myInterviewRecyclerView)
     RecyclerView mRecyclerView;
+
     private MineCommonMultipleAdapter mAdapter;
 
-    private PageDataSubscriberOnNext<DiscussPageEntity> subscriber;
-
-    private DiscussPageEntity data;
-
+    private PageDataSubscriberOnNext<List<InterviewEntity>> subscriber;
+    private List<InterviewEntity> data;
 
     public static MyInterviewFragment newInstance() {
 
@@ -69,53 +56,22 @@ public class MyInterviewFragment extends BaseBackFragment {
         View view = inflater.inflate(R.layout.fragment_my_interview, container, false);
         ButterKnife.bind(this, view);
         initToolbar();
-        setTab(0);
+        httpRequestData();
         return view;
     }
 
-    private void httpRequestData(int type) {
-        subscriber = new PageDataSubscriberOnNext<DiscussPageEntity>() {
+    private void httpRequestData() {
+        subscriber = new PageDataSubscriberOnNext<List<InterviewEntity>>() {
             @Override
-            public void onNext(DiscussPageEntity entity) {
+            public void onNext(List<InterviewEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
-//                ToastUtil.showToast(mActivity, entity.getAbility().toString() +"");
                 initView(null);
                 initAdapter();
             }
         };
 
-
-        DiscussDataHttpRequest.getInstance(mActivity).getDiscusses(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
-    }
-
-
-    @OnClick({R.id.btn_my_common_header_left, R.id.btn_my_common_header_right})
-    public void onTabBarClick(View view) {
-        switch (view.getId()) {
-
-            case R.id.btn_my_common_header_left: //行业领域
-                if (!btnMyCommonHeaderLeft.isSelected()) {
-                    setTab(0);
-                }
-                break;
-            case R.id.btn_my_common_header_right: //我的关注
-                if (!btnMyCommonHeaderRight.isSelected()) {
-                    setTab(1);
-                }
-                break;
-        }
-    }
-
-    /**
-     * 请求不同的关键字 精选自由行、省心国内游、品质出境游
-     *
-     * @param tab
-     */
-    private void setTab(int tab) {
-        btnMyCommonHeaderLeft.setSelected(tab == 0);
-        btnMyCommonHeaderRight.setSelected(tab == 1);
-        httpRequestData(tab);
+        MineDataHttpRequest.getInstance(mActivity).getMyInterview(new ProgressSubscriber(subscriber, mActivity), 1, 10);
     }
 
     private void initToolbar() {
@@ -124,10 +80,7 @@ public class MyInterviewFragment extends BaseBackFragment {
     }
 
     protected void initView(View view) {
-
         mRecyclerView.setHasFixedSize(true);
-
-
     }
 
     private void initAdapter() {
@@ -135,8 +88,8 @@ public class MyInterviewFragment extends BaseBackFragment {
         List<MineMultipleItemModel> models = new ArrayList<>();
 
         int type = MineMultipleItemModel.MY_INTERVIEW;
-        for (DiscussEntiry entiry : data.getDiscuss()) {
 
+        for (InterviewEntity entiry : data) {
             models.add(new MineMultipleItemModel(type, entiry));
         }
 

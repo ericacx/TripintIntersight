@@ -2,9 +2,9 @@ package com.tripint.intersight.service;
 
 import android.content.Context;
 
-import com.tripint.intersight.entity.article.ArticleBannerEntity;
-import com.tripint.intersight.entity.discuss.DiscussDetailEntiry;
-import com.tripint.intersight.entity.discuss.DiscussPageEntity;
+import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.mine.FocusEntity;
+import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
 
@@ -67,7 +67,7 @@ public class MineDataHttpRequest extends HttpRequest {
     }
 
     /**
-     * 我关注的观点接口
+     * 个人----我的观点接口
      *
      * @param subscriber
      */
@@ -82,5 +82,53 @@ public class MineDataHttpRequest extends HttpRequest {
             toSubscribe(observable, subscriber);
         }
     }
+
+    /**
+     * 个人---我的关注接口
+     *
+     * @param subscriber
+     */
+    public void getMyFocus(Subscriber<List<FocusEntity>> subscriber, int type, int page, int size) {
+        if (type == option_type_my) {//关注
+            Observable observable = service.getMyFollow(page, size)
+                    .map(new HttpResultFunc<List<FocusEntity>>());
+            toSubscribe(observable, subscriber);
+        } else if (type == option_type_my_follow) {//被关注
+            Observable observable = service.getMyByFollow(page, size)
+                    .map(new HttpResultFunc<List<FocusEntity>>());
+            toSubscribe(observable, subscriber);
+        }
+    }
+
+
+    /**
+     * 个人---我的问答接口
+     *
+     * @param subscriber
+     */
+    public void getMyAskAnswer(Subscriber<List<DiscussEntiry>> subscriber, int type, int page, int size) {
+        if (type == option_type_my) {//关注
+            Observable observable = service.getMyAskAnswer(page, size)
+                    .map(new HttpResultFunc<List<DiscussEntiry>>());
+            toSubscribe(observable, subscriber);
+        } else if (type == option_type_my_follow) {//被关注
+            Observable observable = service.getMyFocusedAskAnswer(page, size)
+                    .map(new HttpResultFunc<List<DiscussEntiry>>());
+            toSubscribe(observable, subscriber);
+        }
+    }
+
+    /**
+     * 个人---我的访谈接口
+     *
+     * @param subscriber
+     */
+    public void getMyInterview(Subscriber<List<InterviewEntity>> subscriber, int page, int size) {
+        Observable observable = service.getMyInterview(page, size)
+                .map(new HttpResultFunc<List<InterviewEntity>>());
+        toSubscribe(observable, subscriber);
+
+    }
+
 
 }

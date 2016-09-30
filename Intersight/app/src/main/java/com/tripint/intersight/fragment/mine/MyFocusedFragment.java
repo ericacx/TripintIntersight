@@ -17,9 +17,11 @@ import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.discuss.DiscussPageEntity;
+import com.tripint.intersight.entity.mine.FocusEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
+import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
@@ -45,13 +47,12 @@ public class MyFocusedFragment extends BaseBackFragment {
     TextView btnMyCommonHeaderRight;
     @Bind(R.id.recycler_view_main)
     RecyclerView mRecyclerView;
+
     private MineCommonMultipleAdapter mAdapter;
+    private PageDataSubscriberOnNext<List<FocusEntity>> subscriber;
+    private List<FocusEntity> data;
 
-    private PageDataSubscriberOnNext<DiscussPageEntity> subscriber;
-
-    private DiscussPageEntity data;
-
-
+    private int tab;
 
     public static MyFocusedFragment newInstance() {
 
@@ -77,19 +78,16 @@ public class MyFocusedFragment extends BaseBackFragment {
     }
 
     private void httpRequestData(int type) {
-        subscriber = new PageDataSubscriberOnNext<DiscussPageEntity>() {
+        subscriber = new PageDataSubscriberOnNext<List<FocusEntity>>() {
             @Override
-            public void onNext(DiscussPageEntity entity) {
+            public void onNext(List<FocusEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
-//                ToastUtil.showToast(mActivity, entity.getAbility().toString() +"");
                 initView(null);
-                initAdapter();
+                initAdapter(tab);
             }
         };
-
-
-        DiscussDataHttpRequest.getInstance(mActivity).getDiscusses(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
+        MineDataHttpRequest.getInstance(mActivity).getMyFocus(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
     }
 
 
@@ -97,12 +95,12 @@ public class MyFocusedFragment extends BaseBackFragment {
     public void onTabBarClick(View view) {
         switch (view.getId()) {
 
-            case R.id.btn_my_common_header_left: //行业领域
+            case R.id.btn_my_common_header_left: //关注
                 if (!btnMyCommonHeaderLeft.isSelected()) {
                     setTab(0);
                 }
                 break;
-            case R.id.btn_my_common_header_right: //我的关注
+            case R.id.btn_my_common_header_right: //被关注
                 if (!btnMyCommonHeaderRight.isSelected()) {
                     setTab(1);
                 }
@@ -116,6 +114,7 @@ public class MyFocusedFragment extends BaseBackFragment {
      * @param tab
      */
     private void setTab(int tab) {
+        this.tab = tab;
         btnMyCommonHeaderLeft.setSelected(tab == 0);
         btnMyCommonHeaderRight.setSelected(tab == 1);
         httpRequestData(tab);
@@ -129,14 +128,15 @@ public class MyFocusedFragment extends BaseBackFragment {
 
     }
 
-    private void initAdapter() {
+
+    private void initAdapter(int tab) {
 
         List<MineMultipleItemModel> models = new ArrayList<>();
 
-        int type = MineMultipleItemModel.MY_FOCUSE;
-        for (DiscussEntiry entiry : data.getDiscuss()) {
+        int type = tab == 0 ? MineMultipleItemModel.MY_FOCUSE : MineMultipleItemModel.MY_FOCUSE_FOLLOW;
+        for (FocusEntity entity : data) {
 
-            models.add(new MineMultipleItemModel(type, entiry));
+            models.add(new MineMultipleItemModel(type, entity));
         }
 
         final GridLayoutManager layoutManager = new GridLayoutManager(mActivity, 1);
@@ -157,7 +157,6 @@ public class MyFocusedFragment extends BaseBackFragment {
 
         mRecyclerView.setAdapter(mAdapter);
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

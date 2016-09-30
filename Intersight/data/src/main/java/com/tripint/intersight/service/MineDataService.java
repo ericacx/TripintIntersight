@@ -2,9 +2,9 @@ package com.tripint.intersight.service;
 
 
 import com.tripint.intersight.common.BaseResponse;
-import com.tripint.intersight.entity.ForgetPasswordEntity;
-import com.tripint.intersight.entity.discuss.DiscussDetailEntiry;
-import com.tripint.intersight.entity.discuss.DiscussPageEntity;
+import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.mine.FocusEntity;
+import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
 
@@ -14,7 +14,6 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -24,7 +23,7 @@ import rx.Observable;
  */
 public interface MineDataService {
 
-    //忘记密码
+    //
     @FormUrlEncoded
     @POST("mobileFeedback")
     Observable<BaseResponse<List<String>>> postFeedback(@Field("content") String content);
@@ -40,4 +39,24 @@ public interface MineDataService {
     //我关注的观点列表
     @GET("myFollowPoint")
     Observable<BaseResponse<List<MineFollowPointEntity>>> getMyFollowPointList(@Query("page") int page, @Query("size") int size);
+
+    //我的问答
+    @GET("mine/discuss")
+    Observable<BaseResponse<List<DiscussEntiry>>> getMyAskAnswer(@Query("page") int page, @Query("size") int size);
+
+    //我关注的问答
+    @GET("mine/discuss/follow")
+    Observable<BaseResponse<List<DiscussEntiry>>> getMyFocusedAskAnswer(@Query("page") int page, @Query("size") int size);
+
+    //我的关注
+    @GET("myFollow")
+    Observable<BaseResponse<List<FocusEntity>>> getMyFollow(@Query("page") int page, @Query("size") int size);
+
+    //被关注
+    @GET("myByFollow")
+    Observable<BaseResponse<List<FocusEntity>>> getMyByFollow(@Query("page") int page, @Query("size") int size);
+
+    //我的访谈
+    @GET("appointmentInterview")
+    Observable<BaseResponse<List<InterviewEntity>>> getMyInterview(@Query("page") int page, @Query("size") int size);
 }

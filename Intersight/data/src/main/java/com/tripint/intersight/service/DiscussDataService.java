@@ -15,6 +15,7 @@ import rx.Observable;
  */
 public interface DiscussDataService {
 
+    //观点
     @GET("discuss")
     Observable<BaseResponse<DiscussPageEntity>> getDiscuss(@Query("page") int page, @Query("size") int size);
 

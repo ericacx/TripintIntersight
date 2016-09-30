@@ -4,7 +4,6 @@ package com.tripint.intersight.fragment.mine;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -13,29 +12,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tripint.intersight.R;
-import com.tripint.intersight.adapter.AskAnswerPageAdapter;
-import com.tripint.intersight.adapter.AskAnswerPageDetailMultipleAdapter;
 import com.tripint.intersight.adapter.MineCommonMultipleAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
-import com.tripint.intersight.entity.discuss.DiscussEntiry;
-import com.tripint.intersight.entity.discuss.DiscussPageEntity;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
-import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
-import com.tripint.intersight.fragment.home.AskAnswerDetailFragment;
-import com.tripint.intersight.fragment.home.AskAnswerFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
-import com.tripint.intersight.model.MultipleChatItemModel;
-import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -66,11 +53,6 @@ public class MyOpinionFragment extends BaseBackFragment {
     private List<MineFollowPointEntity> data;
 
     private int tab;
-
-
-    public MyOpinionFragment() {
-        // Required empty public constructor
-    }
 
     public static MyOpinionFragment newInstance() {
 
@@ -144,6 +126,7 @@ public class MyOpinionFragment extends BaseBackFragment {
 
 
     protected void initView(View view) {
+
         initToolbarNav(toolbar);
         toolbar.setTitle("我的观点");
         mRecyclerView.setHasFixedSize(true);

@@ -28,4 +28,9 @@
     <string name="opinion_text_content">fgdfg</string>
     <string name="opinion_text_title">fgdfg</string>
     <string name="text_qa_detail_info">aaaa</string>
+    <string name="bind_phone_1">绑定手机号之后,你可以使用"手机号+密码"登录</string>
+    <string name="bind_phone_2">洞察+,你也可以使用手机找回密码</string>
+    <string name="about_intersight">洞察+,是一种新型的知识、技能、资讯的共享平台。通过这个平台,各类金融机构、咨询公司、企业,以及政府机构匹配投研
+    咨询需求,连接洞察家,获取知识共享服务,以帮助其作出正确的商业决策。同时,越来越多的人将自己的知识,技能作为可分享资源,成为洞察家,并且通过这个平台构建起一个新型的自媒体联盟,为社会、为他人贡献智慧。</string>
+
 </resources>

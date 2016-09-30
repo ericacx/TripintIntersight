@@ -1,45 +1,59 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@mipmap/background"
-    tools:context="com.tripint.intersight.activity.VerifyPhoneActivity">
+    android:background="@mipmap/background_default"
+    tools:context="com.tripint.intersight.fragment.mine.setting.BindEmailFragment">
 
+    <include layout="@layout/toolbar"/>
 
-    <LinearLayout
-        android:gravity="center"
-        android:layout_marginTop="40dp"
+    <RelativeLayout
+        android:layout_marginTop="@dimen/spacing_02"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:src="@mipmap/dongcha"
-            android:layout_width="150dp"
-            android:layout_height="70dp" />
-    </LinearLayout>
+            android:id="@+id/bind_email_image"
+            android:src="@mipmap/iconfont_email"
+            android:layout_centerHorizontal="true"
+            android:layout_width="@dimen/width_10_80"
+            android:layout_height="@dimen/height_10_80" />
+
+        <TextView
+            android:id="@+id/bind_email_textview"
+            android:layout_below="@id/bind_email_image"
+            android:layout_marginTop="@dimen/spacing"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_15"
+            android:textColor="@color/line"
+            android:text="332045512@qq.com"
+            />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/height_6_80"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:layout_marginTop="60dp"
         android:orientation="horizontal">
 
-
         <EditText
-            android:id="@+id/et_phoneNumber"
+            android:id="@+id/bind_email_et_phoneNumber"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="6"
             android:background="@null"
-            android:hint="@string/hint_phone_name"
-            android:paddingLeft="10dp"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/white"
+            android:hint="请输入新邮箱"
             android:textColorHint="@color/line" />
 
         <Button
-            android:id="@+id/btn_verifyCode"
+            android:id="@+id/bind_email_btn_verifyCode"
             android:layout_width="0dp"
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
@@ -47,7 +61,7 @@
             android:background="@drawable/register_button_shape"
             android:text="@string/code_name"
             android:textSize="12sp"
-            android:textColor="@color/line" />
+            android:textColor="@color/white" />
     </LinearLayout>
 
     <View
@@ -59,20 +73,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/height_6_80"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:orientation="horizontal">
-
-
         <EditText
-            android:id="@+id/et_input_verifyCode"
+            android:id="@+id/bind_email_et_input_verifyCode"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="8"
             android:background="@null"
+            android:textColor="@color/white"
+            android:inputType="number"
+            android:imeOptions="actionDone"
             android:hint="@string/hint_verifycode_name"
-            android:paddingLeft="10dp"
             android:textColorHint="@color/line" />
     </LinearLayout>
 
@@ -84,14 +98,15 @@
         android:background="@color/line" />
 
     <Button
-        android:id="@+id/btn_next"
+        android:id="@+id/bind_email_complete"
         android:layout_width="match_parent"
-        android:layout_height="31dp"
+        android:layout_height="@dimen/height_5_80"
         android:layout_gravity="center"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btn_shape"
-        android:text="@string/verify_phone_next"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/btn_shape_blue"
+        android:text="完成"
+        android:textSize="@dimen/text_size_15"
         android:textColor="@color/line" />
 </LinearLayout>

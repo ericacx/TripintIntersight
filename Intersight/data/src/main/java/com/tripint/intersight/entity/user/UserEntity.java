@@ -14,11 +14,11 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserEntity implements Serializable {
     private int uid;
-    private String nickname;
-    private String avatar;
-    private Ability ability;
-    private Company company;
-    private Industry industry;
+    private String nickname;//名字
+    private String avatar;//头像
+    private Ability ability;//职位
+    private Company company;//公司
+    private Industry industry;//行业
 
     public int getUid() {
         return uid;

@@ -10,7 +10,7 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Ability implements Serializable {
     private int id;
-    private String name;
+    private String name;//行业
 
     public int getId() {
         return id;

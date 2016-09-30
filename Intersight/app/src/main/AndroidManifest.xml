@@ -29,9 +29,6 @@
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ForgetPasswordActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.VerifyPhoneActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -51,9 +48,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.PersonalInfoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.AboutIntersightActivity"
             android:screenOrientation="portrait" />
 
         <activity

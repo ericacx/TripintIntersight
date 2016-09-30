@@ -2,96 +2,114 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@android:color/transparent"
-    >
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_margin="@dimen/spacing"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="6"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/textView_mine_title_header"
-                    android:text="我的约访"
-                    android:textColor="@color/line"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="我的约访"
+                    android:textSize="@dimen/text_size_12"
+                    android:textColor="@color/line" />
+
+                <TextView
+                    android:id="@+id/textView_mine_title_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_12"
+                    android:text="（访谈成功）"
+                    android:textColor="@color/line" />
+
+            </LinearLayout>
+
 
 
             <TextView
                 android:id="@+id/textView_mine_title_main"
-                android:text="锂电池产业链分析"
-                android:layout_marginTop="@dimen/spacing"
-                android:textColor="@color/white"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing"
+                android:text="锂电池产业链分析"
+                android:textSize="@dimen/text_size_15"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/textView_mine_sub_title"
-                android:textColor="@color/line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing"
                 android:maxLines="2"
+                android:textSize="@dimen/text_size_12"
                 android:text="锂电池行业市场发展、供需状况、锂电池行业技术发展趋势、行业成本构成情况、投资热点分析。。。"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textColor="@color/line" />
 
         </LinearLayout>
 
         <RelativeLayout
-            android:layout_margin="@dimen/spacing"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
             <ImageView
-
-                android:src="@mipmap/iconfont_mima"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/iconfont_mima" />
 
             <ImageView
                 android:id="@+id/myInterviewArrow"
-                android:src="@mipmap/iconfont_nextarticle"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/iconfont_nextarticle" />
         </RelativeLayout>
 
     </LinearLayout>
 
     <RelativeLayout
-        android:layout_margin="@dimen/spacing"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing">
 
         <TextView
             android:id="@+id/text_view_my_item_data_time"
-            android:text="2016.09.06"
-            android:layout_marginRight="@dimen/spacing"
-            android:textSize="@dimen/text_size_12"
-            android:textColor="@color/line"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/spacing"
+            android:text="2016.09.06   15:30"
+            android:textColor="@color/line"
+            android:textSize="@dimen/text_size_12" />
+
         <TextView
-            android:id="@+id/text_view_my_item_industry"
+            android:id="@+id/text_view_my_item_trade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/spacing_02"
+            android:layout_toLeftOf="@id/text_view_my_item_data_time"
             android:text="电子 | 通信 | 硬件"
             android:textColor="@color/line"
-            android:textSize="@dimen/text_size_12"
-            android:layout_marginRight="@dimen/spacing"
-            android:layout_toLeftOf="@id/text_view_my_item_data_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="@dimen/text_size_12" />
     </RelativeLayout>
 
 

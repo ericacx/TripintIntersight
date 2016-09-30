@@ -17,8 +17,6 @@ import butterknife.OnClick;
 
 public class VerifyPhoneActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @Bind(R.id.iv_back)
-    ImageView ivBack;//返回退出页面
     @Bind(R.id.et_phoneNumber)
     EditText etPhoneNumber;//手机号
     @Bind(R.id.btn_verifyCode)
@@ -68,12 +66,9 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         }
     };
 
-    @OnClick({R.id.iv_back, R.id.btn_verifyCode, R.id.btn_next})
+    @OnClick({R.id.btn_verifyCode, R.id.btn_next})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_back:
-                VerifyPhoneActivity.this.finish();
-                break;
             case R.id.btn_verifyCode:
                 btnVerifyCode.setText("重新获取(" + time + ")");
                 btnVerifyCode.setClickable(false);

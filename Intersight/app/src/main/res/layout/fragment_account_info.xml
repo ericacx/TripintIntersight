@@ -2,234 +2,221 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@mipmap/background_default"
-    tools:context="com.tripint.intersight.fragment.AccountInfoFragment">
+    android:orientation="vertical"
+    tools:context="com.tripint.intersight.fragment.mine.setting.AccountInfoFragment">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:src="@mipmap/iconfont_back" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="帐号信息"
-            android:textColor="@color/line"
-            android:textSize="@dimen/text_size"
-            android:typeface="normal" />
-    </RelativeLayout>
-
+    <include layout="@layout/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="@dimen/spacing"
-        >
+        android:paddingLeft="@dimen/spacing"
+        android:paddingRight="@dimen/spacing"
+        android:background="@drawable/bg_corners_grey"
+        android:orientation="vertical">
 
         <RelativeLayout
-            android:layout_gravity="center_vertical"
+            android:id="@+id/account_info_phone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="@dimen/height_5_80"
+            android:layout_gravity="center_vertical">
 
             <TextView
-                android:text="手机"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:textColor="@color/line"
-                android:textSize="@dimen/text_size_12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:text="手机"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_12" />
 
             <ImageView
                 android:id="@+id/accountInfoArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:src="@mipmap/iconfont_nextarticle"
                 android:textColor="@color/line"
-                android:src="@mipmap/iconfont_back"
-                android:textSize="@dimen/text_size_12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/text_size_12" />
 
             <TextView
-                android:id="@+id/accountInfoSet"
+                android:id="@+id/account_info_textview_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/accountInfoArrow"
                 android:text="去设置"
                 android:textColor="@color/line"
-                android:textSize="@dimen/text_size_12"
-                android:layout_toLeftOf="@id/accountInfoArrow"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/text_size_12" />
         </RelativeLayout>
+
         <View
-            android:background="@color/line"
             android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+            android:layout_height="1dp"
+            android:background="@color/line" />
 
         <RelativeLayout
-            android:layout_gravity="center_vertical"
+            android:id="@+id/account_info_email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="@dimen/height_5_80"
+            android:layout_gravity="center_vertical">
 
             <TextView
-                android:text="邮箱"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:textColor="@color/line"
-                android:textSize="@dimen/text_size_12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:text="邮箱"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_12" />
 
             <ImageView
                 android:id="@+id/accountInfoArrow2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:src="@mipmap/iconfont_nextarticle"
                 android:textColor="@color/line"
-                android:src="@mipmap/iconfont_back"
-                android:textSize="@dimen/text_size_12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/text_size_12" />
 
             <TextView
-                android:id="@+id/accountInfoEmail"
+                android:id="@+id/account_info_textview_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/accountInfoArrow2"
                 android:text="123456789@qq.com"
                 android:textColor="@color/line"
-                android:textSize="@dimen/text_size_12"
-                android:layout_toLeftOf="@id/accountInfoArrow2"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/text_size_12" />
         </RelativeLayout>
+
         <View
-            android:background="@color/line"
             android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+            android:layout_height="1dp"
+            android:background="@color/line" />
 
         <RelativeLayout
-            android:layout_gravity="center_vertical"
+            android:id="@+id/account_info_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="@dimen/height_5_80"
+            android:layout_gravity="center_vertical">
 
             <TextView
-                android:text="修改密码"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:textColor="@color/line"
-                android:textSize="@dimen/text_size_12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:text="修改密码"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_12" />
 
             <ImageView
-                android:id="@+id/accountInfoArrow3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:src="@mipmap/iconfont_nextarticle"
                 android:textColor="@color/line"
-                android:src="@mipmap/iconfont_back"
-                android:textSize="@dimen/text_size_12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/text_size_12" />
 
         </RelativeLayout>
-        <View
-            android:background="@color/line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+
     </LinearLayout>
 
     <LinearLayout
-        android:layout_margin="@dimen/spacing"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/spacing"
+        android:paddingRight="@dimen/spacing"
+        android:layout_marginTop="@dimen/spacing"
+        android:background="@drawable/bg_corners_grey"
+        android:orientation="vertical">
 
         <RelativeLayout
-            android:layout_gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="@dimen/height_5_80"
+            android:layout_gravity="center_vertical">
 
             <TextView
                 android:id="@+id/accountInfoWechat"
-                android:text="微信帐号"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:textColor="@color/line"
-                android:textSize="@dimen/text_size_12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:text="微信帐号"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_12" />
 
             <TextView
-                android:id="@+id/accountInfoWechatName"
-                android:text="Susan"
-                android:visibility="visible"
+                android:id="@+id/account_info_wechat_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/spacing"
                 android:layout_toRightOf="@id/accountInfoWechat"
-                android:layout_centerVertical="true"
+                android:text="Susan"
                 android:textColor="@color/line"
                 android:textSize="@dimen/text_size_12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:visibility="visible" />
 
             <Switch
+                android:id="@+id/account_info_wechat_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:textColor="@color/line"
                 android:src="@mipmap/iconfont_back"
-                android:textSize="@dimen/text_size_12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textColor="@color/line"
+                android:textSize="@dimen/text_size_12" />
 
 
         </RelativeLayout>
+
         <View
-            android:background="@color/line"
             android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+            android:layout_height="1dp"
+            android:background="@color/line" />
 
         <RelativeLayout
-            android:layout_gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="@dimen/height_5_80"
+            android:layout_gravity="center_vertical">
 
             <TextView
-                android:id="@+id/accountInfoLinkendIn"
-                android:text="领英帐号"
+                android:id="@+id/account_info_linkedin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:text="领英帐号"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/text_size_12" />
+
             <TextView
-                android:id="@+id/accountInfoLinkendInName"
-                android:text="Susan"
-                android:visibility="visible"
-                android:layout_marginLeft="@dimen/spacing"
-                android:layout_toRightOf="@id/accountInfoLinkendIn"
+                android:id="@+id/account_info_linkedin_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_toRightOf="@id/account_info_linkedin"
+                android:text="Susan"
                 android:textColor="@color/line"
                 android:textSize="@dimen/text_size_12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:visibility="visible" />
 
             <Switch
+                android:id="@+id/account_info_linkedin_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:checked="true"
-                android:textColor="@color/line"
                 android:src="@mipmap/iconfont_back"
-                android:textSize="@dimen/text_size_12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textColor="@color/line"
+                android:textSize="@dimen/text_size_12" />
 
         </RelativeLayout>
 

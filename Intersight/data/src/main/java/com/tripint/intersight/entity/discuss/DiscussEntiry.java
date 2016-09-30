@@ -14,7 +14,7 @@ public class DiscussEntiry implements Serializable {
 
     private int id;
     private int uid;
-    private String content;
+    private String content;//标题
     private int industryId;
     private int voiceId;
     private int followsCount;
