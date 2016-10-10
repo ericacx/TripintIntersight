@@ -64,7 +64,6 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
 
     private final int PAGE_SIZE = 1;
 
-
     private int TOTAL_COUNTER = 4;
 
     private int mCurrentCounter = 0;
