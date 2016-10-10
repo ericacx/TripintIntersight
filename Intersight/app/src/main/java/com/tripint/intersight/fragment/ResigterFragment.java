@@ -25,10 +25,14 @@ import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.entity.CodeDataEntity;
 import com.tripint.intersight.entity.user.RegisterEntity;
 import com.tripint.intersight.entity.user.User;
+import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.fragment.mine.setting.UserProtocolFragment;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -159,8 +163,7 @@ public class ResigterFragment extends BaseBackFragment {
                 break;
 
             case R.id.register_tv_userProtocol:
-                intent.setClass(mActivity, UserProtocolActivity.class);//跳转到用户协议界面
-                startActivity(intent);
+                EventBus.getDefault().post(new StartFragmentEvent(UserProtocolFragment.newInstance()));
                 break;
 
             case R.id.register_button_register://注册按钮

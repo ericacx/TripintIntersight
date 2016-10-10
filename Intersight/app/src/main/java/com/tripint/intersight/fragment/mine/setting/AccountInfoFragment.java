@@ -72,6 +72,8 @@ public class AccountInfoFragment extends BaseBackFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_account_info, container, false);
         ButterKnife.bind(this, view);
+        initToolbarNav(toolbar);
+        toolbar.setTitle("帐号信息");
         return view;
     }
 

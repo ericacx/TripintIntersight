@@ -23,11 +23,12 @@ import rx.Observable;
  */
 public interface MineDataService {
 
-    //
+    //意见反馈
     @FormUrlEncoded
     @POST("mobileFeedback")
     Observable<BaseResponse<List<String>>> postFeedback(@Field("content") String content);
 
+    //个人中心首页
     @GET("userHome")
     Observable<BaseResponse<UserHomeEntity>> getUserHome();
 

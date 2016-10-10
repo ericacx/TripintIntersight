@@ -1,14 +1,13 @@
-package com.tripint.intersight.fragment.mine.setting;
+package com.tripint.intersight.fragment.mine.message;
 
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
@@ -17,25 +16,20 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * 设置---关于洞察+
+ * 系统消息
  * A simple {@link Fragment} subclass.
  */
-public class AboutIntersightFragment extends BaseBackFragment {
+public class SystemMessageFragment extends BaseBackFragment {
+
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.about_intersight_imageview)
-    ImageView aboutIntersightImageview;
-    @Bind(R.id.editor_feedback_content)
-    TextView editorFeedbackContent;
-    @Bind(R.id.about_intersight_textview_time)
-    TextView aboutIntersightTextviewTime;
-    @Bind(R.id.about_intersight_textview_company)
-    TextView aboutIntersightTextviewCompany;
+    @Bind(R.id.system_message_recyclerview)
+    RecyclerView systemMessageRecyclerview;
 
-    public static AboutIntersightFragment newInstance() {
+    public static SystemMessageFragment newInstance() {
         Bundle args = new Bundle();
-        AboutIntersightFragment fragment = new AboutIntersightFragment();
+        SystemMessageFragment fragment = new SystemMessageFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,15 +39,11 @@ public class AboutIntersightFragment extends BaseBackFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_about_intersight, container, false);
+        View view = inflater.inflate(R.layout.fragment_system_message, container, false);
         ButterKnife.bind(this, view);
-        initView();
-        return view;
-    }
-
-    private void initView() {
         initToolbarNav(toolbar);
-        toolbar.setTitle("关于我们");
+        toolbar.setTitle("系统消息");
+        return view;
     }
 
     @Override
