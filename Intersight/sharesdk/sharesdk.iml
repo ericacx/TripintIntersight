@@ -88,7 +88,12 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/bundles" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dependency-cache" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/24.2.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-safeguard" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
@@ -103,22 +108,25 @@
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 23 Platform (1)" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="SocialSDK_facebook_2" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-24.2.1" level="project" />
+    <orderEntry type="library" exported="" name="support-compat-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_email" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_facebook_1" level="project" />
+    <orderEntry type="library" exported="" name="support-fragment-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="android-support-v4" level="project" />
     <orderEntry type="library" exported="" name="libammsdk" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_flickr" level="project" />
     <orderEntry type="library" exported="" name="open_sdk_r5756_lite" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_douban" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_evernote" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-23.2.1" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_alipay" level="project" />
     <orderEntry type="library" exported="" name="alipaySingle-20160825" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_whatsapp" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_pocket" level="project" />
+    <orderEntry type="library" exported="" name="support-core-ui-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_foursquare" level="project" />
     <orderEntry type="library" exported="" name="umeng_social_apiv6.0.0" level="project" />
     <orderEntry type="library" exported="" name="mta-sdk-1.6.2" level="project" />
@@ -142,14 +150,16 @@
     <orderEntry type="library" exported="" name="line-android-sdk-3.1.19" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_pinterest" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_tencentWB_1" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-23.2.1" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_tencentWB_2" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_tencentWB_3" level="project" />
+    <orderEntry type="library" exported="" name="support-media-compat-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_yixin_2" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_laiwang_2" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_yixin_1" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_laiwang_1" level="project" />
+    <orderEntry type="library" exported="" name="support-core-utils-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_kakao" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="umeng_social_viewv6.0.0" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_line" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_sms" level="project" />

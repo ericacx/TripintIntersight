@@ -9,12 +9,26 @@
         android:id="@+id/search_drop_down_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <TextView
+        <LinearLayout
             android:id="@id/mFilterContentView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textSize="22sp" />
+            android:orientation="vertical">
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view_ask_answer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:background="@android:color/transparent"
+                    android:fadingEdge="none" />
+            </android.support.v4.widget.SwipeRefreshLayout>
+        </LinearLayout>
     </com.tripint.intersight.common.widget.filter.DropDownMenu>
+
 </LinearLayout>

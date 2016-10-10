@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tripint.intersight.entity.common.BannerEntity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,8 +14,8 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DiscussPageEntity implements Serializable {
 
-    private List<BannerEntity> banners;
-    private List<DiscussEntiry> discuss;
+    private List<BannerEntity> banners = new ArrayList<>();
+    private List<DiscussEntiry> discuss =  new ArrayList<>();
 
     public List<BannerEntity> getBanners() {
         return banners;
