@@ -77,7 +77,7 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
 
                 Glide.with(mContext).load(mineFollowPointEntity.getAvatar())
                         .crossFade()
-                        .placeholder(R.mipmap.loading_normal_icon)
+                        .placeholder(R.drawable.loading_normal_icon)
                         .transform(new GlideCircleTransform(mContext))
                         .into((ImageView) helper.getView(R.id.opinion_imageView_owner_profile));
 
@@ -101,15 +101,15 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
 
                 if (item.getDiscussEntiry() != null) {
                     discussEntiry = item.getDiscussEntiry();
-                    if (discussEntiry.getUser() != null) {
-                        userEntity = discussEntiry.getUser();
+                    if (discussEntiry.getUserInfo() != null) {
+                        userEntity = discussEntiry.getUserInfo();
                         if (userEntity.getAbility() != null) {
                             ability = userEntity.getAbility();
                         }
                     }
 
-//                    if (entiry.getUser().getAbility() != null) {
-//                        sperialist += entiry.getUser().getAbility().getName();
+//                    if (entiry.getUserInfo().getAbility() != null) {
+//                        sperialist += entiry.getUserInfo().getAbility().getName();
 //                    }
                 }
 
@@ -123,8 +123,8 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                 String avatar = "";
                 if (item.getDiscussEntiry() != null) {
                     discussEntiry = item.getDiscussEntiry();
-                    if (discussEntiry.getUser() != null) {
-                        userEntity = discussEntiry.getUser();
+                    if (discussEntiry.getUserInfo() != null) {
+                        userEntity = discussEntiry.getUserInfo();
                         if (userEntity.getAbility() != null) {
                             ability = userEntity.getAbility();
                             avatar = userEntity.getAvatar();
@@ -141,7 +141,7 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                 ;
                 Glide.with(mContext).load(avatar)
                         .crossFade()
-                        .placeholder(R.mipmap.loading_normal_icon)
+                        .placeholder(R.drawable.loading_normal_icon)
                         .transform(new GlideCircleTransform(mContext))
                         .into((ImageView) helper.getView(R.id.ask_focus_iv_avatar));
                 break;
@@ -158,7 +158,7 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
 
                 Glide.with(mContext).load(focusEntity.getAvatar())//头像
                         .crossFade()
-                        .placeholder(R.mipmap.loading_normal_icon)
+                        .placeholder(R.drawable.loading_normal_icon)
                         .transform(new GlideCircleTransform(mContext))
                         .into((ImageView) helper.getView(R.id.focus_imageView_owner_profile));
                 break;
@@ -175,7 +175,7 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
 
                 Glide.with(mContext).load(focusEntity.getAvatar())//头像
                         .crossFade()
-                        .placeholder(R.mipmap.loading_normal_icon)
+                        .placeholder(R.drawable.loading_normal_icon)
                         .transform(new GlideCircleTransform(mContext))
                         .into((ImageView) helper.getView(R.id.focus_imageView_owner_profile));
                 break;

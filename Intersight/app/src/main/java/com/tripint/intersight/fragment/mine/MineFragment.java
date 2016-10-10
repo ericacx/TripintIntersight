@@ -92,7 +92,7 @@ public class MineFragment extends BaseLazyMainFragment {
         Glide.with(mActivity).load(data.getAvatar())
                 .crossFade()
                 .fitCenter()
-                .placeholder(R.mipmap.loading_normal_icon)
+                .placeholder(R.drawable.loading_normal_icon)
                 .transform(new GlideCircleTransform(mActivity))
                 .into(mineCIVPersonalInfo);
     }

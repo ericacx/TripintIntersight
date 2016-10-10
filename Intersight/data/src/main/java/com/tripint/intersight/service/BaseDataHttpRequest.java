@@ -8,6 +8,7 @@ import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
+import com.tripint.intersight.entity.common.BannerEntity;
 import com.tripint.intersight.entity.user.ChooseEntity;
 import com.tripint.intersight.entity.user.LoginEntity;
 import com.tripint.intersight.entity.user.RegisterEntity;
@@ -194,6 +195,17 @@ public class BaseDataHttpRequest extends HttpRequest {
      */
     public void getArticleBanner(Subscriber<ArticleBannerEntity> subscriber,int type){
         Observable observable = baseDataService.getArticleBanner(type)
+                .map(new HttpResultFunc<ArticleBannerEntity>());
+        toSubscribe(observable,subscriber);
+    }
+
+    /**
+     * 用于获取观点页面的banner
+     * @param subscriber
+     * @param type
+     */
+    public void getBanner(Subscriber<ArticleBannerEntity> subscriber, int type){
+        Observable observable = baseDataService.getBanner(type)
                 .map(new HttpResultFunc<ArticleBannerEntity>());
         toSubscribe(observable,subscriber);
     }

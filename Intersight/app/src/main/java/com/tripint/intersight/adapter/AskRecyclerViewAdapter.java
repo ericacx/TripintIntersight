@@ -22,26 +22,26 @@ public class AskRecyclerViewAdapter extends BaseQuickAdapter<DiscussEntiry> {
     protected void convert(BaseViewHolder helper, DiscussEntiry item) {
         String sperialist = "";
         String avatar = "";
-        if (item.getUser() != null) {
-            if (item.getUser().getCompany() != null) {
-                sperialist = item.getUser().getCompany().getName();
+        if (item.getUserInfo() != null) {
+            if (item.getUserInfo().getCompany() != null) {
+                sperialist = item.getUserInfo().getCompany().getName();
             }
-            if (item.getUser().getAbility() != null) {
-                sperialist += item.getUser().getAbility().getName();
+            if (item.getUserInfo().getAbility() != null) {
+                sperialist += item.getUserInfo().getAbility().getName();
             }
-            avatar = item.getUser().getAvatar();
+            avatar = item.getUserInfo().getAvatar();
         }
 
         helper.setText(R.id.textView_item_ask_title, item.getContent())
                 .setText(R.id.textView_item_ask_time, sperialist)
-                .setText(R.id.textView_item_ask_company, item.getFollowsCount() + "")
-                .setText(R.id.textView_item_ask_job_title, item.getListenCount() + "")
-                .setText(R.id.textView_item_ask_job_industry, item.getVoiceId() + "")
+                .setText(R.id.textView_item_ask_company, item.getFollows() + "")
+                .setText(R.id.textView_item_ask_job_title, item.getListens() + "")
+                .setText(R.id.textView_item_ask_job_industry, item.getIndustryId() + "")
                 .linkify(R.id.textView_item_ask_title);
 
         Glide.with(mContext).load(avatar)
                 .crossFade()
-                .placeholder(R.mipmap.loading_normal_icon)
+                .placeholder(R.drawable.loading_normal_icon)
                 .transform(new GlideCircleTransform(mContext))
                 .into((ImageView) helper.getView(R.id.image_ask_profile));
     }

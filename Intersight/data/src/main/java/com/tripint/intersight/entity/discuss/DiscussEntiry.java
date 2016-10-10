@@ -16,10 +16,15 @@ public class DiscussEntiry implements Serializable {
     private int uid;
     private String content;//标题
     private int industryId;
-    private int voiceId;
-    private int followsCount;
-    private int listenCount;
-    private UserEntity user;
+    private int fromUid;
+    private String createAt;
+    private int praises;
+    private int isPraises;
+    private int follows;
+    private int isFollows;
+    private int listens;
+    private UserEntity userInfo;
+    private VoiceEntity voices;
 
     public int getId() {
         return id;
@@ -53,35 +58,75 @@ public class DiscussEntiry implements Serializable {
         this.industryId = industryId;
     }
 
-    public int getVoiceId() {
-        return voiceId;
+    public int getListens() {
+        return listens;
     }
 
-    public void setVoiceId(int voiceId) {
-        this.voiceId = voiceId;
+    public void setListens(int listens) {
+        this.listens = listens;
     }
 
-    public int getFollowsCount() {
-        return followsCount;
+    public int getFromUid() {
+        return fromUid;
     }
 
-    public void setFollowsCount(int followsCount) {
-        this.followsCount = followsCount;
+    public void setFromUid(int fromUid) {
+        this.fromUid = fromUid;
     }
 
-    public int getListenCount() {
-        return listenCount;
+    public String getCreateAt() {
+        return createAt;
     }
 
-    public void setListenCount(int listenCount) {
-        this.listenCount = listenCount;
+    public void setCreateAt(String createAt) {
+        this.createAt = createAt;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public int getPraises() {
+        return praises;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setPraises(int praises) {
+        this.praises = praises;
+    }
+
+    public int getIsPraises() {
+        return isPraises;
+    }
+
+    public void setIsPraises(int isPraises) {
+        this.isPraises = isPraises;
+    }
+
+    public int getFollows() {
+        return follows;
+    }
+
+    public void setFollows(int follows) {
+        this.follows = follows;
+    }
+
+    public int getIsFollows() {
+        return isFollows;
+    }
+
+    public void setIsFollows(int isFollows) {
+        this.isFollows = isFollows;
+    }
+
+    public UserEntity getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserEntity userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    public VoiceEntity getVoices() {
+        return voices;
+    }
+
+    public void setVoices(VoiceEntity voices) {
+        this.voices = voices;
     }
 }

@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +24,15 @@ import com.tripint.intersight.common.widget.pulltorefresh.PtrDefaultHandler;
 import com.tripint.intersight.common.widget.pulltorefresh.PtrFrameLayout;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
+import com.tripint.intersight.entity.article.ArticleBannerEntity;
+import com.tripint.intersight.entity.common.BannerEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.discuss.DiscussPageEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseFragment;
+import com.tripint.intersight.fragment.flipview.OpinionFlipViewAdapter;
 import com.tripint.intersight.model.PaginationModel;
+import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.widget.BannerViewHolder;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
@@ -35,6 +40,7 @@ import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -72,6 +78,8 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
 
     private PageDataSubscriberOnNext<DiscussPageEntity> subscriber;
 
+    private PageDataSubscriberOnNext<ArticleBannerEntity> bannerSubscriber;
+
     private DiscussPageEntity data = new DiscussPageEntity();
 
     private PaginationModel pageModel = new PaginationModel();
@@ -79,10 +87,6 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
 
     private List<String> networkImages;
 
-    private String[] images = {
-            "http://img2.imgtn.bdimg.com/it/u=3093785514,1341050958&fm=21&gp=0.jpg",
-            "http://img2.3lian.com/2014/f2/37/d/40.jpg",
-            "http://d.3987.com/sqmy_131219/001.jpg"};
 
     public static AskAnswerFragment newInstance() {
 
@@ -102,7 +106,7 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
         ButterKnife.bind(this, view);
 
         initView(null);
-        initAdapter();
+
 
         return view;
     }
@@ -110,8 +114,29 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setTab(0);//默认选中第一个TAB
+//        setTab(0);//默认选中第一个TAB
+        httpRequestBannerData();
+    }
 
+    private void httpRequestBannerData(){
+
+
+        bannerSubscriber = new PageDataSubscriberOnNext<ArticleBannerEntity>(){
+            @Override
+            public void onNext(ArticleBannerEntity entity) {
+
+                networkImages = new ArrayList<String>();
+                for (int i = 0; i <entity.getBanner().size(); i++) {
+                    networkImages.add(entity.getBanner().get(i).getUrl());
+                    Log.e("opinion",networkImages.get(i));
+                }
+                initAdapter();
+                setTab(0);
+
+            }
+        };
+        BaseDataHttpRequest.getInstance(mActivity).getBanner(
+                new ProgressSubscriber(bannerSubscriber, mActivity),2);
     }
 
     private void httpRequestData(int type) {
@@ -134,8 +159,6 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        //网络加载
-        networkImages = Arrays.asList(images);
 
 
     }

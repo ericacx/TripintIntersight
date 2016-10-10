@@ -29,14 +29,14 @@ public class SearchResultMultipleAdapter extends BaseMultiItemQuickAdapter<Multi
     protected void convert(BaseViewHolder helper, MultipleSearchItemModel item) {
         String sperialist = "";
         String avatar = "";
-        if (item.getContent().getUser() != null) {
-            if (item.getContent().getUser().getCompany() != null) {
-                sperialist = item.getContent().getUser().getCompany().getName();
+        if (item.getContent().getUserInfo() != null) {
+            if (item.getContent().getUserInfo().getCompany() != null) {
+                sperialist = item.getContent().getUserInfo().getCompany().getName();
             }
-            if (item.getContent().getUser().getAbility() != null) {
-                sperialist += item.getContent().getUser().getAbility().getName();
+            if (item.getContent().getUserInfo().getAbility() != null) {
+                sperialist += item.getContent().getUserInfo().getAbility().getName();
             }
-            avatar = item.getContent().getUser().getAvatar();
+            avatar = item.getContent().getUserInfo().getAvatar();
         }
         switch (helper.getItemViewType()){
             case MultipleSearchItemModel.INTERVIEW:

@@ -1,6 +1,7 @@
 package com.tripint.intersight.entity.article;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.tripint.intersight.entity.common.BannerEntity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,43 +19,14 @@ public class ArticleBannerEntity implements Serializable {
      * type : 2
      */
 
-    private List<BannerBean> banner;
+    private List<BannerEntity> banner;
 
-    public List<BannerBean> getBanner() {
+    public List<BannerEntity> getBanner() {
         return banner;
     }
 
-    public void setBanner(List<BannerBean> banner) {
+    public void setBanner(List<BannerEntity> banner) {
         this.banner = banner;
     }
 
-    public static class BannerBean {
-        private int id;
-        private String url;
-        private int type;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        public int getType() {
-            return type;
-        }
-
-        public void setType(int type) {
-            this.type = type;
-        }
-    }
 }

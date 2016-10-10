@@ -6,7 +6,7 @@
     <ImageView
         android:id="@+id/banner_image_view"
         android:layout_gravity="center_vertical"
-        android:src="@mipmap/iconfont_jubao"
+        android:src="@drawable/loading_normal_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </FrameLayout>

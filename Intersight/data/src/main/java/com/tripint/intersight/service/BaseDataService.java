@@ -8,6 +8,7 @@ import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
+import com.tripint.intersight.entity.common.BannerEntity;
 import com.tripint.intersight.entity.user.ChooseEntity;
 import com.tripint.intersight.entity.user.LoginEntity;
 import com.tripint.intersight.entity.user.RegisterEntity;
@@ -95,4 +96,8 @@ public interface BaseDataService {
     //观点banner
     @GET("banner")
     Observable<BaseResponse<ArticleBannerEntity>> getArticleBanner(@Query("type") int type);
+
+    //观点banner
+    @GET("banner")
+    Observable<BaseResponse<ArticleBannerEntity>> getBanner(@Query("type") int type);
 }

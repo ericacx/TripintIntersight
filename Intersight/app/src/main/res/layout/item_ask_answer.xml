@@ -99,7 +99,7 @@
                 android:textColor="@color/grey_500"
                 android:textSize="@dimen/text_size_10" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_4_80"
                 android:layout_margin="@dimen/spacing_pad04"
@@ -107,14 +107,24 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView_item_ask_voice"
+                    android:id="@+id/textView_item_ask_voice_payment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_alignParentLeft="true"
                     android:text=""
                     android:textColor="@color/grey_500"
                     android:textSize="@dimen/text_size_10" />
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/textView_item_ask_voice_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_alignParentRight="true"
+                    android:text=""
+                    android:textColor="@color/grey_500"
+                    android:textSize="@dimen/text_size_10" />
+            </RelativeLayout>
         </LinearLayout>
 
         <com.tripint.intersight.widget.image.TouchImageView

@@ -4,6 +4,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.tripint.intersight.R;
+import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseViewHolder;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
@@ -22,28 +23,38 @@ public class AskAnswerPageAdapter extends BaseQuickAdapter<DiscussEntiry> {
     protected void convert(BaseViewHolder helper, DiscussEntiry item) {
         String sperialist = "";
         String avatar = "";
-        if (item.getUser() != null) {
-            if (item.getUser().getCompany() != null) {
-                sperialist = item.getUser().getCompany().getName();
+        String payment = "";
+        String timeLong = "";
+        if (item.getUserInfo() != null) {
+            if (item.getUserInfo().getCompany() != null) {
+                sperialist = item.getUserInfo().getCompany().getName();
             }
-            if (item.getUser().getAbility() != null) {
-                sperialist += item.getUser().getAbility().getName();
+            if (item.getUserInfo().getAbility() != null) {
+                sperialist += item.getUserInfo().getAbility().getName();
             }
-            avatar = item.getUser().getAvatar();
+            avatar = item.getUserInfo().getAvatar();
+        }
+        if (item.getVoices() != null){
+            payment = String.valueOf(item.getVoices().getPayment()) + "元即听";
+            timeLong = String.valueOf(item.getVoices().getTimeLong()) +"s";
         }
 
         helper.setText(R.id.textView_item_ask_title, item.getContent())
                 .setText(R.id.textView_item_ask_specialist, sperialist)
-                .setText(R.id.textView_item_liked_number, item.getFollowsCount() + "")
-                .setText(R.id.textView_item_listened_number, item.getListenCount() + "")
-                .setText(R.id.textView_item_ask_voice, item.getVoiceId() + "")
+                .setText(R.id.textView_item_liked_number, item.getFollows() + "")
+                .setText(R.id.textView_item_listened_number, item.getListens() + "")
+                .setText(R.id.textView_item_ask_voice_payment, payment +"")
+                .setText(R.id.textView_item_ask_voice_time,  timeLong+"")
                 .addOnClickListener(R.id.textView_item_liked_number)
                 .addOnClickListener(R.id.textView_item_ask_title)
                 .linkify(R.id.textView_item_ask_specialist);
 
+        int isPraises = item.getIsPraises() == 1000 ? R.mipmap.iconfont_heartbig01 : R.mipmap.iconfont_heartbig02;
+
+        helper.setImageResource(R.id.image_item_like, isPraises);
         Glide.with(mContext).load(avatar)
                 .crossFade()
-                .placeholder(R.mipmap.loading_normal_icon)
+                .placeholder(R.drawable.loading_normal_icon)
                 .transform(new GlideCircleTransform(mContext))
                 .into((ImageView) helper.getView(R.id.image_ask_profile));
     }

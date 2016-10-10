@@ -87,7 +87,6 @@ public class MainContentFragment extends BaseFragment {
                 .addItem(new BottomTabBarItem(mActivity, R.drawable.selector_tiwen, "提问"))
                 .addItem(new BottomTabBarItem(mActivity, R.drawable.selector_geren, "个人"));
         mBottomTabBar.setBackgroundColor(getResources().getColor(R.color.colorToolbarPrimary));
-
         mBottomTabBar.setOnTabSelectedListener(new BottomTabBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position, int prePosition) {

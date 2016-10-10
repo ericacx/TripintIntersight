@@ -34,7 +34,7 @@ public class BannerViewHolder implements Holder<String> {
                 .crossFade()
                 .fitCenter()
                 .dontAnimate()
-                .placeholder(R.mipmap.loading_normal_icon)
+                .placeholder(R.drawable.loading_normal_icon)
                 .into(imageView);
     }
 }
