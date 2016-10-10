@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/spacing"
+    android:paddingRight="@dimen/spacing_02"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/message_time"
+        android:textSize="@dimen/text_size_12"
+        android:textColor="@color/line"
+        android:layout_marginTop="5dp"
+        android:text="2016.09.09    08:51"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/message_content"
+        android:text="张三 邀请了你回答关于 现阶段汽车真的需要革命性的颠覆吗? 的提问"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp"
+        android:lineSpacingMultiplier="1.2"
+        android:layout_below="@id/message_time"
+        android:textSize="@dimen/text_size_14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/message_status"
+        android:layout_below="@id/message_content"
+        android:text="前往回答"
+        android:drawableRight="@mipmap/iconfont_nextarticle"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/line"
+        android:gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

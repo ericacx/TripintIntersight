@@ -12,7 +12,7 @@
     <RelativeLayout
         android:layout_margin="@dimen/width_2_80"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_42_80">
+        android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/about_intersight_imageview"
             android:gravity="center"
@@ -27,25 +27,28 @@
             android:id="@+id/editor_feedback_content"
             android:layout_below="@id/about_intersight_imageview"
             android:background="@drawable/bg_corners_grey_20"
-            android:textSize="@dimen/text_size"
+            android:textSize="@dimen/text_size_14"
             android:layout_marginLeft="@dimen/spacing_02"
             android:layout_marginRight="@dimen/spacing_02"
             android:layout_marginTop="@dimen/spacing"
             android:textColor="@color/line"
-            android:text="@string/about_intersight"
+            android:text="       洞察+,是一种新型的知识、技能、资讯的共享平台。通过这个平台,各类金融机构、咨询公司、企业,以及政府机构匹配投咨询需求,连接洞察家,获取知识共享服务,以帮助其作出正确的商业决策。同时,越来越多的人将自己的知识,技能作为可分享资源,成为洞察家,并且通过这个平台构建起一个新型的自媒体联盟,为社会、为他人贡献智慧。\n
+        洞察+,正在影响投研机构获取专业信息的流程与方式;正在革新专业人士分享、学习知识与经验的方法和途径。\n
+        每一个人,只要拥有某项专业领域的知识或技能,并且有意愿加入到知识共享的价值体系中,都有机会成为洞察家。"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingMultiplier="1.2"
             android:padding="@dimen/spacing" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/about_intersight_textview_time"
-            android:text="Copyright @2015-2035"
+            android:text="Copyright   ©2015-2035"
             android:textSize="@dimen/text_size_12"
             android:textColor="@color/line"
             android:layout_width="wrap_content"

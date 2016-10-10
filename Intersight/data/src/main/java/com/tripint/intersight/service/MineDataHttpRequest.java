@@ -24,6 +24,8 @@ public class MineDataHttpRequest extends HttpRequest {
 
     private final int option_type_my_follow = 1;
 
+    private static MineDataHttpRequest instants;
+
     private MineDataService service;
 
     private MineDataHttpRequest(Context context) {
@@ -31,8 +33,6 @@ public class MineDataHttpRequest extends HttpRequest {
         service = retrofit.create(MineDataService.class);
 
     }
-
-    private static MineDataHttpRequest instants;
 
 
     public static MineDataHttpRequest getInstance(Context context) {

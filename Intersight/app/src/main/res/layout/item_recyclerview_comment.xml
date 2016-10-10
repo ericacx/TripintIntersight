@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/background_default"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing">
+
+        <com.tripint.intersight.widget.image.CircleImageView
+            android:id="@+id/circle_imageview"
+            android:src="@mipmap/dongcha"
+            android:layout_width="@dimen/width_8_80"
+            android:layout_height="@dimen/height_5_80" />
+
+        <TextView
+            android:id="@+id/agree_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/circle_imageview"
+            android:layout_toRightOf="@id/circle_imageview"
+            android:text="门门"
+            android:layout_marginLeft="@dimen/spacing"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_14" />
+
+        <TextView
+            android:id="@+id/agree_company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/circle_imageview"
+            android:layout_below="@id/agree_name"
+            android:layout_toRightOf="@id/circle_imageview"
+            android:text="巨人网络"
+            android:layout_marginLeft="@dimen/spacing"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/line"
+            android:textSize="@dimen/text_size_14" />
+
+        <TextView
+            android:id="@+id/agree_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/circle_imageview"
+            android:layout_below="@id/agree_name"
+            android:layout_toRightOf="@id/agree_company"
+            android:text="销售总监"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="@dimen/spacing"
+            android:textColor="@color/line"
+            android:textSize="@dimen/text_size_14" />
+        <ImageView
+            android:src="@mipmap/iconfont_guandian"
+            android:layout_alignTop="@id/circle_imageview"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/spacing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="@dimen/spacing"
+        android:layout_height="@dimen/height_4_5_80">
+
+        <TextView
+            android:text="现在,好多大腕企业都将目光瞄向了石墨烯啦!"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/bg_corners_grey"
+        android:layout_width="match_parent"
+        android:padding="@dimen/spacing"
+        android:layout_height="@dimen/height_4_5_80">
+
+        <TextView
+            android:text="赞了我的文章:石墨烯到底是怎样的一种材料?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="2016.09.09    08:50"
+            android:textSize="@dimen/text_size_12"
+            android:textColor="@color/line"
+            android:padding="@dimen/spacing_02"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</LinearLayout>
