@@ -10,7 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tripint.intersight.R;
@@ -45,7 +47,7 @@ import butterknife.ButterKnife;
  * Created by lirichen on 2016/9/21.
  */
 
-public class SearchResultFragment extends BaseBackFragment implements OnFilterDoneListener, BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener  {
+public class SearchResultFragment extends BaseBackFragment implements OnFilterDoneListener, BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
     public static final String ARG_SEARCH_TYPE = "arg_search_type";
     public static final String ARG_SEARCH_KEYWORD = "arg_search_keyword";
@@ -67,8 +69,10 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
     @Bind(R.id.recycler_view_ask_answer)
     RecyclerView mRecyclerView;
 
-    @Bind(R.id.swipe_refresh_layout)
+    @Bind(R.id.mFilterContentView)
     SwipeRefreshLayout mSwipeRefreshLayout;
+//    @Bind(R.id.mFilterContentView)
+//    FrameLayout mFilterContentView;
 
     private SearchFilterEntity searchFilterEntity; //搜索过滤条件数据
 
@@ -81,7 +85,7 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
     private DiscussPageEntity data = new DiscussPageEntity();
 
 
-    private final int PAGE_SIZE = 1;
+    private final int PAGE_SIZE = 10;
 
     private int TOTAL_COUNTER = 4;
 
@@ -123,8 +127,8 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
         View view = inflater.inflate(R.layout.fragment_search_result, container, false);
         ButterKnife.bind(this, view);
         httpRequestData();
+        initView(null);
         initAdapter();
-
         return view;
     }
 
@@ -135,8 +139,10 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
                 //接口请求成功后处理
                 searchFilterEntity = entity;
 //                ToastUtil.showToast(mActivity, entity.getAbility().toString() +"");
-                initView(null);
+
                 initFilterDropDownView();
+
+
                 httpRequestSearchData(0);
             }
         };
@@ -151,7 +157,7 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
                 //接口请求成功后处理
                 data = entity;
                 List<MultipleSearchItemModel> models = getMultipleSearchItemModels(entity.getDiscuss());
-                mAdapter.addData(models);
+                mAdapter.setNewData(models);
             }
         };
 
@@ -163,17 +169,19 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
     private List<MultipleSearchItemModel> getMultipleSearchItemModels(List<DiscussEntiry> entiries) {
         List<MultipleSearchItemModel> models = new ArrayList<>();
 
-        int i = 1;
-        for (DiscussEntiry entiry : entiries){
-            int type = i % 2;
 
-            models.add(new MultipleSearchItemModel(type, entiry));
-            i++;
+        for (DiscussEntiry entiry : entiries) {
+            models.add(new MultipleSearchItemModel(searchType, entiry));
         }
         return models;
     }
 
     private void initAdapter() {
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new SearchResultMultipleAdapter(getMultipleSearchItemModels(data.getDiscuss()));
         mAdapter.openLoadAnimation();
 
@@ -184,8 +192,8 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
                 String content = null;
-                DiscussEntiry entity = (DiscussEntiry) adapter.getItem(position);
-                EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity)));
+                MultipleSearchItemModel entity = (MultipleSearchItemModel) adapter.getItem(position);
+                EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity.getContent())));
             }
         });
 
@@ -232,6 +240,7 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
     private void initFilterDropDownView() {
         String[] titleList = new String[]{"行业", "职能", "排序"};
         searchDropDownMenu.setMenuAdapter(new SearchDropMenuAdapter(mActivity, titleList, searchFilterEntity, this));
+        searchDropDownMenu.performClick();
     }
 
     @Override
@@ -241,6 +250,7 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
         }
 
         searchDropDownMenu.close();
+
         httpRequestSearchData(2);
     }
 
@@ -249,8 +259,6 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
         initToolbarNav(toolbar);
         initToolbarMenu(toolbar);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
     }

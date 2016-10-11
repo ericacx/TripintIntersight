@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +25,13 @@ import com.tripint.intersight.adapter.AskAnswerPageAdapter;
 import com.tripint.intersight.adapter.AskRecyclerViewAdapter;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
+import com.tripint.intersight.entity.article.ArticleBannerEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.discuss.DiscussPageEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
 import com.tripint.intersight.fragment.search.SearchMainFragment;
+import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.widget.BannerViewHolder;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
@@ -36,6 +39,7 @@ import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,6 +48,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
+ *
+ * 提问画面
  * A simple {@link Fragment} subclass.
  */
 public class AskFragment extends BaseLazyMainFragment {
@@ -62,14 +68,10 @@ public class AskFragment extends BaseLazyMainFragment {
 
 
     private PageDataSubscriberOnNext<DiscussPageEntity> subscriber;
+    private PageDataSubscriberOnNext<ArticleBannerEntity> bannerSubscriber;
 
     private DiscussPageEntity data;
 
-    private String[] images = {
-            "http://media.china-sss.com/pics/gallery/201510/0be8b7e9-5b4e-42bd-8c65-bf5d23bb7a78_201510161532_500_350.jpg",
-            "http://media.china-sss.com/pics/gallery/201605/3fb97f15-8d2b-41f0-bbd6-1f821f7ed309_201605061013_500_350.jpg",
-            "http://media.china-sss.com/pics/gallery/201607/3ef16811-ff18-4a40-aca8-695ba7824e13_201607211402_500_350.jpg",
-    };
     private LinearLayoutManager linearLayoutManager;
 
     private List<String> networkImages;
@@ -92,8 +94,28 @@ public class AskFragment extends BaseLazyMainFragment {
         View view = inflater.inflate(R.layout.fragment_ask, container, false);
         ButterKnife.bind(this, view);
 
-        httpRequestData();
+        httpBannerRequestData();
         return view;
+    }
+
+    private void httpBannerRequestData() {
+        bannerSubscriber = new PageDataSubscriberOnNext<ArticleBannerEntity>() {
+            @Override
+            public void onNext(ArticleBannerEntity entity) {
+                //接口请求成功后处理
+                networkImages = new ArrayList<String>();
+                for (int i = 0; i <entity.getBanner().size(); i++) {
+                    networkImages.add(entity.getBanner().get(i).getUrl());
+                    Log.e("opinion",networkImages.get(i));
+                }
+
+                initView(null);
+                httpRequestData();
+            }
+        };
+
+
+        BaseDataHttpRequest.getInstance(mActivity).getBanner(new ProgressSubscriber(bannerSubscriber, mActivity), 2);
     }
 
     private void httpRequestData() {
@@ -103,7 +125,6 @@ public class AskFragment extends BaseLazyMainFragment {
                 //接口请求成功后处理
                 data = entity;
 //                ToastUtil.showToast(mActivity, entity.getAbility().toString() +"");
-                initView(null);
                 initAdapter();
             }
         };
@@ -116,8 +137,6 @@ public class AskFragment extends BaseLazyMainFragment {
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        networkImages = Arrays.asList(images);
 
     }
 

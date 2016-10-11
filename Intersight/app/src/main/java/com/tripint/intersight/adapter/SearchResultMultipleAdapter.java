@@ -20,8 +20,8 @@ public class SearchResultMultipleAdapter extends BaseMultiItemQuickAdapter<Multi
 
     public SearchResultMultipleAdapter(List<MultipleSearchItemModel> data) {
         super(data);
-        addItemType(MultipleSearchItemModel.INTERVIEW, R.layout.item_ask_answer_chat_left);
-        addItemType(MultipleSearchItemModel.ARTICLE, R.layout.item_ask_answer_chat_right);
+        addItemType(MultipleSearchItemModel.INTERVIEW, R.layout.item_recyclerview_search_person_result);
+        addItemType(MultipleSearchItemModel.ARTICLE, R.layout.item_recyclerview_search_keyword_result);
 
     }
 
@@ -38,34 +38,32 @@ public class SearchResultMultipleAdapter extends BaseMultiItemQuickAdapter<Multi
             }
             avatar = item.getContent().getUserInfo().getAvatar();
         }
-        switch (helper.getItemViewType()){
+        switch (helper.getItemViewType()) {
             case MultipleSearchItemModel.INTERVIEW:
-                helper.setText(R.id.textView_item_ask_specialist, sperialist)
-                        .setText(R.id.textView_item_ask_title, StringUtils.null2Length0(item.getContent().getContent()))
-                        .setText(R.id.textView_item_ask_date_time, StringUtils.null2Length0(item.getContent().getContent()))
+                helper.setText(R.id.text_view_search_person_name, sperialist)
+                        .setText(R.id.text_view_search_person_industry, StringUtils.null2Length0(item.getContent().getContent()))
+                        .setText(R.id.text_view_search_person_job_title, StringUtils.null2Length0(item.getContent().getContent()))
+                        .setText(R.id.text_view_search_person_job_pos, StringUtils.null2Length0(item.getContent().getContent()))
+                        .setText(R.id.text_view_search_person_year, StringUtils.null2Length0(item.getContent().getContent()))
                 ;
 
                 Glide.with(mContext).load(avatar)
                         .crossFade()
-                        .placeholder(R.mipmap.iconfont_wechat)
+                        .placeholder(R.mipmap.ic_avatar)
                         .transform(new GlideCircleTransform(mContext))
-                        .into((ImageView) helper.getView(R.id.image_ask_profile));
+                        .into((ImageView) helper.getView(R.id.image_search_person_profile));
 
                 break;
             case MultipleSearchItemModel.ARTICLE:
-                helper.setText(R.id.textView_item_ask_specialist, sperialist)
-                        .setText(R.id.textView_item_ask_title, StringUtils.null2Length0(item.getContent().getContent()))
-                        .setText(R.id.textView_item_ask_date_time, StringUtils.null2Length0(item.getContent().getContent()))
+                helper.setText(R.id.search_text_view_title_main, sperialist)
+                        .setText(R.id.search_text_view_title_sub, StringUtils.null2Length0(item.getContent().getContent()))
+                        .setText(R.id.search_text_view_other, StringUtils.null2Length0(item.getContent().getContent()))
+                        .setText(R.id.search_text_view_industry, StringUtils.null2Length0(item.getContent().getContent()))
                 ;
 
-                Glide.with(mContext).load(avatar)
-                        .crossFade()
-                        .placeholder(R.mipmap.iconfont_wechat)
-                        .transform(new GlideCircleTransform(mContext))
-                        .into((ImageView) helper.getView(R.id.image_ask_profile));
                 break;
         }
-        }
+    }
 
 
 }
