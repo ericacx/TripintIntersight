@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -22,6 +23,8 @@ import com.bumptech.glide.Glide;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.AskAnswerPageDetailCommentAdapter;
 import com.tripint.intersight.adapter.AskAnswerPageDetailMultipleAdapter;
+import com.tripint.intersight.common.utils.KeyboardUtils;
+import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.filter.util.CommonUtil;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
@@ -100,6 +103,10 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
     @Bind(R.id.user_replay_container)
     RelativeLayout userReplayContainer;
 
+    BottomTabBarItem item1; // zan
+    BottomTabBarItem item2; // 关注
+    BottomTabBarItem item3; // 举报
+
 
     private AskAnswerPageDetailCommentAdapter mAdapter;
 
@@ -110,6 +117,10 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
     private DiscussDetailEntity data;
 
     private int mDiscussId;
+
+    private String currentAction = "";
+
+    private CommentEntity currentSubCommentEntity; //创建子摩评论
 
     public static AskAnswerDetailFragment newInstance(DiscussEntiry entiry) {
 
@@ -196,7 +207,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             final boolean isFollow = data.getDetail().getIsFollows() == 1001;
             int praises = isPraises ? R.mipmap.iconfont_zan01 : R.mipmap.iconfont_zan02;
             int follow = isFollow ? R.mipmap.iconfont_heartbig01 : R.mipmap.iconfont_heartbig02;
-            BottomTabBarItem item1 = new BottomTabBarItem(mActivity, praises, "赞" + data.getDetail().getPraises());
+             item1 = new BottomTabBarItem(mActivity, praises, "赞" + data.getDetail().getPraises());
             item1.setSelected(isPraises);
             item1.setTabPosition(1);
             item1.setLayoutParams(mTabParams);
@@ -204,9 +215,11 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                 @Override
                 public void onClick(View v) {
                     if(isPraises){
+                        currentAction = DiscussDataHttpRequest.TYPE_UNPRAISES;
                         DiscussDataHttpRequest.getInstance(mActivity).deleteParises(new ProgressSubscriber(putSubscriber, mActivity), mDiscussId);
 
                     }else {
+                        currentAction = DiscussDataHttpRequest.TYPE_PRAISES;
                         DiscussDataHttpRequest.getInstance(mActivity).createParises(new ProgressSubscriber(putSubscriber, mActivity), mDiscussId);
                     }
 
@@ -214,7 +227,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             });
             userCommentBar.addView(item1);
 
-            BottomTabBarItem item2 = new BottomTabBarItem(mActivity, follow, "关注" + data.getDetail().getFollows());
+             item2 = new BottomTabBarItem(mActivity, follow, "关注" + data.getDetail().getFollows());
             item2.setSelected(isFollow);
             item2.setTabPosition(2);
             item2.setLayoutParams(mTabParams);
@@ -222,16 +235,18 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                 @Override
                 public void onClick(View v) {
                     if(isFollow){
+                        currentAction = DiscussDataHttpRequest.TYPE_UNFOLLOW;
                         DiscussDataHttpRequest.getInstance(mActivity).deleteFollow(new ProgressSubscriber(putSubscriber, mActivity), mDiscussId);
 
                     }else {
+                        currentAction = DiscussDataHttpRequest.TYPE_FOLLOW;
                         DiscussDataHttpRequest.getInstance(mActivity).createFollow(new ProgressSubscriber(putSubscriber, mActivity), mDiscussId);
                     }
                 }
             });
             userCommentBar.addView(item2);
 
-            BottomTabBarItem item3 = new  BottomTabBarItem(mActivity, R.mipmap.iconfont_jubao, "举报");
+             item3 = new  BottomTabBarItem(mActivity, R.mipmap.iconfont_jubao, "举报");
             item3.setSelected(false);
             item3.setTabPosition(3);
             item3.setLayoutParams(mTabParams);
@@ -242,27 +257,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                 }
             });
             userCommentBar.addView(item3);
-//            userCommentBar
-//                    .addItem(new BottomTabBarItem(mActivity, praises, "赞" + data.getDetail().getPraises()))
-//                    .addItem(new BottomTabBarItem(mActivity, follow, "关注" + data.getDetail().getFollows()))
-//                    .addItem(new BottomTabBarItem(mActivity, R.mipmap.iconfont_jubao, "举报"));
-//            userCommentBar.setBackgroundColor(getResources().getColor(R.color.colorBottomBarPrimary));
-//            userCommentBar.setOnTabSelectedListener(new BottomTabBar.OnTabSelectedListener() {
-//                @Override
-//                public void onTabSelected(int position, int prePosition) {
-//                    //showHideFragment(mFragments[position], mFragments[prePosition]);
-//                }
-//
-//                @Override
-//                public void onTabUnselected(int position) {
-//
-//                }
-//
-//                @Override
-//                public void onTabReselected(int position) {
-//
-//                }
-//            });
+
         }
 
     }
@@ -288,7 +283,34 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
         putSubscriber = new PageDataSubscriberOnNext<CommentResultEntity>() {
             @Override
             public void onNext(CommentResultEntity entity) {
-                CommonUtils.showToast(entity.getFlg());
+                switch (currentAction) {
+
+                    case DiscussDataHttpRequest.TYPE_COMMENT: //行业领域
+                        CommonUtils.showToast("提交成功");
+                        editUserCommentReplay.setText("");
+                        break;
+                    case DiscussDataHttpRequest.TYPE_SUB_COMMENT: //行业领域
+                        CommonUtils.showToast("提交成功");
+                        editUserCommentReplay.setText("");
+
+                        break;
+                    case DiscussDataHttpRequest.TYPE_FOLLOW: //我的
+                        item2.setSelected(true);
+                        item2.setTitle(entity.getTotal() +"");
+                        break;
+                    case DiscussDataHttpRequest.TYPE_UNFOLLOW: //我的
+                        item2.setSelected(false);
+                        item2.setTitle(entity.getTotal() +"");
+                        break;
+                    case DiscussDataHttpRequest.TYPE_PRAISES: //我的
+                        item1.setSelected(true);
+                        item1.setTitle(entity.getTotal() +"");
+                        break;
+                    case DiscussDataHttpRequest.TYPE_UNPRAISES:
+                        item1.setSelected(false);
+                        item1.setTitle(entity.getTotal() +"");
+                        break;
+                }
             }
         };
 
@@ -297,8 +319,33 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
     @OnClick({R.id.text_view_comment_submit})
     public void onClick(View view){
-       String content = editUserCommentReplay.getText().toString();
-            DiscussDataHttpRequest.getInstance(mActivity).createComment(new ProgressSubscriber(putSubscriber, mActivity), mDiscussId, content);
+        switch (view.getId()) {
+
+            case R.id.text_view_comment_submit: //行业领域
+                if(currentSubCommentEntity == null){
+                    currentAction = DiscussDataHttpRequest.TYPE_SUB_COMMENT;
+                }else {
+                    currentAction = DiscussDataHttpRequest.TYPE_COMMENT;
+                }
+                String content = editUserCommentReplay.getText().toString();
+                if (StringUtils.isEmpty(content)) {
+                    CommonUtils.showToast("点评内容不能为空");
+                } else {
+                    if (currentSubCommentEntity == null) {
+                        DiscussDataHttpRequest.getInstance(mActivity).createComment(new ProgressSubscriber(putSubscriber, mActivity), mDiscussId, content);
+                    }else {
+                        DiscussDataHttpRequest.getInstance(mActivity).createSubComment(new ProgressSubscriber(putSubscriber, mActivity),
+                                mDiscussId, content, currentSubCommentEntity.getId(), currentSubCommentEntity.getToNickname());
+
+                    }
+                }
+
+                break;
+            case R.id.btn_qa_record_voice: //我的关注
+
+                break;
+
+        }
 
     }
 
@@ -319,8 +366,10 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                     case R.id.image_ask_profile:
                         content = "img:" + status.getContent();
                         break;
-                    case R.id.textView_item_ask_title:
+                    case R.id.textView_item_ask_action:
+                        currentSubCommentEntity = status;
                         content = "name:" + status.getCreateAt();
+                        KeyboardUtils.showSoftInput(mActivity, editUserCommentReplay);
                         break;
                 }
                 Toast.makeText(getActivity(), content, Toast.LENGTH_LONG).show();

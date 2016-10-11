@@ -22,7 +22,7 @@ public class DiscussDataHttpRequest extends HttpRequest {
     public static final String ACTION_DELETE = "delete";
 
     public static final String TYPE_COMMENT = "comment";
-    public static final String TYPE_SUB_COMMENT = "comment";
+    public static final String TYPE_SUB_COMMENT = "subcomment";
     public static final String TYPE_PRAISES = "praises";
     public static final String TYPE_UNPRAISES = "unpraises";
     public static final String TYPE_FOLLOW = "follows";
