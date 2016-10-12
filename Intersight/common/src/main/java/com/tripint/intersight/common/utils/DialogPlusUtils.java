@@ -326,23 +326,23 @@ public class DialogPlusUtils {
 
         LayoutInflater inflater = LayoutInflater.from(context);
 
-//        if (isHeader) {
-//            header = inflater.inflate(R.layout.dialog_header, null);
-//            TextView textView = (TextView) header.findViewById(R.id.text_title);
-//            textView.setText(titleName);
-////            if (isFooter) {
-////                header.findViewById(R.id.btn_close).setVisibility(View.GONE);
-////            }
-//        }
-//        if (isFooter) {
-//            footer = inflater.inflate(R.layout.dialog_footer, null);
-//            if (!StringUtils.isEmpty(confirmName)) {
-//                ((TextView) footer.findViewById(R.id.footer_confirm_button)).setText(confirmName);
-//            }
-//            if (!StringUtils.isEmpty(closeName)) {
-//                ((TextView) footer.findViewById(R.id.footer_close_button)).setText(closeName);
-//            }
-//        }
+        if (isHeader) {
+            header = inflater.inflate(R.layout.dialog_header, null);
+            TextView textView = (TextView) header.findViewById(R.id.text_title);
+            textView.setText(titleName);
+            if (isFooter) {
+                header.findViewById(R.id.btn_close).setVisibility(View.GONE);
+            }
+        }
+        if (isFooter) {
+            footer = inflater.inflate(R.layout.dialog_footer, null);
+            if (!StringUtils.isEmpty(confirmName)) {
+                ((TextView) footer.findViewById(R.id.footer_confirm_button)).setText(confirmName);
+            }
+            if (!StringUtils.isEmpty(closeName)) {
+                ((TextView) footer.findViewById(R.id.footer_close_button)).setText(closeName);
+            }
+        }
         if (null == adapter) {
             adapter = new RecyclerView.Adapter() {
                 @Override
