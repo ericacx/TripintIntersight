@@ -6,7 +6,6 @@
     tools:context="com.tripint.intersight.fragment.PersonalInfoFragment">
 
     <include
-        android:id="@+id/personal_info_toolbar"
         layout="@layout/toolbar" />
 
     <Button

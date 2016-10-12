@@ -10,6 +10,8 @@ import com.tripint.intersight.common.widget.recyclerviewadapter.BaseMultiItemQui
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseViewHolder;
 import com.tripint.intersight.entity.Ability;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.mine.AccountDetailEntity;
+import com.tripint.intersight.entity.mine.AskAnswerEntity;
 import com.tripint.intersight.entity.mine.FocusEntity;
 import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
@@ -73,16 +75,20 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
 
         //评论/赞消息
         addItemType(MineMultipleItemModel.MY_MESSAGE_COMMENT_PRAISE, R.layout.item_recyclerview_comment);
+
+        //账户明细
+        addItemType(MineMultipleItemModel.MY_ACCOUNT_DETAIL, R.layout.item_recyclerview_accountdetail);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, MineMultipleItemModel item) {
 
         MineFollowPointEntity mineFollowPointEntity = null;
-        DiscussEntiry discussEntiry = null;
+        AskAnswerEntity askAnswerEntity = null;
         FocusEntity focusEntity = null;
         UserEntity userEntity = null;
         Ability ability = null;
+        AccountDetailEntity accountDetailEntity;
 
         switch (helper.getItemViewType()) {
 
@@ -126,51 +132,43 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
 
             case MineMultipleItemModel.MY_DISCUSS://我的问答
 
-                if (item.getDiscussEntiry() != null) {
-                    discussEntiry = item.getDiscussEntiry();
-                    if (discussEntiry.getUserInfo() != null) {
-                        userEntity = discussEntiry.getUserInfo();
-                        if (userEntity.getAbility() != null) {
-                            ability = userEntity.getAbility();
-                        }
-                    }
-
-//                    if (entiry.getUserInfo().getAbility() != null) {
-//                        sperialist += entiry.getUserInfo().getAbility().getName();
-//                    }
+                if (item.getAskAnswerEntity() != null) {
+                    askAnswerEntity = item.getAskAnswerEntity();
                 }
 
-                helper.setText(R.id.ask_textView_mine_title_main, "")//我的提问（已回答）
-                        .setText(R.id.ask_textView_mine_sub_title, StringUtils.null2Length0(discussEntiry.getContent()))//标题
-                        .setText(R.id.ask_text_view_my_item_time, StringUtils.null2Length0(discussEntiry.getUid() + ""))//时间
-                        .setText(R.id.ask_text_view_my_item_industry, StringUtils.null2Length0(userEntity.getIndustry().getName()))//行业
+                helper
+                        .setText(R.id.ask_textView_mine_title_main, StringUtils.null2Length0(askAnswerEntity.getAction()))//我的提问
+                        .setText(R.id.ask_textView_mine_title_main_status, StringUtils.null2Length0(askAnswerEntity.getStatus()))//已回答
+                        .setText(R.id.ask_textView_mine_sub_title, StringUtils.null2Length0(askAnswerEntity.getContent()))//标题
+                        .setText(R.id.ask_text_view_my_item_time, StringUtils.null2Length0(askAnswerEntity.getCreateAt()))//时间
+                        .setText(R.id.ask_text_view_my_item_industry, StringUtils.null2Length0(askAnswerEntity.getIndustry()))//行业
                 ;
                 break;
             case MineMultipleItemModel.MY_DISCUSS_FOLLOW://我关注的问答
                 String avatar = "";
-                if (item.getDiscussEntiry() != null) {
-                    discussEntiry = item.getDiscussEntiry();
-                    if (discussEntiry.getUserInfo() != null) {
-                        userEntity = discussEntiry.getUserInfo();
-                        if (userEntity.getAbility() != null) {
+                if (item.getAskAnswerEntity() != null) {
+                    askAnswerEntity = item.getAskAnswerEntity();
+                    if (askAnswerEntity.getUserEntity() != null) {
+                        userEntity = askAnswerEntity.getUserEntity();
+                        if (userEntity.getAbility() != null){
                             ability = userEntity.getAbility();
-                            avatar = userEntity.getAvatar();
                         }
+                        avatar = userEntity.getAvatar();
                     }
                 }
                 helper
                         .setText(R.id.ask_focus_tv_name, StringUtils.null2Length0(userEntity.getNickname()))//名字
                         .setText(R.id.ask_focus_tv_title, StringUtils.null2Length0(ability.getName()))//职位
                         .setText(R.id.ask_focus_tv_company, StringUtils.null2Length0(userEntity.getCompany().getName()))//公司
-                        .setText(R.id.ask_focus_tv_header, StringUtils.null2Length0(discussEntiry.getContent()))//标题
-                        .setText(R.id.ask_focus_text_view_my_item_time, StringUtils.null2Length0(discussEntiry.getUid() + ""))//时间
-                        .setText(R.id.ask_focus_text_view_my_item_industry, StringUtils.null2Length0(userEntity.getIndustry().getName()))//行业
+                        .setText(R.id.ask_focus_tv_header, StringUtils.null2Length0(askAnswerEntity.getContent()))//标题
+                        .setText(R.id.ask_focus_text_view_my_item_time, StringUtils.null2Length0(askAnswerEntity.getCreateAt()))//时间
+                        .setText(R.id.ask_focus_text_view_my_item_industry, StringUtils.null2Length0(askAnswerEntity.getIndustry()))//行业
                 ;
                 Glide.with(mContext).load(avatar)
                         .crossFade()
                         .placeholder(R.drawable.loading_normal_icon)
                         .transform(new GlideCircleTransform(mContext))
-                        .into((ImageView) helper.getView(R.id.ask_focus_iv_avatar));
+                        .into((ImageView) helper.getView(R.id.ask_focus_iv_avatar));//头像
                 break;
             case MineMultipleItemModel.MY_FOCUSE://我的关注
                 if (item.getFocusEntity() != null) {
@@ -271,6 +269,9 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
 
                 break;
 
+            case MineMultipleItemModel.MY_ACCOUNT_DETAIL://账户明细
+
+                break;
         }
     }
 

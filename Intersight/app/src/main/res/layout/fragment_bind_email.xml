@@ -26,8 +26,8 @@
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_15"
-            android:textColor="@color/line"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="@color/white"
             android:text="332045512@qq.com"
             />
 
@@ -49,6 +49,7 @@
             android:background="@null"
             android:inputType="textEmailAddress"
             android:textColor="@color/white"
+            android:textSize="@dimen/text_size_14"
             android:hint="请输入新邮箱"
             android:maxLines="1"
             android:textColorHint="@color/line" />
@@ -86,6 +87,7 @@
             android:background="@null"
             android:textColor="@color/white"
             android:inputType="number"
+            android:textSize="@dimen/text_size_14"
             android:maxLines="1"
             android:imeOptions="actionDone"
             android:hint="@string/hint_verifycode_name"
@@ -109,6 +111,6 @@
         android:layout_marginTop="40dp"
         android:background="@drawable/btn_shape_blue"
         android:text="完成"
-        android:textSize="@dimen/text_size_15"
+        android:textSize="@dimen/text_size_14"
         android:textColor="@color/line" />
 </LinearLayout>

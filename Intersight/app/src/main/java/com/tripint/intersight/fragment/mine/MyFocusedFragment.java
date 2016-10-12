@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.MineCommonMultipleAdapter;
+import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
@@ -49,8 +50,8 @@ public class MyFocusedFragment extends BaseBackFragment {
     RecyclerView mRecyclerView;
 
     private MineCommonMultipleAdapter mAdapter;
-    private PageDataSubscriberOnNext<List<FocusEntity>> subscriber;
-    private List<FocusEntity> data;
+    private PageDataSubscriberOnNext<BasePageableResponse<FocusEntity>> subscriber;
+    private BasePageableResponse<FocusEntity> data;
 
     private int tab;
 
@@ -78,9 +79,9 @@ public class MyFocusedFragment extends BaseBackFragment {
     }
 
     private void httpRequestData(int type) {
-        subscriber = new PageDataSubscriberOnNext<List<FocusEntity>>() {
+        subscriber = new PageDataSubscriberOnNext<BasePageableResponse<FocusEntity>>() {
             @Override
-            public void onNext(List<FocusEntity> entity) {
+            public void onNext(BasePageableResponse<FocusEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
                 initView(null);
@@ -134,7 +135,7 @@ public class MyFocusedFragment extends BaseBackFragment {
         List<MineMultipleItemModel> models = new ArrayList<>();
 
         int type = tab == 0 ? MineMultipleItemModel.MY_FOCUSE : MineMultipleItemModel.MY_FOCUSE_FOLLOW;
-        for (FocusEntity entity : data) {
+        for (FocusEntity entity : data.getLists()) {
 
             models.add(new MineMultipleItemModel(type, entity));
         }

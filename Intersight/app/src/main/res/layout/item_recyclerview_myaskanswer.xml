@@ -6,78 +6,93 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:padding="@dimen/spacing"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/spacing">
 
         <LinearLayout
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="7"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/ask_textView_mine_title_main"
-                android:text="我的提问（已回答）"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/ask_textView_mine_sub_title"
-                android:text="目前AR技术的整体发展情况以及未来演讲方向?"
-                android:textColor="@color/line"
-                android:singleLine="true"
-                android:layout_marginTop="@dimen/spacing"
-                android:textSize="@dimen/text_size_12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <RelativeLayout
-                android:layout_marginTop="@dimen/spacing_02"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/ask_text_view_my_item_time"
-                    android:text="2016.09.06  15:30"
-                    android:layout_marginRight="@dimen/spacing"
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/line"
-                    android:layout_alignParentRight="true"
+                    android:id="@+id/ask_textView_mine_title_main"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="我的提问"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_15" />
+                <TextView
+                    android:id="@+id/ask_textView_mine_title_main_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="（已回答）"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_15"/>
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/ask_textView_mine_sub_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing"
+                android:singleLine="true"
+                android:text="目前AR技术的整体发展情况以及未来演讲方向?"
+                android:textColor="@color/line"
+                android:textSize="@dimen/text_size_12" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_02">
+
+                <TextView
+                    android:id="@+id/ask_text_view_my_item_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/spacing"
+                    android:text="2016.09.06  15:30"
+                    android:textColor="@color/line"
+                    android:textSize="@dimen/text_size_12" />
 
                 <TextView
                     android:id="@+id/ask_text_view_my_item_industry"
-                    android:text="电子 | 通信 | 硬件"
-                    android:textColor="@color/line"
-                    android:textSize="@dimen/text_size_12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/spacing"
                     android:layout_toLeftOf="@id/ask_text_view_my_item_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:text="电子 | 通信 | 硬件"
+                    android:textColor="@color/line"
+                    android:textSize="@dimen/text_size_12" />
             </RelativeLayout>
 
         </LinearLayout>
 
         <ImageView
             android:id="@+id/ask_image_view_has_replay"
-            android:src="@mipmap/iconfont_mima"
-            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/spacing_04"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:src="@mipmap/iconfont_mima"
+            android:visibility="gone" />
 
         <ImageView
-            android:src="@mipmap/iconfont_nextarticle"
-            android:layout_gravity="center_vertical"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:src="@mipmap/iconfont_nextarticle" />
 
     </LinearLayout>
 

@@ -2,7 +2,9 @@ package com.tripint.intersight.service;
 
 import android.content.Context;
 
+import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.mine.AskAnswerEntity;
 import com.tripint.intersight.entity.mine.InterviewDetailEntity;
 import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
@@ -58,14 +60,14 @@ public class ExpertDataHttpRequest extends HttpRequest{
      *
      * @param subscriber
      */
-    public void getHisFollowPoint(Subscriber<List<MineFollowPointEntity>> subscriber, int type, int page, int size) {
+    public void getHisFollowPoint(Subscriber<BasePageableResponse<MineFollowPointEntity>> subscriber, int type, int page, int size) {
         if (type == option_type_my) {//他的观点
             Observable observable = service.getMyPointList(page, size)
-                    .map(new HttpResultFunc<List<MineFollowPointEntity>>());
+                    .map(new HttpResultFunc<BasePageableResponse<MineFollowPointEntity>>());
             toSubscribe(observable, subscriber);
         } else if (type == option_type_my_follow) {//他关注的观点
             Observable observable = service.getMyFollowPointList(page, size)
-                    .map(new HttpResultFunc<List<MineFollowPointEntity>>());
+                    .map(new HttpResultFunc<BasePageableResponse<MineFollowPointEntity>>());
             toSubscribe(observable, subscriber);
         }
     }
@@ -77,14 +79,14 @@ public class ExpertDataHttpRequest extends HttpRequest{
      *
      * @param subscriber
      */
-    public void getHisAskAnswer(Subscriber<List<DiscussEntiry>> subscriber, int type, int page, int size) {
+    public void getHisAskAnswer(Subscriber<BasePageableResponse<AskAnswerEntity>> subscriber, int type, int page, int size) {
         if (type == option_type_my) {//问答
             Observable observable = service.getMyAskAnswer(page, size)
-                    .map(new HttpResultFunc<List<DiscussEntiry>>());
+                    .map(new HttpResultFunc<BasePageableResponse<AskAnswerEntity>>());
             toSubscribe(observable, subscriber);
         } else if (type == option_type_my_follow) {//关注的问答
             Observable observable = service.getMyFocusedAskAnswer(page, size)
-                    .map(new HttpResultFunc<List<DiscussEntiry>>());
+                    .map(new HttpResultFunc<BasePageableResponse<AskAnswerEntity>>());
             toSubscribe(observable, subscriber);
         }
     }
@@ -94,9 +96,9 @@ public class ExpertDataHttpRequest extends HttpRequest{
      *
      * @param subscriber
      */
-    public void getHisInterview(Subscriber<List<InterviewEntity>> subscriber, int page, int size) {
+    public void getHisInterview(Subscriber<BasePageableResponse<InterviewEntity>> subscriber, int page, int size) {
         Observable observable = service.getMyInterview(page, size)
-                .map(new HttpResultFunc<List<InterviewEntity>>());
+                .map(new HttpResultFunc<BasePageableResponse<InterviewEntity>>());
         toSubscribe(observable, subscriber);
     }
 
