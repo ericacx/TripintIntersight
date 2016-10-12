@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * Author: lirichen
- * Created by: ModelGenerator on 2016/9/22
+ * Created by: ModelGenerator on 2016/9/22DiscussEntiry
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DiscussEntiry implements Serializable {

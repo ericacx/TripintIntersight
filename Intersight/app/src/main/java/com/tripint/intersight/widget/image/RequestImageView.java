@@ -61,8 +61,8 @@ public class RequestImageView extends ImageView {
         try {
             Glide.with(this.getContext()).load(url)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.mipmap.ic_page_indicator)
-                    .error(R.mipmap.ic_page_indicator)
+                    .placeholder(R.drawable.loading_normal_icon)
+                    .error(R.mipmap.iconfont_jubao)
                     .fitCenter()
                     .crossFade()
                     .dontAnimate()

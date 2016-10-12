@@ -26,6 +26,7 @@ public class BottomTabBarItem extends FrameLayout {
     private TextView mTvTitle;
     private Context mContext;
     private int mTabPosition = -1;
+    private CharSequence title;
 
     public BottomTabBarItem(Context context, @DrawableRes int icon, CharSequence title) {
         this(context, null, icon, title);
@@ -37,6 +38,7 @@ public class BottomTabBarItem extends FrameLayout {
 
     public BottomTabBarItem(Context context, AttributeSet attrs, int defStyleAttr, int icon, CharSequence title) {
         super(context, attrs, defStyleAttr);
+        this.title = title;
         init(context, icon, title);
     }
 
@@ -91,6 +93,15 @@ public class BottomTabBarItem extends FrameLayout {
         if (position == 0) {
             setSelected(true);
         }
+    }
+
+    public CharSequence getTitle() {
+        return title;
+    }
+
+    public void setTitle(CharSequence title) {
+        this.title = title;
+        mTvTitle.setText(title);
     }
 
     public int getTabPosition() {

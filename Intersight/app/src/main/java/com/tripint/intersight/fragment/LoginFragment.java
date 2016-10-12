@@ -281,21 +281,25 @@ public class LoginFragment extends BaseCloseFragment {
                             }
 //                            MLog.d("授权第二步=" + params.toString());
 //                            submitLoginInfo(url, params, flag, media);
+                            dismissProgressDialog();
                         } else {
                             CommonUtils.showToast("授权失败");
 //                            mContext.dismissProgressDialog();
+                            dismissProgressDialog();
                         }
                     }
 
                     @Override
                     public void onError(SHARE_MEDIA share_media, int i, Throwable e) {
 //                        mContext.dismissProgressDialog();
+                        dismissProgressDialog();
                         CommonUtils.showToast("授权失败");
                     }
 
                     @Override
                     public void onCancel(SHARE_MEDIA share_media, int i) {
 //                        mContext.dismissProgressDialog();
+                        dismissProgressDialog();
                         CommonUtils.showToast("授权失败");
                     }
                 });

@@ -28,13 +28,13 @@ public class AskAnswerPageDetailCommentAdapter extends BaseQuickAdapter<CommentE
         if (item.getUser() != null) {
             Glide.with(mContext).load(item.getUser().getAvatar())
                     .crossFade()
-                    .placeholder(R.mipmap.iconfont_wechat)
+                    .placeholder(R.mipmap.ic_avatar)
                     .transform(new GlideCircleTransform(mContext))
                     .into((ImageView) helper.getView(R.id.image_ask_profile));
-            String special = item.getUser().getNickname();
+            String special = item.getUser().getNickname() + "  ";
             if (item.getUser().getAbility() != null) {
 
-                special += item.getUser().getAbility().getName();
+                special += item.getUser().getAbility().getName() + "   ";
             }
 
 
@@ -45,7 +45,8 @@ public class AskAnswerPageDetailCommentAdapter extends BaseQuickAdapter<CommentE
 
             helper.setText(R.id.textView_item_ask_specialist, special)
                     .setText(R.id.textView_item_ask_title, item.getContent())
-                    .setText(R.id.textView_item_ask_date_time, item.getCreateAt());
+                    .setText(R.id.textView_item_ask_date_time, item.getCreateAt())
+            .addOnClickListener(R.id.textView_item_ask_action);
 
 
         }

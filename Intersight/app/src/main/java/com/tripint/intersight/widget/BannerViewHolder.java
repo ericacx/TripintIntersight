@@ -1,17 +1,13 @@
 package com.tripint.intersight.widget;
 
 import android.content.Context;
-import android.util.Size;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.bumptech.glide.Glide;
 import com.tripint.intersight.R;
-import com.tripint.intersight.common.utils.SizeUtils;
 import com.tripint.intersight.widget.image.RequestImageView;
-import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
 
 
 /**
@@ -21,10 +17,11 @@ import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
  */
 public class BannerViewHolder implements Holder<String> {
     private ImageView imageView;
+
     @Override
     public View createView(Context context) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_banner_image, null);
-        imageView = (ImageView) view.findViewById(R.id.banner_image_view);
+//        View view = LayoutInflater.from(context).inflate(R.layout.item_banner_image, null);
+        imageView = new RequestImageView(context);
         return imageView;
     }
 

@@ -1,0 +1,67 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_container_item_ask_answer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacing_pad03"
+        android:background="@drawable/line_grey" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/spacing_pad06"
+        android:layout_gravity="center_vertical|left">
+
+        <com.tripint.intersight.widget.image.TouchImageView
+            android:id="@+id/image_pay_channel_logo"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="@dimen/width_6_80"
+            android:layout_marginTop="@dimen/spacing_pad06"
+            android:layout_marginBottom="@dimen/spacing_pad06"
+            android:layout_marginRight="@dimen/spacing_pad06"
+            android:src="@mipmap/icon_alipay_logo" />
+
+
+        <TextView
+            android:id="@+id/text_view_pay_channel_name"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spacing"
+            android:layout_gravity="center_vertical"
+            android:text="支付宝"
+            android:textColor="@color/grey_800"
+            android:textSize="@dimen/text_size_14" />
+
+        <ToggleButton
+            android:id="@+id/is_select_btn"
+            android:layout_width="@dimen/width_5_80"
+            android:layout_height="@dimen/width_5_80"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/width_2_80"
+            android:layout_marginRight="@dimen/width_2_80"
+            android:checked="false"
+            android:clickable="false"
+            android:visibility="gone"
+            android:textOff=""
+            android:textOn="" />
+
+
+        <com.tripint.intersight.widget.image.TouchImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/iconfont_nextarticle" />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

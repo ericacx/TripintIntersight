@@ -1,16 +1,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:background="@android:color/transparent">
 
     <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:layout_gravity="center"
-        android:orientation="vertical">
-
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing"
+        >
         <com.tripint.intersight.widget.image.CircleImageView
             android:id="@+id/image_ask_profile"
             android:layout_width="@dimen/width_12_80"
@@ -19,25 +17,20 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:src="@mipmap/dongcha" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="8"
-        android:orientation="vertical">
+            android:src="@mipmap/ic_avatar" />
 
         <TextView
-            android:id="@+id/textView_item_ask_specialist"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/height_4_80"
-            android:layout_gravity="center_vertical"
+            android:id="@+id/textView_item_ask_action"
+            android:layout_width="@dimen/width_8_80"
+            android:layout_height="@dimen/height_3_80"
             android:textColor="@color/grey_500"
             android:gravity="center_vertical"
-            android:text="目前AR技术的整体发展ngukey未来演讲方向????"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text=""
+            android:background="@mipmap/iconfont_pinglun"
             android:textSize="@dimen/text_size_12"
-            android:layout_margin="@dimen/spacing_pad04"/>
+            android:layout_margin="@dimen/spacing"/>
 
         <TextView
             android:id="@+id/textView_item_ask_title"
@@ -45,8 +38,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:lines="2"
+            android:layout_below="@id/textView_item_ask_specialist"
             android:textColor="@color/grey_100"
-            android:background="@drawable/img_yuyin_gary"
+            android:layout_toRightOf="@id/image_ask_profile"
             android:text="目前AR技术的整体发展ngukey未来演讲方向????"
             android:textSize="@dimen/text_size_14"
             android:layout_margin="@dimen/spacing_pad04"/>
@@ -58,15 +52,33 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:layout_gravity="right"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
             android:textColor="@color/grey_500"
             android:text="2016.09.12 12:00:00"
             android:textSize="@dimen/text_size_9"
             android:layout_margin="@dimen/spacing_pad04"/>
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/textView_item_ask_specialist"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_4_80"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/grey_500"
+            android:gravity="center_vertical"
+            android:layout_toLeftOf="@id/textView_item_ask_action"
+            android:layout_toRightOf="@id/image_ask_profile"
+            android:text="目前AR技术的整体发展ngukey未来演讲方向????"
+            android:textSize="@dimen/text_size_12"
+            android:layout_alignTop="@+id/textView_item_ask_action"
+            android:layout_alignLeft="@+id/textView_item_ask_title"
+            android:layout_alignStart="@+id/textView_item_ask_title" />
 
-    <com.tripint.intersight.widget.image.TouchImageView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+
+        android:background="@drawable/line_grey"/>
 </LinearLayout>
