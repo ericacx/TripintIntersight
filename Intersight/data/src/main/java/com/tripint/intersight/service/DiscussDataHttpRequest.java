@@ -2,9 +2,11 @@ package com.tripint.intersight.service;
 
 import android.content.Context;
 
+import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.discuss.DiscussDetailEntity;
-import com.tripint.intersight.entity.discuss.DiscussPageEntity;
+import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.discuss.Specialist;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -81,18 +83,18 @@ public class DiscussDataHttpRequest extends HttpRequest {
      * @param start      起始位置
      * @param count      获取长度
      */
-    public void getDiscusses(Subscriber<DiscussPageEntity> subscriber, int tab, int start, int count) {
+    public void getDiscusses(Subscriber<BasePageableResponse<DiscussEntiry>> subscriber, int tab, int start, int count) {
 
         Observable observable = null;
         if (tab == 0) {
             observable = service.getDiscuss(start, count)
-                    .map(new HttpResultFunc<DiscussPageEntity>());
+                    .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
         } else if (tab == 1) {
             observable = service.getDiscuss(start, count)
-                    .map(new HttpResultFunc<DiscussPageEntity>());
+                    .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
         } else if (tab == 2) {
             observable = service.getDiscuss(start, count)
-                    .map(new HttpResultFunc<DiscussPageEntity>());
+                    .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
         }
 
         toSubscribe(observable, subscriber);
@@ -121,10 +123,10 @@ public class DiscussDataHttpRequest extends HttpRequest {
      * @param start      起始位置
      * @param count      获取长度
      */
-    public void getDiscusses(Subscriber<DiscussPageEntity> subscriber, int start, int count) {
+    public void getDiscusses(Subscriber<BasePageableResponse<DiscussEntiry>> subscriber, int start, int count) {
 
         Observable observable = service.getDiscuss(start, count)
-                .map(new HttpResultFunc<DiscussPageEntity>());
+                .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
 
 
         toSubscribe(observable, subscriber);
@@ -200,6 +202,22 @@ public class DiscussDataHttpRequest extends HttpRequest {
         Observable observable = service.deleteFollow(disscussId, ACTION_CREATE, TYPE_UNFOLLOW)
                 .map(new HttpResultFunc<CommentResultEntity>());
 
+
+        toSubscribe(observable, subscriber);
+    }
+
+
+    /**
+     * 用于取得行业数据
+     *
+     * @param subscriber 由调用者传过来的观察者对象
+     * @param start      起始位置
+     * @param count      获取长度
+     */
+    public void getSpecialists(Subscriber<BasePageableResponse<Specialist>> subscriber, int start, int count) {
+
+        Observable observable = service.getSpecialists(start, count)
+                .map(new HttpResultFunc<BasePageableResponse<Specialist>>());
 
         toSubscribe(observable, subscriber);
     }

@@ -15,26 +15,18 @@ import com.tripint.intersight.adapter.MineCommonMultipleAdapter;
 import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
-import com.tripint.intersight.entity.discuss.DiscussPageEntity;
 import com.tripint.intersight.entity.mine.AccountDetailEntity;
-import com.tripint.intersight.entity.mine.InterviewEntity;
-import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
-import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import static android.R.attr.type;
 
 /**
  * 账户明细

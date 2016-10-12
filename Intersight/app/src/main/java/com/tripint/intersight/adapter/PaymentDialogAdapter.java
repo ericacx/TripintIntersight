@@ -6,7 +6,6 @@ import com.bumptech.glide.Glide;
 import com.tripint.intersight.R;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseViewHolder;
-import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.user.PaymentEntity;
 import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
 
@@ -39,7 +38,7 @@ public class PaymentDialogAdapter extends BaseQuickAdapter<PaymentEntity> {
 //        List<QAModel> list = new ArrayList<>();
 //        for (int i = 0; i < lenth; i++) {
 //            QAModel status = new QAModel();
-//            status.setCompany("Chad" + i);
+//            status.setCompanyName("Chad" + i);
 //            status.setId(i + "");
 //            status.setJobTitle("ChadChadChad");
 //            status.setLikeCount(100);

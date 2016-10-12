@@ -118,7 +118,7 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
             public void onNext(InterviewDetailEntity entity) {
                 //接口请求成功后处理
                 data = entity;
-//                ToastUtil.showToast(mActivity, entity.getAbility().toString() +"");
+//                ToastUtil.showToast(mActivity, entity.getAbilityName().toString() +"");
                 initView(null);
                 initCommentAdapter();
             }

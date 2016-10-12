@@ -4,8 +4,8 @@ package com.tripint.intersight.fragment.home;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -13,21 +13,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
-import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.tripint.intersight.R;
-import com.tripint.intersight.adapter.AskAnswerPageAdapter;
 import com.tripint.intersight.adapter.AskRecyclerViewAdapter;
+import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
+import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
-import com.tripint.intersight.entity.discuss.DiscussPageEntity;
+import com.tripint.intersight.entity.discuss.Specialist;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
 import com.tripint.intersight.fragment.search.SearchMainFragment;
@@ -40,7 +39,6 @@ import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -48,11 +46,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- *
  * 提问画面
  * A simple {@link Fragment} subclass.
  */
-public class AskFragment extends BaseLazyMainFragment {
+public class AskFragment extends BaseLazyMainFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
 
     @Bind(R.id.toolbar_search_text)
@@ -63,18 +60,27 @@ public class AskFragment extends BaseLazyMainFragment {
     RecyclerView mRecyclerView;
     @Bind(R.id.toolbar_search_button)
     ImageView toolbarSearchButton;
+    @Bind(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private AskRecyclerViewAdapter mAdapter;
 
 
-    private PageDataSubscriberOnNext<DiscussPageEntity> subscriber;
+    private PageDataSubscriberOnNext<BasePageableResponse<Specialist>> subscriber;
     private PageDataSubscriberOnNext<ArticleBannerEntity> bannerSubscriber;
 
-    private DiscussPageEntity data;
+    private BasePageableResponse<Specialist> data = new BasePageableResponse<>();
 
     private LinearLayoutManager linearLayoutManager;
 
     private List<String> networkImages;
+
+    private final int PAGE_SIZE = 10;
+
+    private int TOTAL_COUNTER = 0;
+
+    private int mCurrentCounter = 0;
+
 
     //    private DataEntity dataEntity;
     public static AskFragment newInstance() {
@@ -104,12 +110,13 @@ public class AskFragment extends BaseLazyMainFragment {
             public void onNext(ArticleBannerEntity entity) {
                 //接口请求成功后处理
                 networkImages = new ArrayList<String>();
-                for (int i = 0; i <entity.getBanner().size(); i++) {
+                for (int i = 0; i < entity.getBanner().size(); i++) {
                     networkImages.add(entity.getBanner().get(i).getUrl());
-                    Log.e("opinion",networkImages.get(i));
+                    Log.e("opinion", networkImages.get(i));
                 }
 
                 initView(null);
+                initAdapter();
                 httpRequestData();
             }
         };
@@ -119,32 +126,40 @@ public class AskFragment extends BaseLazyMainFragment {
     }
 
     private void httpRequestData() {
-        subscriber = new PageDataSubscriberOnNext<DiscussPageEntity>() {
+        subscriber = new PageDataSubscriberOnNext<BasePageableResponse<Specialist>>() {
             @Override
-            public void onNext(DiscussPageEntity entity) {
+            public void onNext(BasePageableResponse<Specialist> entity) {
                 //接口请求成功后处理
                 data = entity;
-//                ToastUtil.showToast(mActivity, entity.getAbility().toString() +"");
-                initAdapter();
+
+                if (mCurrentCounter == 0) {
+//                ToastUtil.showToast(mActivity, entity.getAbilityName().toString() +"");
+                    mAdapter.setNewData(data.getLists());
+                } else {
+                    mAdapter.addData(data.getLists());
+                }
+                TOTAL_COUNTER = data.getTotal();
+                mCurrentCounter = mAdapter.getData().size();
             }
         };
 
 
-        DiscussDataHttpRequest.getInstance(mActivity).getDiscusses(new ProgressSubscriber(subscriber, mActivity), 1, 10);
+        DiscussDataHttpRequest.getInstance(mActivity).getSpecialists(new ProgressSubscriber(subscriber, mActivity), 1, 10);
     }
 
     protected void initView(View view) {
 
+        swipeRefreshLayout.setOnRefreshListener(this);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
 
     }
 
     private void initAdapter() {
-        mAdapter = new AskRecyclerViewAdapter(data.getDiscuss());
+        mAdapter = new AskRecyclerViewAdapter(data.getLists());
         mAdapter.openLoadAnimation();
-
-        mRecyclerView.addOnItemTouchListener(new com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener() {
+        mAdapter.setOnLoadMoreListener(this);
+        mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -211,4 +226,29 @@ public class AskFragment extends BaseLazyMainFragment {
         ButterKnife.unbind(this);
     }
 
+    @Override
+    public void onRefresh() {
+
+        mAdapter.setNewData(data.getLists());
+        mAdapter.openLoadMore(PAGE_SIZE);
+        mAdapter.removeAllFooterView();
+        mCurrentCounter = PAGE_SIZE;
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        mRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mCurrentCounter >= TOTAL_COUNTER) {
+                    mAdapter.loadComplete();
+
+                } else {
+                    mAdapter.addData(data.getLists());
+                    mCurrentCounter = mAdapter.getData().size();
+                }
+            }
+        }, 200);
+    }
 }

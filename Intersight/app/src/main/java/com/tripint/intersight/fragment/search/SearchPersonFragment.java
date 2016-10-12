@@ -140,7 +140,7 @@ public class SearchPersonFragment extends BaseBackFragment {
             public void onNext(SearchFilterEntity entity) {
                 //接口请求成功后处理
                 searchFilterEntity = entity;
-//                ToastUtil.showToast(mActivity, entity.getAbility().toString() +"");
+//                ToastUtil.showToast(mActivity, entity.getAbilityName().toString() +"");
                 initView(null);
             }
         };

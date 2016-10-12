@@ -18,19 +18,14 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.AskAnswerPageAdapter;
+import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.utils.ToastUtil;
-import com.tripint.intersight.common.widget.pulltorefresh.PtrClassicFrameLayout;
-import com.tripint.intersight.common.widget.pulltorefresh.PtrDefaultHandler;
-import com.tripint.intersight.common.widget.pulltorefresh.PtrFrameLayout;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
-import com.tripint.intersight.entity.common.BannerEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
-import com.tripint.intersight.entity.discuss.DiscussPageEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseFragment;
-import com.tripint.intersight.fragment.flipview.OpinionFlipViewAdapter;
 import com.tripint.intersight.model.PaginationModel;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
@@ -41,7 +36,6 @@ import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -68,19 +62,19 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    private final int PAGE_SIZE = 1;
+    private final int PAGE_SIZE = 10;
 
-    private int TOTAL_COUNTER = 4;
+    private int TOTAL_COUNTER = 0;
 
     private int mCurrentCounter = 0;
 
     private AskAnswerPageAdapter mAdapter;
 
-    private PageDataSubscriberOnNext<DiscussPageEntity> subscriber;
+    private PageDataSubscriberOnNext<BasePageableResponse<DiscussEntiry>> subscriber;
 
     private PageDataSubscriberOnNext<ArticleBannerEntity> bannerSubscriber;
 
-    private DiscussPageEntity data = new DiscussPageEntity();
+    private BasePageableResponse<DiscussEntiry> data = new BasePageableResponse<DiscussEntiry>();
 
     private PaginationModel pageModel = new PaginationModel();
 
@@ -140,12 +134,19 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
     }
 
     private void httpRequestData(int type) {
-        subscriber = new PageDataSubscriberOnNext<DiscussPageEntity>() {
+        subscriber = new PageDataSubscriberOnNext<BasePageableResponse<DiscussEntiry>>() {
             @Override
-            public void onNext(DiscussPageEntity entity) {
+            public void onNext(BasePageableResponse<DiscussEntiry> entity) {
                 //接口请求成功后处理
                 data = entity;
-                mAdapter.addData(data.getDiscuss());
+                if (mCurrentCounter == 0) {
+//                ToastUtil.showToast(mActivity, entity.getAbilityName().toString() +"");
+                    mAdapter.setNewData(data.getLists());
+                } else {
+                    mAdapter.addData(data.getLists());
+                }
+                TOTAL_COUNTER = data.getTotal();
+                mCurrentCounter = mAdapter.getData().size();
             }
         };
 
@@ -220,7 +221,7 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
 
 
     private void initAdapter() {
-        mAdapter = new AskAnswerPageAdapter(data.getDiscuss());
+        mAdapter = new AskAnswerPageAdapter(data.getLists());
         mAdapter.openLoadAnimation();
 
         mAdapter.openLoadMore(PAGE_SIZE);
@@ -253,7 +254,7 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
 
     @Override
     public void onRefresh() {
-        mAdapter.setNewData(data.getDiscuss());
+        mAdapter.setNewData(data.getLists());
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.removeAllFooterView();
         mCurrentCounter = PAGE_SIZE;
@@ -271,7 +272,7 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
                     mAdapter.loadComplete();
 
                 } else {
-                    mAdapter.addData(data.getDiscuss());
+                    mAdapter.addData(data.getLists());
                     mCurrentCounter = mAdapter.getData().size();
                 }
             }

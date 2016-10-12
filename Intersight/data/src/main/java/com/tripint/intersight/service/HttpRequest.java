@@ -2,7 +2,6 @@ package com.tripint.intersight.service;
 
 
 import android.content.Context;
-import android.util.Log;
 
 import com.tripint.intersight.common.ApiException;
 import com.tripint.intersight.common.BaseResponse;
@@ -12,7 +11,6 @@ import com.tripint.intersight.executor.ThreadExecutor;
 import com.tripint.intersight.executor.UIThread;
 import com.tripint.intersight.interceptor.HeaderInterceptor;
 import com.tripint.intersight.interceptor.LoggingInterceptor;
-import com.tripint.intersight.interceptor.ParameterInterceptor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -46,7 +44,7 @@ public class HttpRequest {
         //手动创建一个OkHttpClient并设置超时时间
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addNetworkInterceptor(new LoggingInterceptor());
-        builder.addInterceptor(new ParameterInterceptor());
+//        builder.addInterceptor(new ParameterInterceptor());
         builder.addInterceptor(new HeaderInterceptor(context));
         builder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
         mContext = context;

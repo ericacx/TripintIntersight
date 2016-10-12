@@ -1,12 +1,16 @@
 package com.tripint.intersight.service;
 
 
+import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.BaseResponse;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.discuss.DiscussDetailEntity;
-import com.tripint.intersight.entity.discuss.DiscussPageEntity;
+import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.discuss.Specialist;
 
+import retrofit2.http.Field;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -19,10 +23,10 @@ public interface DiscussDataService {
 
     //观点
     @GET("discuss")
-    Observable<BaseResponse<DiscussPageEntity>> getDiscuss(@Query("page") int page, @Query("size") int size);
+    Observable<BaseResponse<BasePageableResponse<DiscussEntiry>>> getDiscuss(@Query("page") int page, @Query("size") int size);
 
     @GET("mine/discuss")
-    Observable<BaseResponse<DiscussPageEntity>> getSearchFilter(@Query("type") String type);
+    Observable<BaseResponse<BasePageableResponse<DiscussEntiry>>> getSearchFilter(@Query("type") String type);
 
     @GET("discuss/{id}")
     Observable<BaseResponse<DiscussDetailEntity>> getDiscussDetail(@Path("id") int id);
@@ -48,4 +52,8 @@ public interface DiscussDataService {
 
     @PUT("discuss/{id}")
     Observable<BaseResponse<CommentResultEntity>> deleteFollow(@Path("id") int id, @Query("action") String action, @Query("type") String type);
+
+    //提问
+    @POST("questionsShow")
+    Observable<BaseResponse<BasePageableResponse<Specialist>>> getSpecialists(@Field("page") int page, @Field("size") int size);
 }

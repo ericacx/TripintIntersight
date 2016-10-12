@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.AskAnswerPageDetailCommentAdapter;
-import com.tripint.intersight.adapter.PaymentDialogAdapter;
 import com.tripint.intersight.adapter.PaymentSelectAdapter;
 import com.tripint.intersight.adapter.listener.RecyclerViewItemOnClick;
 import com.tripint.intersight.common.utils.DialogPlusUtils;
@@ -29,7 +28,6 @@ import com.tripint.intersight.common.utils.KeyboardUtils;
 import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
 import com.tripint.intersight.common.widget.dialogplus.ListHolder;
-import com.tripint.intersight.common.widget.dialogplus.OnItemClickListener;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
 import com.tripint.intersight.entity.discuss.CommentEntity;
@@ -273,7 +271,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             public void onNext(DiscussDetailEntity entity) {
                 //接口请求成功后处理
                 data = entity;
-//                ToastUtil.showToast(mActivity, entity.getAbility().toString() +"");
+//                ToastUtil.showToast(mActivity, entity.getAbilityName().toString() +"");
                 initView(null);
                 initCommentAdapter();
             }

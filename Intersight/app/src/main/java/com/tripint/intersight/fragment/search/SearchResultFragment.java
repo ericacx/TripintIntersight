@@ -10,21 +10,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.SearchDropMenuAdapter;
 import com.tripint.intersight.adapter.SearchResultMultipleAdapter;
+import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.widget.filter.DropDownMenu;
 import com.tripint.intersight.common.widget.filter.interfaces.OnFilterDoneListener;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
-import com.tripint.intersight.entity.discuss.DiscussPageEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.fragment.home.AskAnswerDetailFragment;
@@ -78,11 +76,11 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
 
     private PageDataSubscriberOnNext<SearchFilterEntity> subscriber;
 
-    private PageDataSubscriberOnNext<DiscussPageEntity> searchSubscriber;
+    private PageDataSubscriberOnNext<BasePageableResponse<DiscussEntiry>> searchSubscriber;
 
     private SearchResultMultipleAdapter mAdapter;
 
-    private DiscussPageEntity data = new DiscussPageEntity();
+    private BasePageableResponse<DiscussEntiry> data = new BasePageableResponse<DiscussEntiry>();
 
 
     private final int PAGE_SIZE = 10;
@@ -138,7 +136,7 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
             public void onNext(SearchFilterEntity entity) {
                 //接口请求成功后处理
                 searchFilterEntity = entity;
-//                ToastUtil.showToast(mActivity, entity.getAbility().toString() +"");
+//                ToastUtil.showToast(mActivity, entity.getAbilityName().toString() +"");
 
                 initFilterDropDownView();
 
@@ -151,12 +149,12 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
     }
 
     private void httpRequestSearchData(int type) {
-        searchSubscriber = new PageDataSubscriberOnNext<DiscussPageEntity>() {
+        searchSubscriber = new PageDataSubscriberOnNext<BasePageableResponse<DiscussEntiry>>() {
             @Override
-            public void onNext(DiscussPageEntity entity) {
+            public void onNext(BasePageableResponse<DiscussEntiry> entity) {
                 //接口请求成功后处理
                 data = entity;
-                List<MultipleSearchItemModel> models = getMultipleSearchItemModels(entity.getDiscuss());
+                List<MultipleSearchItemModel> models = getMultipleSearchItemModels(entity.getLists());
                 mAdapter.setNewData(models);
             }
         };
@@ -182,7 +180,7 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new SearchResultMultipleAdapter(getMultipleSearchItemModels(data.getDiscuss()));
+        mAdapter = new SearchResultMultipleAdapter(getMultipleSearchItemModels(data.getLists()));
         mAdapter.openLoadAnimation();
 
         mAdapter.openLoadMore(PAGE_SIZE);
@@ -210,7 +208,7 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
 
     @Override
     public void onRefresh() {
-        mAdapter.setNewData(getMultipleSearchItemModels(data.getDiscuss()));
+        mAdapter.setNewData(getMultipleSearchItemModels(data.getLists()));
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.removeAllFooterView();
         mCurrentCounter = PAGE_SIZE;
@@ -228,7 +226,7 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
                     mAdapter.loadComplete();
 
                 } else {
-                    mAdapter.addData(getMultipleSearchItemModels(data.getDiscuss()));
+                    mAdapter.addData(getMultipleSearchItemModels(data.getLists()));
                     mCurrentCounter = mAdapter.getData().size();
                 }
             }
