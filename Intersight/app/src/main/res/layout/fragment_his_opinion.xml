@@ -3,72 +3,80 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/background_default"
-    tools:context="com.tripint.intersight.fragment.HisOpinionFragment">
+    tools:context="com.tripint.intersight.fragment.personal.HisOpinionFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/his_opinion_toolbar"
         layout="@layout/toolbar"/>
 
-    <RadioGroup
+    <LinearLayout
         android:id="@+id/hisAskAnswerVG"
-        android:layout_below="@id/toolbar"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
+        android:layout_below="@id/his_opinion_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/height_5_80"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal">
 
-        <RadioButton
-            android:text="他的问答"
-            android:textColor="@color/line"
-            android:gravity="center"
-            android:layout_gravity="center_vertical"
-            android:button="@null"
-            android:textSize="@dimen/text_size_15"
-            android:layout_weight="1"
+        <TextView
+            android:id="@+id/btn_my_common_header_left"
+            style="@style/text_28px_styles"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" />
-        <RadioButton
-            android:text="他关注的问答"
-            android:textColor="@color/line"
-            android:layout_gravity="center_vertical"
-            android:gravity="center"
-            android:button="@null"
-            android:textSize="@dimen/text_size_15"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
-    </RadioGroup>
+            android:background="@drawable/btn_selector_corners_grey"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:paddingBottom="@dimen/spacing_pad"
+            android:paddingLeft="@dimen/spacing_01"
+            android:paddingRight="@dimen/spacing_01"
+            android:paddingTop="@dimen/spacing_pad"
+            android:text="他的观点"
+            android:textColor="@color/grey_100" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/hisAskAnswerRecyclerView"
-        android:layout_below="@id/hisAskAnswerVG"
-        android:layout_marginBottom="@dimen/height_7_80"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/btn_my_common_header_right"
+            style="@style/text_28px_styles"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/btn_selector_corners_grey"
+            android:gravity="center"
+            android:paddingBottom="@dimen/spacing_pad"
+            android:paddingLeft="@dimen/spacing_01"
+            android:paddingRight="@dimen/spacing_01"
+            android:paddingTop="@dimen/spacing_pad"
+            android:text="他关注的观点"
+            android:textColor="@color/grey_100" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/hisAskAnswerLL"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_7_80">
+        android:layout_height="@dimen/height_6_80">
 
         <Button
+            android:id="@+id/his_opinion_ask"
             android:text="10.00向他提问"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_15"
-            android:background="@drawable/btn_shape1"
+            android:background="@drawable/btn_shape_blue"
             android:layout_marginLeft="@dimen/spacing_02"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:gravity="center"
             android:layout_gravity="center_vertical"
-            android:layout_height="@dimen/height_4_80" />
+            android:layout_height="match_parent" />
         <View
             android:layout_width="20dp"
             android:layout_height="match_parent"/>
         <Button
+            android:id="@+id/his_opinion_interview"
             android:text="约他访谈"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_15"
@@ -78,7 +86,16 @@
             android:layout_weight="1"
             android:gravity="center"
             android:layout_gravity="center_vertical"
-            android:layout_height="@dimen/height_4_80" />
+            android:layout_height="match_parent" />
     </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/his_opinion_recyclerView"
+        android:layout_below="@id/hisAskAnswerVG"
+        android:layout_above="@id/hisAskAnswerLL"
+        android:fadingEdge="none"
+        android:background="@android:color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>

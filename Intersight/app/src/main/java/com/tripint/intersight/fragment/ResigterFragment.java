@@ -17,8 +17,6 @@ import android.widget.TextView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.activity.InterestedActivity;
-import com.tripint.intersight.activity.MainActivity;
-import com.tripint.intersight.activity.UserProtocolActivity;
 import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.common.enumkey.EnumKey;
 import com.tripint.intersight.common.utils.ToastUtil;

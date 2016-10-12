@@ -8,12 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tripint.intersight.R;
+import com.tripint.intersight.fragment.base.BaseBackFragment;
 
 /**
- * 个人资料
+ * 编辑个人资料
  * A simple {@link Fragment} subclass.
  */
-public class PersonalInfoFragment extends Fragment {
+public class PersonalInfoFragment extends BaseBackFragment {
 
 
     public static PersonalInfoFragment newInstance (){
@@ -30,7 +31,8 @@ public class PersonalInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_personal_info, container, false);
+        View view = inflater.inflate(R.layout.fragment_personal_info, container, false);
+        return view;
     }
 
 }

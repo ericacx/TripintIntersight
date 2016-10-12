@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.mine.FocusEntity;
+import com.tripint.intersight.entity.mine.InterviewDetailEntity;
 import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
@@ -127,8 +128,19 @@ public class MineDataHttpRequest extends HttpRequest {
         Observable observable = service.getMyInterview(page, size)
                 .map(new HttpResultFunc<List<InterviewEntity>>());
         toSubscribe(observable, subscriber);
-
     }
 
+    /**
+     * 用得我的访谈详情数据。
+     *
+     * @param subscriber 由调用者传过来的观察者对象
+     * @param
+     */
+    public void getInterviewDetail(Subscriber<InterviewDetailEntity> subscriber, int discussId) {
 
+        Observable observable
+                = service.getInterviewDetail(discussId)
+                .map(new HttpResultFunc<InterviewDetailEntity>());
+        toSubscribe(observable, subscriber);
+    }
 }

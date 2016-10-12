@@ -29,24 +29,50 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
 
     public MineCommonMultipleAdapter(List<MineMultipleItemModel> data) {
         super(data);
+
         //我的观点
         addItemType(MineMultipleItemModel.MY_OPTION, R.layout.item_recyclerview_myopinion);
         //我关注的观点
         addItemType(MineMultipleItemModel.MY_OPTION_FOLLOW, R.layout.item_recyclerview_myopinion);
+
+        //他的观点
+        addItemType(MineMultipleItemModel.HIS_OPTION, R.layout.item_recyclerview_myopinion);
+        //他关注的观点
+        addItemType(MineMultipleItemModel.HIS_OPTION_FOLLOW, R.layout.item_recyclerview_myopinion);
 
         //我的问答
         addItemType(MineMultipleItemModel.MY_DISCUSS, R.layout.item_recyclerview_myaskanswer);
         //我关注的问答
         addItemType(MineMultipleItemModel.MY_DISCUSS, R.layout.item_recyclerview_myaskanswer_focused);
 
+        //他的问答
+        addItemType(MineMultipleItemModel.HIS_DISCUSS, R.layout.item_recyclerview_myaskanswer);
+        //他关注的问答
+        addItemType(MineMultipleItemModel.HIS_DISCUSS, R.layout.item_recyclerview_myaskanswer_focused);
+
+        //我的访谈
+        addItemType(MineMultipleItemModel.MY_INTERVIEW, R.layout.item_recyclerview_myinterview);
+
+        //他的访谈
+        addItemType(MineMultipleItemModel.HIS_INTERVIEW, R.layout.item_recyclerview_myinterview);
+
         //我的关注
         addItemType(MineMultipleItemModel.MY_FOCUSE, R.layout.item_recyclerview_myfocused);
         //被关注
         addItemType(MineMultipleItemModel.MY_FOCUSE_FOLLOW, R.layout.item_recyclerview_myfocused);
 
-        //我的访谈
-        addItemType(MineMultipleItemModel.MY_INTERVIEW, R.layout.item_recyclerview_myinterview);
 
+        //新消息
+        addItemType(MineMultipleItemModel.MY_MESSAGE_NEW, R.layout.item_recyclerview_message);
+
+        //访谈消息
+        addItemType(MineMultipleItemModel.MY_MESSAGE_INTERVIEW, R.layout.item_recyclerview_message);
+
+        //问答消息
+        addItemType(MineMultipleItemModel.MY_MESSAGE_ASK_ANSWER, R.layout.item_recyclerview_message);
+
+        //评论/赞消息
+        addItemType(MineMultipleItemModel.MY_MESSAGE_COMMENT_PRAISE, R.layout.item_recyclerview_comment);
     }
 
     @Override
@@ -59,6 +85,21 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
         Ability ability = null;
 
         switch (helper.getItemViewType()) {
+
+            case MineMultipleItemModel.MY_OPTION://我的观点
+                if (item.getMineFollowPointEntity() != null) {
+                    mineFollowPointEntity = item.getMineFollowPointEntity();
+                }
+                helper
+                        .setText(R.id.opinion_textView_mine_title_main, StringUtils.null2Length0(mineFollowPointEntity.getTitle()))
+                        .setText(R.id.opinion_textView_mine_sub_title, StringUtils.null2Length0(mineFollowPointEntity.getContent()))
+                        .setText(R.id.opinion_textView_item_focusnum, mineFollowPointEntity.getFollows() + "")
+                        .setText(R.id.opinion_textView_item_talknum, mineFollowPointEntity.getComments() + "")
+                        .setText(R.id.opinion_textView_item_agreenum, mineFollowPointEntity.getPraises() + "")
+                        .setText(R.id.opinion_textView_item_trade, StringUtils.null2Length0(mineFollowPointEntity.getIndustryName()))
+                ;
+                break;
+
             case MineMultipleItemModel.MY_OPTION_FOLLOW://我关注的观点
                 if (item.getMineFollowPointEntity() != null) {
                     mineFollowPointEntity = item.getMineFollowPointEntity();
@@ -81,20 +122,6 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                         .transform(new GlideCircleTransform(mContext))
                         .into((ImageView) helper.getView(R.id.opinion_imageView_owner_profile));
 
-                break;
-
-            case MineMultipleItemModel.MY_OPTION://我的观点
-                if (item.getMineFollowPointEntity() != null) {
-                    mineFollowPointEntity = item.getMineFollowPointEntity();
-                }
-                helper
-                        .setText(R.id.opinion_textView_mine_title_main, StringUtils.null2Length0(mineFollowPointEntity.getTitle()))
-                        .setText(R.id.opinion_textView_mine_sub_title, StringUtils.null2Length0(mineFollowPointEntity.getContent()))
-                        .setText(R.id.opinion_textView_item_focusnum, mineFollowPointEntity.getFollows() + "")
-                        .setText(R.id.opinion_textView_item_talknum, mineFollowPointEntity.getComments() + "")
-                        .setText(R.id.opinion_textView_item_agreenum, mineFollowPointEntity.getPraises() + "")
-                        .setText(R.id.opinion_textView_item_trade, StringUtils.null2Length0(mineFollowPointEntity.getIndustryName()))
-                ;
                 break;
 
             case MineMultipleItemModel.MY_DISCUSS://我的问答
@@ -207,6 +234,43 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                         .setText(R.id.text_view_my_item_trade, StringUtils.null2Length0(interviewEntity.getName()))//行业
                         .setText(R.id.text_view_my_item_data_time, interviewEntity.getCreateAt() + "");//时间
                 break;
+
+            case MineMultipleItemModel.MY_MESSAGE_NEW://新消息
+
+                break;
+
+            case MineMultipleItemModel.MY_MESSAGE_INTERVIEW://访谈消息
+
+                break;
+
+            case MineMultipleItemModel.MY_MESSAGE_ASK_ANSWER://问答消息
+
+                break;
+
+            case MineMultipleItemModel.MY_MESSAGE_COMMENT_PRAISE://评论/赞消息
+
+                break;
+
+            case MineMultipleItemModel.HIS_OPTION://他的观点
+
+                break;
+
+            case MineMultipleItemModel.HIS_OPTION_FOLLOW://他关注的观点
+
+                break;
+
+            case MineMultipleItemModel.HIS_DISCUSS://他的问答
+
+                break;
+
+            case MineMultipleItemModel.HIS_DISCUSS_FOLLOW://他关注的问答
+
+                break;
+
+            case MineMultipleItemModel.HIS_INTERVIEW://他的访谈
+
+                break;
+
         }
     }
 

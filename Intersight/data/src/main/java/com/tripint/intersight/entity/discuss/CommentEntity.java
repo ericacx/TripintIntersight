@@ -12,11 +12,12 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CommentEntity implements Serializable {
     private int id;
-    private int discussId;
-    private int pid;
-    private String content;
     private int uid;
+    private int pid;
+    private int discussId;
+    private String content;
     private String createAt;
+    private String removeAt;
     private String toNickname;
     private UserEntity user;
 
@@ -66,6 +67,14 @@ public class CommentEntity implements Serializable {
 
     public void setCreateAt(String createAt) {
         this.createAt = createAt;
+    }
+
+    public String getRemoveAt() {
+        return removeAt;
+    }
+
+    public void setRemoveAt(String removeAt) {
+        this.removeAt = removeAt;
     }
 
     public String getToNickname() {

@@ -4,6 +4,7 @@ package com.tripint.intersight.service;
 import com.tripint.intersight.common.BaseResponse;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.mine.FocusEntity;
+import com.tripint.intersight.entity.mine.InterviewDetailEntity;
 import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
@@ -14,6 +15,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -60,4 +62,9 @@ public interface MineDataService {
     //我的访谈
     @GET("appointmentInterview")
     Observable<BaseResponse<List<InterviewEntity>>> getMyInterview(@Query("page") int page, @Query("size") int size);
+
+    //访谈详情
+    @GET("myInterview/{id}")
+    Observable<BaseResponse<InterviewDetailEntity>> getInterviewDetail(@Path("id") int id);
+
 }

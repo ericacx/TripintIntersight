@@ -18,8 +18,10 @@ import com.tripint.intersight.app.InterSightApp;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.event.StartFragmentForResultEvent;
+import com.tripint.intersight.fragment.PersonalInfoFragment;
 import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
 import com.tripint.intersight.fragment.mine.setting.SettingFragment;
+import com.tripint.intersight.fragment.personal.PersonalMainPageFragment;
 import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
@@ -41,7 +43,7 @@ public class MineFragment extends BaseLazyMainFragment {
     @Bind(R.id.mine_text_view_name)
     TextView mineTextViewName;
     @Bind(R.id.mineIvRewriteInfo)
-    ImageView mineIvRewriteInfo;
+    ImageView mineIvRewriteInfo;//编辑个人资料
     @Bind(R.id.text_view_mine_ask_answer)
     TextView textViewMineAskAnswer;
     @Bind(R.id.text_view_mine_interview)
@@ -145,7 +147,8 @@ public class MineFragment extends BaseLazyMainFragment {
             R.id.textView_my_focus, R.id.text_view_my_star, R.id.text_view_help, R.id.text_view_setting})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.mineIvRewriteInfo:
+            case R.id.mineIvRewriteInfo://编辑个人资料
+                EventBus.getDefault().post(new StartFragmentEvent(PersonalInfoFragment.newInstance()));
                 break;
             case R.id.text_view_mine_ask_answer://我的问答
                 EventBus.getDefault().post(new StartFragmentEvent(MyAskAnswerFragment.newInstance()));
@@ -156,7 +159,8 @@ public class MineFragment extends BaseLazyMainFragment {
             case R.id.text_view_my_option://我的观点
                 EventBus.getDefault().post(new StartFragmentEvent(MyOpinionFragment.newInstance()));
                 break;
-            case R.id.text_view_my_money:
+            case R.id.text_view_my_money://账户余额
+
                 break;
             case R.id.text_view_my_account_detail://账户明细
                 EventBus.getDefault().post(new StartFragmentEvent(AccountDetailFragment.newInstance()));
@@ -168,7 +172,8 @@ public class MineFragment extends BaseLazyMainFragment {
                 EventBus.getDefault().post(new StartFragmentEvent(StarIntersighterFragment.newInstance()));
                 break;
             case R.id.text_view_help://使用帮助
-                EventBus.getDefault().post(new StartFragmentEvent(UseHelpFragment.newInstance()));
+//                EventBus.getDefault().post(new StartFragmentEvent(UseHelpFragment.newInstance()));
+                EventBus.getDefault().post(new StartFragmentEvent(PersonalMainPageFragment.newInstance()));
                 break;
             case R.id.text_view_setting://设置
                 EventBus.getDefault().post(new StartFragmentEvent(SettingFragment.newInstance()));

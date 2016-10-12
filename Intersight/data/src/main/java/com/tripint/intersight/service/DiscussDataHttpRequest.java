@@ -169,7 +169,7 @@ public class DiscussDataHttpRequest extends HttpRequest {
     }
 
     /**
-     * 创建问答赞
+     * 取消问答赞
      * */
     public void deleteParises(Subscriber<CommentResultEntity> subscriber, int disscussId) {
 
@@ -181,7 +181,7 @@ public class DiscussDataHttpRequest extends HttpRequest {
     }
 
     /**
-     * 创建问答赞
+     * 创建问答关注
      * */
     public void createFollow(Subscriber<CommentResultEntity> subscriber, int disscussId) {
 
@@ -193,7 +193,7 @@ public class DiscussDataHttpRequest extends HttpRequest {
     }
 
     /**
-     * 创建问答赞
+     * 取消问答关注
      * */
     public void deleteFollow(Subscriber<CommentResultEntity> subscriber, int disscussId) {
 

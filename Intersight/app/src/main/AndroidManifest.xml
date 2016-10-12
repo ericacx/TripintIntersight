@@ -32,22 +32,10 @@
             android:name=".activity.VerifyPhoneActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.UserProtocolActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.InterestedActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.FocusTradeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.SearchActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.MessageActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.PersonalInfoActivity"
             android:screenOrientation="portrait" />
 
         <activity

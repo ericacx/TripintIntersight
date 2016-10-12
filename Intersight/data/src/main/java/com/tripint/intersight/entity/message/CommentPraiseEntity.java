@@ -8,6 +8,6 @@ import java.io.Serializable;
  * Created by Eric on 16/10/10.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CommentEntity implements Serializable{
+public class CommentPraiseEntity implements Serializable{
 
 }

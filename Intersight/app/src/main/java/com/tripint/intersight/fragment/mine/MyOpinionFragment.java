@@ -70,15 +70,10 @@ public class MyOpinionFragment extends BaseBackFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_opinion, container, false);
         ButterKnife.bind(this, view);
-        initToolbar();
         setTab(0);
         return view;
     }
 
-    private void initToolbar() {
-        initToolbarNav(toolbar);
-        toolbar.setTitle("我的观点");
-    }
 
     private void httpRequestData(int type) {
         subscriber = new PageDataSubscriberOnNext<List<MineFollowPointEntity>>() {
@@ -126,7 +121,6 @@ public class MyOpinionFragment extends BaseBackFragment {
 
 
     protected void initView(View view) {
-
         initToolbarNav(toolbar);
         toolbar.setTitle("我的观点");
         mRecyclerView.setHasFixedSize(true);
