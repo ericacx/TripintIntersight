@@ -4,6 +4,8 @@ import com.tripint.intersight.common.widget.recyclerviewadapter.entity.MultiItem
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.message.CommentPraiseEntity;
 import com.tripint.intersight.entity.message.MessageDataEntity;
+import com.tripint.intersight.entity.mine.AccountDetailEntity;
+import com.tripint.intersight.entity.mine.AskAnswerEntity;
 import com.tripint.intersight.entity.mine.FocusEntity;
 import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
@@ -38,18 +40,20 @@ public class MineMultipleItemModel implements MultiItemEntity {
     public static final int MY_MESSAGE_ASK_ANSWER = 70;//问答消息
     public static final int MY_MESSAGE_COMMENT_PRAISE = 80;// 评论/赞消息
 
+    public static final int MY_ACCOUNT_DETAIL = 90;//我的账户明细
     private int itemType;
 
-    private DiscussEntiry discussEntiry;//问答(我的,他的)
+    private AskAnswerEntity askAnswerEntity;//问答(我的,他的)
     private MineFollowPointEntity mineFollowPointEntity;//观点（我的,他的）
     private InterviewEntity interviewEntity;//访谈（我的,他的）
     private FocusEntity focusEntity;//关注
     private MessageDataEntity messageDataEntity;//新消息,访谈消息,问答消息
     private CommentPraiseEntity commentPraiseEntity;//评论/赞消息
+    private AccountDetailEntity accountDetailEntity;
 
-    public MineMultipleItemModel(int itemType, DiscussEntiry model) {//问答
+    public MineMultipleItemModel(int itemType, AskAnswerEntity model) {//问答
         this.itemType = itemType;
-        this.discussEntiry = model;
+        this.askAnswerEntity = model;
     }
 
     public MineMultipleItemModel(int itemType, FocusEntity model) {//关注
@@ -77,6 +81,19 @@ public class MineMultipleItemModel implements MultiItemEntity {
         this.commentPraiseEntity = model;
     }
 
+    public MineMultipleItemModel(int itemType, AccountDetailEntity model) {//账户明细
+        this.itemType = itemType;
+        this.accountDetailEntity = model;
+    }
+
+    public AccountDetailEntity getAccountDetailEntity() {
+        return accountDetailEntity;
+    }
+
+    public void setAccountDetailEntity(AccountDetailEntity accountDetailEntity) {
+        this.accountDetailEntity = accountDetailEntity;
+    }
+
     public InterviewEntity getInterviewEntity() {
         return interviewEntity;
     }
@@ -93,12 +110,12 @@ public class MineMultipleItemModel implements MultiItemEntity {
         this.focusEntity = focusEntity;
     }
 
-    public DiscussEntiry getDiscussEntiry() {
-        return discussEntiry;
+    public AskAnswerEntity getAskAnswerEntity() {
+        return askAnswerEntity;
     }
 
-    public void setDiscussEntiry(DiscussEntiry discussEntiry) {
-        this.discussEntiry = discussEntiry;
+    public void setAskAnswerEntity(AskAnswerEntity askAnswerEntity) {
+        this.askAnswerEntity = askAnswerEntity;
     }
 
     public MineFollowPointEntity getMineFollowPointEntity() {

@@ -13,10 +13,12 @@ import android.widget.TextView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.MineCommonMultipleAdapter;
+import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.discuss.DiscussPageEntity;
+import com.tripint.intersight.entity.mine.AskAnswerEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
@@ -48,9 +50,9 @@ public class MyAskAnswerFragment extends BaseBackFragment {
 
     private MineCommonMultipleAdapter mAdapter;
 
-    private PageDataSubscriberOnNext<List<DiscussEntiry>> subscriber;
+    private PageDataSubscriberOnNext<BasePageableResponse<AskAnswerEntity>> subscriber;
 
-    private List<DiscussEntiry> data;
+    private BasePageableResponse<AskAnswerEntity> data;
     private int tab;
 
     public static MyAskAnswerFragment newInstance() {
@@ -75,9 +77,9 @@ public class MyAskAnswerFragment extends BaseBackFragment {
     }
 
     private void httpRequestData(int type) {
-        subscriber = new PageDataSubscriberOnNext<List<DiscussEntiry>>() {
+        subscriber = new PageDataSubscriberOnNext<BasePageableResponse<AskAnswerEntity>>() {
             @Override
-            public void onNext(List<DiscussEntiry> entity) {
+            public void onNext(BasePageableResponse<AskAnswerEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
                 initView(null);
@@ -130,8 +132,8 @@ public class MyAskAnswerFragment extends BaseBackFragment {
         List<MineMultipleItemModel> models = new ArrayList<>();
 
         int type = tab == 0 ? MineMultipleItemModel.MY_DISCUSS : MineMultipleItemModel.MY_DISCUSS_FOLLOW;
-        for (DiscussEntiry entiry : data) {
-            models.add(new MineMultipleItemModel(type, entiry));
+        for (AskAnswerEntity entity : data.getLists()) {
+            models.add(new MineMultipleItemModel(type, entity));
         }
 
         final GridLayoutManager layoutManager = new GridLayoutManager(mActivity, 1);

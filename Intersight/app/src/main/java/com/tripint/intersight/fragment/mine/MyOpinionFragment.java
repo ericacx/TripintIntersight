@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.MineCommonMultipleAdapter;
+import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
@@ -48,9 +49,9 @@ public class MyOpinionFragment extends BaseBackFragment {
 
     private MineCommonMultipleAdapter mAdapter;
 
-    private PageDataSubscriberOnNext<List<MineFollowPointEntity>> subscriber;
+    private PageDataSubscriberOnNext<BasePageableResponse<MineFollowPointEntity>> subscriber;
 
-    private List<MineFollowPointEntity> data;
+    private BasePageableResponse<MineFollowPointEntity> data;
 
     private int tab;
 
@@ -76,9 +77,9 @@ public class MyOpinionFragment extends BaseBackFragment {
 
 
     private void httpRequestData(int type) {
-        subscriber = new PageDataSubscriberOnNext<List<MineFollowPointEntity>>() {
+        subscriber = new PageDataSubscriberOnNext<BasePageableResponse<MineFollowPointEntity>>() {
             @Override
-            public void onNext(List<MineFollowPointEntity> entity) {
+            public void onNext(BasePageableResponse<MineFollowPointEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
                 initView(null);
@@ -131,7 +132,7 @@ public class MyOpinionFragment extends BaseBackFragment {
         List<MineMultipleItemModel> models = new ArrayList<>();
 
         int type = tab == 0 ? MineMultipleItemModel.MY_OPTION : MineMultipleItemModel.MY_OPTION_FOLLOW;
-        for (MineFollowPointEntity entiry : data) {
+        for (MineFollowPointEntity entiry : data.getLists()) {
 
             models.add(new MineMultipleItemModel(type, entiry));
         }

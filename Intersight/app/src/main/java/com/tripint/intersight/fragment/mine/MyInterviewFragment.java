@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.MineCommonMultipleAdapter;
+import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.mine.InterviewEntity;
@@ -40,8 +41,8 @@ public class MyInterviewFragment extends BaseBackFragment {
 
     private MineCommonMultipleAdapter mAdapter;
 
-    private PageDataSubscriberOnNext<List<InterviewEntity>> subscriber;
-    private List<InterviewEntity> data;
+    private PageDataSubscriberOnNext<BasePageableResponse<InterviewEntity>> subscriber;
+    private BasePageableResponse<InterviewEntity> data;
 
     public static MyInterviewFragment newInstance() {
 
@@ -65,9 +66,9 @@ public class MyInterviewFragment extends BaseBackFragment {
     }
 
     private void httpRequestData() {
-        subscriber = new PageDataSubscriberOnNext<List<InterviewEntity>>() {
+        subscriber = new PageDataSubscriberOnNext<BasePageableResponse<InterviewEntity>>() {
             @Override
-            public void onNext(List<InterviewEntity> entity) {
+            public void onNext(BasePageableResponse<InterviewEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
                 initView(null);
@@ -93,7 +94,7 @@ public class MyInterviewFragment extends BaseBackFragment {
 
         int type = MineMultipleItemModel.MY_INTERVIEW;
 
-        for (InterviewEntity entiry : data) {
+        for (InterviewEntity entiry : data.getLists()) {
             models.add(new MineMultipleItemModel(type, entiry));
         }
 

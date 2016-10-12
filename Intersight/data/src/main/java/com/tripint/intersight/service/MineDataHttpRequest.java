@@ -2,7 +2,10 @@ package com.tripint.intersight.service;
 
 import android.content.Context;
 
+import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.mine.AccountDetailEntity;
+import com.tripint.intersight.entity.mine.AskAnswerEntity;
 import com.tripint.intersight.entity.mine.FocusEntity;
 import com.tripint.intersight.entity.mine.InterviewDetailEntity;
 import com.tripint.intersight.entity.mine.InterviewEntity;
@@ -75,11 +78,11 @@ public class MineDataHttpRequest extends HttpRequest {
     public void getMyFollowPoint(Subscriber<List<MineFollowPointEntity>> subscriber, int type, int page, int size) {
         if (type == option_type_my) {
             Observable observable = service.getMyPointList(page, size)
-                    .map(new HttpResultFunc<List<MineFollowPointEntity>>());
+                    .map(new HttpResultFunc<BasePageableResponse<MineFollowPointEntity>>());
             toSubscribe(observable, subscriber);
         } else if (type == option_type_my_follow) {
             Observable observable = service.getMyFollowPointList(page, size)
-                    .map(new HttpResultFunc<List<MineFollowPointEntity>>());
+                    .map(new HttpResultFunc<BasePageableResponse<MineFollowPointEntity>>());
             toSubscribe(observable, subscriber);
         }
     }
@@ -92,11 +95,11 @@ public class MineDataHttpRequest extends HttpRequest {
     public void getMyFocus(Subscriber<List<FocusEntity>> subscriber, int type, int page, int size) {
         if (type == option_type_my) {//关注
             Observable observable = service.getMyFollow(page, size)
-                    .map(new HttpResultFunc<List<FocusEntity>>());
+                    .map(new HttpResultFunc<BasePageableResponse<FocusEntity>>());
             toSubscribe(observable, subscriber);
         } else if (type == option_type_my_follow) {//被关注
             Observable observable = service.getMyByFollow(page, size)
-                    .map(new HttpResultFunc<List<FocusEntity>>());
+                    .map(new HttpResultFunc<BasePageableResponse<FocusEntity>>());
             toSubscribe(observable, subscriber);
         }
     }
@@ -107,14 +110,14 @@ public class MineDataHttpRequest extends HttpRequest {
      *
      * @param subscriber
      */
-    public void getMyAskAnswer(Subscriber<List<DiscussEntiry>> subscriber, int type, int page, int size) {
+    public void getMyAskAnswer(Subscriber<BasePageableResponse<AskAnswerEntity>> subscriber, int type, int page, int size) {
         if (type == option_type_my) {//关注
             Observable observable = service.getMyAskAnswer(page, size)
-                    .map(new HttpResultFunc<List<DiscussEntiry>>());
+                    .map(new HttpResultFunc<BasePageableResponse<AskAnswerEntity>>());
             toSubscribe(observable, subscriber);
         } else if (type == option_type_my_follow) {//被关注
             Observable observable = service.getMyFocusedAskAnswer(page, size)
-                    .map(new HttpResultFunc<List<DiscussEntiry>>());
+                    .map(new HttpResultFunc<BasePageableResponse<AskAnswerEntity>>());
             toSubscribe(observable, subscriber);
         }
     }
@@ -124,9 +127,20 @@ public class MineDataHttpRequest extends HttpRequest {
      *
      * @param subscriber
      */
-    public void getMyInterview(Subscriber<List<InterviewEntity>> subscriber, int page, int size) {
+    public void getMyInterview(Subscriber<BasePageableResponse<InterviewEntity>> subscriber, int page, int size) {
         Observable observable = service.getMyInterview(page, size)
-                .map(new HttpResultFunc<List<InterviewEntity>>());
+                .map(new HttpResultFunc<BasePageableResponse<InterviewEntity>>());
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 个人---账户明细接口
+     *
+     * @param subscriber
+     */
+    public void getAccountDetail(Subscriber<BasePageableResponse<AccountDetailEntity>> subscriber, int page, int size) {
+        Observable observable = service.getAccountDetail(page, size)
+                .map(new HttpResultFunc<BasePageableResponse<AccountDetailEntity>>());
         toSubscribe(observable, subscriber);
     }
 
