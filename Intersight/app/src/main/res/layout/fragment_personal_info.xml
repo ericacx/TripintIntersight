@@ -24,7 +24,6 @@
     <LinearLayout
         android:layout_marginTop="80dp"
         android:layout_marginBottom="@dimen/spacing"
-        android:layout_below="@id/personal_main_page_toolbar"
         android:layout_above="@id/personal_info_submit"
         android:layout_marginLeft="@dimen/spacing"
         android:layout_marginRight="@dimen/spacing"

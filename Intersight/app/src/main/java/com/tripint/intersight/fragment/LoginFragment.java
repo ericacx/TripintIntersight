@@ -17,9 +17,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.linkedin.platform.APIHelper;
 import com.linkedin.platform.LISession;
 import com.linkedin.platform.LISessionManager;
+import com.linkedin.platform.errors.LIApiError;
 import com.linkedin.platform.errors.LIAuthError;
+import com.linkedin.platform.listeners.ApiListener;
+import com.linkedin.platform.listeners.ApiResponse;
 import com.linkedin.platform.listeners.AuthListener;
 import com.linkedin.platform.utils.Scope;
 import com.tripint.intersight.R;
@@ -36,14 +43,16 @@ import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.entity.user.LoginEntity;
 import com.tripint.intersight.entity.user.User;
 import com.tripint.intersight.fragment.base.BaseCloseFragment;
-import com.tripint.intersight.fragment.search.SearchMainFragment;
 import com.tripint.intersight.helper.CommonUtils;
+import com.tripint.intersight.model.LinkedinResponeModel;
+import com.tripint.intersight.model.ShareLoginModel;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -169,8 +178,8 @@ public class LoginFragment extends BaseCloseFragment {
                 start(ResigterFragment.newInstance());
                 break;
             case R.id.login_thirdLogin_linkedin:
-//                sharedLinkedInLogin();
-                start(SearchMainFragment.newInstance());
+                sharedLinkedInLogin();
+//                start(SearchMainFragment.newInstance());
                 break;
             case R.id.login_thirdLogin_wechat:
                 SHARE_MEDIA platform = SHARE_MEDIA.WEIXIN;
@@ -203,7 +212,42 @@ public class LoginFragment extends BaseCloseFragment {
             public void onAuthSuccess() {
                 dismissProgressDialog();
                 setUpdateState();
-                Toast.makeText(mActivity, "success" + LISessionManager.getInstance(mActivity).getSession().getAccessToken().toString(), Toast.LENGTH_LONG).show();
+                String token = LISessionManager.getInstance(mActivity).getSession().getAccessToken().getValue();
+
+                String url = "https://api.linkedin.com/v1/people/~";
+
+                APIHelper apiHelper = APIHelper.getInstance(mActivity);
+                apiHelper.getRequest(mActivity, url, new ApiListener() {
+                    @Override
+                    public void onApiSuccess(ApiResponse apiResponse) {
+                        // Success!
+                        try {
+
+
+                            ObjectMapper mapper = new ObjectMapper();
+                            LinkedinResponeModel obj = mapper.readValue(apiResponse.getResponseDataAsString(), LinkedinResponeModel.class);
+                            ShareLoginModel model = new ShareLoginModel("linkedin");
+                            model.setUnionId(obj.getId());
+                            model.setOpenId(obj.getId());
+                            model.setNickName(obj.getFirstName());
+                            model.setImgUrl(obj.getSiteStandardProfileRequest() != null ? obj.getSiteStandardProfileRequest().getUrl() : "");
+                            start(LongBindPhoneFragment.newInstance(model));
+                        } catch (JsonGenerationException e) {
+                            Log.d("TAG", e.getLocalizedMessage());
+                        } catch (JsonMappingException e) {
+                            Log.d("TAG", e.getLocalizedMessage());
+                        } catch (IOException e) {
+                            Log.d("TAG", e.getLocalizedMessage());
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onApiError(LIApiError liApiError) {
+                        // Error making GET request!
+                    }
+                });
             }
 
             @Override
@@ -219,10 +263,6 @@ public class LoginFragment extends BaseCloseFragment {
         LISessionManager sessionManager = LISessionManager.getInstance(mActivity);
         LISession session = sessionManager.getSession();
         boolean accessTokenValid = session.isValid();
-
-        CommonUtils.showToast(
-                accessTokenValid ? session.getAccessToken().toString() : "Sync with LinkedIn to enable these buttons");
-
 
     }
 
@@ -258,6 +298,8 @@ public class LoginFragment extends BaseCloseFragment {
                     @Override
                     public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                         if (null != map) {
+                            dismissProgressDialog();
+                            ShareLoginModel model = new ShareLoginModel("wechat");
                             for (Map.Entry<String, String> entry : map.entrySet()) {
 //                                params.put(entry.getKey(), entry.getValue());
                                 if ("access_token".equals(entry.getKey())) {
@@ -271,7 +313,10 @@ public class LoginFragment extends BaseCloseFragment {
                                 }
                                 if (share_media == SHARE_MEDIA.WEIXIN) {
                                     if (entry.getKey().equals("openid")) {
-                                        params.put("uid", entry.getValue());
+                                        model.setOpenId(entry.getValue());
+                                    }
+                                    if (entry.getKey().equals("unionid")) {
+                                        model.setUnionId(entry.getValue());
                                     }
                                 } else {
                                     if ("uid".equals(entry.getKey())) {
@@ -281,7 +326,9 @@ public class LoginFragment extends BaseCloseFragment {
                             }
 //                            MLog.d("授权第二步=" + params.toString());
 //                            submitLoginInfo(url, params, flag, media);
-                            dismissProgressDialog();
+
+                            start(LongBindPhoneFragment.newInstance(model));
+
                         } else {
                             CommonUtils.showToast("授权失败");
 //                            mContext.dismissProgressDialog();

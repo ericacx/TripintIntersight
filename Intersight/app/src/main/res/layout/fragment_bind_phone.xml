@@ -58,6 +58,7 @@
             android:layout_weight="5"
             android:background="@null"
             android:inputType="number"
+            android:textSize="@dimen/text_size_14"
             android:maxLines="1"
             android:textColor="@color/white"
             android:hint="@string/hint_phone_name"
@@ -66,13 +67,13 @@
         <Button
             android:id="@+id/bind_phone_btn_verifyCode"
             android:layout_width="0dp"
-            android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="2"
             android:background="@drawable/register_button_shape"
             android:text="@string/code_name"
             android:textSize="12sp"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:layout_height="32dp" />
     </LinearLayout>
 
     <View
@@ -96,8 +97,9 @@
             android:background="@null"
             android:textColor="@color/white"
             android:maxLines="1"
+            android:textSize="@dimen/text_size_14"
             android:inputType="number"
-            android:imeOptions="actionDone"
+            android:imeOptions="actionNext"
             android:hint="@string/hint_verifycode_name"
             android:textColorHint="@color/line" />
     </LinearLayout>
@@ -108,6 +110,73 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:background="@color/line" />
+
+    <LinearLayout
+        android:id="@+id/container_password_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_6_80"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/bind_phone_et_input_password"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:background="@null"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_14"
+                android:maxLines="1"
+                android:inputType="textPassword"
+                android:imeOptions="actionNext"
+                android:hint="@string/hint_input_pwd_name"
+                android:textColorHint="@color/line" />
+        </LinearLayout>
+
+        <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@color/line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_6_80"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/bind_phone_et_input_re_password"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:background="@null"
+                android:textColor="@color/white"
+                android:maxLines="1"
+                android:inputType="textPassword"
+                android:textSize="@dimen/text_size_14"
+                android:imeOptions="actionDone"
+                android:hint="@string/hint_pwd_name2"
+                android:textColorHint="@color/line" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@color/line" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/bind_phone_complete"

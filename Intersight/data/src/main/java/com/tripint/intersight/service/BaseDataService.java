@@ -8,7 +8,7 @@ import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
-import com.tripint.intersight.entity.common.BannerEntity;
+import com.tripint.intersight.entity.common.CommonResponEntity;
 import com.tripint.intersight.entity.user.ChooseEntity;
 import com.tripint.intersight.entity.user.LoginEntity;
 import com.tripint.intersight.entity.user.RegisterEntity;
@@ -100,4 +100,22 @@ public interface BaseDataService {
     //观点banner
     @GET("banner")
     Observable<BaseResponse<ArticleBannerEntity>> getBanner(@Query("type") int type);
+
+
+    //验证用户是否存在
+    @GET("user/check")
+    Observable<BaseResponse<CommonResponEntity>> checkUserPhoneExist(@Query("email") String email);
+
+    //忘记密码
+    @FormUrlEncoded
+    @POST("share/login")
+    Observable<BaseResponse<CommonResponEntity>> postShareLogin(@Field("type") String type,
+                                                                @Field("openid") String openid,
+                                                                @Field("unionid") String unionid,
+                                                                @Field("headImgUrl") String imgUrl,
+                                                                @Field("nickname") String nickname,
+                                                                @Field("email") String email,
+                                                                @Field("code") String code,
+                                                                @Field("password") String password,
+                                                                @Field("action") String action);
 }

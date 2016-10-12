@@ -5,14 +5,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.tripint.intersight.R;
-import com.tripint.intersight.common.fragmentation.SwipeBackFragment;
 
 
 /**
  * Created by YoKeyword on 16/2/7.
  */
 public class BaseBackFragment extends BaseFragment {
-    private static final String TAG = "Fragmentation";
+    public static final String TAG = "Fragmentation";
 
     protected void initToolbarNav(Toolbar toolbar) {
         toolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);

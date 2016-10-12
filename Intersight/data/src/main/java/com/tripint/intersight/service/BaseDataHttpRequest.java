@@ -8,7 +8,7 @@ import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
-import com.tripint.intersight.entity.common.BannerEntity;
+import com.tripint.intersight.entity.common.CommonResponEntity;
 import com.tripint.intersight.entity.user.ChooseEntity;
 import com.tripint.intersight.entity.user.LoginEntity;
 import com.tripint.intersight.entity.user.RegisterEntity;
@@ -29,6 +29,10 @@ public class BaseDataHttpRequest extends HttpRequest {
     private final String FLITER_TYPE_ARTICLES = "articles";
 
     private BaseDataService baseDataService;
+
+    public final static int RESPONSE_STATUS_USER_EXIST = 1001;  //表示用户存在
+    public final static int RESPONSE_STATUS_USER_NOT_EXIST = 1000;  //表示用户不存在
+    public final static int RESPONSE_STATUS_SHARE_LOGIN_ERROR = 1003;  //用户绑定验证码不正确
 
     private BaseDataHttpRequest(Context context) {
         super(context);
@@ -207,6 +211,32 @@ public class BaseDataHttpRequest extends HttpRequest {
     public void getBanner(Subscriber<ArticleBannerEntity> subscriber, int type){
         Observable observable = baseDataService.getBanner(type)
                 .map(new HttpResultFunc<ArticleBannerEntity>());
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 用于获取选择关注的行业数据
+     *
+     * @param subscriber
+     * @param mobile
+     */
+    public void checkUserPhoneExist(Subscriber<CommonResponEntity> subscriber, String mobile) {
+        Observable observable = baseDataService.checkUserPhoneExist(mobile)
+                .map(new HttpResultFunc<CommonResponEntity>());
+        toSubscribe(observable, subscriber);
+    }
+
+
+    /**
+     * 用于获取观点页面的banner
+     *
+     * @param subscriber
+     * @param type
+     */
+    public void shareLogin(Subscriber<CommonResponEntity> subscriber, String type, String openid,
+                           String unionid, String imgUrl, String nickname, String email, String code, String password, String action) {
+        Observable observable = baseDataService.postShareLogin(type, openid, unionid, imgUrl, nickname, email, code, password, action)
+                .map(new HttpResultFunc<CommonResponEntity>());
         toSubscribe(observable,subscriber);
     }
 }
