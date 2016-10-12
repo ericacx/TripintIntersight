@@ -54,11 +54,13 @@ public class AccountDetailFragment extends BaseBackFragment {
         View view = inflater.inflate(R.layout.fragment_account_detail, container, false);
         ButterKnife.bind(this, view);
         initToolbar();
-
-//        httpRequestData();//请求数据
+        httpRequestData();//请求数据
         return view;
     }
 
+    /**
+     * 网络请求数据
+     */
     private void httpRequestData() {
         subscriber = new PageDataSubscriberOnNext<DiscussPageEntity>() {
             @Override
@@ -74,6 +76,9 @@ public class AccountDetailFragment extends BaseBackFragment {
         DiscussDataHttpRequest.getInstance(mActivity).getDiscusses(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
     }
 
+    /**
+     * 适配数据
+     */
     private void initAdapter() {
 
     }

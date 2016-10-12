@@ -2,6 +2,7 @@ package com.tripint.intersight.model;
 
 import com.tripint.intersight.common.widget.recyclerviewadapter.entity.MultiItemEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.message.CommentPraiseEntity;
 import com.tripint.intersight.entity.message.MessageDataEntity;
 import com.tripint.intersight.entity.mine.FocusEntity;
 import com.tripint.intersight.entity.mine.InterviewEntity;
@@ -24,16 +25,27 @@ public class MineMultipleItemModel implements MultiItemEntity {
     public static final int MY_DISCUSS = 40; //我的问答
     public static final int MY_DISCUSS_FOLLOW = 41; //我关注的问答
 
+    public static final int HIS_OPTION = 100;//他的观点
+    public static final int HIS_OPTION_FOLLOW = 101;//他关注的观点
+
+    public static final int HIS_INTERVIEW = 300; //他的访谈
+
+    public static final int HIS_DISCUSS = 400; //他的问答
+    public static final int HIS_DISCUSS_FOLLOW = 401; //他关注的问答
+
     public static final int MY_MESSAGE_NEW = 50;//新消息
     public static final int MY_MESSAGE_INTERVIEW = 60;//访谈消息
     public static final int MY_MESSAGE_ASK_ANSWER = 70;//问答消息
+    public static final int MY_MESSAGE_COMMENT_PRAISE = 80;// 评论/赞消息
 
     private int itemType;
-    private DiscussEntiry discussEntiry;//问答
-    private MineFollowPointEntity mineFollowPointEntity;//观点
+
+    private DiscussEntiry discussEntiry;//问答(我的,他的)
+    private MineFollowPointEntity mineFollowPointEntity;//观点（我的,他的）
+    private InterviewEntity interviewEntity;//访谈（我的,他的）
     private FocusEntity focusEntity;//关注
-    private InterviewEntity interviewEntity;//我的访谈
     private MessageDataEntity messageDataEntity;//新消息,访谈消息,问答消息
+    private CommentPraiseEntity commentPraiseEntity;//评论/赞消息
 
     public MineMultipleItemModel(int itemType, DiscussEntiry model) {//问答
         this.itemType = itemType;
@@ -58,6 +70,11 @@ public class MineMultipleItemModel implements MultiItemEntity {
     public MineMultipleItemModel(int itemType, MessageDataEntity model) {//新消息,访谈消息,问答消息
         this.itemType = itemType;
         this.messageDataEntity = model;
+    }
+
+    public MineMultipleItemModel(int itemType, CommentPraiseEntity model) {//评论/赞消息
+        this.itemType = itemType;
+        this.commentPraiseEntity = model;
     }
 
     public InterviewEntity getInterviewEntity() {
@@ -98,6 +115,14 @@ public class MineMultipleItemModel implements MultiItemEntity {
 
     public void setMessageDataEntity(MessageDataEntity messageDataEntity) {
         this.messageDataEntity = messageDataEntity;
+    }
+
+    public CommentPraiseEntity getCommentPraiseEntity() {
+        return commentPraiseEntity;
+    }
+
+    public void setCommentPraiseEntity(CommentPraiseEntity commentPraiseEntity) {
+        this.commentPraiseEntity = commentPraiseEntity;
     }
 
     @Override

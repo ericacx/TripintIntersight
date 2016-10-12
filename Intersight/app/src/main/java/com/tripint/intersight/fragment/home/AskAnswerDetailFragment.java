@@ -187,7 +187,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
             Glide.with(mActivity).load(data.getAuthor().getAvatar())
                     .crossFade()
-                    .placeholder(R.mipmap.ic_avatar)
+//                    .placeholder(R.mipmap.ic_avatar)
                     .transform(new GlideCircleTransform(mActivity))
                     .into(imageAskProfile);
             String special = data.getAuthor().getNickname();

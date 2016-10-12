@@ -11,6 +11,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class InterviewEntity implements Serializable {
 
+    //列表返回数据
     private int id;
     private int status;//状态:0联系中,1访谈成功
     private int type;//0约访 1被约访
@@ -18,6 +19,13 @@ public class InterviewEntity implements Serializable {
     private String description;//内容
     private int createAt;//时间
     private String name;//行业
+
+    //item = 列表数据+以下参数
+    private int code;//会议邀请码
+    private String nickname;//姓名
+    private String avatar;//头像
+    private String companyNmae;//公司名
+    private String abilityName;//职位
 
     public int getId() {
         return id;
@@ -73,5 +81,45 @@ public class InterviewEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getCompanyNmae() {
+        return companyNmae;
+    }
+
+    public void setCompanyNmae(String companyNmae) {
+        this.companyNmae = companyNmae;
+    }
+
+    public String getAbilityName() {
+        return abilityName;
+    }
+
+    public void setAbilityName(String abilityName) {
+        this.abilityName = abilityName;
     }
 }
