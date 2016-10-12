@@ -20,7 +20,7 @@ import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemC
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
-import com.tripint.intersight.service.HisDataHttpRequest;
+import com.tripint.intersight.service.ExpertDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
@@ -105,7 +105,7 @@ public class HisOpinionFragment extends BaseBackFragment {
             }
         };
 
-        HisDataHttpRequest.getInstance(mActivity).getHisFollowPoint(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
+        ExpertDataHttpRequest.getInstance(mActivity).getHisFollowPoint(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
     }
 
     protected void initView(View view) {
