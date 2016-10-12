@@ -373,6 +373,7 @@
                 android:layout_height="@dimen/height_15_80">
 
                 <EditText
+                    android:id="@+id/personal_info_personalInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
