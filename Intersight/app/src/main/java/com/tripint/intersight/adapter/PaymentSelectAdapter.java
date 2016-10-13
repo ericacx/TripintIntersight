@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.listener.RecyclerViewItemOnClick;
 import com.tripint.intersight.entity.user.PaymentEntity;
+import com.tripint.intersight.service.PaymentDataHttpRequest;
 import com.tripint.intersight.widget.image.TouchImageView;
 
 import java.util.List;
@@ -57,17 +58,17 @@ public class PaymentSelectAdapter extends RecyclerView.Adapter<PaymentSelectAdap
         viewHolder.titleName.setText(paymentEntity.getChannelName());
 
 //        viewHolder.isSelect.setChecked(_baseSelects.isSelect());
-//        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(null != itemOnClick){
-//                    itemOnClick.ItemOnClick(i,_baseSelects);
-//                }
-//            }
-//        });
-        if ("ALIPAY".equals(paymentEntity.getChannelPartentId())) {
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (null != itemOnClick) {
+                    itemOnClick.ItemOnClick(i, paymentEntity);
+                }
+            }
+        });
+        if (PaymentDataHttpRequest.TYPE_ALIPAY.equals(paymentEntity.getChannelPartentId())) {
             viewHolder.imageLogo.setImageResource(R.mipmap.icon_alipay_logo);
-        } else if ("WEIPAY".equals(paymentEntity.getChannelPartentId())) {
+        } else if (PaymentDataHttpRequest.TYPE_WXPAY.equals(paymentEntity.getChannelPartentId())) {
             viewHolder.imageLogo.setImageResource(R.mipmap.icon_appwx_logo);
         }
 //        Glide.with(mContext).load(paymentEntity.getChannelLogo())

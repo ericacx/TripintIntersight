@@ -19,5 +19,8 @@ public class Constants {
 
     public static final String WX_PARTNER_ID = "1388635002";
 
+    public static final String ALI_PAY_APP_ID = "2016092101937846";
+
+
 
 }

@@ -34,10 +34,14 @@ import com.tripint.intersight.entity.discuss.CommentEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.discuss.DiscussDetailEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.payment.WXPayResponseEntity;
 import com.tripint.intersight.entity.user.PaymentEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.helper.AliPayUtils;
 import com.tripint.intersight.helper.CommonUtils;
+import com.tripint.intersight.helper.PayUtils;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
+import com.tripint.intersight.service.PaymentDataHttpRequest;
 import com.tripint.intersight.widget.image.CircleImageView;
 import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
@@ -115,6 +119,8 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
     private PageDataSubscriberOnNext<DiscussDetailEntity> subscriber;
 
     private PageDataSubscriberOnNext<CommentResultEntity> putSubscriber;
+
+    private PageDataSubscriberOnNext<WXPayResponseEntity> paymentSubscriber;
 
     private DiscussDetailEntity data;
 
@@ -277,6 +283,15 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             }
         };
 
+        paymentSubscriber = new PageDataSubscriberOnNext<WXPayResponseEntity>() {
+            @Override
+            public void onNext(WXPayResponseEntity entity) {
+                //接口请求成功后处理,调起微信支付。
+                PayUtils.getInstant().requestWXpay(entity);
+//
+            }
+        };
+
 
         DiscussDataHttpRequest.getInstance(mActivity).getDiscussDetail(new ProgressSubscriber(subscriber, mActivity), mDiscussId);
     }
@@ -346,8 +361,8 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             case R.id.container_voice_message: //我的关注
                 List<PaymentEntity> paymentEntities = new ArrayList<>();
 
-                paymentEntities.add(new PaymentEntity(1, "支付宝", "ALIPAY"));
-                paymentEntities.add(new PaymentEntity(2, "微信支付", "WEIPAY"));
+                paymentEntities.add(new PaymentEntity(1, "支付宝", PaymentDataHttpRequest.TYPE_ALIPAY));
+                paymentEntities.add(new PaymentEntity(2, "微信支付", PaymentDataHttpRequest.TYPE_WXPAY));
                 PaymentSelectAdapter paymentDialogAdapter = new PaymentSelectAdapter(mActivity, paymentEntities);
                 final DialogPlus dialogPlus = DialogPlusUtils.Builder(mActivity)
                         .setHolder(DialogPlusUtils.LIST, new ListHolder())
@@ -363,8 +378,13 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                     public void ItemOnClick(int position, Object data) {
                         PaymentEntity select = (PaymentEntity) data;
 
+                        if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
 
-//                        dialogPlus.dismiss();
+                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPay(new ProgressSubscriber(paymentSubscriber, mActivity));
+                        } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
+                            AliPayUtils.getInstant(mActivity).payV2();
+                        }
+
                     }
 
                     @Override
