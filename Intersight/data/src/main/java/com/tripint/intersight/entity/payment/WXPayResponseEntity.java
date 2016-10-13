@@ -13,7 +13,7 @@ public class WXPayResponseEntity implements Serializable {
 
     private String appid;
     private String partnerid;
-    private String prepayId;
+    private String prepayid;
     private String sign;
     private String noncestr;
     private String timestamp;
@@ -37,12 +37,12 @@ public class WXPayResponseEntity implements Serializable {
     }
 
 
-    public String getPrepayId() {
-        return prepayId;
+    public String getPrepayid() {
+        return prepayid;
     }
 
-    public void setPrepayId(String prepayId) {
-        this.prepayId = prepayId;
+    public void setPrepayid(String prepayid) {
+        this.prepayid = prepayid;
     }
 
     public String getSign() {

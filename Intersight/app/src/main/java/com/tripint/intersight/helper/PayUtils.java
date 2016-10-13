@@ -45,12 +45,11 @@ public class PayUtils {
             PayReq req = new PayReq();
             req.appId = requestModel.getAppid();
             req.partnerId = requestModel.getPartnerid();
-            req.prepayId = requestModel.getPrepayId();
+            req.prepayId = requestModel.getPrepayid();
             req.nonceStr = requestModel.getNoncestr();
             req.timeStamp = requestModel.getTimestamp();
-            req.packageValue = requestModel.getPackageName();
+            req.packageValue = requestModel.getPackageName() == null ? "Sign=WXPay" : requestModel.getPackageName();
             req.sign = requestModel.getSign();
-            ProgressDialogUtils.getInstants(InterSightApp.getApp()).show();
             api.sendReq(req);
         } catch (Exception e) {
             Log.e(TAG, "Exception :" + e.getMessage());
