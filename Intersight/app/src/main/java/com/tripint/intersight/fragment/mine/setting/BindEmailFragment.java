@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.entity.CodeDataEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.service.BaseDataHttpRequest;
+import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
@@ -53,6 +55,8 @@ public class BindEmailFragment extends BaseBackFragment {
     private CodeDataEntity codeDataEntity;
     private PageDataSubscriberOnNext<CodeDataEntity> subscriberCode;
 
+    private PageDataSubscriberOnNext<CodeDataEntity> subscriber;
+
     public static BindEmailFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -84,7 +88,17 @@ public class BindEmailFragment extends BaseBackFragment {
                 Log.e("aaa", entity.getFlg());
             }
         };
+
+        //完成按钮
+        subscriber = new PageDataSubscriberOnNext<CodeDataEntity>() {
+            @Override
+            public void onNext(CodeDataEntity entity) {
+                codeDataEntity = entity;
+                pop();
+            }
+        };
     }
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -92,7 +106,6 @@ public class BindEmailFragment extends BaseBackFragment {
             switch (msg.what) {
                 case 100:
                     if (time == 0) {
-                        time = 10;
                         bindEmailBtnVerifyCode.setClickable(true);
                         bindEmailBtnVerifyCode.setText("获取验证码");
                     } else {
@@ -114,11 +127,11 @@ public class BindEmailFragment extends BaseBackFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bind_email_btn_verifyCode:
-                if (bindEmailEtPhoneNumber.getText().toString().length()==0) {
+                if (bindEmailEtPhoneNumber.getText().toString().length() == 0) {
                     ToastUtil.showToast(mActivity, "请输入正确的邮箱");
                 } else {
                     //发送验证码请求
-                    BaseDataHttpRequest.getInstance(mActivity).getCode(
+                    MineDataHttpRequest.getInstance(mActivity).getEmailCode(
                             new ProgressSubscriber(subscriberCode, mActivity)
                             , bindEmailEtPhoneNumber.getText().toString().trim());
                     bindEmailBtnVerifyCode.setText("重新获取(" + time + ")");
@@ -126,8 +139,18 @@ public class BindEmailFragment extends BaseBackFragment {
                     handler.sendEmptyMessageDelayed(100, 1000);
                 }
                 break;
-            case R.id.bind_email_complete:
-
+            case R.id.bind_email_complete://发送完成请求
+                if (bindEmailEtPhoneNumber.getText().toString().trim().length() == 0) {
+                    ToastUtil.showToast(mActivity, "请输入正确的邮箱");
+                } else if (TextUtils.isEmpty(bindEmailEtInputVerifyCode.getText().toString().trim())) {
+                    ToastUtil.showToast(mActivity, "输入的验证码不能为空");
+                } else {
+                    MineDataHttpRequest.getInstance(mActivity).postChangeEmail(
+                            new ProgressSubscriber<CodeDataEntity>(subscriber, mActivity)
+                            , bindEmailEtPhoneNumber.getText().toString().trim(),
+                            Integer.parseInt(bindEmailEtInputVerifyCode.getText().toString().trim())
+                    );
+                }
                 break;
         }
     }

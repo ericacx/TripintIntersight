@@ -3,7 +3,7 @@ package com.tripint.intersight.service;
 
 import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.BaseResponse;
-import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.CodeDataEntity;
 import com.tripint.intersight.entity.mine.AccountDetailEntity;
 import com.tripint.intersight.entity.mine.AskAnswerEntity;
 import com.tripint.intersight.entity.mine.FocusEntity;
@@ -11,9 +11,11 @@ import com.tripint.intersight.entity.mine.InterviewDetailEntity;
 import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
+import com.tripint.intersight.entity.mine.worker.EditUserEntity;
 
 import java.util.List;
 
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -73,4 +75,39 @@ public interface MineDataService {
     //账户明细
     @GET("accountList")
     Observable<BaseResponse<BasePageableResponse<AccountDetailEntity>>> getAccountDetail(@Query("page") int page, @Query("size") int size);
+
+    //修改密码
+    @FormUrlEncoded
+    @POST("changePassword")
+    Observable<BaseResponse<CodeDataEntity>> postChangePassword(
+            @Field("oldPassword") String oldPassword,
+            @Field("password") String password,
+            @Field("repassword") String repassword
+            );
+
+    //修改个人资料
+    @POST("editUser")
+    Observable<BaseResponse<CodeDataEntity>> postEditUser(@Body EditUserEntity editUserEntity);
+
+    //邮箱发送验证码
+    @GET("sendEmail")
+    Observable<BaseResponse<CodeDataEntity>> getSendEmail(@Query("email") String email);
+
+    //修改邮箱
+    @FormUrlEncoded
+    @POST("changeEmail")
+    Observable<BaseResponse<CodeDataEntity>> postChangeEmail(
+            @Field("email") String email,
+            @Field("code") int code
+    );
+
+    //修改手机
+    @FormUrlEncoded
+    @POST("changeMobile")
+    Observable<BaseResponse<CodeDataEntity>> postChangeMobile(
+            @Field("mobile") String mobile,
+            @Field("code") int code
+    );
+
+
 }

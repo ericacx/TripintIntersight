@@ -9,6 +9,7 @@ public class ApiException extends RuntimeException {
     public static final int CHOOSE_TRADE = 101;
     public static final int INTER_MAIN = 102;
     public static final int INPUT_REEOR = 406;
+    public static final int INPUT_EMAIL_REEOR = 4006;
     public static final int REGISTER_USER_EXIST = 409;
 
 
@@ -44,6 +45,9 @@ public class ApiException extends RuntimeException {
                 break;
             case INPUT_REEOR://406
                 message = "手机号或者密码输入有误";
+                break;
+            case INPUT_EMAIL_REEOR://4006
+                message = "验证码输入有误";
                 break;
             default:
                 message = "未知错误";

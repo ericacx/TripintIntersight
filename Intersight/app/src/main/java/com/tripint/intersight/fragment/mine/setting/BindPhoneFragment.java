@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.entity.CodeDataEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.service.BaseDataHttpRequest;
+import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
@@ -53,6 +55,8 @@ public class BindPhoneFragment extends BaseBackFragment {
     private CodeDataEntity codeDataEntity;
     private PageDataSubscriberOnNext<CodeDataEntity> subscriberCode;
 
+    private PageDataSubscriberOnNext<CodeDataEntity> subscriber;
+
     public static BindPhoneFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -85,7 +89,17 @@ public class BindPhoneFragment extends BaseBackFragment {
                 Log.e("aaa", entity.getFlg());
             }
         };
+
+        //完成按钮
+        subscriber = new PageDataSubscriberOnNext<CodeDataEntity>() {
+            @Override
+            public void onNext(CodeDataEntity entity) {
+                codeDataEntity = entity;
+                pop();
+            }
+        };
     }
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -93,7 +107,6 @@ public class BindPhoneFragment extends BaseBackFragment {
             switch (msg.what) {
                 case 100:
                     if (time == 0) {
-                        time = 10;
                         bindPhoneBtnVerifyCode.setClickable(true);
                         bindPhoneBtnVerifyCode.setText("获取验证码");
                     } else {
@@ -104,6 +117,7 @@ public class BindPhoneFragment extends BaseBackFragment {
             }
         }
     };
+
 
     @Override
     public void onDestroyView() {
@@ -128,6 +142,18 @@ public class BindPhoneFragment extends BaseBackFragment {
                 }
                 break;
             case R.id.bind_phone_complete://完成
+
+                if (bindPhoneEtPhoneNumber.getText().toString().trim().length() != 11) {
+                    ToastUtil.showToast(mActivity, "请输入正确的手机号");
+                } else if (TextUtils.isEmpty(bindPhoneEtInputVerifyCode.getText().toString().trim())) {
+                    ToastUtil.showToast(mActivity, "输入的验证码不能为空");
+                } else {
+                    MineDataHttpRequest.getInstance(mActivity).postChangeMobile(
+                            new ProgressSubscriber<CodeDataEntity>(subscriber, mActivity)
+                            , bindPhoneEtPhoneNumber.getText().toString().trim(),
+                            Integer.parseInt(bindPhoneEtInputVerifyCode.getText().toString().trim())
+                    );
+                }
                 break;
         }
     }

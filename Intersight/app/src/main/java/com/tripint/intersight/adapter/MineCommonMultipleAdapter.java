@@ -144,6 +144,7 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                         .setText(R.id.ask_text_view_my_item_industry, StringUtils.null2Length0(askAnswerEntity.getIndustry()))//行业
                 ;
                 break;
+
             case MineMultipleItemModel.MY_DISCUSS_FOLLOW://我关注的问答
                 String avatar = "";
                 if (item.getAskAnswerEntity() != null) {

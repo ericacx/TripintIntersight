@@ -3,7 +3,7 @@ package com.tripint.intersight.service;
 import android.content.Context;
 
 import com.tripint.intersight.common.BasePageableResponse;
-import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.CodeDataEntity;
 import com.tripint.intersight.entity.mine.AccountDetailEntity;
 import com.tripint.intersight.entity.mine.AskAnswerEntity;
 import com.tripint.intersight.entity.mine.FocusEntity;
@@ -11,6 +11,7 @@ import com.tripint.intersight.entity.mine.InterviewDetailEntity;
 import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
+import com.tripint.intersight.entity.mine.worker.EditUserEntity;
 
 import java.util.List;
 
@@ -155,6 +156,70 @@ public class MineDataHttpRequest extends HttpRequest {
         Observable observable
                 = service.getInterviewDetail(discussId)
                 .map(new HttpResultFunc<InterviewDetailEntity>());
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 修改手机
+     * @param subscriber
+     * @param mobile
+     * @param code
+     */
+    public void postChangeMobile(Subscriber<CodeDataEntity> subscriber, String mobile,int code){
+        Observable observable = service.postChangeMobile(mobile,code)
+                .map(new HttpResultFunc<CodeDataEntity>());
+
+        toSubscribe(observable,subscriber);
+    }
+
+    /**
+     * 修改邮箱
+     * @param subscriber
+     * @param email
+     * @param code
+     */
+    public void postChangeEmail(Subscriber<CodeDataEntity> subscriber, String email,int code){
+        Observable observable = service.postChangeEmail(email,code)
+                .map(new HttpResultFunc<CodeDataEntity>());
+
+        toSubscribe(observable,subscriber);
+    }
+
+    /**
+     * 修改密码
+     * @param subscriber
+     * @param oldPassword
+     * @param password
+     * @param repassword
+     */
+    public void postChangePassword(Subscriber<CodeDataEntity> subscriber, String oldPassword,String password,String repassword){
+        Observable observable = service.postChangePassword(oldPassword,password,repassword)
+                .map(new HttpResultFunc<CodeDataEntity>());
+
+        toSubscribe(observable,subscriber);
+    }
+
+    /**
+     * 修改个人资料
+     * @param subscriber
+     * @param editUserEntity
+     */
+    public void postEditUser(Subscriber<CodeDataEntity> subscriber, EditUserEntity editUserEntity){
+        Observable observable = service.postEditUser(editUserEntity)
+                .map(new HttpResultFunc<CodeDataEntity>());
+
+        toSubscribe(observable,subscriber);
+    }
+    /***
+     * 用于获取邮箱验证码数据
+     * @param subscriber
+     * @param email
+     */
+    public void getEmailCode(Subscriber<CodeDataEntity> subscriber, String email){
+
+        Observable observable = service.getSendEmail(email)
+                .map(new HttpResultFunc<CodeDataEntity>());
+
         toSubscribe(observable, subscriber);
     }
 }

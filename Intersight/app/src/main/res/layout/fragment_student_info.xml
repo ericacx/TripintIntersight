@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/background_default"
-    tools:context="com.tripint.intersight.fragment.PersonalInfoFragment">
+    tools:context="com.tripint.intersight.fragment.StudentInfoFragment">
+
 
     <include
         layout="@layout/toolbar" />
 
     <Button
-        android:id="@+id/personal_info_submit"
+        android:id="@+id/personal_info_student_submit"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_5_80"
         android:layout_alignParentBottom="true"
@@ -23,7 +24,7 @@
     <LinearLayout
         android:layout_marginTop="80dp"
         android:layout_marginBottom="@dimen/spacing"
-        android:layout_above="@id/personal_info_submit"
+        android:layout_above="@id/personal_info_student_submit"
         android:layout_marginLeft="@dimen/spacing"
         android:layout_marginRight="@dimen/spacing"
         android:orientation="vertical"
@@ -64,7 +65,7 @@
                         android:src="@mipmap/iconfont_nextarticle" />
 
                     <com.tripint.intersight.widget.image.CircleImageView
-                        android:id="@+id/personal_info_avatar"
+                        android:id="@+id/personal_info_student_avatar"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_centerVertical="true"
@@ -208,12 +209,12 @@
                     android:layout_height="@dimen/height_5_80">
 
                     <TextView
-                        android:id="@+id/personal_info_textview_companyname"
+                        android:id="@+id/personal_info_textview_university_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
-                        android:text="公司名称"
+                        android:text="大学名称"
                         android:textSize="@dimen/text_size_14"
                         android:textColor="@color/white"
                         />
@@ -223,7 +224,7 @@
                         android:id="@+id/personal_info_company"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_toRightOf="@id/personal_info_textview_companyname"
+                        android:layout_toRightOf="@id/personal_info_textview_university_name"
                         android:gravity="right|center_vertical"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
@@ -254,7 +255,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
-                        android:text="公司logo"
+                        android:text="大学logo"
                         android:textSize="@dimen/text_size_14"
                         android:textColor="@color/white" />
 
@@ -268,7 +269,7 @@
                         android:src="@mipmap/iconfont_nextarticle" />
 
                     <com.tripint.intersight.widget.image.CircleImageView
-                        android:id="@+id/personal_info_company_logo"
+                        android:id="@+id/personal_info_university_logo"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_centerVertical="true"
@@ -296,7 +297,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
-                        android:text="所在行业"
+                        android:text="专业名称"
                         android:textSize="@dimen/text_size_14"
                         android:textColor="@color/white" />
 
@@ -310,8 +311,8 @@
                         android:src="@mipmap/iconfont_zldown" />
 
                     <TextView
-                        android:id="@+id/personal_info_trade"
-                        android:text="电子通讯硬件"
+                        android:id="@+id/personal_info_specialty"
+                        android:text="电子信息科学技术"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_14"
                         android:layout_width="wrap_content"
@@ -331,8 +332,8 @@
                     android:layout_marginBottom="@dimen/spacing_pad04"
                     android:background="@color/line" />
 
+
                 <RelativeLayout
-                    android:id="@+id/personal_info_rl_position"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_5_80"
                     >
@@ -342,116 +343,63 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
-                        android:text="所属职能"
+                        android:text="学历"
                         android:textSize="@dimen/text_size_14"
                         android:textColor="@color/white" />
 
 
                     <ImageView
-                        android:id="@+id/personal_info_title_down"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@mipmap/iconfont_zldown" />
-
-                    <TextView
-                        android:id="@+id/personal_info_position"
-                        android:text="市场管理"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_14"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/spacing"
-                        android:layout_toLeftOf="@id/personal_info_title_down"
-                        android:src="@mipmap/iconfont_mima" />
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/spacing_pad04"
-                    android:layout_marginBottom="@dimen/spacing_pad04"
-                    android:background="@color/line" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_5_80">
-
-                    <TextView
                         android:id="@+id/personal_info_textview_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:text="职位名称"
-                        android:textSize="@dimen/text_size_14"
-                        android:textColor="@color/white" />
-
-                    <EditText
-                        android:id="@+id/personal_info_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/personal_info_textview_title"
-                        android:gravity="right|center_vertical"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@null"
-                        android:textSize="@dimen/text_size_14"
-                        android:textColor="@color/white"
-                        android:hint="请填写"
-                        android:text="市场总监"
-                        android:textColorHint="@color/line" />
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/spacing_pad04"
-                    android:layout_marginBottom="@dimen/spacing_pad04"
-                    android:background="@color/line" />
-
-
-                <RelativeLayout
-                    android:id="@+id/personal_info_rl_experience"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_5_80"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:text="工作年限"
-                        android:textSize="@dimen/text_size_14"
-                        android:textColor="@color/white" />
-
-
-                    <ImageView
-                        android:id="@+id/personal_info_experience_down"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:src="@mipmap/iconfont_zldown" />
 
                     <TextView
-                        android:id="@+id/personal_info_experience"
-                        android:text="3-5年"
+                        android:id="@+id/personal_info_diplomas"
+                        android:text="研究生"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/spacing"
-                        android:layout_toLeftOf="@id/personal_info_experience_down"
+                        android:layout_toLeftOf="@id/personal_info_textview_title"
                         android:src="@mipmap/iconfont_mima" />
 
                 </RelativeLayout>
+
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="@dimen/height_5_80">-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/personal_info_textview_title"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentLeft="true"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:text="学历"-->
+                        <!--android:textSize="@dimen/text_size_14"-->
+                        <!--android:textColor="@color/white" />-->
+
+                    <!--<EditText-->
+                        <!--android:id="@+id/personal_info_title"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_toRightOf="@id/personal_info_textview_title"-->
+                        <!--android:gravity="right|center_vertical"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:background="@null"-->
+                        <!--android:textSize="@dimen/text_size_14"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:hint="请填写"-->
+                        <!--android:text="研究生"-->
+                        <!--android:textColorHint="@color/line" />-->
+
+                <!--</RelativeLayout>-->
 
                 <View
                     android:layout_width="match_parent"
@@ -459,6 +407,7 @@
                     android:layout_marginTop="@dimen/spacing_pad04"
                     android:layout_marginBottom="@dimen/spacing_pad04"
                     android:background="@color/line" />
+
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -498,6 +447,5 @@
 
         </ScrollView>
     </LinearLayout>
-
 
 </RelativeLayout>

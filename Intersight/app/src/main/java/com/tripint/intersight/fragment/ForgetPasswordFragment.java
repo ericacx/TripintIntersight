@@ -108,7 +108,6 @@ public class ForgetPasswordFragment extends BaseBackFragment {
             switch (msg.what) {
                 case 100:
                     if (time == 0) {
-                        time = 10;
                         forgetpasswordBtnCode.setClickable(true);
                         forgetpasswordBtnCode.setText("获取验证码");
                     } else {
