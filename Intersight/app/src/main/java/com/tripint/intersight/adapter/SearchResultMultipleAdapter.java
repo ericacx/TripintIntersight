@@ -7,6 +7,7 @@ import com.tripint.intersight.R;
 import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseMultiItemQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseViewHolder;
+import com.tripint.intersight.entity.discuss.InterviewEntity;
 import com.tripint.intersight.model.MultipleSearchItemModel;
 import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
 
@@ -28,23 +29,22 @@ public class SearchResultMultipleAdapter extends BaseMultiItemQuickAdapter<Multi
     @Override
     protected void convert(BaseViewHolder helper, MultipleSearchItemModel item) {
         String sperialist = "";
-        String avatar = "";
-        if (item.getContent().getUserInfo() != null) {
-            if (item.getContent().getUserInfo().getCompany() != null) {
-                sperialist = item.getContent().getUserInfo().getCompany().getName();
-            }
-            if (item.getContent().getUserInfo().getAbility() != null) {
-                sperialist += item.getContent().getUserInfo().getAbility().getName();
-            }
-            avatar = item.getContent().getUserInfo().getAvatar();
-        }
+
         switch (helper.getItemViewType()) {
             case MultipleSearchItemModel.INTERVIEW:
-                helper.setText(R.id.text_view_search_person_name, sperialist)
-                        .setText(R.id.text_view_search_person_industry, StringUtils.null2Length0(item.getContent().getContent()))
-                        .setText(R.id.text_view_search_person_job_title, StringUtils.null2Length0(item.getContent().getContent()))
-                        .setText(R.id.text_view_search_person_job_pos, StringUtils.null2Length0(item.getContent().getContent()))
-                        .setText(R.id.text_view_search_person_year, StringUtils.null2Length0(item.getContent().getContent()))
+                InterviewEntity entity = item.getInterview();
+
+                String avatar = entity.getAvatar();
+                String nickname = entity.getNickname();
+                String experience = entity.getExperience();
+                String position = entity.getPosition() == null ? "" : entity.getPosition().getName();
+                String industry = entity.getIndustry() == null ? "" : entity.getIndustry().getName();
+                String company = entity.getCompany() == null ? "" : entity.getCompany().getName();
+                helper.setText(R.id.text_view_search_person_name, nickname)
+                        .setText(R.id.text_view_search_person_industry, StringUtils.null2Length0(industry))
+                        .setText(R.id.text_view_search_person_job_title, StringUtils.null2Length0(company))
+                        .setText(R.id.text_view_search_person_job_pos, StringUtils.null2Length0(position))
+                        .setText(R.id.text_view_search_person_year, StringUtils.null2Length0(experience))
                 ;
 
                 Glide.with(mContext).load(avatar)

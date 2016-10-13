@@ -26,10 +26,10 @@ import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
-import com.tripint.intersight.entity.discuss.Specialist;
+import com.tripint.intersight.entity.discuss.InterviewEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
-import com.tripint.intersight.fragment.search.SearchMainFragment;
+import com.tripint.intersight.fragment.search.SearchPersonFragment;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.widget.BannerViewHolder;
@@ -66,10 +66,10 @@ public class AskFragment extends BaseLazyMainFragment implements BaseQuickAdapte
     private AskRecyclerViewAdapter mAdapter;
 
 
-    private PageDataSubscriberOnNext<BasePageableResponse<Specialist>> subscriber;
+    private PageDataSubscriberOnNext<BasePageableResponse<InterviewEntity>> subscriber;
     private PageDataSubscriberOnNext<ArticleBannerEntity> bannerSubscriber;
 
-    private BasePageableResponse<Specialist> data = new BasePageableResponse<>();
+    private BasePageableResponse<InterviewEntity> data = new BasePageableResponse<>();
 
     private LinearLayoutManager linearLayoutManager;
 
@@ -126,9 +126,9 @@ public class AskFragment extends BaseLazyMainFragment implements BaseQuickAdapte
     }
 
     private void httpRequestData() {
-        subscriber = new PageDataSubscriberOnNext<BasePageableResponse<Specialist>>() {
+        subscriber = new PageDataSubscriberOnNext<BasePageableResponse<InterviewEntity>>() {
             @Override
-            public void onNext(BasePageableResponse<Specialist> entity) {
+            public void onNext(BasePageableResponse<InterviewEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
 
@@ -144,7 +144,7 @@ public class AskFragment extends BaseLazyMainFragment implements BaseQuickAdapte
         };
 
 
-        DiscussDataHttpRequest.getInstance(mActivity).getSpecialists(new ProgressSubscriber(subscriber, mActivity), 1, 10);
+        DiscussDataHttpRequest.getInstance(mActivity).getInterview(new ProgressSubscriber(subscriber, mActivity), 1, "", "", "");
     }
 
     protected void initView(View view) {
@@ -196,10 +196,10 @@ public class AskFragment extends BaseLazyMainFragment implements BaseQuickAdapte
         switch (view.getId()) {
 
             case R.id.toolbar_search_button: //行业领域
-                EventBus.getDefault().post(new StartFragmentEvent(SearchMainFragment.newInstance()));
+                EventBus.getDefault().post(new StartFragmentEvent(SearchPersonFragment.newInstance()));
                 break;
             case R.id.toolbar_search_text: //行业领域
-                EventBus.getDefault().post(new StartFragmentEvent(SearchMainFragment.newInstance()));
+                EventBus.getDefault().post(new StartFragmentEvent(SearchPersonFragment.newInstance()));
                 break;
 
         }

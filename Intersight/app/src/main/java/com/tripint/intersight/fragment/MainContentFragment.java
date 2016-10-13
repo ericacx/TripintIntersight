@@ -16,6 +16,7 @@ import com.tripint.intersight.event.UserLoginEvent;
 import com.tripint.intersight.fragment.base.BaseFragment;
 import com.tripint.intersight.fragment.home.AskFragment;
 import com.tripint.intersight.fragment.mine.MineFragment;
+import com.tripint.intersight.fragment.search.SearchMainFragment;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.widget.tabbar.BottomTabBar;
 import com.tripint.intersight.widget.tabbar.BottomTabBarItem;
@@ -32,7 +33,7 @@ import butterknife.ButterKnife;
 public class MainContentFragment extends BaseFragment {
 
 
-    private SupportFragment[] mFragments = new SupportFragment[3];
+    private SupportFragment[] mFragments = new SupportFragment[4];
 
     @Bind(R.id.bottomBar)
     BottomTabBar mBottomTabBar;
@@ -54,19 +55,22 @@ public class MainContentFragment extends BaseFragment {
         if (savedInstanceState == null) {
             mFragments[0] = IntersightPlusFragment.newInstance();
             mFragments[1] = AskFragment.newInstance();
-            mFragments[2] = MineFragment.newInstance();
+            mFragments[2] = SearchMainFragment.newInstance();
+            mFragments[3] = MineFragment.newInstance();
 
             loadMultipleRootFragment(R.id.main_container, 0,
                     mFragments[0],
                     mFragments[1],
-                    mFragments[2]);
+                    mFragments[2],
+                    mFragments[3]);
         } else {
             // 这里库已经做了Fragment恢复,所有不需要额外的处理了, 不会出现重叠问题
 
             // 这里我们需要拿到mFragments的引用,也可以通过getSupportFragmentManager.getFragments()自行进行判断查找(效率更高些),用下面的方法查找更方便些
             mFragments[0] = findFragment(IntersightPlusFragment.class);
             mFragments[1] = findFragment(AskFragment.class);
-            mFragments[2] = findFragment(MineFragment.class);
+            mFragments[2] = findFragment(SearchMainFragment.class);
+            mFragments[3] = findFragment(MineFragment.class);
         }
 
         initView();
@@ -85,6 +89,7 @@ public class MainContentFragment extends BaseFragment {
         mBottomTabBar
                 .addItem(new BottomTabBarItem(mActivity, R.drawable.selector_shouye, "洞察+"))
                 .addItem(new BottomTabBarItem(mActivity, R.drawable.selector_tiwen, "提问"))
+                .addItem(new BottomTabBarItem(mActivity, R.drawable.selector_search, "搜索"))
                 .addItem(new BottomTabBarItem(mActivity, R.drawable.selector_geren, "个人"));
         mBottomTabBar.setBackgroundColor(getResources().getColor(R.color.colorToolbarPrimary));
         mBottomTabBar.setOnTabSelectedListener(new BottomTabBar.OnTabSelectedListener() {

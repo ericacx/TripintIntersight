@@ -18,7 +18,7 @@ public class Industry implements Serializable{
     private int status;
     private int sort;
 
-    private List<IndustryChild> industry_sub;
+    private List<IndustryChild> industrySub;
 
     public int getId() {
         return id;
@@ -70,11 +70,11 @@ public class Industry implements Serializable{
         this.icon = icon;
     }
 
-    public List<IndustryChild> getIndustry_sub() {
-        return industry_sub;
+    public List<IndustryChild> getIndustrySub() {
+        return industrySub;
     }
 
-    public void setIndustry_sub(List<IndustryChild> industry_sub) {
-        this.industry_sub = industry_sub;
+    public void setIndustrySub(List<IndustryChild> industrySub) {
+        this.industrySub = industrySub;
     }
 }

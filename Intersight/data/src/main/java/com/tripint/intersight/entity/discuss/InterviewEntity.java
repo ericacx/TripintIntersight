@@ -1,13 +1,16 @@
 package com.tripint.intersight.entity.discuss;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.tripint.intersight.entity.Ability;
+import com.tripint.intersight.entity.Company;
+import com.tripint.intersight.entity.Industry;
 
 /**
  * Author: lirichen
  * Created by: ModelGenerator on 2016/10/12
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Specialist {
+public class InterviewEntity {
     private int uid;
     private String nickname;
     private String avatar;
@@ -22,9 +25,9 @@ public class Specialist {
     private String createAt;
     private int updateAt;
     private String desc;
-    private String abilityName;
-    private String companyName;
-    private String industryName;
+    private Ability position;
+    private Industry company;
+    private Company industry;
 
     public int getUid() {
         return uid;
@@ -138,27 +141,27 @@ public class Specialist {
         this.desc = desc;
     }
 
-    public String getAbilityName() {
-        return abilityName;
+    public Ability getPosition() {
+        return position;
     }
 
-    public void setAbilityName(String abilityName) {
-        this.abilityName = abilityName;
+    public void setPosition(Ability position) {
+        this.position = position;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public Industry getCompany() {
+        return company;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setCompany(Industry company) {
+        this.company = company;
     }
 
-    public String getIndustryName() {
-        return industryName;
+    public Company getIndustry() {
+        return industry;
     }
 
-    public void setIndustryName(String industryName) {
-        this.industryName = industryName;
+    public void setIndustry(Company industry) {
+        this.industry = industry;
     }
 }

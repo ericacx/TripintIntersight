@@ -6,11 +6,9 @@ import com.tripint.intersight.common.BaseResponse;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.discuss.DiscussDetailEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
-import com.tripint.intersight.entity.discuss.Specialist;
+import com.tripint.intersight.entity.discuss.InterviewEntity;
 
-import retrofit2.http.Field;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -54,6 +52,9 @@ public interface DiscussDataService {
     Observable<BaseResponse<CommentResultEntity>> deleteFollow(@Path("id") int id, @Query("action") String action, @Query("type") String type);
 
     //提问
-    @POST("questionsShow")
-    Observable<BaseResponse<BasePageableResponse<Specialist>>> getSpecialists(@Field("page") int page, @Field("size") int size);
+    @GET("interview")
+    Observable<BaseResponse<BasePageableResponse<InterviewEntity>>> getInterview(@Query("page") int page, @Query("size") int size,
+                                                                                 @Query("industry") String industry,
+                                                                                 @Query("position") String position,
+                                                                                 @Query("company") String company);
 }

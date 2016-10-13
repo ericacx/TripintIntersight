@@ -114,7 +114,9 @@ public class LongBindPhoneFragment extends BaseBackFragment {
                 //接口请求成功后处理
                 codeDataEntity = entity;
                 Log.d(TAG, entity.getFlg());
+                //当前手机号已经是注册用户，隐藏密码设置内容，否则显示密码提示用户输入
                 if (BaseDataHttpRequest.RESPONSE_STATUS_USER_EXIST == codeDataEntity.getStatus()) {
+                    containerPasswordInput.setVisibility(View.GONE);
                     isUserExist = true;
                 } else if (BaseDataHttpRequest.RESPONSE_STATUS_USER_NOT_EXIST == codeDataEntity.getStatus()) {
                     containerPasswordInput.setVisibility(View.VISIBLE);

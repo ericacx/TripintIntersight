@@ -38,7 +38,7 @@
                 android:layout_margin="@dimen/spacing"
                 android:gravity="center_vertical"
                 android:layout_toLeftOf="@id/toolbar_search_button"
-                android:background="@drawable/search_bg"
+                android:background="@drawable/btn_shape_corner"
                 android:hint="搜索关键字"
                 android:textColor="@color/white"
                 android:textColorHint="@color/line"

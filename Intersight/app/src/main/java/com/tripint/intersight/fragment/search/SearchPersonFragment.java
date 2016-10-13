@@ -27,6 +27,7 @@ import com.tripint.intersight.entity.Ability;
 import com.tripint.intersight.entity.Company;
 import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.SearchFilterEntity;
+import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.SearchRequestModel;
 import com.tripint.intersight.service.BaseDataHttpRequest;
@@ -123,6 +124,7 @@ public class SearchPersonFragment extends BaseBackFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_person, null);
         ButterKnife.bind(this, view);
+        initToolbarNav(toolbar);
         httpRequestData();
         return view;
     }
@@ -140,12 +142,17 @@ public class SearchPersonFragment extends BaseBackFragment {
             public void onNext(SearchFilterEntity entity) {
                 //接口请求成功后处理
                 searchFilterEntity = entity;
+                ACache.get(mActivity).put(EnumKey.ACacheKey.KEYWORD_CACHE, searchFilterEntity);
 //                ToastUtil.showToast(mActivity, entity.getAbilityName().toString() +"");
                 initView(null);
             }
         };
 
-        BaseDataHttpRequest.getInstance(mActivity).getSearchFilterInterviewer(new ProgressSubscriber(subscriber, mActivity));
+        if (searchFilterEntity == null) {
+            BaseDataHttpRequest.getInstance(mActivity).getSearchFilterInterviewer(new ProgressSubscriber(subscriber, mActivity));
+        } else {
+            initView(null);
+        }
     }
 
 
@@ -224,9 +231,13 @@ public class SearchPersonFragment extends BaseBackFragment {
                 historyList.add(0, _key);
             } else {
                 historyList.add(0, _key);
-                if (historyList.size() > 9) {
-                    historyList.remove(9);
-                }
+
+            }
+            if (historyList.size() > 9) {
+                historyList.remove(9);
+            }
+            if (historyList.size() > 10) {
+                historyList.clear();
             }
             if (historyList.size() > 0) {
                 historyLayout.setVisibility(View.VISIBLE);
@@ -257,7 +268,7 @@ public class SearchPersonFragment extends BaseBackFragment {
         Bundle bundle = new Bundle();
         bundle.putInt(SearchResultFragment.ARG_SEARCH_TYPE, SearchResultFragment.ARG_SEARCH_TYPE_PERSON);
         bundle.putSerializable(SearchResultFragment.ARG_SEARCH_KEYWORD, searchVO);
-        EventBus.getDefault().post(SearchResultFragment.newInstance(bundle));
+        EventBus.getDefault().post(new StartFragmentEvent(SearchResultFragment.newInstance(bundle)));
     }
 
 

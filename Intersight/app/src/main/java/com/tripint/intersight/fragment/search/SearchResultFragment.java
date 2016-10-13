@@ -22,7 +22,7 @@ import com.tripint.intersight.common.widget.filter.interfaces.OnFilterDoneListen
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.SearchFilterEntity;
-import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.discuss.InterviewEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.fragment.home.AskAnswerDetailFragment;
@@ -30,6 +30,7 @@ import com.tripint.intersight.model.MultipleSearchItemModel;
 import com.tripint.intersight.model.search.FilterUrl;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
+import com.tripint.intersight.service.HttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
@@ -76,16 +77,14 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
 
     private PageDataSubscriberOnNext<SearchFilterEntity> subscriber;
 
-    private PageDataSubscriberOnNext<BasePageableResponse<DiscussEntiry>> searchSubscriber;
+    private PageDataSubscriberOnNext<BasePageableResponse<InterviewEntity>> searchInterviewSubscriber;
 
     private SearchResultMultipleAdapter mAdapter;
 
-    private BasePageableResponse<DiscussEntiry> data = new BasePageableResponse<DiscussEntiry>();
+    private BasePageableResponse<InterviewEntity> data = new BasePageableResponse<>();
 
 
-    private final int PAGE_SIZE = 10;
-
-    private int TOTAL_COUNTER = 4;
+    private int TOTAL_COUNTER = 0;
 
     private int mCurrentCounter = 0;
 
@@ -140,7 +139,6 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
 
                 initFilterDropDownView();
 
-
                 httpRequestSearchData(0);
             }
         };
@@ -149,26 +147,33 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
     }
 
     private void httpRequestSearchData(int type) {
-        searchSubscriber = new PageDataSubscriberOnNext<BasePageableResponse<DiscussEntiry>>() {
+        searchInterviewSubscriber = new PageDataSubscriberOnNext<BasePageableResponse<InterviewEntity>>() {
             @Override
-            public void onNext(BasePageableResponse<DiscussEntiry> entity) {
+            public void onNext(BasePageableResponse<InterviewEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
                 List<MultipleSearchItemModel> models = getMultipleSearchItemModels(entity.getLists());
-                mAdapter.setNewData(models);
+                if (mCurrentCounter == 0) {
+                    mAdapter.setNewData(models);
+                } else {
+                    mAdapter.addData(models);
+                }
+                mCurrentCounter = mAdapter.getData().size();
+                TOTAL_COUNTER = entity.getTotal();
             }
         };
 
 
-        DiscussDataHttpRequest.getInstance(mActivity).getDiscusses(new ProgressSubscriber(searchSubscriber, mActivity), type, 1, PAGE_SIZE);
+        DiscussDataHttpRequest.getInstance(mActivity).getInterview(new ProgressSubscriber(searchInterviewSubscriber, mActivity), 1, "", "", "");
     }
 
     @NonNull
-    private List<MultipleSearchItemModel> getMultipleSearchItemModels(List<DiscussEntiry> entiries) {
+    private List<MultipleSearchItemModel> getMultipleSearchItemModels(List<InterviewEntity> entiries) {
         List<MultipleSearchItemModel> models = new ArrayList<>();
 
+        if (entiries == null) return models;
 
-        for (DiscussEntiry entiry : entiries) {
+        for (InterviewEntity entiry : entiries) {
             models.add(new MultipleSearchItemModel(searchType, entiry));
         }
         return models;
@@ -183,7 +188,7 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
         mAdapter = new SearchResultMultipleAdapter(getMultipleSearchItemModels(data.getLists()));
         mAdapter.openLoadAnimation();
 
-        mAdapter.openLoadMore(PAGE_SIZE);
+        mAdapter.openLoadMore(HttpRequest.DEFAULT_PAGE_SIZE);
         mAdapter.setOnLoadMoreListener(this);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
@@ -209,9 +214,9 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
     @Override
     public void onRefresh() {
         mAdapter.setNewData(getMultipleSearchItemModels(data.getLists()));
-        mAdapter.openLoadMore(PAGE_SIZE);
+        mAdapter.openLoadMore(HttpRequest.DEFAULT_PAGE_SIZE);
         mAdapter.removeAllFooterView();
-        mCurrentCounter = PAGE_SIZE;
+        mCurrentCounter = HttpRequest.DEFAULT_PAGE_SIZE;
         mSwipeRefreshLayout.setRefreshing(false);
 
     }

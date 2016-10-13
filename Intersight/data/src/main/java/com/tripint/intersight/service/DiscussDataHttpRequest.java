@@ -6,7 +6,7 @@ import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.discuss.DiscussDetailEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
-import com.tripint.intersight.entity.discuss.Specialist;
+import com.tripint.intersight.entity.discuss.InterviewEntity;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -87,13 +87,13 @@ public class DiscussDataHttpRequest extends HttpRequest {
 
         Observable observable = null;
         if (tab == 0) {
-            observable = service.getDiscuss(start, count)
+            observable = service.getDiscuss(start, DEFAULT_PAGE_SIZE)
                     .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
         } else if (tab == 1) {
-            observable = service.getDiscuss(start, count)
+            observable = service.getDiscuss(start, DEFAULT_PAGE_SIZE)
                     .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
         } else if (tab == 2) {
-            observable = service.getDiscuss(start, count)
+            observable = service.getDiscuss(start, DEFAULT_PAGE_SIZE)
                     .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
         }
 
@@ -125,7 +125,7 @@ public class DiscussDataHttpRequest extends HttpRequest {
      */
     public void getDiscusses(Subscriber<BasePageableResponse<DiscussEntiry>> subscriber, int start, int count) {
 
-        Observable observable = service.getDiscuss(start, count)
+        Observable observable = service.getDiscuss(start, DEFAULT_PAGE_SIZE)
                 .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
 
 
@@ -212,12 +212,13 @@ public class DiscussDataHttpRequest extends HttpRequest {
      *
      * @param subscriber 由调用者传过来的观察者对象
      * @param start      起始位置
-     * @param count      获取长度
      */
-    public void getSpecialists(Subscriber<BasePageableResponse<Specialist>> subscriber, int start, int count) {
+    public void getInterview(Subscriber<BasePageableResponse<InterviewEntity>> subscriber, int start, String industry,
+                             String position,
+                             String company) {
 
-        Observable observable = service.getSpecialists(start, count)
-                .map(new HttpResultFunc<BasePageableResponse<Specialist>>());
+        Observable observable = service.getInterview(start, DEFAULT_PAGE_SIZE, industry, position, company)
+                .map(new HttpResultFunc<BasePageableResponse<InterviewEntity>>());
 
         toSubscribe(observable, subscriber);
     }

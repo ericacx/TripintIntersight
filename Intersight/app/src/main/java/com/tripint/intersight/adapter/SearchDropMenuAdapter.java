@@ -173,7 +173,7 @@ public class SearchDropMenuAdapter implements MenuAdapter {
                 .onLeftItemClickListener(new DoubleListView.OnLeftItemClickListener<Industry, IndustryChild>() {
                     @Override
                     public List<IndustryChild> provideRightList(Industry item, int position) {
-                        List<IndustryChild> child = item.getIndustry_sub();
+                        List<IndustryChild> child = item.getIndustrySub();
                         if (CommonUtil.isEmpty(child)) {
                             FilterUrl.instance().doubleListLeft = item.getName();
                             FilterUrl.instance().doubleListRight = "";
@@ -204,7 +204,7 @@ public class SearchDropMenuAdapter implements MenuAdapter {
 
         //初始化选中.
         comTypeDoubleListView.setLeftList(industies, 1);
-        comTypeDoubleListView.setRightList(industies.get(1).getIndustry_sub(), -1);
+        comTypeDoubleListView.setRightList(industies.get(1).getIndustrySub(), -1);
         comTypeDoubleListView.getLeftListView().setBackgroundColor(mContext.getResources().getColor(R.color.b_c_fafafa));
 
         return comTypeDoubleListView;

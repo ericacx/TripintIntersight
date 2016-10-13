@@ -32,6 +32,8 @@ public class HttpRequest {
 
     private static final int DEFAULT_TIMEOUT = 300;
 
+    public static final int DEFAULT_PAGE_SIZE = 10;
+
     ThreadExecutor threadExecutor = new JobExecutor(); //子线程
     PostExecutionThread postExecutionThread = new UIThread(); //主线程（UI线程）
 
