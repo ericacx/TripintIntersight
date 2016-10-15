@@ -57,7 +57,7 @@ public class ResigterFragment extends BaseBackFragment {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    private int time = 10;
+    private int time = 60;
 
     private CodeDataEntity codeDataEntity;
     private PageDataSubscriberOnNext<CodeDataEntity> subscriberCode;
@@ -128,6 +128,7 @@ public class ResigterFragment extends BaseBackFragment {
             switch (msg.what) {
                 case 100:
                     if (time == 0) {
+                        time = 60;
                         registerVerifyCode.setClickable(true);
                         registerVerifyCode.setText("获取验证码");
                     } else {

@@ -1,6 +1,8 @@
 package com.tripint.intersight.fragment;
 
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tripint.intersight.R;
+import com.tripint.intersight.common.utils.TakePhotoUtil;
 import com.tripint.intersight.entity.CodeDataEntity;
+import com.tripint.intersight.entity.mine.worker.AllResoucesEntity;
 import com.tripint.intersight.entity.mine.worker.EditUserEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.service.MineDataHttpRequest;
@@ -100,6 +104,8 @@ public class PersonalInfoFragment extends BaseBackFragment {
     private CodeDataEntity codeDataEntity;
     private PageDataSubscriberOnNext<CodeDataEntity> subscriber;
 
+    private PageDataSubscriberOnNext<AllResoucesEntity> subscriberAllResource;
+
     public static PersonalInfoFragment newInstance() {
         // Required empty public constructor
         Bundle args = new Bundle();
@@ -157,11 +163,20 @@ public class PersonalInfoFragment extends BaseBackFragment {
 //                }
                 break;
             case R.id.personal_info_rl_avatar://头像
+                TakePhotoUtil.showDialog(this);
                 break;
             case R.id.personal_info_rl_position://职能
                 break;
             case R.id.personal_info_rl_experience://工作年限
                 break;
         }
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Bitmap bitmap = TakePhotoUtil.dealActivityResult(this, requestCode, resultCode, data, true);
+        personalInfoAvatar.setImageBitmap(bitmap);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

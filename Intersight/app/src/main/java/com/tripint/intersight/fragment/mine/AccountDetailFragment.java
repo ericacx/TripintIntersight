@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +77,7 @@ public class AccountDetailFragment extends BaseBackFragment {
             public void onNext(BasePageableResponse<AccountDetailEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
+//                Log.e("accountDetail",String.valueOf(entity.getTotal()));
                 initView(null);
                 initAdapter();
             }

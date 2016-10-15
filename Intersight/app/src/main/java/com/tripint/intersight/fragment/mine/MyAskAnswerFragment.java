@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,7 @@ public class MyAskAnswerFragment extends BaseBackFragment {
 
     private PageDataSubscriberOnNext<BasePageableResponse<AskAnswerEntity>> subscriber;
 
-    private BasePageableResponse<AskAnswerEntity> data;
+    private BasePageableResponse<AskAnswerEntity> data = new BasePageableResponse<AskAnswerEntity>();
     private int tab;
 
     public static MyAskAnswerFragment newInstance() {
@@ -79,6 +80,7 @@ public class MyAskAnswerFragment extends BaseBackFragment {
             public void onNext(BasePageableResponse<AskAnswerEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
+                Log.e("askAnswer",String.valueOf(entity.getTotal()));
                 initView(null);
                 initAdapter(tab);
             }

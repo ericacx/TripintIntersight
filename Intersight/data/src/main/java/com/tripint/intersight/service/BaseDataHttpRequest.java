@@ -8,6 +8,7 @@ import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
+import com.tripint.intersight.entity.article.ArticlesEntity;
 import com.tripint.intersight.entity.common.CommonResponEntity;
 import com.tripint.intersight.entity.user.ChooseEntity;
 import com.tripint.intersight.entity.user.LoginEntity;
@@ -84,6 +85,19 @@ public class BaseDataHttpRequest extends HttpRequest {
      *
      * @param subscriber 由调用者传过来的观察者对象
      */
+    public void getArticles(Subscriber<ArticlesEntity> subscriber,int page,int size,int type) {
+
+        Observable observable = baseDataService.getArticles(page,size,type)
+                .map(new HttpResultFunc<ArticlesEntity>());
+
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 用于获取搜索的过滤条件数据
+     *
+     * @param subscriber 由调用者传过来的观察者对象
+     */
     public void getSearchFilterArticles(Subscriber<SearchFilterEntity> subscriber) {
 
         Observable observable = baseDataService.getSearchFilter(FLITER_TYPE_ARTICLES)
@@ -125,6 +139,18 @@ public class BaseDataHttpRequest extends HttpRequest {
     }
 
     /***
+     * 用于获取忘记密码的验证码
+     * @param subscriber
+     */
+    public void postPasswordForget(Subscriber<CodeDataEntity> subscriber, String email){
+
+        Observable observable = baseDataService.postPasswordForget(email)
+                .map(new HttpResultFunc<CodeDataEntity>());
+
+        toSubscribe(observable, subscriber);
+    }
+
+    /***
      * 用于获取手机验证码数据
      * @param subscriber
      */
@@ -136,18 +162,6 @@ public class BaseDataHttpRequest extends HttpRequest {
         toSubscribe(observable, subscriber);
     }
 
-    /**
-     * 用于获取忘记密码数据
-     * @param subscriber
-     * @param mobile
-     */
-    public void postForgetpassword(Subscriber<ForgetPasswordEntity> subscriber, String mobile){
-
-        Observable observable = baseDataService.postForgetpassword(mobile)
-                .map(new HttpResultFunc<ForgetPasswordEntity>());
-
-        toSubscribe(observable, subscriber);
-    }
 
     public void postResetpassword(Subscriber<CodeDataEntity> subscriber,User user){
         Observable observable = baseDataService.postResetpassword(user)

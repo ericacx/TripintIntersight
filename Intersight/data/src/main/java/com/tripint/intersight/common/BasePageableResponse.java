@@ -1,10 +1,13 @@
 package com.tripint.intersight.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 
 /**
  * Created by liukun on 16/3/5.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BasePageableResponse<T> {
 
     private int total;

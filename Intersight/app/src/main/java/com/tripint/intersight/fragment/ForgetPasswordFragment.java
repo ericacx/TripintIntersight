@@ -79,13 +79,11 @@ public class ForgetPasswordFragment extends BaseBackFragment {
     private void initView() {
         initToolbarNav(toolbar);
 
-        //验证码
+        //忘记密码 发送验证码
         subscriberCode = new PageDataSubscriberOnNext<CodeDataEntity>() {
             @Override
             public void onNext(CodeDataEntity entity) {
-                //接口请求成功后处理
                 codeDataEntity = entity;
-                Log.e("aaa", entity.getFlg());
             }
         };
 
@@ -108,6 +106,7 @@ public class ForgetPasswordFragment extends BaseBackFragment {
             switch (msg.what) {
                 case 100:
                     if (time == 0) {
+                        time = 60;
                         forgetpasswordBtnCode.setClickable(true);
                         forgetpasswordBtnCode.setText("获取验证码");
                     } else {
@@ -132,7 +131,7 @@ public class ForgetPasswordFragment extends BaseBackFragment {
                     ToastUtil.showToast(mActivity, "请输入正确的手机号");
                 } else {
                     //发送验证码请求
-                    BaseDataHttpRequest.getInstance(mActivity).getCode(
+                    BaseDataHttpRequest.getInstance(mActivity).postPasswordForget(
                             new ProgressSubscriber(subscriberCode, mActivity)
                             , forgetpasswordEtHone.getText().toString().trim());
                     forgetpasswordBtnCode.setText("重新获取(" + time + ")");

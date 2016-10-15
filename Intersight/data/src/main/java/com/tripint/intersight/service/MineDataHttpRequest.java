@@ -10,6 +10,7 @@ import com.tripint.intersight.entity.mine.FocusEntity;
 import com.tripint.intersight.entity.mine.InterviewDetailEntity;
 import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
+import com.tripint.intersight.entity.mine.PersonalUserHomeEntity;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
 import com.tripint.intersight.entity.mine.worker.EditUserEntity;
 
@@ -61,13 +62,24 @@ public class MineDataHttpRequest extends HttpRequest {
     }
 
     /**
-     * 用于获取观点页面的banner
+     * 用于获取个人中心主页
      *
      * @param subscriber
      */
     public void getUserHome(Subscriber<UserHomeEntity> subscriber) {
         Observable observable = service.getUserHome()
                 .map(new HttpResultFunc<UserHomeEntity>());
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 用于获取他的个人中心主页
+     *
+     * @param subscriber
+     */
+    public void getPersonalUserHome(Subscriber<PersonalUserHomeEntity> subscriber,int uid) {
+        Observable observable = service.getPersonalUserHome(uid)
+                .map(new HttpResultFunc<PersonalUserHomeEntity>());
         toSubscribe(observable, subscriber);
     }
 

@@ -42,7 +42,7 @@ public class MyInterviewFragment extends BaseBackFragment {
     private MineCommonMultipleAdapter mAdapter;
 
     private PageDataSubscriberOnNext<BasePageableResponse<InterviewEntity>> subscriber;
-    private BasePageableResponse<InterviewEntity> data;
+    private BasePageableResponse<InterviewEntity> data = new BasePageableResponse<InterviewEntity>();
 
     public static MyInterviewFragment newInstance() {
 

@@ -1,8 +1,11 @@
 package com.tripint.intersight.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by liukun on 16/3/5.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BaseResponse<T> {
 
     private int code;

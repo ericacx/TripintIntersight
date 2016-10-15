@@ -13,11 +13,17 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.tripint.intersight.R;
+import com.tripint.intersight.entity.mine.PersonalUserHomeEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.PersonalInfoFragment;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.image.CircleImageView;
+import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
+import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
+import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -37,6 +43,7 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     Button personalMainPageButtonAsk;
     @Bind(R.id.personal_main_page_button_interview)
     Button personalMainPageButtonInterview;
+
     @Bind(R.id.ll)
     LinearLayout ll;
     @Bind(R.id.personal_main_page_personalInfo)
@@ -44,23 +51,28 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     @Bind(R.id.personal_main_page_name)
     TextView personalMainPageName;
     @Bind(R.id.personal_main_page_title)
-    TextView personalMainPageTitle;
+    TextView personalMainPageTitle;//职位
     @Bind(R.id.personal_main_page_company)
-    TextView personalMainPageCompany;
+    TextView personalMainPageCompany;//公司
     @Bind(R.id.personal_main_page_trade)
-    TextView personalMainPageTrade;
+    TextView personalMainPageTrade;//行业
     @Bind(R.id.personal_main_page_experience)
-    TextView personalMainPageExperience;
+    TextView personalMainPageExperience;//工作年限
     @Bind(R.id.personal_main_page_askAnswer)
-    TextView personalMainPageAskAnswer;
+    TextView personalMainPageAskAnswer;//问答
     @Bind(R.id.personal_main_page_interview)
-    TextView personalMainPageInterview;
+    TextView personalMainPageInterview;//访谈
     @Bind(R.id.personal_main_page_opinion)
-    TextView personalMainPageOpinion;
+    TextView personalMainPageOpinion;//观点
     @Bind(R.id.personal_main_page_introduction)
-    TextView personalMainPageIntroduction;
+    TextView personalMainPageIntroduction;//个人简介
     @Bind(R.id.scrollview)
     NestedScrollView scrollview;
+
+    private PersonalUserHomeEntity data;
+    private PageDataSubscriberOnNext<PersonalUserHomeEntity> subscriber;
+
+    private int uid = 25;
 
     public static PersonalMainPageFragment newInstance() {
         Bundle args = new Bundle();
@@ -75,9 +87,42 @@ public class PersonalMainPageFragment extends BaseBackFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_personal_main_page, container, false);
         ButterKnife.bind(this, view);
-        initToolbarNav(toolbar);
-        toolbar.setTitle("他的个人主页");
+        httpRequestData();
         return view;
+    }
+
+    private void httpRequestData() {
+        subscriber = new PageDataSubscriberOnNext<PersonalUserHomeEntity>() {
+            @Override
+            public void onNext(PersonalUserHomeEntity entity) {
+                //接口请求成功后处理
+                data = entity;
+                initView(null);
+
+            }
+        };
+
+        MineDataHttpRequest.getInstance(mActivity).getPersonalUserHome(new ProgressSubscriber(subscriber, mActivity),uid);
+    }
+
+    private void initView(View view) {
+        personalMainPageName.setText(data.getNickname());//名字
+        personalMainPageTitle.setText(data.getAbilityName());//职位
+        personalMainPageCompany.setText(data.getCompanyName());//公司
+        personalMainPageTrade.setText(data.getIndustryName());//行业
+        personalMainPageExperience.setText(data.getExperience());//工作年限
+        Glide.with(mActivity).load(data.getAvatar())//头像
+                .crossFade()
+                .fitCenter()
+                .placeholder(R.drawable.loading_normal_icon)
+                .transform(new GlideCircleTransform(mActivity))
+                .into(personalMainPagePersonalInfo);
+
+        initToolbar();
+    }
+    private void initToolbar() {
+        initToolbarNav(toolbar);
+        toolbar.setTitle(data.getNickname()+"的主页");
     }
 
     @Override

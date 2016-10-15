@@ -8,6 +8,7 @@ import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
+import com.tripint.intersight.entity.article.ArticlesEntity;
 import com.tripint.intersight.entity.common.CommonResponEntity;
 import com.tripint.intersight.entity.user.ChooseEntity;
 import com.tripint.intersight.entity.user.LoginEntity;
@@ -64,7 +65,7 @@ public interface BaseDataService {
     //忘记密码
     @FormUrlEncoded
     @POST("password/forget")
-    Observable<BaseResponse<ForgetPasswordEntity>> postForgetpassword(@Field("mobile") String mobile);
+    Observable<BaseResponse<CodeDataEntity>> postPasswordForget(@Field("email") String email);
 
     //重置密码
     @POST("password/reset")
@@ -118,4 +119,12 @@ public interface BaseDataService {
                                                                 @Field("code") String code,
                                                                 @Field("password") String password,
                                                                 @Field("action") String action);
+    //文章（flipview）
+    @GET("articles")
+    Observable<BaseResponse<ArticlesEntity>> getArticles(
+            @Query("page") int page,
+            @Query("size") int size,
+            @Query("type") int type
+            );
+
 }

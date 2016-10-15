@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Eric on 16/9/27.
  */
-@JsonIgnoreProperties
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ArticleBannerEntity implements Serializable {
 
 

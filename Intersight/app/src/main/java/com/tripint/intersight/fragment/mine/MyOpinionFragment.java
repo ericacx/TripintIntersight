@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +52,7 @@ public class MyOpinionFragment extends BaseBackFragment {
 
     private PageDataSubscriberOnNext<BasePageableResponse<MineFollowPointEntity>> subscriber;
 
-    private BasePageableResponse<MineFollowPointEntity> data;
+    private BasePageableResponse<MineFollowPointEntity> data = new BasePageableResponse<MineFollowPointEntity>();
 
     private int tab;
 
@@ -82,6 +83,7 @@ public class MyOpinionFragment extends BaseBackFragment {
             public void onNext(BasePageableResponse<MineFollowPointEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
+                Log.e("tag", String.valueOf(entity.getTotal()));
                 initView(null);
                 initAdapter(tab);
             }
