@@ -3,7 +3,9 @@ package com.tripint.intersight.fragment.mine;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -35,7 +37,7 @@ import butterknife.OnClick;
  * 我的观点页面
  * A simple {@link Fragment} subclass.
  */
-public class MyOpinionFragment extends BaseBackFragment {
+public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
 
 
     @Bind(R.id.toolbar)
@@ -46,7 +48,16 @@ public class MyOpinionFragment extends BaseBackFragment {
     TextView btnMyCommonHeaderRight;
     @Bind(R.id.recycler_view_main)
     RecyclerView mRecyclerView;
+    @Bind(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
+    private final int PAGE_SIZE = 10;
+
+    private int TOTAL_COUNTER = 0;
+
+    private int mCurrentCounter = 0;
+
+    List<MineMultipleItemModel> models = new ArrayList<>();
 
     private MineCommonMultipleAdapter mAdapter;
 
@@ -73,7 +84,13 @@ public class MyOpinionFragment extends BaseBackFragment {
         View view = inflater.inflate(R.layout.fragment_my_opinion, container, false);
         ButterKnife.bind(this, view);
         setTab(0);
+        initToolbar();
         return view;
+    }
+
+    private void initToolbar() {
+        initToolbarNav(toolbar);
+        toolbar.setTitle("我的观点");
     }
 
 
@@ -89,7 +106,7 @@ public class MyOpinionFragment extends BaseBackFragment {
             }
         };
 
-        MineDataHttpRequest.getInstance(mActivity).getMyFollowPoint(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
+        MineDataHttpRequest.getInstance(mActivity).getMyFollowPoint(new ProgressSubscriber(subscriber, mActivity), type, 1);
     }
 
 
@@ -122,29 +139,13 @@ public class MyOpinionFragment extends BaseBackFragment {
         httpRequestData(tab);
     }
 
-
-    protected void initView(View view) {
-        initToolbarNav(toolbar);
-        toolbar.setTitle("我的观点");
-        mRecyclerView.setHasFixedSize(true);
-    }
-
     private void initAdapter(int tab) {
 
-        List<MineMultipleItemModel> models = new ArrayList<>();
-
-        int type = tab == 0 ? MineMultipleItemModel.MY_OPTION : MineMultipleItemModel.MY_OPTION_FOLLOW;
-        for (MineFollowPointEntity entiry : data.getLists()) {
-
-            models.add(new MineMultipleItemModel(type, entiry));
-        }
-
-        final GridLayoutManager layoutManager = new GridLayoutManager(mActivity, 1);
-        mRecyclerView.setLayoutManager(layoutManager);
-
+        initData();
         mAdapter = new MineCommonMultipleAdapter(models);
         mAdapter.openLoadAnimation();
-
+        mAdapter.openLoadMore(PAGE_SIZE);
+        mAdapter.setOnLoadMoreListener(this);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
@@ -154,7 +155,7 @@ public class MyOpinionFragment extends BaseBackFragment {
 //                EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity)));
             }
         });
-
+        mAdapter.setLoadingView(getLoadMoreView());
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -162,5 +163,50 @@ public class MyOpinionFragment extends BaseBackFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    protected void initView(View view) {
+        swipeRefreshLayout.setOnRefreshListener(this);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    @Override
+    public void onRefresh() {
+        initData();
+        mAdapter.setNewData(models);
+        mAdapter.openLoadMore(PAGE_SIZE);
+        mAdapter.removeAllFooterView();
+        mCurrentCounter = PAGE_SIZE;
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        mRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mCurrentCounter >= TOTAL_COUNTER) {
+                    mAdapter.loadComplete();
+                } else {
+                    initData();
+                    mAdapter.addData(models);
+                    mCurrentCounter = mAdapter.getData().size();
+                }
+            }
+        }, 200);
+    }
+
+    private View getLoadMoreView() {
+        final View customLoading = LayoutInflater.from(mActivity).inflate(R.layout.common_loading, (ViewGroup) mRecyclerView.getParent(), false);
+        return customLoading;
+    }
+
+    private void initData(){
+        int type = tab == 0 ? MineMultipleItemModel.MY_OPTION : MineMultipleItemModel.MY_OPTION_FOLLOW;
+        for (MineFollowPointEntity entiry : data.getLists()) {
+
+            models.add(new MineMultipleItemModel(type, entiry));
+        }
     }
 }

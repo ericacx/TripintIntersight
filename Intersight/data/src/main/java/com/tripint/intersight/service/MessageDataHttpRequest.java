@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.message.MessageDataEntity;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -35,9 +36,9 @@ public class MessageDataHttpRequest extends HttpRequest {
      *
      * @param subscriber
      */
-    public void getNewMessage(Subscriber<BasePageableResponse<DiscussEntiry>> subscriber, int page, int size) {
-        Observable observable = service.getNewMessage(page, size)
-                .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
+    public void getNewMessage(Subscriber<BasePageableResponse<MessageDataEntity>> subscriber, int page) {
+        Observable observable = service.getNewMessage(page, DEFAULT_PAGE_SIZE)
+                .map(new HttpResultFunc<BasePageableResponse<MessageDataEntity>>());
         toSubscribe(observable, subscriber);
     }
 
@@ -46,9 +47,9 @@ public class MessageDataHttpRequest extends HttpRequest {
      *
      * @param subscriber
      */
-    public void getInterviewMessage(Subscriber<BasePageableResponse<DiscussEntiry>> subscriber, int page, int size) {
-        Observable observable = service.getInterviewMessage(page, size)
-                .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
+    public void getInterviewMessage(Subscriber<BasePageableResponse<MessageDataEntity>> subscriber, int page) {
+        Observable observable = service.getInterviewMessage(page, DEFAULT_PAGE_SIZE)
+                .map(new HttpResultFunc<BasePageableResponse<MessageDataEntity>>());
         toSubscribe(observable, subscriber);
     }
 
@@ -57,9 +58,9 @@ public class MessageDataHttpRequest extends HttpRequest {
      *
      * @param subscriber
      */
-    public void getAskAnswerMessage(Subscriber<BasePageableResponse<DiscussEntiry>> subscriber, int page, int size) {
-        Observable observable = service.getAskAnswerMessage(page, size)
-                .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
+    public void getAskAnswerMessage(Subscriber<BasePageableResponse<MessageDataEntity>> subscriber, int page) {
+        Observable observable = service.getAskAnswerMessage(page, DEFAULT_PAGE_SIZE)
+                .map(new HttpResultFunc<BasePageableResponse<MessageDataEntity>>());
         toSubscribe(observable, subscriber);
     }
 
@@ -68,9 +69,9 @@ public class MessageDataHttpRequest extends HttpRequest {
      *
      * @param subscriber
      */
-    public void getCommentAgreeMessage(Subscriber<BasePageableResponse<DiscussEntiry>> subscriber, int page, int size) {
-        Observable observable = service.getCommentAgreeMessage(page, size)
-                .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
+    public void getCommentPraiseMessage(Subscriber<BasePageableResponse<MessageDataEntity>> subscriber, int page) {
+        Observable observable = service.getCommentPraiseMessage(page, DEFAULT_PAGE_SIZE)
+                .map(new HttpResultFunc<BasePageableResponse<MessageDataEntity>>());
         toSubscribe(observable, subscriber);
     }
 
@@ -79,9 +80,9 @@ public class MessageDataHttpRequest extends HttpRequest {
      *
      * @param subscriber
      */
-    public void getSystemMessage(Subscriber<BasePageableResponse<DiscussEntiry>> subscriber, int page, int size) {
-        Observable observable = service.getSystemMessage(page, size)
-                .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
+    public void getSystemMessage(Subscriber<BasePageableResponse<MessageDataEntity>> subscriber, int page) {
+        Observable observable = service.getSystemMessage(page, DEFAULT_PAGE_SIZE)
+                .map(new HttpResultFunc<BasePageableResponse<MessageDataEntity>>());
         toSubscribe(observable, subscriber);
     }
 }

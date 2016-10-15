@@ -54,7 +54,8 @@ public interface DiscussDataService {
 
     //提问
     @GET("interview")
-    Observable<BaseResponse<BasePageableResponse<InterviewEntity>>> getInterview(@Query("page") int page, @Query("size") int size,
+    Observable<BaseResponse<BasePageableResponse<InterviewEntity>>> getInterview(@Query("page") int page,
+                                                                                 @Query("size") int size,
                                                                                  @Query("industry") String industry,
                                                                                  @Query("position") String position,
                                                                                  @Query("company") String company);

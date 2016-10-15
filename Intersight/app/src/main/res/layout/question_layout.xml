@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/dialog_question_edit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_26_80"
+        android:layout_margin="30dp"
+        android:background="@drawable/bg_corners_text"
+        android:gravity="top"
+        android:imeOptions="actionDone"
+        android:inputType="textMultiLine"
+        android:padding="@dimen/spacing"
+        android:text=""
+        android:textColor="@color/line"
+        android:textSize="@dimen/text_size_14" />
+</LinearLayout>

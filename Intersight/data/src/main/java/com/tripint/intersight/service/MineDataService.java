@@ -4,6 +4,7 @@ package com.tripint.intersight.service;
 import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.BaseResponse;
 import com.tripint.intersight.entity.CodeDataEntity;
+import com.tripint.intersight.entity.PersonalUserInfoEntity;
 import com.tripint.intersight.entity.mine.AccountDetailEntity;
 import com.tripint.intersight.entity.mine.AskAnswerEntity;
 import com.tripint.intersight.entity.mine.FocusEntity;
@@ -113,5 +114,17 @@ public interface MineDataService {
             @Field("code") int code
     );
 
+    //向他人提问
+    @FormUrlEncoded
+    @POST("otherQuestion")
+    Observable<BaseResponse<CodeDataEntity>> postOtherQuestion(
+            @Field("from_uid") int from_uid,
+            @Field("content") String content
+    );
 
+    //向他人约访
+    @POST("otherInterview")
+    Observable<BaseResponse<CodeDataEntity>> postOtherInterview(
+            @Body PersonalUserInfoEntity personalUserInfoEntity
+            );
 }

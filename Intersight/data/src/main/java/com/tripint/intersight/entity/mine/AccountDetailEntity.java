@@ -12,8 +12,8 @@ public class AccountDetailEntity implements Serializable {
 
     private int id;
     private String title;//标题
-    private int amountTotal;//总数
-    private String payLastTime;//时间
+    private int amountTotal;//金额数
+    private int payLastTime;//时间
     private int type;//类型:0回答,1提问 2约访 3充值
     private int status;//状态:0等待对方回答 1:等待访谈完成 2 没有东西
 
@@ -41,11 +41,11 @@ public class AccountDetailEntity implements Serializable {
         this.amountTotal = amountTotal;
     }
 
-    public String getPayLastTime() {
+    public int getPayLastTime() {
         return payLastTime;
     }
 
-    public void setPayLastTime(String payLastTime) {
+    public void setPayLastTime(int payLastTime) {
         this.payLastTime = payLastTime;
     }
 

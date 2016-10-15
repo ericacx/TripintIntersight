@@ -49,7 +49,7 @@ public class MineMultipleItemModel implements MultiItemEntity {
     private FocusEntity focusEntity;//关注
     private MessageDataEntity messageDataEntity;//新消息,访谈消息,问答消息
     private CommentPraiseEntity commentPraiseEntity;//评论/赞消息
-    private AccountDetailEntity accountDetailEntity;
+    private AccountDetailEntity accountDetailEntity;//账户明细
 
     public MineMultipleItemModel(int itemType, AskAnswerEntity model) {//问答
         this.itemType = itemType;

@@ -3,9 +3,12 @@ package com.tripint.intersight.fragment.mine.message;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +16,16 @@ import android.widget.TextView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.MineCommonMultipleAdapter;
+import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.message.MessageDataEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
+import com.tripint.intersight.service.MessageDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
+import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -34,7 +40,7 @@ import butterknife.OnClick;
  * 新消息提醒页面
  * A simple {@link Fragment} subclass.
  */
-public class NewMessageFragment extends BaseBackFragment {
+public class NewMessageFragment extends BaseBackFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
 
 
     @Bind(R.id.toolbar)
@@ -49,11 +55,21 @@ public class NewMessageFragment extends BaseBackFragment {
     TextView newMessageTextViewCommentAgree;
     @Bind(R.id.new_message_text_view_system_message)
     TextView newMessageTextViewSystemMessage;
+    @Bind(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    private final int PAGE_SIZE = 10;
+
+    private int TOTAL_COUNTER = 0;
+
+    private int mCurrentCounter = 0;
+
+    List<MineMultipleItemModel> models = new ArrayList<>();
 
     private MineCommonMultipleAdapter mAdapter;
 
-    private PageDataSubscriberOnNext<List<MessageDataEntity>> subscriber;
-    private List<MessageDataEntity> data;
+    private PageDataSubscriberOnNext<BasePageableResponse<MessageDataEntity>> subscriber;
+    private BasePageableResponse<MessageDataEntity> data = new BasePageableResponse<MessageDataEntity>();
 
     public static NewMessageFragment newInstance() {
         Bundle args = new Bundle();
@@ -77,15 +93,17 @@ public class NewMessageFragment extends BaseBackFragment {
      * 请求数据
      */
     private void httpRequestData() {
-        subscriber = new PageDataSubscriberOnNext<List<MessageDataEntity>>() {
+        subscriber = new PageDataSubscriberOnNext<BasePageableResponse<MessageDataEntity>>() {
             @Override
-            public void onNext(List<MessageDataEntity> messageDataEntities) {
-                data = messageDataEntities;
+            public void onNext(BasePageableResponse<MessageDataEntity> entity) {
+                data = entity;
+                Log.e("newmessage", String.valueOf(entity.getTotal()));
                 initView(null);
                 //适配数据
                 initAdapter();
             }
         };
+        MessageDataHttpRequest.getInstance(mActivity).getNewMessage(new ProgressSubscriber(subscriber, mActivity),1);
     }
 
     private void initToolbar() {
@@ -93,29 +111,16 @@ public class NewMessageFragment extends BaseBackFragment {
         toolbar.setTitle("新消息提醒");
     }
 
-    protected void initView(View view) {
-        mRecyclerView.setHasFixedSize(true);
-    }
-
     /**
      * 适配数据
      */
     private void initAdapter() {
 
-        List<MineMultipleItemModel> models = new ArrayList<>();
-
-        int type = MineMultipleItemModel.MY_MESSAGE_NEW;
-
-        for (MessageDataEntity entiry : data) {
-            models.add(new MineMultipleItemModel(type, entiry));
-        }
-
-        final GridLayoutManager layoutManager = new GridLayoutManager(mActivity, 1);
-        mRecyclerView.setLayoutManager(layoutManager);
-
+        initData();
         mAdapter = new MineCommonMultipleAdapter(models);
         mAdapter.openLoadAnimation();
-
+        mAdapter.openLoadMore(PAGE_SIZE);
+        mAdapter.setOnLoadMoreListener(this);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
@@ -125,7 +130,7 @@ public class NewMessageFragment extends BaseBackFragment {
 //                EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity)));
             }
         });
-
+        mAdapter.setLoadingView(getLoadMoreView());
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -151,6 +156,52 @@ public class NewMessageFragment extends BaseBackFragment {
             case R.id.new_message_text_view_system_message://系统消息
                 EventBus.getDefault().post(new StartFragmentEvent(SystemMessageFragment.newInstance()));
                 break;
+        }
+    }
+
+
+    protected void initView(View view) {
+        swipeRefreshLayout.setOnRefreshListener(this);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    @Override
+    public void onRefresh() {
+        initData();
+        mAdapter.setNewData(models);
+        mAdapter.openLoadMore(PAGE_SIZE);
+        mAdapter.removeAllFooterView();
+        mCurrentCounter = PAGE_SIZE;
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        mRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mCurrentCounter >= TOTAL_COUNTER) {
+                    mAdapter.loadComplete();
+                } else {
+                    initData();
+                    mAdapter.addData(models);
+                    mCurrentCounter = mAdapter.getData().size();
+                }
+            }
+        }, 200);
+    }
+
+    private View getLoadMoreView() {
+        final View customLoading = LayoutInflater.from(mActivity).inflate(R.layout.common_loading, (ViewGroup) mRecyclerView.getParent(), false);
+        return customLoading;
+    }
+
+    private void initData(){
+        int type = MineMultipleItemModel.MY_MESSAGE_NEW;
+
+        for (MessageDataEntity entity : data.getLists()) {
+            models.add(new MineMultipleItemModel(type, entity));
         }
     }
 }

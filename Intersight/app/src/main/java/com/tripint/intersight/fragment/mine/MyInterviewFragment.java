@@ -2,7 +2,9 @@ package com.tripint.intersight.fragment.mine;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -32,13 +34,22 @@ import butterknife.ButterKnife;
  * 我的访谈
  * A simple {@link Fragment} subclass.
  */
-public class MyInterviewFragment extends BaseBackFragment {
+public class MyInterviewFragment extends BaseBackFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.myInterviewRecyclerView)
     RecyclerView mRecyclerView;
+    @Bind(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
+    private final int PAGE_SIZE = 10;
+
+    private int TOTAL_COUNTER = 0;
+
+    private int mCurrentCounter = 0;
+
+    List<MineMultipleItemModel> models = new ArrayList<>();
     private MineCommonMultipleAdapter mAdapter;
 
     private PageDataSubscriberOnNext<BasePageableResponse<InterviewEntity>> subscriber;
@@ -76,7 +87,7 @@ public class MyInterviewFragment extends BaseBackFragment {
             }
         };
 
-        MineDataHttpRequest.getInstance(mActivity).getMyInterview(new ProgressSubscriber(subscriber, mActivity), 1, 10);
+        MineDataHttpRequest.getInstance(mActivity).getMyInterview(new ProgressSubscriber(subscriber, mActivity), 1);
     }
 
     private void initToolbar() {
@@ -84,26 +95,13 @@ public class MyInterviewFragment extends BaseBackFragment {
         toolbar.setTitle("我的访谈");
     }
 
-    protected void initView(View view) {
-        mRecyclerView.setHasFixedSize(true);
-    }
-
     private void initAdapter() {
 
-        List<MineMultipleItemModel> models = new ArrayList<>();
-
-        int type = MineMultipleItemModel.MY_INTERVIEW;
-
-        for (InterviewEntity entiry : data.getLists()) {
-            models.add(new MineMultipleItemModel(type, entiry));
-        }
-
-        final GridLayoutManager layoutManager = new GridLayoutManager(mActivity, 1);
-        mRecyclerView.setLayoutManager(layoutManager);
-
+        initData();
         mAdapter = new MineCommonMultipleAdapter(models);
         mAdapter.openLoadAnimation();
-
+        mAdapter.openLoadMore(PAGE_SIZE);
+        mAdapter.setOnLoadMoreListener(this);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
@@ -113,7 +111,7 @@ public class MyInterviewFragment extends BaseBackFragment {
                 EventBus.getDefault().post(new StartFragmentEvent(MyInterviewDetailFragment.newInstance(entity)));
             }
         });
-
+        mAdapter.setLoadingView(getLoadMoreView());
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -123,4 +121,49 @@ public class MyInterviewFragment extends BaseBackFragment {
         ButterKnife.unbind(this);
     }
 
+    protected void initView(View view) {
+        swipeRefreshLayout.setOnRefreshListener(this);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    @Override
+    public void onRefresh() {
+        initData();
+        mAdapter.setNewData(models);
+        mAdapter.openLoadMore(PAGE_SIZE);
+        mAdapter.removeAllFooterView();
+        mCurrentCounter = PAGE_SIZE;
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        mRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mCurrentCounter >= TOTAL_COUNTER) {
+                    mAdapter.loadComplete();
+                } else {
+                    initData();
+                    mAdapter.addData(models);
+                    mCurrentCounter = mAdapter.getData().size();
+                }
+            }
+        }, 200);
+    }
+
+    private View getLoadMoreView() {
+        final View customLoading = LayoutInflater.from(mActivity).inflate(R.layout.common_loading, (ViewGroup) mRecyclerView.getParent(), false);
+        return customLoading;
+    }
+
+    private void initData(){
+        int type = MineMultipleItemModel.MY_INTERVIEW;
+
+        for (InterviewEntity entiry : data.getLists()) {
+            models.add(new MineMultipleItemModel(type, entiry));
+        }
+
+    }
 }

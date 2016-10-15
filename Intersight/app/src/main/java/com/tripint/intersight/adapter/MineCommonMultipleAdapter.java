@@ -20,6 +20,7 @@ import com.tripint.intersight.model.MineMultipleItemModel;
 
 import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
 
+import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
 /**
@@ -127,7 +128,7 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
 
                 if (item.getAskAnswerEntity() != null) {
                     helper
-                            .setText(R.id.ask_textView_mine_title_main, item.getAskAnswerEntity().getAction())//我的提问
+                            .setText(R.id.ask_textView_mine_title_main, StringUtils.null2Length0(item.getAskAnswerEntity().getAction()))//我的提问
                             .setText(R.id.ask_textView_mine_title_main_status, StringUtils.null2Length0(item.getAskAnswerEntity().getStatus()))//已回答
                             .setText(R.id.ask_textView_mine_sub_title, StringUtils.null2Length0(item.getAskAnswerEntity().getContent()))//标题
                             .setText(R.id.ask_text_view_my_item_time, StringUtils.null2Length0(item.getAskAnswerEntity().getCreateAt()))//时间
@@ -255,7 +256,45 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                 break;
 
             case MineMultipleItemModel.MY_ACCOUNT_DETAIL://账户明细
+                if (item.getAccountDetailEntity() != null){
 
+                    int type = item.getAccountDetailEntity().getType();//类型:0回答,1提问 2约访 3充值
+                    switch (type){
+                        case 0:
+                            helper.setText(R.id.accountDetailItemTvQuestionStatus,"回答:");
+                            helper.setImageResource(R.id.accountDetailItemIvIcon,R.mipmap.iconfont_wenda);
+                            break;
+                        case 1:
+                            helper.setText(R.id.accountDetailItemTvQuestionStatus,"提问:");
+                            helper.setImageResource(R.id.accountDetailItemIvIcon,R.mipmap.iconfont_wenda);
+                            break;
+                        case 2:
+                            helper.setText(R.id.accountDetailItemTvQuestionStatus,"约访:");
+                            helper.setImageResource(R.id.accountDetailItemIvIcon,R.mipmap.iconfont_fangtan);
+                            break;
+                        case 3:
+                            helper.setText(R.id.accountDetailItemTvQuestionStatus,"充值:");
+                            helper.setImageResource(R.id.accountDetailItemIvIcon,R.mipmap.iconfont_yu_e);
+                            break;
+                    }
+
+                    int status = item.getAccountDetailEntity().getStatus();//状态:0等待对方回答 1:等待访谈完成 2 没有东西
+                    switch (status){
+                        case 0:
+                            helper.setText(R.id.accountDetailItemTvStatus,"等待对方回答");
+                            break;
+                        case 1:
+                            helper.setText(R.id.accountDetailItemTvStatus,"等待访谈完成");
+                            break;
+                        case 2:
+                            helper.setText(R.id.accountDetailItemTvStatus,"");
+                            break;
+                    }
+                    helper
+                            .setText(R.id.accountDetailItemTvQuestion,StringUtils.null2Length0(item.getAccountDetailEntity().getTitle()))
+                            .setText(R.id.accountDetailItemTvMoney,item.getAccountDetailEntity().getAmountTotal()+"")
+                            .setText(R.id.accountDetailItemTvDate,item.getAccountDetailEntity().getPayLastTime()+"");
+                }
                 break;
         }
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.entity.CodeDataEntity;
+import com.tripint.intersight.entity.PersonalUserInfoEntity;
 import com.tripint.intersight.entity.mine.AccountDetailEntity;
 import com.tripint.intersight.entity.mine.AskAnswerEntity;
 import com.tripint.intersight.entity.mine.FocusEntity;
@@ -83,18 +84,43 @@ public class MineDataHttpRequest extends HttpRequest {
         toSubscribe(observable, subscriber);
     }
 
+
+    /**
+     * 用于获取向他提问的接口
+     *
+     * @param subscriber
+     */
+    public void postOtherQuestion(Subscriber<CodeDataEntity> subscriber,int from_uid,String content) {
+        Observable observable = service.postOtherQuestion(from_uid,content)
+                .map(new HttpResultFunc<CodeDataEntity>());
+        toSubscribe(observable, subscriber);
+    }
+
+
+    /**
+     * 用于获取向他提问的接口
+     *
+     * @param subscriber
+     */
+    public void postOtherInterview(Subscriber<CodeDataEntity> subscriber
+            ,PersonalUserInfoEntity personalUserInfo) {
+        Observable observable = service.postOtherInterview(personalUserInfo)
+                .map(new HttpResultFunc<CodeDataEntity>());
+        toSubscribe(observable, subscriber);
+    }
+
     /**
      * 个人----我的观点接口
      *
      * @param subscriber
      */
-    public void getMyFollowPoint(Subscriber<List<MineFollowPointEntity>> subscriber, int type, int page, int size) {
+    public void getMyFollowPoint(Subscriber<BasePageableResponse<MineFollowPointEntity>> subscriber, int type, int page) {
         if (type == option_type_my) {
-            Observable observable = service.getMyPointList(page, size)
+            Observable observable = service.getMyPointList(page, DEFAULT_PAGE_SIZE)
                     .map(new HttpResultFunc<BasePageableResponse<MineFollowPointEntity>>());
             toSubscribe(observable, subscriber);
         } else if (type == option_type_my_follow) {
-            Observable observable = service.getMyFollowPointList(page, size)
+            Observable observable = service.getMyFollowPointList(page, DEFAULT_PAGE_SIZE)
                     .map(new HttpResultFunc<BasePageableResponse<MineFollowPointEntity>>());
             toSubscribe(observable, subscriber);
         }
@@ -105,13 +131,13 @@ public class MineDataHttpRequest extends HttpRequest {
      *
      * @param subscriber
      */
-    public void getMyFocus(Subscriber<List<FocusEntity>> subscriber, int type, int page, int size) {
+    public void getMyFocus(Subscriber<List<FocusEntity>> subscriber, int type, int page) {
         if (type == option_type_my) {//关注
-            Observable observable = service.getMyFollow(page, size)
+            Observable observable = service.getMyFollow(page, DEFAULT_PAGE_SIZE)
                     .map(new HttpResultFunc<BasePageableResponse<FocusEntity>>());
             toSubscribe(observable, subscriber);
         } else if (type == option_type_my_follow) {//被关注
-            Observable observable = service.getMyByFollow(page, size)
+            Observable observable = service.getMyByFollow(page, DEFAULT_PAGE_SIZE)
                     .map(new HttpResultFunc<BasePageableResponse<FocusEntity>>());
             toSubscribe(observable, subscriber);
         }
@@ -123,13 +149,13 @@ public class MineDataHttpRequest extends HttpRequest {
      *
      * @param subscriber
      */
-    public void getMyAskAnswer(Subscriber<BasePageableResponse<AskAnswerEntity>> subscriber, int type, int page, int size) {
+    public void getMyAskAnswer(Subscriber<BasePageableResponse<AskAnswerEntity>> subscriber, int type, int page) {
         if (type == option_type_my) {//关注
-            Observable observable = service.getMyAskAnswer(page, size)
+            Observable observable = service.getMyAskAnswer(page, DEFAULT_PAGE_SIZE)
                     .map(new HttpResultFunc<BasePageableResponse<AskAnswerEntity>>());
             toSubscribe(observable, subscriber);
         } else if (type == option_type_my_follow) {//被关注
-            Observable observable = service.getMyFocusedAskAnswer(page, size)
+            Observable observable = service.getMyFocusedAskAnswer(page, DEFAULT_PAGE_SIZE)
                     .map(new HttpResultFunc<BasePageableResponse<AskAnswerEntity>>());
             toSubscribe(observable, subscriber);
         }
@@ -140,8 +166,8 @@ public class MineDataHttpRequest extends HttpRequest {
      *
      * @param subscriber
      */
-    public void getMyInterview(Subscriber<BasePageableResponse<InterviewEntity>> subscriber, int page, int size) {
-        Observable observable = service.getMyInterview(page, size)
+    public void getMyInterview(Subscriber<BasePageableResponse<InterviewEntity>> subscriber, int page) {
+        Observable observable = service.getMyInterview(page, DEFAULT_PAGE_SIZE)
                 .map(new HttpResultFunc<BasePageableResponse<InterviewEntity>>());
         toSubscribe(observable, subscriber);
     }
@@ -151,8 +177,8 @@ public class MineDataHttpRequest extends HttpRequest {
      *
      * @param subscriber
      */
-    public void getAccountDetail(Subscriber<BasePageableResponse<AccountDetailEntity>> subscriber, int page, int size) {
-        Observable observable = service.getAccountDetail(page, size)
+    public void getAccountDetail(Subscriber<BasePageableResponse<AccountDetailEntity>> subscriber, int page) {
+        Observable observable = service.getAccountDetail(page, DEFAULT_PAGE_SIZE)
                 .map(new HttpResultFunc<BasePageableResponse<AccountDetailEntity>>());
         toSubscribe(observable, subscriber);
     }

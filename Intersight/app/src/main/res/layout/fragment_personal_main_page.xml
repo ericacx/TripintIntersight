@@ -25,7 +25,7 @@
             android:text="10.00向他提问"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_15"
-            android:background="@drawable/btn_shape_blue"
+            android:background="@drawable/btn_shape2"
             android:layout_marginLeft="@dimen/spacing_02"
             android:layout_width="0dp"
             android:layout_weight="1"

@@ -1,10 +1,15 @@
 package com.tripint.intersight.fragment.personal;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +20,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.tripint.intersight.R;
+import com.tripint.intersight.common.utils.DialogPlusUtils;
+import com.tripint.intersight.common.utils.StringUtils;
+import com.tripint.intersight.common.utils.ToastUtil;
+import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
+import com.tripint.intersight.common.widget.dialogplus.ViewHolder;
+import com.tripint.intersight.entity.CodeDataEntity;
+import com.tripint.intersight.entity.PersonalUserInfoEntity;
 import com.tripint.intersight.entity.mine.PersonalUserHomeEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.PersonalInfoFragment;
@@ -72,6 +84,9 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     private PersonalUserHomeEntity data;
     private PageDataSubscriberOnNext<PersonalUserHomeEntity> subscriber;
 
+    private CodeDataEntity codeDataEntity;
+    private PageDataSubscriberOnNext<CodeDataEntity> subscriberCode;
+
     private int uid = 25;
 
     public static PersonalMainPageFragment newInstance() {
@@ -92,6 +107,14 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     }
 
     private void httpRequestData() {
+
+        subscriberCode = new PageDataSubscriberOnNext<CodeDataEntity>() {
+            @Override
+            public void onNext(CodeDataEntity entity) {
+                codeDataEntity = entity;
+            }
+        };
+
         subscriber = new PageDataSubscriberOnNext<PersonalUserHomeEntity>() {
             @Override
             public void onNext(PersonalUserHomeEntity entity) {
@@ -136,8 +159,72 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.personal_main_page_button_ask://向他提问
+                final DialogPlus dialogPlus = DialogPlusUtils.Builder(mActivity)
+                        .setHolder(DialogPlusUtils.VIEW, new ViewHolder(R.layout.question_layout))
+                        .setIsHeader(false)
+                        .setIsFooter(true)
+                        .setIsExpanded(false)
+                        .setCloseName("取消")
+                        .setOnCloseListener(new DialogPlusUtils.OnCloseListener() {
+                            @Override
+                            public void closeListener(DialogPlus dialog, View view) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setConfirmName("确认")
+                        .setOnConfirmListener(new DialogPlusUtils.OnConfirmListener() {
+                            @Override
+                            public void confirmListener(DialogPlus dialog, View view) {
+
+                                EditText editText = ((EditText) dialog.findViewById(R.id.dialog_question_edit));
+                                if (TextUtils.isEmpty(editText.getText().toString().trim())){
+                                    ToastUtil.showToast(mActivity,"输入的内容不能为空");
+                                } else {
+                                    MineDataHttpRequest.getInstance(mActivity).postOtherQuestion(
+                                            new ProgressSubscriber(subscriberCode, mActivity)
+                                            ,uid,editText.getText().toString().trim()
+                                    );
+                                    dialog.dismiss();
+                                }
+                            }
+                        })
+                        .setGravity(Gravity.BOTTOM)
+                        .showCompleteDialog();
+
                 break;
             case R.id.personal_main_page_button_interview://约他访谈
+                final DialogPlus dialog = DialogPlusUtils.Builder(mActivity)
+                        .setHolder(DialogPlusUtils.VIEW, new ViewHolder(R.layout.interview_layout))
+                        .setIsHeader(false)
+                        .setIsFooter(true)
+                        .setIsExpanded(false)
+                        .setCloseName("取消")
+                        .setOnCloseListener(new DialogPlusUtils.OnCloseListener() {
+                            @Override
+                            public void closeListener(DialogPlus dialog, View view) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setConfirmName("确认")
+                        .setOnConfirmListener(new DialogPlusUtils.OnConfirmListener() {
+                            @Override
+                            public void confirmListener(DialogPlus dialog, View view) {
+
+                                EditText editText = ((EditText) dialog.findViewById(R.id.dialog_question_edit));
+                                if (TextUtils.isEmpty(editText.getText().toString().trim())){
+                                    ToastUtil.showToast(mActivity,"输入的内容不能为空");
+                                } else {
+                                    PersonalUserInfoEntity personalUserInfoEntity = new PersonalUserInfoEntity();
+                                    MineDataHttpRequest.getInstance(mActivity).postOtherInterview(
+                                            new ProgressSubscriber(subscriberCode, mActivity)
+                                            ,personalUserInfoEntity
+                                    );
+                                    dialog.dismiss();
+                                }
+                            }
+                        })
+                        .setGravity(Gravity.BOTTOM)
+                        .showCompleteDialog();
                 break;
             case R.id.personal_main_page_personalInfo://他的个人信息
                 break;

@@ -156,7 +156,7 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
 
             Glide.with(mActivity).load(data.getInterviewEntity().getAvatar())
                     .crossFade()
-//                    .placeholder(R.mipmap.ic_avatar)
+                    .placeholder(R.mipmap.ic_avatar)
                     .transform(new GlideCircleTransform(mActivity))
                     .into(myInterviewDetailAvatar);
         }

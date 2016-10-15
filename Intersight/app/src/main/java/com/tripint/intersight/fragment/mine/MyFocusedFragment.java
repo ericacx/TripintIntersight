@@ -3,9 +3,12 @@ package com.tripint.intersight.fragment.mine;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +37,7 @@ import butterknife.OnClick;
  * 我的关注
  * A simple {@link Fragment} subclass.
  */
-public class MyFocusedFragment extends BaseBackFragment {
+public class MyFocusedFragment extends BaseBackFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
 
 
     @Bind(R.id.toolbar)
@@ -45,10 +48,20 @@ public class MyFocusedFragment extends BaseBackFragment {
     TextView btnMyCommonHeaderRight;
     @Bind(R.id.recycler_view_main)
     RecyclerView mRecyclerView;
+    @Bind(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    private final int PAGE_SIZE = 10;
+
+    private int TOTAL_COUNTER = 0;
+
+    private int mCurrentCounter = 0;
+
+    List<MineMultipleItemModel> models = new ArrayList<>();
 
     private MineCommonMultipleAdapter mAdapter;
     private PageDataSubscriberOnNext<BasePageableResponse<FocusEntity>> subscriber;
-    private BasePageableResponse<FocusEntity> data;
+    private BasePageableResponse<FocusEntity> data = new BasePageableResponse<FocusEntity>();
 
     private int tab;
 
@@ -81,11 +94,12 @@ public class MyFocusedFragment extends BaseBackFragment {
             public void onNext(BasePageableResponse<FocusEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
+                Log.e("myfocus", String.valueOf(entity.getTotal()));
                 initView(null);
                 initAdapter(tab);
             }
         };
-        MineDataHttpRequest.getInstance(mActivity).getMyFocus(new ProgressSubscriber(subscriber, mActivity), type, 1, 10);
+        MineDataHttpRequest.getInstance(mActivity).getMyFocus(new ProgressSubscriber(subscriber, mActivity), type, 1);
     }
 
 
@@ -119,30 +133,14 @@ public class MyFocusedFragment extends BaseBackFragment {
     }
 
 
-    protected void initView(View view) {
-
-        mRecyclerView.setHasFixedSize(true);
-
-
-    }
-
-
     private void initAdapter(int tab) {
 
-        List<MineMultipleItemModel> models = new ArrayList<>();
-
-        int type = tab == 0 ? MineMultipleItemModel.MY_FOCUSE : MineMultipleItemModel.MY_FOCUSE_FOLLOW;
-        for (FocusEntity entity : data.getLists()) {
-
-            models.add(new MineMultipleItemModel(type, entity));
-        }
-
-        final GridLayoutManager layoutManager = new GridLayoutManager(mActivity, 1);
-        mRecyclerView.setLayoutManager(layoutManager);
+        initData();
 
         mAdapter = new MineCommonMultipleAdapter(models);
         mAdapter.openLoadAnimation();
-
+        mAdapter.openLoadMore(PAGE_SIZE);
+        mAdapter.setOnLoadMoreListener(this);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
@@ -152,13 +150,59 @@ public class MyFocusedFragment extends BaseBackFragment {
 //                EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity)));
             }
         });
-
+        mAdapter.setLoadingView(getLoadMoreView());
         mRecyclerView.setAdapter(mAdapter);
     }
+
+    private void initData() {
+        int type = tab == 0 ? MineMultipleItemModel.MY_FOCUSE : MineMultipleItemModel.MY_FOCUSE_FOLLOW;
+        for (FocusEntity entity : data.getLists()) {
+            models.add(new MineMultipleItemModel(type, entity));
+        }
+    }
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
+    protected void initView(View view) {
+        swipeRefreshLayout.setOnRefreshListener(this);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    @Override
+    public void onRefresh() {
+        initData();
+        mAdapter.setNewData(models);
+        mAdapter.openLoadMore(PAGE_SIZE);
+        mAdapter.removeAllFooterView();
+        mCurrentCounter = PAGE_SIZE;
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        mRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mCurrentCounter >= TOTAL_COUNTER) {
+                    mAdapter.loadComplete();
+
+                } else {
+                    initData();
+                    mAdapter.addData(models);
+                    mCurrentCounter = mAdapter.getData().size();
+                }
+            }
+        }, 200);
+    }
+
+    private View getLoadMoreView() {
+        final View customLoading = LayoutInflater.from(mActivity).inflate(R.layout.common_loading, (ViewGroup) mRecyclerView.getParent(), false);
+        return customLoading;
+    }
 }

@@ -3,7 +3,9 @@ package com.tripint.intersight.fragment.mine;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -33,19 +35,28 @@ import butterknife.ButterKnife;
  * 账户明细
  * A simple {@link Fragment} subclass.
  */
-public class AccountDetailFragment extends BaseBackFragment {
+public class AccountDetailFragment extends BaseBackFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
 
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.account_detail_recyclerView)
     RecyclerView mRecyclerView;
+    @Bind(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
+    private final int PAGE_SIZE = 10;
+
+    private int TOTAL_COUNTER = 0;
+
+    private int mCurrentCounter = 0;
+
+    List<MineMultipleItemModel> models = new ArrayList<>();
     private MineCommonMultipleAdapter mAdapter;
 
     private PageDataSubscriberOnNext<BasePageableResponse<AccountDetailEntity>> subscriber;
 
-    private BasePageableResponse<AccountDetailEntity> data;
+    private BasePageableResponse<AccountDetailEntity> data = new BasePageableResponse<AccountDetailEntity>();
 
 
     public static AccountDetailFragment newInstance() {
@@ -77,13 +88,13 @@ public class AccountDetailFragment extends BaseBackFragment {
             public void onNext(BasePageableResponse<AccountDetailEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
-//                Log.e("accountDetail",String.valueOf(entity.getTotal()));
+                Log.e("accountDetail",String.valueOf(entity.getTotal()));
                 initView(null);
                 initAdapter();
             }
         };
 
-        MineDataHttpRequest.getInstance(mActivity).getAccountDetail(new ProgressSubscriber(subscriber, mActivity), 1, 10);
+        MineDataHttpRequest.getInstance(mActivity).getAccountDetail(new ProgressSubscriber(subscriber, mActivity), 1);
     }
 
     /**
@@ -91,20 +102,12 @@ public class AccountDetailFragment extends BaseBackFragment {
      */
     private void initAdapter() {
 
-        List<MineMultipleItemModel> models = new ArrayList<>();
-
-        int type = MineMultipleItemModel.MY_ACCOUNT_DETAIL;
-
-        for (AccountDetailEntity entity : data.getLists()) {
-            models.add(new MineMultipleItemModel(type, entity));
-        }
-
-        final GridLayoutManager layoutManager = new GridLayoutManager(mActivity, 1);
-        mRecyclerView.setLayoutManager(layoutManager);
+        initData();
 
         mAdapter = new MineCommonMultipleAdapter(models);
         mAdapter.openLoadAnimation();
-
+        mAdapter.openLoadMore(PAGE_SIZE);
+        mAdapter.setOnLoadMoreListener(this);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
@@ -112,7 +115,7 @@ public class AccountDetailFragment extends BaseBackFragment {
                 String content = null;
             }
         });
-
+        mAdapter.setLoadingView(getLoadMoreView());
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -121,13 +124,56 @@ public class AccountDetailFragment extends BaseBackFragment {
         initToolbarNav(toolbar);
         toolbar.setTitle("账户明细");
     }
-    protected void initView(View view) {
-        mRecyclerView.setHasFixedSize(true);
-    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    protected void initView(View view) {
+        swipeRefreshLayout.setOnRefreshListener(this);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    @Override
+    public void onRefresh() {
+        initData();
+        mAdapter.setNewData(models);
+        mAdapter.openLoadMore(PAGE_SIZE);
+        mAdapter.removeAllFooterView();
+        mCurrentCounter = PAGE_SIZE;
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        mRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mCurrentCounter >= TOTAL_COUNTER) {
+                    mAdapter.loadComplete();
+
+                } else {
+                    initData();
+                    mAdapter.addData(models);
+                    mCurrentCounter = mAdapter.getData().size();
+                }
+            }
+        }, 200);
+    }
+
+    private View getLoadMoreView() {
+        final View customLoading = LayoutInflater.from(mActivity).inflate(R.layout.common_loading, (ViewGroup) mRecyclerView.getParent(), false);
+        return customLoading;
+    }
+
+    private void initData(){
+        int type = MineMultipleItemModel.MY_ACCOUNT_DETAIL;
+
+        for (AccountDetailEntity entity : data.getLists()) {
+            models.add(new MineMultipleItemModel(type, entity));
+        }
     }
 }
