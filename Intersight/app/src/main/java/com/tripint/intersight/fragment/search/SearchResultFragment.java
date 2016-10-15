@@ -10,37 +10,35 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.SearchDropMenuAdapter;
 import com.tripint.intersight.adapter.SearchResultMultipleAdapter;
 import com.tripint.intersight.common.BasePageableResponse;
+import com.tripint.intersight.common.utils.KeyboardUtils;
 import com.tripint.intersight.common.widget.filter.DropDownMenu;
 import com.tripint.intersight.common.widget.filter.interfaces.OnFilterDoneListener;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
+import com.tripint.intersight.entity.SearchArticleEntity;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.discuss.InterviewEntity;
-import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
-import com.tripint.intersight.fragment.home.AskAnswerDetailFragment;
 import com.tripint.intersight.model.MultipleSearchItemModel;
-import com.tripint.intersight.model.search.FilterUrl;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.service.HttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by lirichen on 2016/9/21.
@@ -57,13 +55,14 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
 
 
     @Bind(R.id.toolbar_search_text)
-    TextView toolbarSearchText;
+    EditText toolbarSearchText;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.toolbar_search_button)
     ImageView toolbarSearchButton;
     @Bind(R.id.search_drop_down_menu)
     DropDownMenu searchDropDownMenu;
+
 
     @Bind(R.id.recycler_view_ask_answer)
     RecyclerView mRecyclerView;
@@ -79,15 +78,24 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
 
     private PageDataSubscriberOnNext<BasePageableResponse<InterviewEntity>> searchInterviewSubscriber;
 
+    private PageDataSubscriberOnNext<BasePageableResponse<SearchArticleEntity>> searchArticleSubscriber;
+
     private SearchResultMultipleAdapter mAdapter;
 
-    private BasePageableResponse<InterviewEntity> data = new BasePageableResponse<>();
+    private BasePageableResponse<InterviewEntity> interviews = new BasePageableResponse<>();
+
+    private BasePageableResponse<SearchArticleEntity> articles = new BasePageableResponse<>();
 
 
     private int TOTAL_COUNTER = 0;
 
     private int mCurrentCounter = 0;
 
+    private String keyword = "";
+    private String searchIndustry = "";
+    private String searchAbility = "";
+
+    private String sort = "";
 
     private int searchType; //1:人 ;  2:内容
 
@@ -151,8 +159,8 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
             @Override
             public void onNext(BasePageableResponse<InterviewEntity> entity) {
                 //接口请求成功后处理
-                data = entity;
-                List<MultipleSearchItemModel> models = getMultipleSearchItemModels(entity.getLists());
+                interviews = entity;
+                List<MultipleSearchItemModel> models = getMultipleSearchInterViewItemModels(entity.getLists());
                 if (mCurrentCounter == 0) {
                     mAdapter.setNewData(models);
                 } else {
@@ -163,17 +171,45 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
             }
         };
 
+        searchArticleSubscriber = new PageDataSubscriberOnNext<BasePageableResponse<SearchArticleEntity>>() {
+            @Override
+            public void onNext(BasePageableResponse<SearchArticleEntity> entity) {
+                //接口请求成功后处理
+                articles = entity;
+                List<MultipleSearchItemModel> models = getMultipleSearchArticleItemModels(entity.getLists());
+                if (mCurrentCounter == 0) {
+                    mAdapter.setNewData(models);
+                } else {
+                    mAdapter.addData(models);
+                }
+                mCurrentCounter = mAdapter.getData().size();
+                TOTAL_COUNTER = entity.getTotal();
+            }
+        };
 
-        DiscussDataHttpRequest.getInstance(mActivity).getInterview(new ProgressSubscriber(searchInterviewSubscriber, mActivity), 1, "", "", "");
+        requestSearchData(-1, 0);
+
     }
 
     @NonNull
-    private List<MultipleSearchItemModel> getMultipleSearchItemModels(List<InterviewEntity> entiries) {
+    private List<MultipleSearchItemModel> getMultipleSearchInterViewItemModels(List<InterviewEntity> entiries) {
         List<MultipleSearchItemModel> models = new ArrayList<>();
 
         if (entiries == null) return models;
 
         for (InterviewEntity entiry : entiries) {
+            models.add(new MultipleSearchItemModel(searchType, entiry));
+        }
+        return models;
+    }
+
+    @NonNull
+    private List<MultipleSearchItemModel> getMultipleSearchArticleItemModels(List<SearchArticleEntity> entiries) {
+        List<MultipleSearchItemModel> models = new ArrayList<>();
+
+        if (entiries == null) return models;
+
+        for (SearchArticleEntity entiry : entiries) {
             models.add(new MultipleSearchItemModel(searchType, entiry));
         }
         return models;
@@ -185,7 +221,11 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new SearchResultMultipleAdapter(getMultipleSearchItemModels(data.getLists()));
+        if (ARG_SEARCH_TYPE_PERSON == searchType) {
+            mAdapter = new SearchResultMultipleAdapter(getMultipleSearchInterViewItemModels(interviews.getLists()));
+        } else {
+            mAdapter = new SearchResultMultipleAdapter(getMultipleSearchArticleItemModels(articles.getLists()));
+        }
         mAdapter.openLoadAnimation();
 
         mAdapter.openLoadMore(HttpRequest.DEFAULT_PAGE_SIZE);
@@ -196,7 +236,13 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
                 String content = null;
                 MultipleSearchItemModel entity = (MultipleSearchItemModel) adapter.getItem(position);
-                EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity.getContent())));
+                //TODO
+                if (entity.getItemType() == MultipleSearchItemModel.ARTICLE) {
+
+                } else if (entity.getItemType() == MultipleSearchItemModel.INTERVIEW) {
+
+                }
+//                EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity.getContent())));
             }
         });
 
@@ -213,7 +259,12 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
 
     @Override
     public void onRefresh() {
-        mAdapter.setNewData(getMultipleSearchItemModels(data.getLists()));
+        if (ARG_SEARCH_TYPE_PERSON == searchType) {
+            mAdapter.setNewData(getMultipleSearchInterViewItemModels(interviews.getLists()));
+        } else {
+            mAdapter.setNewData(getMultipleSearchArticleItemModels(articles.getLists()));
+
+        }
         mAdapter.openLoadMore(HttpRequest.DEFAULT_PAGE_SIZE);
         mAdapter.removeAllFooterView();
         mCurrentCounter = HttpRequest.DEFAULT_PAGE_SIZE;
@@ -231,7 +282,13 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
                     mAdapter.loadComplete();
 
                 } else {
-                    mAdapter.addData(getMultipleSearchItemModels(data.getLists()));
+                    if (ARG_SEARCH_TYPE_PERSON == searchType) {
+                        mAdapter.addData(getMultipleSearchInterViewItemModels(interviews.getLists()));
+                    } else {
+                        mAdapter.addData(getMultipleSearchArticleItemModels(articles.getLists()));
+
+                    }
+
                     mCurrentCounter = mAdapter.getData().size();
                 }
             }
@@ -243,18 +300,39 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
     private void initFilterDropDownView() {
         String[] titleList = new String[]{"行业", "职能", "排序"};
         searchDropDownMenu.setMenuAdapter(new SearchDropMenuAdapter(mActivity, titleList, searchFilterEntity, this));
-        searchDropDownMenu.performClick();
     }
 
     @Override
-    public void onFilterDone(int position, String positionTitle, String urlValue) {
+    public void onFilterDone(int position, int positionTitle, String urlValue) {
         if (position != 3) {
-            searchDropDownMenu.setPositionIndicatorText(FilterUrl.instance().position, FilterUrl.instance().positionTitle);
+            searchDropDownMenu.setPositionIndicatorText(position, urlValue);
+
         }
 
         searchDropDownMenu.close();
+        mCurrentCounter = 0; //重新加载列表内容，
 
-        httpRequestSearchData(2);
+        requestSearchData(position, positionTitle);
+    }
+
+    private void requestSearchData(int position, int positionTitle) {
+
+        keyword = toolbarSearchText.getText().toString();
+
+        if (position == 0) {
+            searchIndustry = String.valueOf(positionTitle);
+        } else if (position == 1) {
+            sort = String.valueOf(positionTitle);
+        } else if (position == 2) {
+            searchAbility = String.valueOf(positionTitle);
+        }
+
+        if (searchType == ARG_SEARCH_TYPE_PERSON) {
+
+            DiscussDataHttpRequest.getInstance(mActivity).searchSpecialLists(new ProgressSubscriber(searchInterviewSubscriber, mActivity), 1, searchIndustry, searchAbility, "");
+        } else {
+            DiscussDataHttpRequest.getInstance(mActivity).searchArticles(new ProgressSubscriber(searchArticleSubscriber, mActivity), mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE, keyword, searchIndustry, searchAbility, sort);
+        }
     }
 
     private void initView(View view) {
@@ -264,6 +342,19 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
 
+    }
+
+
+    @OnClick({R.id.toolbar_search_button})
+    public void onClick(View view) {
+        switch (view.getId()) {
+
+            case R.id.toolbar_search_button: //行业领域
+                KeyboardUtils.hideSoftInput(mActivity, toolbarSearchText);
+                requestSearchData(-1, 0);
+
+                break;
+        }
     }
 
     @Override

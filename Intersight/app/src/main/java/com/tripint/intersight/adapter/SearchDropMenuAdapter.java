@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.tripint.intersight.R;
+import com.tripint.intersight.common.widget.filter.ItemModel;
 import com.tripint.intersight.common.widget.filter.adapter.MenuAdapter;
 import com.tripint.intersight.common.widget.filter.adapter.SimpleTextAdapter;
 import com.tripint.intersight.common.widget.filter.interfaces.OnFilterDoneListener;
@@ -24,7 +25,6 @@ import com.tripint.intersight.model.search.FilterUrl;
 import com.tripint.intersight.view.grid.BetterDoubleGridView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,10 +38,11 @@ public class SearchDropMenuAdapter implements MenuAdapter {
     private String[] titles;
     private SearchFilterEntity data;
     private List<Industry> industies = new ArrayList<>(); //行业数据
-    private List<String> abilities = new ArrayList<>(); //职能数据
-    private List<String> sorts = new ArrayList<>(); //职能数据
+    private List<ItemModel> abilities = new ArrayList<>(); //职能数据
+    private List<ItemModel> sorts = new ArrayList<>(); //职能数据
 
     private String[] sortArray = {"智能排序", "问答数量从高到低", "访谈数量从高到低", "观点数量从高到低", "被关注数量从高到低"}; //排序数据
+    private Integer[] sortArrayKey = {0, 1, 2, 3, 4}; //排序数据
 
     public SearchDropMenuAdapter(Context context, String[] titles, OnFilterDoneListener onFilterDoneListener) {
         this.mContext = context;
@@ -59,10 +60,18 @@ public class SearchDropMenuAdapter implements MenuAdapter {
         }
 
         for (Ability ability : this.data.getAbility()) {
-            abilities.add(ability.getName());
+
+            abilities.add(new ItemModel(ability.getId(), ability.getName()));
         }
 
-        sorts = Arrays.asList(sortArray);
+        int i = 0;
+        for (String itemName : sortArray) {
+            ItemModel itemModel = new ItemModel();
+            itemModel.setKey(sortArrayKey[i]);
+            itemModel.setName(itemName);
+            sorts.add(itemModel);
+            i++;
+        }
 
 
     }
@@ -96,10 +105,10 @@ public class SearchDropMenuAdapter implements MenuAdapter {
                 view = createDoubleListView();
                 break;
             case 1:
-                view = createSingleListView(abilities);
+                view = createSingleListView(abilities, 1);
                 break;
             case 2:
-                view = createSingleListView(sorts);
+                view = createSingleListView(sorts, 2);
                 break;
 //            case 2:
 //                view = createSingleGridView();
@@ -113,29 +122,25 @@ public class SearchDropMenuAdapter implements MenuAdapter {
         return view;
     }
 
-    private View createSingleListView(List<String> list) {
-        SingleListView<String> singleListView = new SingleListView<String>(mContext)
-                .adapter(new SimpleTextAdapter<String>(null, mContext) {
-                    @Override
-                    public String provideText(String string) {
-                        return string;
-                    }
+    private View createSingleListView(List<ItemModel> list, final int type) {
+        SimpleTextAdapter adapter = new SimpleTextAdapter<ItemModel>(null, mContext) {
+            @Override
+            public String provideText(ItemModel item) {
+                return item.getName();
+            }
 
+            @Override
+            protected void initCheckedTextView(FilterCheckedTextView checkedTextView) {
+                checkedTextView.setPadding(UIUtil.dp(mContext, 12), UIUtil.dp(mContext, 12), 0, UIUtil.dp(mContext, 12));
+            }
+        };
+        SingleListView<ItemModel> singleListView = new SingleListView<>(mContext)
+                .adapter(adapter)
+                .onItemClick(new OnFilterItemClickListener<ItemModel>() {
                     @Override
-                    protected void initCheckedTextView(FilterCheckedTextView checkedTextView) {
-                        int dp = UIUtil.dp(mContext, 12);
-                        checkedTextView.setPadding(dp, dp, 0, dp);
-                    }
-                })
-                .onItemClick(new OnFilterItemClickListener<String>() {
-                    @Override
-                    public void onItemClick(String item) {
-                        FilterUrl.instance().singleListPosition = item;
+                    public void onItemClick(ItemModel item) {
 
-                        FilterUrl.instance().position = 0;
-                        FilterUrl.instance().positionTitle = item;
-
-                        onFilterDone();
+                        onFilterDone(type, item.getKey(), item.getName());
                     }
                 });
 
@@ -175,13 +180,8 @@ public class SearchDropMenuAdapter implements MenuAdapter {
                     public List<IndustryChild> provideRightList(Industry item, int position) {
                         List<IndustryChild> child = item.getIndustrySub();
                         if (CommonUtil.isEmpty(child)) {
-                            FilterUrl.instance().doubleListLeft = item.getName();
-                            FilterUrl.instance().doubleListRight = "";
 
-                            FilterUrl.instance().position = 1;
-                            FilterUrl.instance().positionTitle = item.getName();
-
-                            onFilterDone();
+                            onFilterDone(0, item.getId(), item.getName());
                         }
 
                         return child;
@@ -190,16 +190,10 @@ public class SearchDropMenuAdapter implements MenuAdapter {
                 .onRightItemClickListener(new DoubleListView.OnRightItemClickListener<Industry, IndustryChild>() {
                     @Override
                     public void onRightItemClick(Industry item, IndustryChild childItem) {
-                        FilterUrl.instance().doubleListLeft = item.getName();
-                        FilterUrl.instance().doubleListRight = childItem.getName();
 
-                        FilterUrl.instance().position = 1;
-                        FilterUrl.instance().positionTitle = childItem.getName();
-
-                        onFilterDone();
+                        onFilterDone(0, childItem.getId(), childItem.getName());
                     }
                 });
-
 
 
         //初始化选中.
@@ -234,7 +228,7 @@ public class SearchDropMenuAdapter implements MenuAdapter {
                         FilterUrl.instance().position = 2;
                         FilterUrl.instance().positionTitle = item;
 
-                        onFilterDone();
+                        onFilterDone(2, 2, item);
 
                     }
                 });
@@ -270,9 +264,9 @@ public class SearchDropMenuAdapter implements MenuAdapter {
     }
 
 
-    private void onFilterDone() {
+    private void onFilterDone(int position, int key, String value) {
         if (onFilterDoneListener != null) {
-            onFilterDoneListener.onFilterDone(0, "", "");
+            onFilterDoneListener.onFilterDone(position, key, value);
         }
     }
 

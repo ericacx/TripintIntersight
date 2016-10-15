@@ -6,5 +6,5 @@ package com.tripint.intersight.common.widget.filter.interfaces;
  * description:
  */
 public interface OnFilterDoneListener {
-    void onFilterDone(int position, String positionTitle, String urlValue);
+    void onFilterDone(int position, int key, String value);
 }

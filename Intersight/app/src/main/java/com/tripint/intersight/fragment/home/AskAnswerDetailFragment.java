@@ -165,6 +165,9 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
         initToolbarNav(toolbar);
         initToolbarMenu(toolbar);
         inithttpPutRequestData();
+        containerChatAuthor.setVisibility(View.VISIBLE);
+        containerChatReply.setVisibility(View.VISIBLE);
+        layoutUserCommentContainer.setVisibility(View.VISIBLE);
 
         if (data.getDetail() != null) {
             textViewItemAskTitle.setText(data.getDetail().getContent());
@@ -206,6 +209,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
 
         if (data.getDetail() != null) {
+            userCommentBar.setVisibility(View.VISIBLE);
             //
             LinearLayout.LayoutParams mTabParams;
 

@@ -3,6 +3,7 @@ package com.tripint.intersight.service;
 
 import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.BaseResponse;
+import com.tripint.intersight.entity.SearchArticleEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.discuss.DiscussDetailEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
@@ -57,4 +58,12 @@ public interface DiscussDataService {
                                                                                  @Query("industry") String industry,
                                                                                  @Query("position") String position,
                                                                                  @Query("company") String company);
+
+    //提问
+    @GET("searchLists")
+    Observable<BaseResponse<BasePageableResponse<SearchArticleEntity>>> getSearchArticles(@Query("page") int page, @Query("size") int size,
+                                                                                          @Query("keyWord") String keyword,
+                                                                                          @Query("industry") String industry,
+                                                                                          @Query("ability") String ability,
+                                                                                          @Query("orderBy") String orderBy);
 }

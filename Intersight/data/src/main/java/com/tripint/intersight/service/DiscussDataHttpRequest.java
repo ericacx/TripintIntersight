@@ -3,6 +3,7 @@ package com.tripint.intersight.service;
 import android.content.Context;
 
 import com.tripint.intersight.common.BasePageableResponse;
+import com.tripint.intersight.entity.SearchArticleEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.discuss.DiscussDetailEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
@@ -208,17 +209,33 @@ public class DiscussDataHttpRequest extends HttpRequest {
 
 
     /**
-     * 用于取得行业数据
+     * 用于搜索画面 找人画面
      *
      * @param subscriber 由调用者传过来的观察者对象
      * @param start      起始位置
      */
-    public void getInterview(Subscriber<BasePageableResponse<InterviewEntity>> subscriber, int start, String industry,
-                             String position,
-                             String company) {
+    public void searchSpecialLists(Subscriber<BasePageableResponse<InterviewEntity>> subscriber, int start, String industry,
+                                   String position,
+                                   String company) {
 
         Observable observable = service.getInterview(start, DEFAULT_PAGE_SIZE, industry, position, company)
                 .map(new HttpResultFunc<BasePageableResponse<InterviewEntity>>());
+
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 搜索文章内容
+     *
+     * @param subscriber 由调用者传过来的观察者对象
+     * @param start      起始位置
+     */
+    public void searchArticles(Subscriber<BasePageableResponse<SearchArticleEntity>> subscriber, int start, String keyword, String industry,
+                               String ability,
+                               String order) {
+
+        Observable observable = service.getSearchArticles(start, DEFAULT_PAGE_SIZE, keyword, industry, ability, order)
+                .map(new HttpResultFunc<BasePageableResponse<SearchArticleEntity>>());
 
         toSubscribe(observable, subscriber);
     }

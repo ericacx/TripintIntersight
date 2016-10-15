@@ -1,7 +1,7 @@
 package com.tripint.intersight.model;
 
 import com.tripint.intersight.common.widget.recyclerviewadapter.entity.MultiItemEntity;
-import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.SearchArticleEntity;
 import com.tripint.intersight.entity.discuss.InterviewEntity;
 
 /**
@@ -17,12 +17,12 @@ public class MultipleSearchItemModel implements MultiItemEntity{
 
 
     private int itemType;
-    private DiscussEntiry content;
+    private SearchArticleEntity content;
 
     private InterviewEntity interview;
 
 
-    public MultipleSearchItemModel(int itemType, DiscussEntiry model){
+    public MultipleSearchItemModel(int itemType, SearchArticleEntity model) {
         this.itemType = itemType;
         this.content = model;
     }
@@ -32,11 +32,11 @@ public class MultipleSearchItemModel implements MultiItemEntity{
         this.interview = model;
     }
 
-    public DiscussEntiry getContent() {
+    public SearchArticleEntity getContent() {
         return content;
     }
 
-    public void setContent(DiscussEntiry content) {
+    public void setContent(SearchArticleEntity content) {
         this.content = content;
     }
 

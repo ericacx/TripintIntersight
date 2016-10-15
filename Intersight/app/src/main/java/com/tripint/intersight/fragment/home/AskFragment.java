@@ -143,8 +143,7 @@ public class AskFragment extends BaseLazyMainFragment implements BaseQuickAdapte
             }
         };
 
-
-        DiscussDataHttpRequest.getInstance(mActivity).getInterview(new ProgressSubscriber(subscriber, mActivity), 1, "", "", "");
+        DiscussDataHttpRequest.getInstance(mActivity).searchSpecialLists(new ProgressSubscriber(subscriber, mActivity), 1, "", "", "");
     }
 
     protected void initView(View view) {

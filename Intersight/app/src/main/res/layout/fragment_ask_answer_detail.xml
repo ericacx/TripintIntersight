@@ -112,7 +112,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="?attr/actionBarSize"
                 android:background="@android:color/transparent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -189,7 +190,8 @@
                 android:layout_below="@id/container_chat_author"
                 android:background="@android:color/transparent"
                 android:gravity="right"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
 
                 <com.tripint.intersight.widget.image.TouchImageView

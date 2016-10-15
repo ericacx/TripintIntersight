@@ -135,7 +135,7 @@ public class BetterDoubleGridView extends LinearLayout implements View.OnClickLi
         FilterUrl.instance().doubleGridBottom = mBottomSelectedTextView == null ? "" : (String) mBottomSelectedTextView.getTag();
 
         if (mOnFilterDoneListener != null) {
-            mOnFilterDoneListener.onFilterDone(3, "", "");
+            mOnFilterDoneListener.onFilterDone(3, 3, "");
         }
     }
 

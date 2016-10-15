@@ -7,6 +7,7 @@ import com.tripint.intersight.R;
 import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseMultiItemQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseViewHolder;
+import com.tripint.intersight.entity.SearchArticleEntity;
 import com.tripint.intersight.entity.discuss.InterviewEntity;
 import com.tripint.intersight.model.MultipleSearchItemModel;
 import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
@@ -28,7 +29,7 @@ public class SearchResultMultipleAdapter extends BaseMultiItemQuickAdapter<Multi
 
     @Override
     protected void convert(BaseViewHolder helper, MultipleSearchItemModel item) {
-        String sperialist = "";
+
 
         switch (helper.getItemViewType()) {
             case MultipleSearchItemModel.INTERVIEW:
@@ -55,10 +56,13 @@ public class SearchResultMultipleAdapter extends BaseMultiItemQuickAdapter<Multi
 
                 break;
             case MultipleSearchItemModel.ARTICLE:
-                helper.setText(R.id.search_text_view_title_main, sperialist)
-                        .setText(R.id.search_text_view_title_sub, StringUtils.null2Length0(item.getContent().getContent()))
-                        .setText(R.id.search_text_view_other, StringUtils.null2Length0(item.getContent().getContent()))
-                        .setText(R.id.search_text_view_industry, StringUtils.null2Length0(item.getContent().getContent()))
+                SearchArticleEntity articleEntity = item.getContent();
+                helper.setText(R.id.search_text_view_title_main, articleEntity.getTitle())
+                        .setText(R.id.search_text_view_title_sub, StringUtils.null2Length0(articleEntity.getContent()))
+                        .setText(R.id.search_text_view_other, articleEntity.getPraises() + "个赞      "
+                                + articleEntity.getComments() + "个评论        "
+                                + articleEntity.getFollows() + "个关注")
+                        .setText(R.id.search_text_view_industry, StringUtils.null2Length0(articleEntity.getIndustryName()))
                 ;
 
                 break;
