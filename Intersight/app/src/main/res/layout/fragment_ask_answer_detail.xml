@@ -7,99 +7,14 @@
 
     <include layout="@layout/toolbar" />
 
-    <LinearLayout
-        android:id="@+id/speaker_container"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_12_80"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
-        android:background="@android:color/transparent"
-        android:orientation="vertical"
-        android:visibility="gone">
 
-        <TextView
-            android:id="@+id/text_qa_info"
-            style="@style/text_20px_styles"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="@drawable/btn_selector_corners_grey"
-            android:drawableLeft="@mipmap/iconfont_jubao"
-            android:drawablePadding="@dimen/width_2_80"
-            android:gravity="center"
-            android:paddingBottom="@dimen/spacing_pad"
-            android:paddingLeft="@dimen/spacing_02"
-            android:paddingRight="@dimen/spacing_02"
-            android:paddingTop="@dimen/spacing_pad"
-            android:text="@string/text_qa_detail_info"
-            android:textColor="@color/grey_300" />
-
-        <Button
-            android:id="@+id/btn_qa_record_voice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/spacing_pad02"
-            android:layout_marginLeft="@dimen/spacing_01"
-            android:layout_marginRight="@dimen/spacing_01"
-            android:layout_marginTop="@dimen/spacing_pad02"
-            android:layout_weight="1"
-            android:background="@drawable/btn_shape_blue"
-            android:drawableLeft="@mipmap/iconfont_huatong"
-            android:drawablePadding="@dimen/width_2_80"
-            android:gravity="center"
-            android:text="按住 说话"
-            android:textColor="@color/grey_100"
-            android:textSize="@dimen/text_size_12" />
-    </LinearLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/user_replay_container"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_7_80"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:background="@color/colorToolbarPrimary"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/spacing"
-        android:paddingRight="@dimen/spacing"
-        android:visibility="visible">
-
-        <TextView
-            android:id="@+id/text_view_comment_submit"
-            android:layout_width="@dimen/width_8_80"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_margin="@dimen/spacing"
-            android:layout_weight="3"
-            android:gravity="center"
-            android:text="发送"
-            android:textColor="@color/text_colors_white" />
-
-        <EditText
-            android:id="@+id/edit_user_comment_replay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:layout_margin="@dimen/spacing"
-            android:layout_toLeftOf="@id/text_view_comment_submit"
-            android:background="@drawable/btn_shape_corner"
-            android:hint="我也说两句"
-            android:padding="@dimen/spacing"
-            android:textColor="@color/text_colors_black_light"
-            android:textCursorDrawable="@null"
-            android:textSize="@dimen/text_size_12" />
-    </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -227,9 +142,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
-                            android:lines="1"
                             android:layout_gravity="center_vertical"
                             android:layout_margin="@dimen/spacing_pad04"
+                            android:lines="1"
                             android:paddingLeft="@dimen/width_4_80"
                             android:text="90??"
                             android:textColor="@color/grey_100"
@@ -324,4 +239,96 @@
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
+
+    <RelativeLayout
+        android:id="@+id/user_replay_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_7_80"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@color/colorToolbarPrimary"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/spacing"
+        android:paddingRight="@dimen/spacing"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/text_view_comment_submit"
+            android:layout_width="@dimen/width_8_80"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/spacing"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="发送"
+            android:textColor="@color/text_colors_white" />
+
+        <EditText
+            android:id="@+id/edit_user_comment_replay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_margin="@dimen/spacing"
+            android:layout_toLeftOf="@id/text_view_comment_submit"
+            android:background="@drawable/btn_shape_corner"
+            android:hint="我也说两句"
+            android:padding="@dimen/spacing"
+            android:textColor="@color/text_colors_black_light"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/text_size_12" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/speaker_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_12_80"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="@dimen/spacing"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/text_qa_info"
+            style="@style/text_20px_styles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/btn_selector_corners_grey"
+            android:drawablePadding="@dimen/width_2_80"
+            android:gravity="center"
+            android:paddingBottom="@dimen/spacing_pad"
+            android:paddingLeft="@dimen/spacing_02"
+            android:paddingRight="@dimen/spacing_02"
+            android:paddingTop="@dimen/spacing_pad"
+            android:text="@string/text_qa_detail_info"
+            android:textColor="@color/grey_300" />
+
+        <Button
+            android:id="@+id/btn_qa_record_voice_main"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_5_80"
+            android:layout_below="@id/text_qa_info"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/spacing_pad02"
+            android:layout_marginLeft="@dimen/spacing_01"
+            android:layout_marginRight="@dimen/spacing_01"
+            android:layout_marginTop="@dimen/spacing_pad02"
+            android:layout_weight="1"
+            android:background="@drawable/btn_shape_blue"
+            android:drawableLeft="@mipmap/iconfont_huatong"
+            android:drawablePadding="@dimen/width_2_80"
+            android:gravity="center"
+            android:text="按住 说话"
+            android:textColor="@color/grey_100"
+            android:textSize="@dimen/text_size_12" />
+    </RelativeLayout>
 </RelativeLayout>

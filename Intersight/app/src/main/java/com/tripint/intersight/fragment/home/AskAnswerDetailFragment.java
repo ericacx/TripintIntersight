@@ -28,6 +28,13 @@ import com.tripint.intersight.common.utils.KeyboardUtils;
 import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
 import com.tripint.intersight.common.widget.dialogplus.ListHolder;
+import com.tripint.intersight.common.widget.dialogplus.ViewHolder;
+import com.tripint.intersight.common.widget.filter.ItemModel;
+import com.tripint.intersight.common.widget.filter.adapter.SimpleTextAdapter;
+import com.tripint.intersight.common.widget.filter.interfaces.OnFilterItemClickListener;
+import com.tripint.intersight.common.widget.filter.typeview.SingleListView;
+import com.tripint.intersight.common.widget.filter.util.UIUtil;
+import com.tripint.intersight.common.widget.filter.view.FilterCheckedTextView;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
 import com.tripint.intersight.entity.discuss.CommentEntity;
@@ -64,10 +71,10 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
     @Bind(R.id.text_qa_info)
     TextView textQaInfo;
-    @Bind(R.id.btn_qa_record_voice)
+    @Bind(R.id.btn_qa_record_voice_main)
     Button btnQaRecordVoice;
     @Bind(R.id.speaker_container)
-    LinearLayout layoutSpeakerContainer;
+    RelativeLayout layoutSpeakerContainer;
     @Bind(R.id.user_comment_bar)
     LinearLayout userCommentBar;
     @Bind(R.id.recycler_view_ask_answer_comment)
@@ -209,7 +216,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
 
         if (data.getDetail() != null) {
-            userCommentBar.setVisibility(View.VISIBLE);
+
             //
             LinearLayout.LayoutParams mTabParams;
 
@@ -269,6 +276,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                 }
             });
             userCommentBar.addView(item3);
+            userCommentBar.setVisibility(View.VISIBLE);
 
         }
 
@@ -338,7 +346,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
     }
 
-    @OnClick({R.id.text_view_comment_submit, R.id.container_voice_message, R.id.btn_qa_record_voice})
+    @OnClick({R.id.text_view_comment_submit, R.id.container_voice_message, R.id.btn_qa_record_voice_main})
     public void onClick(View view) {
         switch (view.getId()) {
 
@@ -398,14 +406,51 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                 });
 //                dialogPlus.show();
                 break;
-            case R.id.btn_qa_record_voice: //我的关注
-
+            case R.id.btn_qa_record_voice_main: //我的关注
+                List<ItemModel> list = new ArrayList<>();
+                list.add(new ItemModel(1, "Item1"));
+                list.add(new ItemModel(2, "Item2"));
+                list.add(new ItemModel(3, "Item3"));
+                DialogPlusUtils.Builder(mActivity)
+                        .setHolder(DialogPlusUtils.LIST, new ViewHolder(createSingleListView(list, 1)))
+                        .setTitleName("请选择支付方式")
+                        .setIsHeader(true)
+                        .setIsFooter(false)
+                        .setIsExpanded(false)
+                        .setGravity(Gravity.BOTTOM)
+                        .showCompleteDialog();
                 break;
 
         }
 
     }
 
+    private View createSingleListView(List<ItemModel> list, final int type) {
+        SimpleTextAdapter adapter = new SimpleTextAdapter<ItemModel>(null, mActivity) {
+            @Override
+            public String provideText(ItemModel item) {
+                return item.getName();
+            }
+
+            @Override
+            protected void initCheckedTextView(FilterCheckedTextView checkedTextView) {
+                checkedTextView.setPadding(UIUtil.dp(mActivity, 12), UIUtil.dp(mActivity, 12), 0, UIUtil.dp(mActivity, 12));
+            }
+        };
+        SingleListView<ItemModel> singleListView = new SingleListView<>(mActivity)
+                .adapter(adapter)
+                .onItemClick(new OnFilterItemClickListener<ItemModel>() {
+                    @Override
+                    public void onItemClick(ItemModel item) {
+
+//                        onFilterDone(type, item.getKey(), item.getName());
+                    }
+                });
+
+        singleListView.setList(list, -1);
+
+        return singleListView;
+    }
 
     private void initCommentAdapter() {
 
