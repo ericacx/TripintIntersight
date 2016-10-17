@@ -1,14 +1,12 @@
 package com.tripint.intersight.fragment.personal;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +19,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.tripint.intersight.R;
 import com.tripint.intersight.common.utils.DialogPlusUtils;
-import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
 import com.tripint.intersight.common.widget.dialogplus.ViewHolder;
@@ -29,7 +26,6 @@ import com.tripint.intersight.entity.CodeDataEntity;
 import com.tripint.intersight.entity.PersonalUserInfoEntity;
 import com.tripint.intersight.entity.mine.PersonalUserHomeEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
-import com.tripint.intersight.fragment.PersonalInfoFragment;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.image.CircleImageView;
@@ -48,6 +44,8 @@ import butterknife.OnClick;
  * A simple {@link Fragment} subclass.
  */
 public class PersonalMainPageFragment extends BaseBackFragment {
+
+    public static final String ARG_USER_ID = "arg_user_id";
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -87,13 +85,23 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     private CodeDataEntity codeDataEntity;
     private PageDataSubscriberOnNext<CodeDataEntity> subscriberCode;
 
-    private int uid = 25;
+    private int uid = 0;
 
-    public static PersonalMainPageFragment newInstance() {
+    public static PersonalMainPageFragment newInstance(int uid) {
         Bundle args = new Bundle();
         PersonalMainPageFragment fragment = new PersonalMainPageFragment();
+        args.putInt(ARG_USER_ID, uid);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            uid = bundle.getInt(ARG_USER_ID);
+        }
     }
 
     @Override

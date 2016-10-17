@@ -129,12 +129,12 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
 
     private void initView(View view) {
         if (data.getInterviewEntity() != null){
-            int type = data.getInterviewEntity().getType();
-            if (type == 0){
-                toolbar.setTitle("我的约访");
+            String type = data.getInterviewEntity().getType();
+            if ("我被约访".equals(type)) {
+                toolbar.setTitle(data.getInterviewEntity().getType());
                 myInterviewPeople.setText("受访者");
-            } else if (type ==1){
-                toolbar.setTitle("我被约访");
+            } else if ("我的约访".equals(type)) {
+                toolbar.setTitle(data.getInterviewEntity().getType());
                 myInterviewPeople.setText("约访人");
                 myInterviewDetailTwiceInterview.setVisibility(View.GONE);
             }

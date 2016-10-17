@@ -25,10 +25,10 @@ import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
-import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.discuss.InterviewEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
+import com.tripint.intersight.fragment.personal.PersonalMainPageFragment;
 import com.tripint.intersight.fragment.search.SearchPersonFragment;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
@@ -163,8 +163,8 @@ public class AskFragment extends BaseLazyMainFragment implements BaseQuickAdapte
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
                 String content = null;
-                DiscussEntiry entity = (DiscussEntiry) adapter.getItem(position);
-                EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity)));
+                InterviewEntity entity = (InterviewEntity) adapter.getItem(position);
+                EventBus.getDefault().post(new StartFragmentEvent(PersonalMainPageFragment.newInstance(entity.getUid())));
             }
         });
 

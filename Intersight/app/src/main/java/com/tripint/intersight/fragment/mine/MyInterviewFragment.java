@@ -108,8 +108,8 @@ public class MyInterviewFragment extends BaseBackFragment implements BaseQuickAd
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
                 String content = null;
-                InterviewEntity entity = (InterviewEntity) adapter.getItem(position);
-                EventBus.getDefault().post(new StartFragmentEvent(MyInterviewDetailFragment.newInstance(entity)));
+                MineMultipleItemModel entity = (MineMultipleItemModel) adapter.getItem(position);
+                EventBus.getDefault().post(new StartFragmentEvent(MyInterviewDetailFragment.newInstance(entity.getInterviewEntity())));
             }
         });
         mAdapter.setLoadingView(getLoadMoreView());

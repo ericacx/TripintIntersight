@@ -10,6 +10,9 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EditUserEntity implements Serializable {
 
+    public static final int USER_TYPE_STUFF = 0;//职员
+    public static final int USER_TYPE_STUDENT = 1;//学生
+
     private int type;//0,职员 1,学生
     private String nickname;//昵称
     private String mobile;//手机
@@ -19,7 +22,7 @@ public class EditUserEntity implements Serializable {
     private String desc;//个人简介
 
     private String company;//公司
-    private int job;//职位
+    private String job;//职位
     private int industry_id;//行业
     private int ability_id;//职能
     private String experience;//工作年限
@@ -29,11 +32,12 @@ public class EditUserEntity implements Serializable {
     private int qualifications;//学历
 
 
-    public EditUserEntity() {
+    public EditUserEntity(int type) {
+        this.type = type;
     }
 
     public EditUserEntity(int type, String nickname, String mobile, String email, String avatar,
-                          String logo, String desc, String company, int job, int industry_id, int ability_id,
+                          String logo, String desc, String company, String job, int industry_id, int ability_id,
                           String experience) {
         this.type = type;
         this.nickname = nickname;
@@ -127,11 +131,11 @@ public class EditUserEntity implements Serializable {
         this.company = company;
     }
 
-    public int getJob() {
+    public String getJob() {
         return job;
     }
 
-    public void setJob(int job) {
+    public void setJob(String job) {
         this.job = job;
     }
 

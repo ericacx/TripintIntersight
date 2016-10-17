@@ -42,7 +42,6 @@ import com.tripint.intersight.fragment.PersonalInfoFragment;
 import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
 import com.tripint.intersight.fragment.mine.photo.photo.PhotoWallActivity;
 import com.tripint.intersight.fragment.mine.setting.SettingFragment;
-import com.tripint.intersight.fragment.personal.PersonalMainPageFragment;
 import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.image.CircleImageView;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
@@ -130,8 +129,7 @@ public class MineFragment extends BaseLazyMainFragment {
         Glide.with(mActivity).load(data.getAvatar())
                 .crossFade()
                 .fitCenter()
-                .placeholder(R.drawable.loading_normal_icon)
-//                .transform(new GlideCircleTransform(mActivity))
+                .placeholder(R.mipmap.ic_avatar)
                 .into(mineCIVPersonalInfo);
     }
 
@@ -208,7 +206,7 @@ public class MineFragment extends BaseLazyMainFragment {
                 }
                 break;
             case R.id.mineIvRewriteInfo://编辑个人资料
-                EventBus.getDefault().post(new StartFragmentEvent(PersonalInfoFragment.newInstance()));
+                EventBus.getDefault().post(new StartFragmentEvent(PersonalInfoFragment.newInstance(data)));
                 break;
             case R.id.text_view_mine_ask_answer://我的问答
                 EventBus.getDefault().post(new StartFragmentEvent(MyAskAnswerFragment.newInstance()));
@@ -232,8 +230,8 @@ public class MineFragment extends BaseLazyMainFragment {
 //                EventBus.getDefault().post(new StartFragmentEvent(StarIntersighterFragment.newInstance()));
 //                break;
             case R.id.text_view_help://使用帮助
-//                EventBus.getDefault().post(new StartFragmentEvent(UseHelpFragment.newInstance()));
-                EventBus.getDefault().post(new StartFragmentEvent(PersonalMainPageFragment.newInstance()));
+                EventBus.getDefault().post(new StartFragmentEvent(UseHelpFragment.newInstance()));
+//                EventBus.getDefault().post(new StartFragmentEvent(PersonalMainPageFragment.newInstance()));
                 break;
             case R.id.text_view_setting://设置
                 EventBus.getDefault().post(new StartFragmentEvent(SettingFragment.newInstance()));

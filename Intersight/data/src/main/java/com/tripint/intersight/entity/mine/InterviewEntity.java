@@ -3,7 +3,6 @@ package com.tripint.intersight.entity.mine;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by Eric on 16/9/29.
@@ -14,7 +13,7 @@ public class InterviewEntity implements Serializable {
     //列表返回数据
     private int id;
     private int status;//状态:0联系中,1访谈成功
-    private int type;//0约访 1被约访
+    private String type;//0约访 1被约访
     private String subject;//标题名
     private String description;//内容
     private int createAt;//时间
@@ -43,11 +42,11 @@ public class InterviewEntity implements Serializable {
         this.status = status;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
