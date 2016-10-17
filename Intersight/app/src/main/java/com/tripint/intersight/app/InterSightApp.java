@@ -4,10 +4,8 @@ import android.Manifest;
 import android.app.Application;
 import android.app.Notification;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -66,6 +64,7 @@ public class InterSightApp extends Application {
 
     //获取联系人权限
     public final String[] CONTACTS = new String[]{
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,  //允许程序写入外部存储
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.READ_CONTACTS //允许应用访问联系人通讯录信息
     };

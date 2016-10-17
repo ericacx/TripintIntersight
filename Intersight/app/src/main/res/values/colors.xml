@@ -11,4 +11,6 @@
     <color name="tab_unselect">#c9c9c9</color>
     <color name="color_black_t30">#1EFFFFFF</color>
     <color name="color_blue_t30">#1E4A90E2</color>
+    <color name="black_translucent">#88000000</color> <!--半透明-->
+    <color name="black_translucent_2">#66000000</color> <!--半透明-->
 </resources>

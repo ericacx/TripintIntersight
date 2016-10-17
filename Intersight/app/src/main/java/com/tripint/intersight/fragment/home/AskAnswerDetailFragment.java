@@ -172,11 +172,28 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
         initToolbarNav(toolbar);
         initToolbarMenu(toolbar);
         inithttpPutRequestData();
-        containerChatAuthor.setVisibility(View.VISIBLE);
-        containerChatReply.setVisibility(View.VISIBLE);
-        layoutUserCommentContainer.setVisibility(View.VISIBLE);
 
+
+        //问答标题与作者
+        if (data.getAuthor() != null) {
+            containerChatReply.setVisibility(View.VISIBLE);
+            Glide.with(mActivity).load(data.getAuthor().getAvatar())
+                    .crossFade()
+//                    .placeholder(R.mipmap.ic_avatar)
+                    .transform(new GlideCircleTransform(mActivity))
+                    .into(imageAskProfile);
+            String special = data.getAuthor().getNickname();
+            if (data.getAuthor().getAbility() != null) {
+                special += data.getAuthor().getAbility().getName();
+            }
+            if (data.getAuthor().getIndustry() != null) {
+                special += data.getAuthor().getIndustry().getName();
+            }
+            textViewItemAskSpecialist.setText(special);
+        }
+        //回答内容
         if (data.getDetail() != null) {
+            containerChatAuthor.setVisibility(View.VISIBLE);
             textViewItemAskTitle.setText(data.getDetail().getContent());
             textViewItemAskDateTime.setText(data.getDetail().getCreateAt());
             String special = data.getAuthor().getNickname();
@@ -195,29 +212,9 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                 textViewItemAnswerPayment.setText(data.getDetail().getVoices().getPayment() + "元即听");
             }
             textViewItemAnswerDateTime.setText(data.getDetail().getCreateAt());
-        }
-
-        if (data.getAuthor() != null) {
-
-            Glide.with(mActivity).load(data.getAuthor().getAvatar())
-                    .crossFade()
-//                    .placeholder(R.mipmap.ic_avatar)
-                    .transform(new GlideCircleTransform(mActivity))
-                    .into(imageAskProfile);
-            String special = data.getAuthor().getNickname();
-            if (data.getAuthor().getAbility() != null) {
-                special += data.getAuthor().getAbility().getName();
-            }
-            if (data.getAuthor().getIndustry() != null) {
-                special += data.getAuthor().getIndustry().getName();
-            }
-            textViewItemAskSpecialist.setText(special);
-        }
 
 
-        if (data.getDetail() != null) {
-
-            //
+            //点赞 点关注 点
             LinearLayout.LayoutParams mTabParams;
 
             mTabParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -277,7 +274,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             });
             userCommentBar.addView(item3);
             userCommentBar.setVisibility(View.VISIBLE);
-
+            layoutUserCommentContainer.setVisibility(View.VISIBLE);
         }
 
     }
@@ -412,7 +409,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                 list.add(new ItemModel(2, "Item2"));
                 list.add(new ItemModel(3, "Item3"));
                 DialogPlusUtils.Builder(mActivity)
-                        .setHolder(DialogPlusUtils.LIST, new ViewHolder(createSingleListView(list, 1)))
+                        .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createSingleListView(list, 1)))
                         .setTitleName("请选择支付方式")
                         .setIsHeader(true)
                         .setIsFooter(false)

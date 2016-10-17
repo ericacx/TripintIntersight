@@ -1,5 +1,7 @@
 package com.tripint.intersight.entity.mine;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import java.util.List;
  * Author: lirichen
  * Created by: ModelGenerator on 2016/9/28
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MineFollowPointEntity implements Serializable{
 
 

@@ -1,10 +1,18 @@
 package com.tripint.intersight.fragment.mine;
 
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +22,25 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.tripint.intersight.R;
 import com.tripint.intersight.activity.LoginActivity;
+import com.tripint.intersight.activity.PermissionsActivity;
 import com.tripint.intersight.app.InterSightApp;
+import com.tripint.intersight.common.utils.DialogPlusUtils;
+import com.tripint.intersight.common.utils.FileUtils;
+import com.tripint.intersight.common.widget.cropiamge.CropImageActivity;
+import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
+import com.tripint.intersight.common.widget.dialogplus.ViewHolder;
+import com.tripint.intersight.common.widget.filter.ItemModel;
+import com.tripint.intersight.common.widget.filter.adapter.SimpleTextAdapter;
+import com.tripint.intersight.common.widget.filter.interfaces.OnFilterItemClickListener;
+import com.tripint.intersight.common.widget.filter.typeview.SingleListView;
+import com.tripint.intersight.common.widget.filter.util.UIUtil;
+import com.tripint.intersight.common.widget.filter.view.FilterCheckedTextView;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.event.StartFragmentForResultEvent;
 import com.tripint.intersight.fragment.PersonalInfoFragment;
 import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
+import com.tripint.intersight.fragment.mine.photo.photo.PhotoWallActivity;
 import com.tripint.intersight.fragment.mine.setting.SettingFragment;
 import com.tripint.intersight.fragment.personal.PersonalMainPageFragment;
 import com.tripint.intersight.service.MineDataHttpRequest;
@@ -28,6 +49,13 @@ import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -66,6 +94,14 @@ public class MineFragment extends BaseLazyMainFragment {
     private PageDataSubscriberOnNext<UserHomeEntity> subscriber;
 
     private UserHomeEntity data;
+
+    private Uri imgUri;
+
+    private DialogPlus dialog;
+
+    private static final int RESULT_CAPTURE_IMAGE = 1;// 照相的requestCode
+    private static final int TAILORING = 2;// 裁剪
+    private String strImgPath;
 
     public static MineFragment newInstance() {
 
@@ -144,9 +180,33 @@ public class MineFragment extends BaseLazyMainFragment {
 
     @OnClick({R.id.mineIvRewriteInfo, R.id.text_view_mine_ask_answer, R.id.text_view_mine_interview,
             R.id.text_view_my_option, R.id.text_view_my_money, R.id.text_view_my_account_detail,
-            R.id.textView_my_focus, R.id.text_view_my_star, R.id.text_view_help, R.id.text_view_setting})
+            R.id.textView_my_focus, R.id.text_view_my_star, R.id.text_view_help, R.id.text_view_setting
+            , R.id.mineCIVPersonalInfo})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.mineCIVPersonalInfo:
+                if (InterSightApp.getApp().getPermissionsChecker().lacksPermissions(InterSightApp.getApp().CONTACTS)) {
+                    PermissionsActivity.startActivityForResult(mActivity, InterSightApp.getApp().REQUEST_CODE, InterSightApp.getApp().CONTACTS);
+                } else {
+                    if (InterSightApp.getApp().getPermissionsChecker().lacksPermissions(InterSightApp.getApp().CAMERA)) {
+                        PermissionsActivity.startActivityForResult(mActivity, InterSightApp.getApp().REQUEST_CODE, InterSightApp.getApp().CAMERA);
+                    } else {
+                        List<ItemModel> list = new ArrayList<>();
+                        list.add(new ItemModel(1, "拍照"));
+                        list.add(new ItemModel(2, "从相册选择"));
+
+                        dialog = DialogPlusUtils.Builder(mActivity)
+                                .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createSingleListView(list)))
+                                .setTitleName("请选择")
+                                .setIsHeader(true)
+                                .setIsFooter(false)
+                                .setIsExpanded(false)
+                                .setGravity(Gravity.CENTER)
+                                .showCompleteDialog();
+                        break;
+                    }
+                }
+                break;
             case R.id.mineIvRewriteInfo://编辑个人资料
                 EventBus.getDefault().post(new StartFragmentEvent(PersonalInfoFragment.newInstance()));
                 break;
@@ -180,4 +240,166 @@ public class MineFragment extends BaseLazyMainFragment {
                 break;
         }
     }
+
+    private View createSingleListView(List<ItemModel> list) {
+        SimpleTextAdapter adapter = new SimpleTextAdapter<ItemModel>(null, mActivity) {
+            @Override
+            public String provideText(ItemModel item) {
+                return item.getName();
+            }
+
+            @Override
+            protected void initCheckedTextView(FilterCheckedTextView checkedTextView) {
+                checkedTextView.setPadding(UIUtil.dp(mActivity, 12), UIUtil.dp(mActivity, 12), 0, UIUtil.dp(mActivity, 12));
+            }
+        };
+        SingleListView<ItemModel> singleListView = new SingleListView<>(mActivity)
+                .adapter(adapter)
+                .onItemClick(new OnFilterItemClickListener<ItemModel>() {
+                    @Override
+                    public void onItemClick(ItemModel item) {
+                        if (item.getKey() == 1) {
+                            cameraMethod();
+                        } else {
+                            if (InterSightApp.getApp().getPermissionsChecker().lacksPermissions(InterSightApp.getApp().CONTACTS)) {
+                                PermissionsActivity.startActivityForResult(mActivity, InterSightApp.getApp().REQUEST_CODE, InterSightApp.getApp().CONTACTS);
+                            } else {
+                                //跳转至最终的选择图片页面
+                                Intent intent = new Intent(mActivity, PhotoWallActivity.class);
+                                intent.putExtra("maximum", 1);
+                                startActivityForResult(intent, 200);
+                            }
+
+                        }
+                        dialog.dismiss();
+                    }
+                });
+
+        singleListView.setList(list, -1);
+
+        return singleListView;
+    }
+
+    /**
+     * 照相功能
+     */
+    private void cameraMethod() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        SimpleDateFormat timeStampFormat = new SimpleDateFormat(
+                "yyyy_MM_dd_HH_mm_ss");
+        String filename = timeStampFormat.format(new Date());
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Video.Media.TITLE, filename);
+
+        imgUri = mActivity.getContentResolver().insert(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
+        startActivityForResult(intent, RESULT_CAPTURE_IMAGE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 200 && resultCode == 400) {
+            ArrayList<String> paths = (ArrayList) data.getExtras().getSerializable("picData");
+            File temp = new File(paths.get(0).toString());
+            strImgPath = paths.get(0).toString();
+            startPhotoZoom(Uri.fromFile(temp));
+        } else if (requestCode == RESULT_CAPTURE_IMAGE && resultCode == mActivity.RESULT_OK) {
+            try {
+                if (null != data && null != data.getData()) {
+                    imgUri = data.getData();
+                }
+                startPhotoZoom(imgUri);
+            } catch (Exception e) {
+                Log.e("-----Exception--|=", e.getMessage());
+            }
+        } else if (requestCode == TAILORING && resultCode == mActivity.RESULT_OK) {
+            if (null != data) {
+                setPicToView(data);
+            }
+        }
+//        mActivity.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    /**
+     * 裁剪图片方法实现
+     *
+     * @param uri
+     */
+    public void startPhotoZoom(Uri uri) {
+        try {
+            strImgPath = FileUtils.getImageAbsolutePath(mActivity, uri);
+            // create explicit intent
+            Intent intent = new Intent(mActivity, CropImageActivity.class);
+
+            // tell CropImageActivity activity to look for image to crop
+            intent.putExtra(CropImageActivity.IMAGE_PATH, strImgPath);
+
+            // allow CropImageActivity activity to rescale image
+            intent.putExtra(CropImageActivity.SCALE, true);
+
+            // if the aspect ratio is fixed to ratio 3/2
+            intent.putExtra(CropImageActivity.ASPECT_X, 1);
+            intent.putExtra(CropImageActivity.ASPECT_Y, 1);
+            intent.putExtra(CropImageActivity.OUTPUT_X, 120);
+            intent.putExtra(CropImageActivity.OUTPUT_Y, 120);
+
+            // start activity CropImageActivity with certain request code and listen
+            // for result
+            startActivityForResult(intent, TAILORING);
+
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    /**
+     * 保存裁剪之后的图片数据
+     *
+     * @param picdata
+     */
+    private void setPicToView(Intent picdata) {
+        Bundle extras = picdata.getExtras();
+        if (extras != null) {
+            String path = extras.getString(CropImageActivity.IMAGE_PATH);
+            Bitmap photo = null;
+            // if nothing received
+            if (path != null) {
+                photo = BitmapFactory.decodeFile(path);
+            } else {
+                photo = BitmapFactory.decodeFile(strImgPath);
+            }
+
+            if (photo == null) {
+                return;
+            }
+            /**
+             * 下面注释的方法是将裁剪之后的图片以Base64Coder的字符方式上
+             * 传到服务器
+             */
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            photo.compress(Bitmap.CompressFormat.JPEG, 60, stream);
+            byte[] b = stream.toByteArray();
+            // 将图片流以字符串形式存储下来
+            String imageBase64Data = Base64.encodeToString(b, Base64.NO_WRAP);
+//            userInfo.setIconUri(strImgPath);
+            mineCIVPersonalInfo.setImageBitmap(photo);
+//            userInfo.setImgIco(new PicComment(FileUtils.getFileName(strImgPath), imageBase64Data));
+//            modify(userInfo);
+        }
+    }
+
+//    /**
+//     * 修改
+//     *
+//     * @param _userInfo
+//     */
+//    private void modify(final MyUserInfo _userInfo) {
+//        HashMap<String, String> requestParams = new HashMap<String, String>();
+//        requestParams.put("data", JSON.toJSONString(_userInfo));
+//        modifyUserInfo = toModifyUserInfo(_userInfo);
+//        userServer.modifyMyBaseInfo(new UserDataRepository(), AndroidSchedulers.mainThread(), modifyUserInfo, requestParams);
+//    }
 }

@@ -234,4 +234,6 @@ public class ScreenUtils {
                 .getSystemService(Context.KEYGUARD_SERVICE);
         return km.inKeyguardRestrictedInputMode();
     }
+
+
 }
