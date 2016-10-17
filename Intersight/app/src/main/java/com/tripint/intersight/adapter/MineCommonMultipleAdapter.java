@@ -1,6 +1,5 @@
 package com.tripint.intersight.adapter;
 
-import android.graphics.Color;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -8,19 +7,9 @@ import com.tripint.intersight.R;
 import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseMultiItemQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseViewHolder;
-import com.tripint.intersight.entity.Ability;
-import com.tripint.intersight.entity.discuss.DiscussEntiry;
-import com.tripint.intersight.entity.mine.AccountDetailEntity;
-import com.tripint.intersight.entity.mine.AskAnswerEntity;
-import com.tripint.intersight.entity.mine.FocusEntity;
-import com.tripint.intersight.entity.mine.InterviewEntity;
-import com.tripint.intersight.entity.mine.MineFollowPointEntity;
-import com.tripint.intersight.entity.user.UserEntity;
 import com.tripint.intersight.model.MineMultipleItemModel;
-
 import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
 
-import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
 /**
@@ -46,12 +35,12 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
         //我的问答
         addItemType(MineMultipleItemModel.MY_DISCUSS, R.layout.item_recyclerview_myaskanswer);
         //我关注的问答
-        addItemType(MineMultipleItemModel.MY_DISCUSS, R.layout.item_recyclerview_myaskanswer_focused);
+        addItemType(MineMultipleItemModel.MY_DISCUSS_FOLLOW, R.layout.item_recyclerview_myaskanswer_focused);
 
         //他的问答
         addItemType(MineMultipleItemModel.HIS_DISCUSS, R.layout.item_recyclerview_myaskanswer);
         //他关注的问答
-        addItemType(MineMultipleItemModel.HIS_DISCUSS, R.layout.item_recyclerview_myaskanswer_focused);
+        addItemType(MineMultipleItemModel.HIS_DISCUSS_FOLLOW, R.layout.item_recyclerview_myaskanswer_focused);
 
         //我的访谈
         addItemType(MineMultipleItemModel.MY_INTERVIEW, R.layout.item_recyclerview_myinterview);
@@ -117,7 +106,7 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
 
                     Glide.with(mContext).load(item.getMineFollowPointEntity().getAvatar())
                             .crossFade()
-                            .placeholder(R.drawable.loading_normal_icon)
+                            .placeholder(R.mipmap.ic_avatar)
                             .transform(new GlideCircleTransform(mContext))
                             .into((ImageView) helper.getView(R.id.opinion_imageView_owner_profile));
                 }
@@ -152,7 +141,7 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                     ;
                     Glide.with(mContext).load(item.getAskAnswerEntity().getUserAvatar())
                             .crossFade()
-                            .placeholder(R.drawable.loading_normal_icon)
+                            .placeholder(R.mipmap.ic_avatar)
                             .transform(new GlideCircleTransform(mContext))
                             .into((ImageView) helper.getView(R.id.ask_focus_iv_avatar));//头像
                 }
@@ -168,7 +157,7 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
 
                     Glide.with(mContext).load(item.getFocusEntity().getAvatar())//头像
                             .crossFade()
-                            .placeholder(R.drawable.loading_normal_icon)
+                            .placeholder(R.mipmap.ic_avatar)
                             .transform(new GlideCircleTransform(mContext))
                             .into((ImageView) helper.getView(R.id.focus_imageView_owner_profile));
                 }
@@ -185,7 +174,7 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
 
                     Glide.with(mContext).load(item.getFocusEntity().getAvatar())//头像
                             .crossFade()
-                            .placeholder(R.drawable.loading_normal_icon)
+                            .placeholder(R.mipmap.ic_avatar)
                             .transform(new GlideCircleTransform(mContext))
                             .into((ImageView) helper.getView(R.id.focus_imageView_owner_profile));
                 }

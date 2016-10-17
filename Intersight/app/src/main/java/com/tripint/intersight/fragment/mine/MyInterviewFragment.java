@@ -3,13 +3,13 @@ package com.tripint.intersight.fragment.mine;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.MineCommonMultipleAdapter;
 import com.tripint.intersight.common.BasePageableResponse;
@@ -27,6 +27,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -160,6 +161,7 @@ public class MyInterviewFragment extends BaseBackFragment implements BaseQuickAd
 
     private void initData(){
         int type = MineMultipleItemModel.MY_INTERVIEW;
+
 
         for (InterviewEntity entiry : data.getLists()) {
             models.add(new MineMultipleItemModel(type, entiry));

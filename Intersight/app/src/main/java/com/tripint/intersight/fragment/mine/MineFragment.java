@@ -44,7 +44,7 @@ import com.tripint.intersight.fragment.mine.photo.photo.PhotoWallActivity;
 import com.tripint.intersight.fragment.mine.setting.SettingFragment;
 import com.tripint.intersight.fragment.personal.PersonalMainPageFragment;
 import com.tripint.intersight.service.MineDataHttpRequest;
-import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
+import com.tripint.intersight.widget.image.CircleImageView;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
@@ -67,7 +67,7 @@ import butterknife.OnClick;
 public class MineFragment extends BaseLazyMainFragment {
 
     @Bind(R.id.mineCIVPersonalInfo)
-    ImageView mineCIVPersonalInfo;
+    CircleImageView mineCIVPersonalInfo;
     @Bind(R.id.mine_text_view_name)
     TextView mineTextViewName;
     @Bind(R.id.mineIvRewriteInfo)
@@ -84,8 +84,8 @@ public class MineFragment extends BaseLazyMainFragment {
     TextView textViewMyAccountDetail;
     @Bind(R.id.textView_my_focus)
     TextView textViewMyFocus;
-    @Bind(R.id.text_view_my_star)
-    TextView textViewMyStar;
+    //    @Bind(R.id.text_view_my_star)
+//    TextView textViewMyStar;
     @Bind(R.id.text_view_help)
     TextView textViewHelp;
     @Bind(R.id.text_view_setting)
@@ -131,7 +131,7 @@ public class MineFragment extends BaseLazyMainFragment {
                 .crossFade()
                 .fitCenter()
                 .placeholder(R.drawable.loading_normal_icon)
-                .transform(new GlideCircleTransform(mActivity))
+//                .transform(new GlideCircleTransform(mActivity))
                 .into(mineCIVPersonalInfo);
     }
 
@@ -180,7 +180,7 @@ public class MineFragment extends BaseLazyMainFragment {
 
     @OnClick({R.id.mineIvRewriteInfo, R.id.text_view_mine_ask_answer, R.id.text_view_mine_interview,
             R.id.text_view_my_option, R.id.text_view_my_money, R.id.text_view_my_account_detail,
-            R.id.textView_my_focus, R.id.text_view_my_star, R.id.text_view_help, R.id.text_view_setting
+            R.id.textView_my_focus, R.id.text_view_help, R.id.text_view_setting
             , R.id.mineCIVPersonalInfo})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -228,9 +228,9 @@ public class MineFragment extends BaseLazyMainFragment {
             case R.id.textView_my_focus://我的关注
                 EventBus.getDefault().post(new StartFragmentEvent(MyFocusedFragment.newInstance()));
                 break;
-            case R.id.text_view_my_star://明星洞察家
-                EventBus.getDefault().post(new StartFragmentEvent(StarIntersighterFragment.newInstance()));
-                break;
+//            case R.id.text_view_my_star://明星洞察家
+//                EventBus.getDefault().post(new StartFragmentEvent(StarIntersighterFragment.newInstance()));
+//                break;
             case R.id.text_view_help://使用帮助
 //                EventBus.getDefault().post(new StartFragmentEvent(UseHelpFragment.newInstance()));
                 EventBus.getDefault().post(new StartFragmentEvent(PersonalMainPageFragment.newInstance()));

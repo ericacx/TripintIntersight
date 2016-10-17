@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <ImageView
+                <com.tripint.intersight.widget.image.CircleImageView
                     android:id="@+id/mineCIVPersonalInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -190,25 +190,25 @@
                         android:textColor="@color/line" />
 
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_margin="@dimen/spacing_pad04"
-                        android:background="@color/line" />
+                    <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:layout_margin="@dimen/spacing_pad04"-->
+                    <!--android:background="@color/line" />-->
 
 
-                    <TextView
-                        android:id="@+id/text_view_my_star"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/height_5_80"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/spacing"
-                        android:drawableLeft="@mipmap/iconfont_mingxing"
-                        android:drawablePadding="@dimen/spacing"
-                        android:drawableRight="@mipmap/iconfont_nextarticle"
-                        android:gravity="left|center_vertical"
-                        android:text="明星洞察家"
-                        android:textColor="@color/line" />
+                    <!--<TextView-->
+                    <!--android:id="@+id/text_view_my_star"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="@dimen/height_5_80"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginLeft="@dimen/spacing"-->
+                    <!--android:drawableLeft="@mipmap/iconfont_mingxing"-->
+                    <!--android:drawablePadding="@dimen/spacing"-->
+                    <!--android:drawableRight="@mipmap/iconfont_nextarticle"-->
+                    <!--android:gravity="left|center_vertical"-->
+                    <!--android:text="明星洞察家"-->
+                    <!--android:textColor="@color/line" />-->
 
 
                     <View
