@@ -1,9 +1,9 @@
 package com.tripint.intersight.service;
 
 
+import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.BaseResponse;
 import com.tripint.intersight.entity.CodeDataEntity;
-import com.tripint.intersight.entity.ForgetPasswordEntity;
 import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
@@ -92,7 +92,10 @@ public interface BaseDataService {
 
     //观点列表
     @GET("articles")
-    Observable<BaseResponse> getArticles();
+    Observable<BaseResponse<BasePageableResponse<ArticlesEntity>>> getArticles(
+            @Query("page") int page,
+            @Query("size") int size
+    );
 
     //观点banner
     @GET("banner")
@@ -119,12 +122,5 @@ public interface BaseDataService {
                                                                 @Field("code") String code,
                                                                 @Field("password") String password,
                                                                 @Field("action") String action);
-    //文章（flipview）
-    @GET("articles")
-    Observable<BaseResponse<ArticlesEntity>> getArticles(
-            @Query("page") int page,
-            @Query("size") int size,
-            @Query("type") int type
-            );
 
 }

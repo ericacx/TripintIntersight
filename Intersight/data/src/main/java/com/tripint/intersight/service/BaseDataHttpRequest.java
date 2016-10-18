@@ -2,8 +2,8 @@ package com.tripint.intersight.service;
 
 import android.content.Context;
 
+import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.entity.CodeDataEntity;
-import com.tripint.intersight.entity.ForgetPasswordEntity;
 import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
@@ -80,18 +80,6 @@ public class BaseDataHttpRequest extends HttpRequest {
         toSubscribe(observable, subscriber);
     }
 
-    /**
-     * 用于获取搜索的过滤条件数据
-     *
-     * @param subscriber 由调用者传过来的观察者对象
-     */
-    public void getArticles(Subscriber<ArticlesEntity> subscriber,int page,int size,int type) {
-
-        Observable observable = baseDataService.getArticles(page,size,type)
-                .map(new HttpResultFunc<ArticlesEntity>());
-
-        toSubscribe(observable, subscriber);
-    }
 
     /**
      * 用于获取搜索的过滤条件数据
@@ -205,6 +193,17 @@ public class BaseDataHttpRequest extends HttpRequest {
         toSubscribe(observable,subscriber);
     }
 
+
+    /**
+     * 用于获取观点页面数据
+     * @param subscriber
+     * @param page
+     */
+    public void getArticles(Subscriber<BasePageableResponse<ArticlesEntity>> subscriber, int page){
+        Observable observable = baseDataService.getArticles(page,DEFAULT_PAGE_SIZE)
+                .map(new HttpResultFunc<BasePageableResponse<ArticlesEntity>>());
+        toSubscribe(observable,subscriber);
+    }
 
     /**
      * 用于获取观点页面的banner

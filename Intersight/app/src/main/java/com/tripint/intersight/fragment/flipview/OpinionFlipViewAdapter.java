@@ -1,7 +1,6 @@
 package com.tripint.intersight.fragment.flipview;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -13,7 +12,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.tripint.intersight.R;
+import com.tripint.intersight.entity.article.ArticlesEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,26 +28,35 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
 
     private Context context;
     private List<TextView> textViews;
-    private List<String> resList;
+
+    private List<ArticlesEntity> resList;//数据源
+
     private final int VIEWTYPE_ONE = 0;//首页,带有banner
     private final int VIEWTYPE_TWO = 1;//图文
     private final int VIEWTYPE_THREE = 2;//只有文字
 
+    List<String> urlList = new ArrayList<>();//banner图片的数据源
 
-    public OpinionFlipViewAdapter(Context context, List<String> list) {
+    public OpinionFlipViewAdapter(Context context, List<ArticlesEntity> list) {
         this.context = context;
         this.resList = list;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
+        if (resList.get(position).getType() == 0) {
             return VIEWTYPE_ONE;//第1个条目加载第1种布局
-        } else if (position == 1) {
+        } else if (resList.get(position).getType() == 1) {
             return VIEWTYPE_TWO;//第2个条目加载第2种布局
-        }else {
+        }
+        else
+//        if (resList.get(position).getType() == 2)
+        {
             return VIEWTYPE_THREE;//其他的条目加载第3种布局
         }
+//        else {
+//            return position;
+//        }
     }
 
     @Override
@@ -56,7 +66,7 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 5;
+        return resList.size();
     }
 
     @Override
@@ -93,14 +103,31 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
                     viewHolderOne.opinionFlipviewOneTv1 = (TextView) convertView.findViewById(R.id.opinion_flipview_one_tv1);
                     viewHolderOne.opinionFlipviewOneTv2 = ((TextView) convertView.findViewById(R.id.opinion_flipview_one_tv2));
                     viewHolderOne.opinionFlipviewOneTv3 = ((TextView) convertView.findViewById(R.id.opinion_flipview_one_tv3));
+                    viewHolderOne.opinionFlipviewOneHeader = ((TextView) convertView.findViewById(R.id.opinion_flipview_one_header));
+                    viewHolderOne.opinionFlipviewOneContent = ((TextView) convertView.findViewById(R.id.opinion_flipview_one_content));
+                    viewHolderOne.opinionFlipviewOneName = ((TextView) convertView.findViewById(R.id.opinion_flipview_one_name));
+                    viewHolderOne.opinionFlipviewOneTrade = ((TextView) convertView.findViewById(R.id.opinion_flipview_one_trade));
+                    viewHolderOne.opinionFlipviewOneTime = ((TextView) convertView.findViewById(R.id.opinion_flipview_one_time));
+                    viewHolderOne.opinionFlipviewOneTitle = ((TextView) convertView.findViewById(R.id.opinion_flipview_one_title));
                     convertView.setTag(viewHolderOne);
                     break;
                 case VIEWTYPE_TWO:
                     convertView = LayoutInflater.from(context).inflate(R.layout.opinion_flipview_two, parent, false);
+                    viewHolderTwo.opinionFlipviewTwoPic = ((ImageView) convertView.findViewById(R.id.opinion_flipview_two_pic));
+                    viewHolderTwo.opinionFlipviewTwoHeader = ((TextView) convertView.findViewById(R.id.opinion_flipview_two_header));
+                    viewHolderTwo.opinionFlipviewTwoContent = ((TextView) convertView.findViewById(R.id.opinion_flipview_two_content));
+                    viewHolderTwo.opinionFlipviewTwoName = ((TextView) convertView.findViewById(R.id.opinion_flipview_two_name));
+                    viewHolderTwo.opinionFlipviewTwoTrade = ((TextView) convertView.findViewById(R.id.opinion_flipview_two_trade));
+                    viewHolderTwo.opinionFlipviewTwoTitle = ((TextView) convertView.findViewById(R.id.opinion_flipview_two_title));
+                    viewHolderTwo.opinionFlipviewTwoAgreeNum = ((TextView) convertView.findViewById(R.id.opinion_flipview_two_agreeNum));
+                    viewHolderTwo.opinionFlipviewTwoTalkNum = ((TextView) convertView.findViewById(R.id.opinion_flipview_two_talkNum));
+
                     convertView.setTag(viewHolderTwo);
                     break;
                 case VIEWTYPE_THREE:
                     convertView = LayoutInflater.from(context).inflate(R.layout.opinion_flipview_three, parent, false);
+                    viewHolderThree.opioionFlipviewThreeContent = ((TextView) convertView.findViewById(R.id.opioion_flipview_three_content));
+                    viewHolderThree.opinionFlipviewThreeTime = ((TextView) convertView.findViewById(R.id.opinion_flipview_three_time));
                     convertView.setTag(viewHolderThree);
                     break;
                 default:
@@ -108,8 +135,6 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
             }
 
         } else {
-
-            viewHolderOne = (ViewHolderOne) convertView.getTag();
             switch (type) {
                 case VIEWTYPE_ONE:
                     viewHolderOne = (ViewHolderOne) convertView.getTag();
@@ -123,7 +148,6 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
             }
 
         }
-
 
 
         //设置资源
@@ -164,7 +188,11 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
                     }
                 });
 
-                viewHolderOne.opinionFlipviewOneViewpager.setAdapter(new ViewPagerBannerAdapter(context, resList));
+
+                for (int i = 0; i < resList.get(position).getBanner().size(); i++) {
+                    urlList.add(resList.get(position).getBanner().get(i).getUrl());
+                }
+                viewHolderOne.opinionFlipviewOneViewpager.setAdapter(new ViewPagerBannerAdapter(context, urlList));
                 viewHolderOne.opinionFlipviewOneViewpager.setCurrentItem(1200);
                 Log.e("position", viewHolderOne.opinionFlipviewOneViewpager.getCurrentItem() + "");
                 viewHolderOne.opinionFlipviewOneViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -187,13 +215,51 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
 
                     }
                 });
+                if (resList.get(position).getArticle() != null) {
+                    viewHolderOne.opinionFlipviewOneHeader.setText(resList.get(position).getArticle().get(position).getTitle());
+                    viewHolderOne.opinionFlipviewOneContent.setText(resList.get(position).getArticle().get(position).getContent());
 
+                    if (resList.get(position).getArticle().get(position).getIndustry() != null) {
+                        viewHolderOne.opinionFlipviewOneTrade.setText(resList.get(position).getArticle().get(position).getIndustry().getName());
+                    }
+                    if (resList.get(position).getArticle().get(position).getUserInfo() != null) {
+                        viewHolderOne.opinionFlipviewOneTitle.setText(resList.get(position).getArticle().get(position).getUserInfo().getPosition().getName());
+                        viewHolderOne.opinionFlipviewOneTime.setText(resList.get(position).getArticle().get(position).getUserInfo().getCreateAt());
+                        viewHolderOne.opinionFlipviewOneName.setText(resList.get(position).getArticle().get(position).getUserInfo().getNickname());
+                    }
+
+                }
                 break;
             case VIEWTYPE_TWO:
-
+                if (resList.get(position).getImgTextDetail() != null) {
+                    Glide.with(context).load(resList.get(position).getImgTextDetail().get(0).getThumb())
+                            .crossFade()
+                            .placeholder(R.drawable.loading_normal_icon)
+                            .into(viewHolderTwo.opinionFlipviewTwoPic);
+                    viewHolderTwo.opinionFlipviewTwoHeader.setText(resList.get(position).getImgTextDetail().get(0).getTitle());
+                    viewHolderTwo.opinionFlipviewTwoContent.setText(resList.get(position).getImgTextDetail().get(0).getContent());
+//                    viewHolderTwo.opinionFlipviewTwoAgreeNum.setText(resList.get(position).getImgTextDetail().get(0).getPraises());
+//                    viewHolderTwo.opinionFlipviewTwoTalkNum.setText(resList.get(position).getImgTextDetail().get(0).getComments());
+                    if (resList.get(position).getImgTextDetail().get(0).getIndustry() != null) {//行业
+                        viewHolderTwo.opinionFlipviewTwoTrade.setText(resList.get(position).getImgTextDetail().get(0).getIndustry().getName());
+                    }
+                    if (resList.get(position).getImgTextDetail().get(0).getUserInfo() != null) {
+                        viewHolderTwo.opinionFlipviewTwoName.setText(resList.get(position).getImgTextDetail().get(0).getUserInfo().getNickname());
+                        if (resList.get(position).getImgTextDetail().get(0).getUserInfo().getPosition() != null) {
+                            viewHolderTwo.opinionFlipviewTwoTitle.setText(resList.get(position).getImgTextDetail().get(0).getUserInfo().getPosition().getName());
+                        }
+                    }
+                }
                 break;
             case VIEWTYPE_THREE:
+//                if (resList.get(position).getTextDetail() != null) {
+//                    viewHolderThree.opioionFlipviewThreeContent.setText(resList.get(position).getTextDetail().get(0).getContent());
+//                    viewHolderThree.opinionFlipviewThreeTime.setText(resList.get(position).getTextDetail().get(0).getCreateAt());
 
+//                    viewHolderThree.opioionFlipviewThreeContent.setText(resList.get(position).getTextDetail().get(1).getContent());
+//                    viewHolderThree.opinionFlipviewThreeTime.setText(resList.get(position).getTextDetail().get(1).getCreateAt());
+
+//                }
                 break;
         }
         return convertView;
@@ -256,41 +322,23 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
      * 第3种布局的控件
      */
     class ViewHolderThree {
-        @Bind(R.id.opinion_flipview_three_photo1)
-        ImageView opinionFlipviewThreePhoto1;
-        @Bind(R.id.opinionflipview_three_name1)
-        TextView opinionflipviewThreeName1;
-        @Bind(R.id.opinion_flipview_three_trade1)
-        TextView opinionFlipviewThreeTrade1;
-        @Bind(R.id.opinion_flipview_three_title1)
-        TextView opinionFlipviewThreeTitle1;
-        @Bind(R.id.opinion_flipview_time1)
-        TextView opinionFlipviewTime1;
-        @Bind(R.id.opioion_flipview_three_content1)
-        TextView opioionFlipviewThreeContent1;
-        @Bind(R.id.iv1)
-        ImageView iv1;
-        @Bind(R.id.iv2)
-        ImageView iv2;
-        @Bind(R.id.iv3)
-        ImageView iv3;
+        @Bind(R.id.opioion_flipview_three_content)
+        TextView opioionFlipviewThreeContent;
+        @Bind(R.id.opinion_flipview_three_time)
+        TextView opinionFlipviewThreeTime;
+        @Bind(R.id.opinion_flipview_two_name)
+        TextView opinionFlipviewTwoName;
+        @Bind(R.id.opinion_flipview_two_trade)
+        TextView opinionFlipviewTwoTrade;
+        @Bind(R.id.opinion_flipview_two_title)
+        TextView opinionFlipviewTwoTitle;
+        @Bind(R.id.opinion_flipview_three_agreeNum)
+        TextView opinionFlipviewThreeAgreeNum;
+        @Bind(R.id.opinion_flipview_three_talkNum)
+        TextView opinionFlipviewThreeTalkNum;
+        @Bind(R.id.opinion_flipview_three_report)
+        TextView opinionFlipviewThreeReport;
 
-        @Bind(R.id.opinion_flipview_three_photo2)
-        ImageView opinionFlipviewThreePhoto2;
-        @Bind(R.id.opinionflipview_three_name2)
-        TextView opinionflipviewThreeName2;
-        @Bind(R.id.opinion_flipview_three_trade2)
-        TextView opinionFlipviewThreeTrade2;
-        @Bind(R.id.opinion_flipview_three_title2)
-        TextView opinionFlipviewThreeTitle2;
-        @Bind(R.id.opinion_flipview_three_time2)
-        TextView opinionFlipviewThreeTime2;
-        @Bind(R.id.iv4)
-        ImageView iv4;
-        @Bind(R.id.iv5)
-        ImageView iv5;
-        @Bind(R.id.iv6)
-        ImageView iv6;
     }
 
 }

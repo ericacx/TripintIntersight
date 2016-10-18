@@ -7,18 +7,10 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by Eric on 16/9/27.
+ * Created by Eric on 16/10/17.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArticleBannerEntity implements Serializable {
-
-
-    /**
-     * id : 1
-     * url : http://oc153j0jh.bkt.clouddn.com/QkhJA6UHZ5S7HRNExjyB.jpeg
-     * type : 2
-     */
-
     private List<BannerEntity> banner;
 
     public List<BannerEntity> getBanner() {
@@ -28,5 +20,4 @@ public class ArticleBannerEntity implements Serializable {
     public void setBanner(List<BannerEntity> banner) {
         this.banner = banner;
     }
-
 }

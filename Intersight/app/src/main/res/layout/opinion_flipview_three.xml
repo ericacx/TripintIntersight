@@ -11,63 +11,8 @@
         android:layout_margin="@dimen/spacing"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/opinion_flipview_three_photo1"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/height_5_80"
-                android:src="@mipmap/iconfont_mima" />
-
-            <TextView
-                android:id="@+id/opinionflipview_three_name1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@id/opinion_flipview_three_photo1"
-                android:layout_marginLeft="@dimen/spacing"
-                android:layout_toRightOf="@id/opinion_flipview_three_photo1"
-                android:text="Susan"
-                android:textColor="@color/line" />
-
-            <TextView
-                android:id="@+id/opinion_flipview_three_trade1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/opinion_flipview_three_photo1"
-                android:layout_alignLeft="@id/opinionflipview_three_name1"
-                android:layout_toRightOf="@id/opinion_flipview_three_photo1"
-                android:text="金融"
-                android:textColor="@color/line" />
-
-
-            <TextView
-                android:id="@+id/opinion_flipview_three_title1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/opinion_flipview_three_trade1"
-                android:layout_marginLeft="@dimen/spacing"
-                android:layout_toRightOf="@id/opinion_flipview_three_trade1"
-                android:text="研究员"
-                android:textColor="@color/line" />
-
-            <TextView
-                android:id="@+id/opinion_flipview_time1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/opinion_flipview_three_title1"
-                android:layout_alignParentRight="true"
-                android:layout_toRightOf="@id/opinion_flipview_three_title1"
-                android:gravity="end"
-                android:text="3小时前"
-                android:textColor="@color/line"
-                android:textSize="@dimen/text_size_12" />
-        </RelativeLayout>
-
-
         <TextView
-            android:id="@+id/opioion_flipview_three_content1"
+            android:id="@+id/opioion_flipview_three_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_02"
@@ -78,147 +23,96 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing">
+            android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/iv1"
+            <TextView
+                android:id="@+id/opinion_flipview_three_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:src="@mipmap/iconfont_mima" />
+                android:layout_alignParentRight="true"
+                android:gravity="end"
+                android:text="3小时前"
+                android:textColor="@color/line"
+                android:textSize="@dimen/text_size_12" />
 
-            <ImageView
-                android:id="@+id/iv2"
+            <TextView
+                android:id="@+id/opinion_flipview_two_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="@dimen/spacing_02"
-                android:layout_toRightOf="@+id/iv1"
-                android:src="@mipmap/iconfont_mima" />
+                android:layout_marginLeft="@dimen/spacing"
+                android:text="Maggie"
+                android:textColor="@color/line"
+                android:textSize="@dimen/text_size_12" />
 
-            <ImageView
-                android:id="@+id/iv3"
+            <TextView
+                android:id="@+id/opinion_flipview_two_trade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="@dimen/spacing_02"
-                android:layout_toRightOf="@+id/iv2"
-                android:src="@mipmap/iconfont_mima" />
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_toRightOf="@id/opinion_flipview_two_name"
+                android:text="互联网 | 游戏 | 软件"
+                android:textColor="@color/line"
+                android:textSize="@dimen/text_size_12" />
+
+            <TextView
+                android:id="@+id/opinion_flipview_two_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_toRightOf="@id/opinion_flipview_two_trade"
+                android:text="销售总监"
+                android:textColor="@color/line"
+                android:textSize="@dimen/text_size_12" />
+
+
 
         </RelativeLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing"
-        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/opinion_flipview_three_photo2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/height_5_80"
-                    android:src="@mipmap/iconfont_mima" />
-
-                <TextView
-                    android:id="@+id/opinionflipview_three_name2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/opinion_flipview_three_photo2"
-                    android:layout_marginLeft="@dimen/spacing"
-                    android:layout_toRightOf="@id/opinion_flipview_three_photo2"
-                    android:text="Susan"
-                    android:textColor="@color/line" />
-
-                <TextView
-                    android:id="@+id/opinion_flipview_three_trade2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/opinion_flipview_three_photo2"
-                    android:layout_alignLeft="@id/opinionflipview_three_name2"
-                    android:layout_toRightOf="@id/opinion_flipview_three_photo2"
-                    android:text="金融"
-                    android:textColor="@color/line" />
-
-
-                <TextView
-                    android:id="@+id/opinion_flipview_three_title2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/opinion_flipview_three_trade2"
-                    android:layout_marginLeft="@dimen/spacing"
-                    android:layout_toRightOf="@id/opinion_flipview_three_trade2"
-                    android:text="研究员"
-                    android:textColor="@color/line" />
-
-                <TextView
-                    android:id="@+id/opinion_flipview_three_time2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/opinion_flipview_three_title2"
-                    android:layout_alignParentRight="true"
-                    android:layout_toRightOf="@id/opinion_flipview_three_title2"
-                    android:gravity="end"
-                    android:text="3小时前"
-                    android:textColor="@color/line"
-                    android:textSize="@dimen/text_size_12" />
-            </RelativeLayout>
-
+            android:layout_marginLeft="@dimen/spacing"
+            android:layout_marginTop="@dimen/spacing"
+            android:gravity="end"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_02"
-                android:lineSpacingMultiplier="1.5"
-                android:text="@string/opinion_text_content"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_12" />
+                android:id="@+id/opinion_flipview_three_agreeNum"
+                android:layout_width="@dimen/width_15_80"
+                android:layout_height="@dimen/height_4_80"
+                android:gravity="center_vertical"
+                android:drawableLeft="@mipmap/iconfont_mima"
+                android:drawablePadding="@dimen/spacing"
+                android:layout_marginLeft="@dimen/spacing"
+                android:text="285"
+                android:textColor="@color/line" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing">
+            <TextView
+                android:id="@+id/opinion_flipview_three_talkNum"
+                android:layout_width="@dimen/width_15_80"
+                android:layout_height="@dimen/height_4_80"
+                android:gravity="center_vertical"
+                android:drawablePadding="@dimen/spacing"
+                android:layout_marginLeft="@dimen/spacing"
+                android:drawableLeft="@mipmap/iconfont_mima"
+                android:text="5"
+                android:textColor="@color/line" />
 
-                <ImageView
-                    android:id="@+id/iv4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:src="@mipmap/iconfont_mima" />
-
-                <ImageView
-                    android:id="@+id/iv5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="@dimen/spacing_02"
-                    android:layout_toRightOf="@+id/iv4"
-                    android:src="@mipmap/iconfont_mima" />
-
-                <ImageView
-                    android:id="@+id/iv6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="@dimen/spacing_02"
-                    android:layout_toRightOf="@+id/iv5"
-                    android:src="@mipmap/iconfont_mima" />
-
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/opinion_flipview_three_report"
+                android:layout_width="@dimen/width_15_80"
+                android:layout_height="@dimen/height_4_80"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="@dimen/spacing"
+                android:drawablePadding="@dimen/spacing"
+                android:drawableLeft="@mipmap/iconfont_mima"
+                />
 
         </LinearLayout>
+
+
     </LinearLayout>
+
 
 </LinearLayout>

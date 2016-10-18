@@ -94,7 +94,7 @@ public class MyFocusedFragment extends BaseBackFragment implements BaseQuickAdap
             public void onNext(BasePageableResponse<FocusEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
-                Log.e("myfocus", String.valueOf(entity.getTotal()));
+                Log.e("myfocus", String.valueOf(entity.getLists()));
                 initView(null);
                 initAdapter(tab);
             }

@@ -3,22 +3,22 @@ package com.tripint.intersight.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.tripint.intersight.R;
+import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.widget.flipview.FlipView;
-import com.tripint.intersight.entity.article.ArticleBannerEntity;
+import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
+import com.tripint.intersight.entity.article.ArticlesEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.fragment.flipview.OpinionFlipViewAdapter;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,14 +27,17 @@ import butterknife.ButterKnife;
  * 观点(文章)画面
  * A simple {@link Fragment} subclass.
  */
-public class OpinionFragment extends BaseBackFragment {
+public class OpinionFragment extends BaseBackFragment{
 
     @Bind(R.id.opinionFlipView)
     FlipView opinionFlipView;
-    private OpinionFlipViewAdapter mOpinionFlipViewAdapter2;
-    private List<String> stringList;//图片url集合
-    private ArticleBannerEntity articleBannerEntity;
-    private PageDataSubscriberOnNext<ArticleBannerEntity> subscriber;
+//    @Bind(R.id.swipe_refresh_layout)
+//    SwipeRefreshLayout swipeRefreshLayout;
+
+    private OpinionFlipViewAdapter mAdapter;
+
+    private BasePageableResponse<ArticlesEntity> data = new BasePageableResponse<ArticlesEntity>();
+    private PageDataSubscriberOnNext<BasePageableResponse<ArticlesEntity>> subscriber;
 
     public static OpinionFragment newInstance() {
 
@@ -52,25 +55,27 @@ public class OpinionFragment extends BaseBackFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_opinion, container, false);
         ButterKnife.bind(this, view);
+        httpRequestData();
+        return view;
+    }
 
 
-        subscriber = new PageDataSubscriberOnNext<ArticleBannerEntity>(){
+    private void httpRequestData() {
+        subscriber = new PageDataSubscriberOnNext<BasePageableResponse<ArticlesEntity>>() {
             @Override
-            public void onNext(ArticleBannerEntity entity) {
-                articleBannerEntity = entity;
-                stringList = new ArrayList<String>();
-                for (int i = 0; i < entity.getBanner().size(); i++) {
-                    stringList.add(entity.getBanner().get(i).getUrl());
-                    Log.e("opinion",stringList.get(i));
-                }
-                mOpinionFlipViewAdapter2 = new OpinionFlipViewAdapter(mActivity,stringList);
-                opinionFlipView.setAdapter(mOpinionFlipViewAdapter2);
+            public void onNext(BasePageableResponse<ArticlesEntity> entity) {
+                data = entity;
+                Log.e("sss", String.valueOf(entity.getLists()));
+                initAdapter();
             }
         };
-        BaseDataHttpRequest.getInstance(mActivity).getArticleBanner(
-                new ProgressSubscriber(subscriber, mActivity),2);
+        BaseDataHttpRequest.getInstance(mActivity).getArticles(
+                new ProgressSubscriber(subscriber, mActivity), 1);
+    }
 
-        return view;
+    private void initAdapter() {
+        mAdapter = new OpinionFlipViewAdapter(mActivity, data.getLists());
+        opinionFlipView.setAdapter(mAdapter);
     }
 
     @Override
@@ -78,4 +83,5 @@ public class OpinionFragment extends BaseBackFragment {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
 }

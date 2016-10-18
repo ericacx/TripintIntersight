@@ -1,6 +1,7 @@
 package com.tripint.intersight.entity.article;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.tripint.intersight.entity.common.BannerEntity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,9 +13,10 @@ import java.util.List;
 public class ArticlesEntity implements Serializable {
 
     private int type;//0:banner 1:图文 2:文字
-    private List<ArticleBannerEntity> banner;//banner
+    private List<BannerEntity> banner;//banner
     private List<ArticleContentEntity> article;//带有banner的文章资源
-    private List<DetailEntity> detail;
+    private List<TextDetailEntity> textDetail;//文字
+    private List<ArticleContentEntity> imgTextDetail;//图文
 
     public int getType() {
         return type;
@@ -24,11 +26,11 @@ public class ArticlesEntity implements Serializable {
         this.type = type;
     }
 
-    public List<ArticleBannerEntity> getBanner() {
+    public List<BannerEntity> getBanner() {
         return banner;
     }
 
-    public void setBanner(List<ArticleBannerEntity> banner) {
+    public void setBanner(List<BannerEntity> banner) {
         this.banner = banner;
     }
 
@@ -40,11 +42,19 @@ public class ArticlesEntity implements Serializable {
         this.article = article;
     }
 
-    public List<DetailEntity> getDetail() {
-        return detail;
+    public List<TextDetailEntity> getTextDetail() {
+        return textDetail;
     }
 
-    public void setDetail(List<DetailEntity> detail) {
-        this.detail = detail;
+    public void setTextDetail(List<TextDetailEntity> textDetail) {
+        this.textDetail = textDetail;
+    }
+
+    public List<ArticleContentEntity> getImgTextDetail() {
+        return imgTextDetail;
+    }
+
+    public void setImgTextDetail(List<ArticleContentEntity> imgTextDetail) {
+        this.imgTextDetail = imgTextDetail;
     }
 }

@@ -11,7 +11,6 @@ import java.io.Serializable;
 public class ArticleContentEntity implements Serializable {
 
     /*
-     * 第二种类型  图文   第三种类型  :纯text
      */
 
     //图文
@@ -33,14 +32,9 @@ public class ArticleContentEntity implements Serializable {
     private int createAt;
     private int updateAt;
     private int removeAt;
-    private ArticleUserInfoEntity articleUserInfoEntity;
-    private ArticleIndustryEntity articleIndustryEntity;
+    private ArticleUserInfoEntity userInfo;
+    private ArticleIndustryEntity industry;
 
-    private int id2;
-    private String content2;
-    private int uid2;
-    private int industryId2;
-    private int createAt2;
 
     public String getContent() {
         return content;
@@ -186,19 +180,19 @@ public class ArticleContentEntity implements Serializable {
         this.removeAt = removeAt;
     }
 
-    public ArticleUserInfoEntity getArticleUserInfoEntity() {
-        return articleUserInfoEntity;
+    public ArticleUserInfoEntity getUserInfo() {
+        return userInfo;
     }
 
-    public void setArticleUserInfoEntity(ArticleUserInfoEntity articleUserInfoEntity) {
-        this.articleUserInfoEntity = articleUserInfoEntity;
+    public void setUserInfo(ArticleUserInfoEntity userInfo) {
+        this.userInfo = userInfo;
     }
 
-    public ArticleIndustryEntity getArticleIndustryEntity() {
-        return articleIndustryEntity;
+    public ArticleIndustryEntity getIndustry() {
+        return industry;
     }
 
-    public void setArticleIndustryEntity(ArticleIndustryEntity articleIndustryEntity) {
-        this.articleIndustryEntity = articleIndustryEntity;
+    public void setIndustry(ArticleIndustryEntity industry) {
+        this.industry = industry;
     }
 }
