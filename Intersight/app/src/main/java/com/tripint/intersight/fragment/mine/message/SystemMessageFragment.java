@@ -16,7 +16,7 @@ import com.tripint.intersight.adapter.MineCommonMultipleAdapter;
 import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
-import com.tripint.intersight.entity.message.MessageDataEntity;
+import com.tripint.intersight.entity.message.MessageContentEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
 import com.tripint.intersight.service.MessageDataHttpRequest;
@@ -53,8 +53,8 @@ public class SystemMessageFragment extends BaseBackFragment implements BaseQuick
 
     private MineCommonMultipleAdapter mAdapter;
 
-    private PageDataSubscriberOnNext<BasePageableResponse<MessageDataEntity>> subscriber;
-    private BasePageableResponse<MessageDataEntity> data = new BasePageableResponse<MessageDataEntity>();
+    private PageDataSubscriberOnNext<BasePageableResponse<MessageContentEntity>> subscriber;
+    private BasePageableResponse<MessageContentEntity> data = new BasePageableResponse<MessageContentEntity>();
 
     public static SystemMessageFragment newInstance() {
         Bundle args = new Bundle();
@@ -79,16 +79,16 @@ public class SystemMessageFragment extends BaseBackFragment implements BaseQuick
      * 请求数据
      */
     private void httpRequestData() {
-        subscriber = new PageDataSubscriberOnNext<BasePageableResponse<MessageDataEntity>>() {
+        subscriber = new PageDataSubscriberOnNext<BasePageableResponse<MessageContentEntity>>() {
             @Override
-            public void onNext(BasePageableResponse<MessageDataEntity> messageDataEntities) {
+            public void onNext(BasePageableResponse<MessageContentEntity> messageDataEntities) {
                 data = messageDataEntities;
                 initView(null);
                 //适配数据
                 initAdapter();
             }
         };
-        MessageDataHttpRequest.getInstance(mActivity).getSystemMessage(new ProgressSubscriber(subscriber, mActivity),1);
+//        MessageDataHttpRequest.getInstance(mActivity).getSystemMessage(new ProgressSubscriber(subscriber, mActivity),1);
     }
 
     private void initToolbar() {

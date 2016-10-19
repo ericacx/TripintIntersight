@@ -79,8 +79,8 @@ public class CommentPhraiseFragment extends BaseBackFragment implements BaseQuic
     private void httpResquestData() {
         subscriber = new PageDataSubscriberOnNext<BasePageableResponse<CommentPraiseEntity>>() {
             @Override
-            public void onNext(BasePageableResponse<CommentPraiseEntity> commentPraiseEntities) {
-                data = commentPraiseEntities;
+            public void onNext(BasePageableResponse<CommentPraiseEntity> entity) {
+                data = entity;
                 initView(null);
                 initAdapter();
             }

@@ -24,7 +24,7 @@ import butterknife.Bind;
 /**
  * Created by Eric on 16/9/20.
  */
-public class OpinionFlipViewAdapter extends BaseAdapter {
+public class OpinionFlipViewAdapter extends BaseAdapter{
 
     private Context context;
     private List<TextView> textViews;

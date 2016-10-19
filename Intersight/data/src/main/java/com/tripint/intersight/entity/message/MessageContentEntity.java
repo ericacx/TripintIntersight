@@ -8,18 +8,15 @@ import java.io.Serializable;
  * Created by Eric on 16/10/10.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MessageDataEntity implements Serializable {
+public class MessageContentEntity implements Serializable {
 
     private int id;
-    private String subject;
-    private String content;
-    private String time;
+    private String subject;//标题
+    private int time;
     private int code;
     private String nickname;
     private int createAt;
-    private String name;
-    private String title;
-    private String avatar;
+    private int state;//3:发起访谈,
 
     public int getId() {
         return id;
@@ -37,19 +34,11 @@ public class MessageDataEntity implements Serializable {
         this.subject = subject;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getTime() {
+    public int getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(int time) {
         this.time = time;
     }
 
@@ -77,27 +66,11 @@ public class MessageDataEntity implements Serializable {
         this.createAt = createAt;
     }
 
-    public String getName() {
-        return name;
+    public int getState() {
+        return state;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setState(int state) {
+        this.state = state;
     }
 }

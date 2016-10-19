@@ -4,11 +4,9 @@ package com.tripint.intersight.fragment.mine.message;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +14,10 @@ import android.widget.TextView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.MineCommonMultipleAdapter;
-import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
-import com.tripint.intersight.entity.message.MessageDataEntity;
+import com.tripint.intersight.entity.message.MessageContentEntity;
+import com.tripint.intersight.entity.message.MessageEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
@@ -64,12 +62,15 @@ public class NewMessageFragment extends BaseBackFragment implements BaseQuickAda
 
     private int mCurrentCounter = 0;
 
-    List<MineMultipleItemModel> models = new ArrayList<>();
-
     private MineCommonMultipleAdapter mAdapter;
 
-    private PageDataSubscriberOnNext<BasePageableResponse<MessageDataEntity>> subscriber;
-    private BasePageableResponse<MessageDataEntity> data = new BasePageableResponse<MessageDataEntity>();
+    private PageDataSubscriberOnNext<MessageEntity> subscriber;
+    private MessageEntity data = new MessageEntity();
+    List<MineMultipleItemModel> models = new ArrayList<>();
+
+    private int interview;
+    private int discuss;
+    private int comment;
 
     public static NewMessageFragment newInstance() {
         Bundle args = new Bundle();
@@ -86,19 +87,46 @@ public class NewMessageFragment extends BaseBackFragment implements BaseQuickAda
         ButterKnife.bind(this, view);
         initToolbar();
         httpRequestData();
+        initLayout();
         return view;
+    }
+
+    /**
+     * 是否显示小红点
+     */
+    private void initLayout() {
+        if (interview != 0){
+
+        } else {
+
+        }
+
+        if (discuss != 0){
+
+        } else {
+
+        }
+
+        if (comment != 0){
+
+        } else {
+
+        }
     }
 
     /**
      * 请求数据
      */
     private void httpRequestData() {
-        subscriber = new PageDataSubscriberOnNext<BasePageableResponse<MessageDataEntity>>() {
+        subscriber = new PageDataSubscriberOnNext<MessageEntity>() {
             @Override
-            public void onNext(BasePageableResponse<MessageDataEntity> entity) {
+            public void onNext(MessageEntity entity) {
                 data = entity;
-                Log.e("newmessage", String.valueOf(entity.getTotal()));
                 initView(null);
+                interview = data.getInterview();
+                discuss = data.getDiscuss();
+                comment = data.getComment();
+//                models = data.getLists();
                 //适配数据
                 initAdapter();
             }
@@ -200,7 +228,7 @@ public class NewMessageFragment extends BaseBackFragment implements BaseQuickAda
     private void initData(){
         int type = MineMultipleItemModel.MY_MESSAGE_NEW;
 
-        for (MessageDataEntity entity : data.getLists()) {
+        for (MessageContentEntity entity : data.getLists()) {
             models.add(new MineMultipleItemModel(type, entity));
         }
     }

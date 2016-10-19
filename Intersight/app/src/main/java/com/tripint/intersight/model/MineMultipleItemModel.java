@@ -1,9 +1,9 @@
 package com.tripint.intersight.model;
 
 import com.tripint.intersight.common.widget.recyclerviewadapter.entity.MultiItemEntity;
-import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.message.CommentPraiseEntity;
-import com.tripint.intersight.entity.message.MessageDataEntity;
+import com.tripint.intersight.entity.message.MessageContentEntity;
+import com.tripint.intersight.entity.message.MessageEntity;
 import com.tripint.intersight.entity.mine.AccountDetailEntity;
 import com.tripint.intersight.entity.mine.AskAnswerEntity;
 import com.tripint.intersight.entity.mine.FocusEntity;
@@ -47,7 +47,7 @@ public class MineMultipleItemModel implements MultiItemEntity {
     private MineFollowPointEntity mineFollowPointEntity;//观点（我的,他的）
     private InterviewEntity interviewEntity;//访谈（我的,他的）
     private FocusEntity focusEntity;//关注
-    private MessageDataEntity messageDataEntity;//新消息,访谈消息,问答消息
+    private MessageContentEntity messageContentEntity;//新消息,访谈消息,问答消息
     private CommentPraiseEntity commentPraiseEntity;//评论/赞消息
     private AccountDetailEntity accountDetailEntity;//账户明细
 
@@ -71,9 +71,9 @@ public class MineMultipleItemModel implements MultiItemEntity {
         this.interviewEntity = model;
     }
 
-    public MineMultipleItemModel(int itemType, MessageDataEntity model) {//新消息,访谈消息,问答消息
+    public MineMultipleItemModel(int itemType, MessageContentEntity model) {//新消息,访谈消息,问答消息
         this.itemType = itemType;
-        this.messageDataEntity = model;
+        this.messageContentEntity = model;
     }
 
     public MineMultipleItemModel(int itemType, CommentPraiseEntity model) {//评论/赞消息
@@ -126,20 +126,20 @@ public class MineMultipleItemModel implements MultiItemEntity {
         this.mineFollowPointEntity = mineFollowPointEntity;
     }
 
-    public MessageDataEntity getMessageDataEntity() {
-        return messageDataEntity;
-    }
-
-    public void setMessageDataEntity(MessageDataEntity messageDataEntity) {
-        this.messageDataEntity = messageDataEntity;
-    }
-
     public CommentPraiseEntity getCommentPraiseEntity() {
         return commentPraiseEntity;
     }
 
     public void setCommentPraiseEntity(CommentPraiseEntity commentPraiseEntity) {
         this.commentPraiseEntity = commentPraiseEntity;
+    }
+
+    public MessageContentEntity getMessageContentEntity() {
+        return messageContentEntity;
+    }
+
+    public void setMessageContentEntity(MessageContentEntity messageContentEntity) {
+        this.messageContentEntity = messageContentEntity;
     }
 
     @Override

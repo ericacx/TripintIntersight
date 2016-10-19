@@ -2,12 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@mipmap/background_default"
+    android:orientation="vertical"
     tools:context="com.tripint.intersight.fragment.mine.message.NewMessageFragment">
 
-    <include
-        layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -15,21 +14,22 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/new_message_recyclerview"
-                android:background="@android:color/transparent"
-                android:fadingEdge="none"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:fadingEdge="none" />
 
             <LinearLayout
-                android:orientation="vertical"
-                android:background="@drawable/bg_corners_grey"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_corners_grey"
+                android:orientation="vertical">
 
                 <View
                     android:layout_width="match_parent"
@@ -53,10 +53,10 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/spacing_pad04"
                     android:layout_marginBottom="@dimen/spacing_pad04"
                     android:layout_marginLeft="@dimen/spacing"
                     android:layout_marginRight="@dimen/spacing"
+                    android:layout_marginTop="@dimen/spacing_pad04"
                     android:background="@color/line" />
 
 
@@ -77,10 +77,10 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/spacing_pad04"
                     android:layout_marginBottom="@dimen/spacing_pad04"
                     android:layout_marginLeft="@dimen/spacing"
                     android:layout_marginRight="@dimen/spacing"
+                    android:layout_marginTop="@dimen/spacing_pad04"
                     android:background="@color/line" />
 
 
@@ -101,10 +101,10 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/spacing_pad04"
                     android:layout_marginBottom="@dimen/spacing_pad04"
                     android:layout_marginLeft="@dimen/spacing"
                     android:layout_marginRight="@dimen/spacing"
+                    android:layout_marginTop="@dimen/spacing_pad04"
                     android:background="@color/line" />
 
 

@@ -4,7 +4,6 @@ package com.tripint.intersight.fragment.mine.message;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -17,7 +16,7 @@ import com.tripint.intersight.adapter.MineCommonMultipleAdapter;
 import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
-import com.tripint.intersight.entity.message.MessageDataEntity;
+import com.tripint.intersight.entity.message.MessageContentEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
 import com.tripint.intersight.service.MessageDataHttpRequest;
@@ -52,9 +51,9 @@ public class InterviewMessageFragment extends BaseBackFragment implements BaseQu
     List<MineMultipleItemModel> models = new ArrayList<>();
 
     private MineCommonMultipleAdapter mAdapter;
-    private PageDataSubscriberOnNext<BasePageableResponse<MessageDataEntity>> subscriber;
+    private PageDataSubscriberOnNext<BasePageableResponse<MessageContentEntity>> subscriber;
 
-    private BasePageableResponse<MessageDataEntity> data = new BasePageableResponse<MessageDataEntity>();
+    private BasePageableResponse<MessageContentEntity> data = new BasePageableResponse<MessageContentEntity>();
 
     public static InterviewMessageFragment newInstance() {
         Bundle args = new Bundle();
@@ -78,9 +77,9 @@ public class InterviewMessageFragment extends BaseBackFragment implements BaseQu
      * 请求数据
      */
     private void httpRequestData() {
-        subscriber = new PageDataSubscriberOnNext<BasePageableResponse<MessageDataEntity>>() {
+        subscriber = new PageDataSubscriberOnNext<BasePageableResponse<MessageContentEntity>>() {
             @Override
-            public void onNext(BasePageableResponse<MessageDataEntity> entity) {
+            public void onNext(BasePageableResponse<MessageContentEntity> entity) {
                 data = entity;
                 initView(null);
                 initAdapter();
@@ -126,9 +125,9 @@ public class InterviewMessageFragment extends BaseBackFragment implements BaseQu
 
     private void initData() {
 
-        int type = MineMultipleItemModel.MY_MESSAGE_NEW;
+        int type = MineMultipleItemModel.MY_MESSAGE_INTERVIEW;
 
-        for (MessageDataEntity entity : data.getLists()) {
+        for (MessageContentEntity entity : data.getLists()) {
             models.add(new MineMultipleItemModel(type, entity));
         }
 

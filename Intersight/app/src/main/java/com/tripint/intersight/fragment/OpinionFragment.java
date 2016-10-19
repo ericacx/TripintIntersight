@@ -8,10 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.widget.flipview.FlipView;
+import com.tripint.intersight.common.widget.flipview.OverFlipMode;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.entity.article.ArticlesEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
@@ -35,7 +38,6 @@ public class OpinionFragment extends BaseBackFragment{
 //    SwipeRefreshLayout swipeRefreshLayout;
 
     private OpinionFlipViewAdapter mAdapter;
-
     private BasePageableResponse<ArticlesEntity> data = new BasePageableResponse<ArticlesEntity>();
     private PageDataSubscriberOnNext<BasePageableResponse<ArticlesEntity>> subscriber;
 
@@ -76,6 +78,19 @@ public class OpinionFragment extends BaseBackFragment{
     private void initAdapter() {
         mAdapter = new OpinionFlipViewAdapter(mActivity, data.getLists());
         opinionFlipView.setAdapter(mAdapter);
+        opinionFlipView.setOnFlipListener(new FlipView.OnFlipListener() {
+            @Override
+            public void onFlippedToPage(FlipView v, int position, long id) {
+
+            }
+        });
+
+        opinionFlipView.setOnOverFlipListener(new FlipView.OnOverFlipListener() {
+            @Override
+            public void onOverFlip(FlipView v, OverFlipMode mode, boolean overFlippingPrevious, float overFlipDistance, float flipDistancePerPage) {
+
+            }
+        });
     }
 
     @Override

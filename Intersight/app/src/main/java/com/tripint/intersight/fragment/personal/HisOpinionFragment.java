@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -145,6 +146,7 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
             @Override
             public void onNext(CodeDataEntity entity) {
                 codeDataEntity = entity;
+                Log.e("hisOpinion",entity.getFlg());
             }
         };
 
