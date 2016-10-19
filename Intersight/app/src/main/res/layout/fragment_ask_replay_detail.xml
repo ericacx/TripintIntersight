@@ -1,0 +1,315 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:background="@mipmap/background_default"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/container_chat_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <com.tripint.intersight.widget.image.CircleImageView
+                    android:id="@+id/image_ask_profile"
+                    android:layout_width="@dimen/width_12_80"
+                    android:layout_height="@dimen/height_6_80"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="@dimen/width_3_80"
+                    android:src="@mipmap/dongcha" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView_item_ask_specialist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/height_4_80"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/spacing_pad04"
+                    android:gravity="center_vertical"
+                    android:text="目前AR技术的整体发展ngukey未来演讲方向????"
+                    android:textColor="@color/grey_500"
+                    android:textSize="@dimen/text_size_12" />
+
+                <TextView
+                    android:id="@+id/textView_item_ask_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/spacing_pad04"
+                    android:background="@drawable/img_yuyin_gary"
+                    android:lines="2"
+                    android:text="目前AR技术的整体发展ngukey未来演讲方向????"
+                    android:textColor="@color/grey_100"
+                    android:textSize="@dimen/text_size_14" />
+
+
+                <TextView
+                    android:id="@+id/textView_item_ask_date_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="@dimen/spacing_pad04"
+                    android:gravity="right"
+                    android:text="2016.09.12 12:00:00"
+                    android:textColor="@color/grey_500"
+                    android:textSize="@dimen/text_size_9" />
+
+            </LinearLayout>
+
+            <com.tripint.intersight.widget.image.TouchImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/container_chat_reply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/container_chat_author"
+            android:background="@android:color/transparent"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+
+            <com.tripint.intersight.widget.image.TouchImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView_item_answer_specialist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/height_4_80"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/spacing_pad04"
+                    android:text="目前AR技术的整体发展ngukey未来演讲方向????"
+                    android:textColor="@color/grey_500"
+                    android:textSize="@dimen/text_size_12" />
+
+                <RelativeLayout
+                    android:id="@+id/container_voice_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_4_80"
+                    android:background="@drawable/img_voice_message_blue"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView_item_answer_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="@dimen/spacing_pad04"
+                        android:lines="1"
+                        android:paddingLeft="@dimen/width_4_80"
+                        android:text="90??"
+                        android:textColor="@color/grey_100"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <TextView
+                        android:id="@+id/textView_item_answer_payment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="@dimen/spacing_pad04"
+                        android:text="10????"
+                        android:textColor="@color/grey_100"
+                        android:textSize="@dimen/text_size_14" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/textView_item_answer_date_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="@dimen/spacing_pad04"
+                    android:gravity="right"
+                    android:text="2016.09.12 12:00:00"
+                    android:textColor="@color/grey_500"
+                    android:textSize="@dimen/text_size_9" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <com.tripint.intersight.widget.image.CircleImageView
+                    android:id="@+id/image_answer_profile"
+                    android:layout_width="@dimen/width_12_80"
+                    android:layout_height="@dimen/height_6_80"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="@dimen/width_3_80"
+                    android:src="@mipmap/dongcha" />
+            </RelativeLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/container_countdown"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+        <com.tripint.intersight.common.widget.countdown.CountDownView
+            android:id="@+id/countdownview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            custom:showSec="true"
+            custom:showMin="true"
+            custom:numberColor="@color/grey_100"
+            custom:unitColor="@color/grey_100" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/speaker_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_12_80"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:visibility="visible"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/text_qa_info"
+            style="@style/text_20px_styles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/btn_selector_corners_grey"
+            android:drawablePadding="@dimen/width_2_80"
+            android:gravity="center"
+            android:paddingBottom="@dimen/spacing_pad"
+            android:paddingLeft="@dimen/spacing_02"
+            android:paddingRight="@dimen/spacing_02"
+            android:paddingTop="@dimen/spacing_pad"
+            android:text="@string/text_qa_detail_info"
+            android:textColor="@color/grey_300" />
+
+        <Button
+            android:id="@+id/btn_qa_record_voice_main"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_5_80"
+            android:layout_below="@id/text_qa_info"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/spacing_pad02"
+            android:layout_marginLeft="@dimen/spacing_01"
+            android:layout_marginRight="@dimen/spacing_01"
+            android:layout_marginTop="@dimen/spacing_pad02"
+            android:layout_weight="1"
+            android:background="@drawable/btn_shape_blue"
+            android:drawableLeft="@mipmap/iconfont_huatong"
+            android:drawablePadding="@dimen/width_2_80"
+            android:gravity="center"
+            android:visibility="visible"
+            android:text="按住 说话"
+            android:textColor="@color/grey_100"
+            android:textSize="@dimen/text_size_12" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_16_80"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone">
+
+            <ImageButton
+                android:id="@+id/restart"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/record"
+                android:layout_toLeftOf="@+id/record"
+                android:layout_marginTop="50dp"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/aar_ic_restart"
+                android:onClick="restartRecording"
+                android:visibility="invisible"
+                style="@style/Widget.AppCompat.Button.Borderless" />
+
+            <ImageButton
+                android:id="@+id/record"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="50dp"
+                android:layout_margin="15dp"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/aar_ic_rec"
+                android:onClick="toggleRecording"
+                style="@style/Widget.AppCompat.Button.Borderless" />
+
+            <ImageButton
+                android:id="@+id/play"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/record"
+                android:layout_toRightOf="@+id/record"
+                android:layout_marginTop="50dp"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/aar_ic_play"
+                android:onClick="togglePlaying"
+                style="@style/Widget.AppCompat.Button.Borderless" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

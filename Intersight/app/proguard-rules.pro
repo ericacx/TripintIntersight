@@ -135,3 +135,6 @@ public static final int *;
 -keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
 -keep class com.alipay.sdk.app.PayTask{ public *;}
 -keep class com.alipay.sdk.app.AuthTask{ public *;}
+
+#//qiniu
+-keep class com.qiniu.pili.droid.streaming.** { *; }

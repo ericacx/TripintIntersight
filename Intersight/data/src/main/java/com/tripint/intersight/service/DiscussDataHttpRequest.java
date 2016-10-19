@@ -30,6 +30,7 @@ public class DiscussDataHttpRequest extends HttpRequest {
     public static final String TYPE_UNPRAISES = "unpraises";
     public static final String TYPE_FOLLOW = "follows";
     public static final String TYPE_UNFOLLOW = "unfollows";
+    public static final String TYPE_REPORT = "report"; //举报
 //    'action':'create',
 //            'type':'comment',
 //            'content':'评论的内容'

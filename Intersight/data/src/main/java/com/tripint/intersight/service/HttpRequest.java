@@ -29,6 +29,7 @@ import rx.schedulers.Schedulers;
 public class HttpRequest {
 
     public static final String BASE_URL = "http://test.www.dongchajia.com/";
+//    public static final String BASE_URL = "http://192.168.5.100/";
 
     private static final int DEFAULT_TIMEOUT = 300;
 

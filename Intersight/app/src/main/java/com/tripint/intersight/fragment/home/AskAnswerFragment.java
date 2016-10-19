@@ -68,6 +68,8 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
 
     private int mCurrentCounter = 0;
 
+    private int mCurrentTab = 0;
+
     private AskAnswerPageAdapter mAdapter;
 
     private PageDataSubscriberOnNext<BasePageableResponse<DiscussEntiry>> subscriber;
@@ -217,6 +219,7 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
         mQAInterestrButton.setSelected(tab == 1);
         mQARecommendButton.setSelected(tab == 2);
         httpRequestData(tab);
+        this.mCurrentTab = tab;
     }
 
 
@@ -232,7 +235,11 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
                 String content = null;
                 DiscussEntiry entity = (DiscussEntiry) adapter.getItem(position);
-                EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity)));
+                if (mCurrentTab == 0) {
+                    EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity)));
+                } else {
+                    EventBus.getDefault().post(new StartFragmentEvent(AskReplayDetailFragment.newInstance(entity)));
+                }
             }
         });
 

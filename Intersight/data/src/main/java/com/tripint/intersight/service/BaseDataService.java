@@ -10,6 +10,7 @@ import com.tripint.intersight.entity.UserInfoEntity;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
 import com.tripint.intersight.entity.article.ArticlesEntity;
 import com.tripint.intersight.entity.common.CommonResponEntity;
+import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.user.ChooseEntity;
 import com.tripint.intersight.entity.user.LoginEntity;
 import com.tripint.intersight.entity.user.RegisterEntity;
@@ -122,5 +123,33 @@ public interface BaseDataService {
                                                                 @Field("code") String code,
                                                                 @Field("password") String password,
                                                                 @Field("action") String action);
+
+    //举报
+    @FormUrlEncoded
+    @POST("report")
+    Observable<BaseResponse<CommentResultEntity>> postReportUser(
+            @Field("toUid") int toUid
+    );
+
+    //举报
+    @FormUrlEncoded
+    @POST("report")
+    Observable<BaseResponse<CommentResultEntity>> postReportArtile(
+            @Field("articleId") int articleId // 举报文章
+    );
+
+    //举报
+    @FormUrlEncoded
+    @POST("report")
+    Observable<BaseResponse<CommentResultEntity>> postReportComment(
+            @Field("commentId") int commentId //举报评论
+    );
+
+    //举报
+    @FormUrlEncoded
+    @POST("report")
+    Observable<BaseResponse<CommentResultEntity>> postReportDiscuss(
+            @Field("discussId") int discussId  //问答
+    );
 
 }

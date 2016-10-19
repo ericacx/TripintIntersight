@@ -11,7 +11,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -28,7 +27,6 @@ import com.tripint.intersight.common.utils.KeyboardUtils;
 import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
 import com.tripint.intersight.common.widget.dialogplus.ListHolder;
-import com.tripint.intersight.common.widget.dialogplus.ViewHolder;
 import com.tripint.intersight.common.widget.filter.ItemModel;
 import com.tripint.intersight.common.widget.filter.adapter.SimpleTextAdapter;
 import com.tripint.intersight.common.widget.filter.interfaces.OnFilterItemClickListener;
@@ -47,6 +45,7 @@ import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.helper.AliPayUtils;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.helper.PayUtils;
+import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.service.PaymentDataHttpRequest;
 import com.tripint.intersight.widget.image.CircleImageView;
@@ -69,12 +68,6 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
     public static final String ARG_DISCUSS_ID = "arg_discuss_id";
 
-    @Bind(R.id.text_qa_info)
-    TextView textQaInfo;
-    @Bind(R.id.btn_qa_record_voice_main)
-    Button btnQaRecordVoice;
-    @Bind(R.id.speaker_container)
-    RelativeLayout layoutSpeakerContainer;
     @Bind(R.id.user_comment_bar)
     LinearLayout userCommentBar;
     @Bind(R.id.recycler_view_ask_answer_comment)
@@ -252,11 +245,11 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                 public void onClick(View v) {
                     if (isFollow) {
                         currentAction = DiscussDataHttpRequest.TYPE_UNFOLLOW;
-                        DiscussDataHttpRequest.getInstance(mActivity).deleteFollow(new ProgressSubscriber(putSubscriber, mActivity), mDiscussId);
+                        DiscussDataHttpRequest.getInstance(mActivity).deleteFollow(new ProgressSubscriber<CommentResultEntity>(putSubscriber, mActivity), mDiscussId);
 
                     } else {
                         currentAction = DiscussDataHttpRequest.TYPE_FOLLOW;
-                        DiscussDataHttpRequest.getInstance(mActivity).createFollow(new ProgressSubscriber(putSubscriber, mActivity), mDiscussId);
+                        DiscussDataHttpRequest.getInstance(mActivity).createFollow(new ProgressSubscriber<CommentResultEntity>(putSubscriber, mActivity), mDiscussId);
                     }
                 }
             });
@@ -269,7 +262,8 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             item3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CommonUtils.showToast("jubao");
+                    currentAction = DiscussDataHttpRequest.TYPE_REPORT;
+                    BaseDataHttpRequest.getInstance(mActivity).reportDiscuss(new ProgressSubscriber<CommentResultEntity>(putSubscriber, mActivity), data.getDetail().getId());
                 }
             });
             userCommentBar.addView(item3);
@@ -336,6 +330,9 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                         item1.setSelected(false);
                         item1.setTitle(entity.getTotal() + "");
                         break;
+                    case DiscussDataHttpRequest.TYPE_REPORT:
+                        CommonUtils.showToast("举报信息提交成功");
+                        break;
                 }
             }
         };
@@ -343,7 +340,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
     }
 
-    @OnClick({R.id.text_view_comment_submit, R.id.container_voice_message, R.id.btn_qa_record_voice_main})
+    @OnClick({R.id.text_view_comment_submit, R.id.container_voice_message})
     public void onClick(View view) {
         switch (view.getId()) {
 
@@ -391,7 +388,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
                             PaymentDataHttpRequest.getInstance(mActivity).requestWxPay(new ProgressSubscriber(paymentSubscriber, mActivity));
                         } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
-                            AliPayUtils.getInstant(mActivity).payV2();
+                            AliPayUtils.getInstant(mActivity).pay();
                         }
 
                     }
@@ -402,20 +399,6 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                     }
                 });
 //                dialogPlus.show();
-                break;
-            case R.id.btn_qa_record_voice_main: //我的关注
-                List<ItemModel> list = new ArrayList<>();
-                list.add(new ItemModel(1, "Item1"));
-                list.add(new ItemModel(2, "Item2"));
-                list.add(new ItemModel(3, "Item3"));
-                DialogPlusUtils.Builder(mActivity)
-                        .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createSingleListView(list, 1)))
-                        .setTitleName("请选择支付方式")
-                        .setIsHeader(true)
-                        .setIsFooter(false)
-                        .setIsExpanded(false)
-                        .setGravity(Gravity.BOTTOM)
-                        .showCompleteDialog();
                 break;
 
         }
