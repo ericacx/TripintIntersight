@@ -386,7 +386,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
                         if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
 
-                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPay(new ProgressSubscriber(paymentSubscriber, mActivity));
+//                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(paymentSubscriber, mActivity));
                         } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
                             AliPayUtils.getInstant(mActivity).pay();
                         }

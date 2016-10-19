@@ -14,6 +14,7 @@ public class PersonalUserHomeEntity implements Serializable {
     private String companyName;//公司
     private String abilityName;//职位
     private String industryName;//行业
+    private int industryId;//行业
     private String experience;//工作年限
     private String desc;//个人简介
     private int role;//返回类型:1 职员 2 学生
@@ -80,5 +81,13 @@ public class PersonalUserHomeEntity implements Serializable {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    public int getIndustryId() {
+        return industryId;
+    }
+
+    public void setIndustryId(int industryId) {
+        this.industryId = industryId;
     }
 }

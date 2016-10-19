@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -135,6 +136,7 @@ public class DialogPlus {
      */
     public void show() {
         if (isShowing()) {
+            Log.w("DialogPlus", "Dialog Plus is Showing");
             return;
         }
         onAttached(rootView);

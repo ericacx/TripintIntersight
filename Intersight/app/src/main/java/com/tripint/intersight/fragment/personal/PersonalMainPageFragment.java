@@ -2,11 +2,14 @@ package com.tripint.intersight.fragment.personal;
 
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,24 +21,35 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.tripint.intersight.R;
+import com.tripint.intersight.adapter.PaymentSelectAdapter;
+import com.tripint.intersight.adapter.listener.RecyclerViewItemOnClick;
 import com.tripint.intersight.common.utils.DialogPlusUtils;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
+import com.tripint.intersight.common.widget.dialogplus.ListHolder;
 import com.tripint.intersight.common.widget.dialogplus.ViewHolder;
-import com.tripint.intersight.entity.CodeDataEntity;
 import com.tripint.intersight.entity.PersonalUserInfoEntity;
+import com.tripint.intersight.entity.discuss.CreateDiscussResponseEntity;
 import com.tripint.intersight.entity.mine.PersonalUserHomeEntity;
+import com.tripint.intersight.entity.payment.WXPayResponseEntity;
+import com.tripint.intersight.entity.user.PaymentEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.helper.AliPayUtils;
+import com.tripint.intersight.helper.PayUtils;
+import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.service.ExpertDataHttpRequest;
 import com.tripint.intersight.service.MineDataHttpRequest;
+import com.tripint.intersight.service.PaymentDataHttpRequest;
 import com.tripint.intersight.widget.image.CircleImageView;
 import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
 import org.greenrobot.eventbus.EventBus;
-import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -78,16 +92,21 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     TextView personalMainPageOpinion;//观点
     @Bind(R.id.personal_main_page_introduction)
     TextView personalMainPageIntroduction;//个人简介
-    @Bind(R.id.scrollview)
-    NestedScrollView scrollview;
+
+    protected static final int MSG_START_STREAMING = 0;
 
     private PersonalUserHomeEntity data;
     private PageDataSubscriberOnNext<PersonalUserHomeEntity> subscriber;
 
-    private CodeDataEntity codeDataEntity;
-    private PageDataSubscriberOnNext<CodeDataEntity> subscriberCode;
+    private CreateDiscussResponseEntity createDiscussResponseEntity;
+    private PageDataSubscriberOnNext<CreateDiscussResponseEntity> subscriberCode;
+    private PageDataSubscriberOnNext<WXPayResponseEntity> paymentSubscriber;
 
     private int uid = 0;
+
+    private String discussContent;
+
+    private DialogPlus dialogPlus;
 
     public static PersonalMainPageFragment newInstance(int uid) {
         Bundle args = new Bundle();
@@ -112,16 +131,32 @@ public class PersonalMainPageFragment extends BaseBackFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_personal_main_page, container, false);
         ButterKnife.bind(this, view);
+
+        initToolbarNav(toolbar);
         httpRequestData();
         return view;
     }
 
     private void httpRequestData() {
 
-        subscriberCode = new PageDataSubscriberOnNext<CodeDataEntity>() {
+
+        paymentSubscriber = new PageDataSubscriberOnNext<WXPayResponseEntity>() {
             @Override
-            public void onNext(CodeDataEntity entity) {
-                codeDataEntity = entity;
+            public void onNext(WXPayResponseEntity entity) {
+                //接口请求成功后处理,调起微信支付。
+                PayUtils.getInstant().requestWXpay(entity);
+//
+            }
+        };
+
+        subscriberCode = new PageDataSubscriberOnNext<CreateDiscussResponseEntity>() {
+            @Override
+            public void onNext(CreateDiscussResponseEntity entity) {
+                Log.d(TAG, entity.getFlg());
+                createDiscussResponseEntity = entity;
+                mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_START_STREAMING), 500);
+
+
             }
         };
 
@@ -131,7 +166,7 @@ public class PersonalMainPageFragment extends BaseBackFragment {
                 //接口请求成功后处理
                 data = entity;
                 initView(null);
-
+                initToolbar();
             }
         };
 
@@ -147,14 +182,13 @@ public class PersonalMainPageFragment extends BaseBackFragment {
         Glide.with(mActivity).load(data.getAvatar())//头像
                 .crossFade()
                 .fitCenter()
-                .placeholder(R.drawable.loading_normal_icon)
+                .placeholder(R.mipmap.ic_avatar)
                 .transform(new GlideCircleTransform(mActivity))
                 .into(personalMainPagePersonalInfo);
 
-        initToolbar();
     }
     private void initToolbar() {
-        initToolbarNav(toolbar);
+
         toolbar.setTitle(data.getNickname()+"的主页");
     }
 
@@ -169,9 +203,10 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.personal_main_page_button_ask://向他提问
-                final DialogPlus dialogPlus = DialogPlusUtils.Builder(mActivity)
+                dialogPlus = DialogPlusUtils.Builder(mActivity)
                         .setHolder(DialogPlusUtils.VIEW, new ViewHolder(R.layout.question_layout))
-                        .setIsHeader(false)
+                        .setTitleName("请输入您的问题")
+                        .setIsHeader(true)
                         .setIsFooter(true)
                         .setIsExpanded(false)
                         .setCloseName("取消")
@@ -187,12 +222,13 @@ public class PersonalMainPageFragment extends BaseBackFragment {
                             public void confirmListener(DialogPlus dialog, View view) {
 
                                 EditText editText = ((EditText) dialog.findViewById(R.id.dialog_question_edit));
+                                discussContent = editText.getText().toString().trim();
                                 if (TextUtils.isEmpty(editText.getText().toString().trim())){
                                     ToastUtil.showToast(mActivity,"输入的内容不能为空");
                                 } else {
-                                    MineDataHttpRequest.getInstance(mActivity).postOtherQuestion(
+                                    DiscussDataHttpRequest.getInstance(mActivity).createDiscusses(
                                             new ProgressSubscriber(subscriberCode, mActivity)
-                                            ,uid,editText.getText().toString().trim()
+                                            , discussContent, uid, uid
                                     );
                                     dialog.dismiss();
                                 }
@@ -201,9 +237,14 @@ public class PersonalMainPageFragment extends BaseBackFragment {
                         .setGravity(Gravity.BOTTOM)
                         .showCompleteDialog();
 
+//                discussContent = "werwersdf";
+//                DiscussDataHttpRequest.getInstance(mActivity).createDiscusses(
+//                                            new ProgressSubscriber(subscriberCode, mActivity)
+//                                            ,discussContent, data.getIndustryId(), uid
+//                                    );
                 break;
             case R.id.personal_main_page_button_interview://约他访谈
-                final DialogPlus dialog = DialogPlusUtils.Builder(mActivity)
+                dialogPlus = DialogPlusUtils.Builder(mActivity)
                         .setHolder(DialogPlusUtils.VIEW, new ViewHolder(R.layout.interview_layout))
                         .setIsHeader(false)
                         .setIsFooter(true)
@@ -268,5 +309,75 @@ public class PersonalMainPageFragment extends BaseBackFragment {
                 break;
         }
     }
+
+    @Override
+    public boolean onBackPressedSupport() {
+        if (dialogPlus != null) {
+            if (dialogPlus.isShowing()) {
+                dialogPlus.dismiss();
+                return false;
+            }
+        }
+        return super.onBackPressedSupport();
+
+    }
+
+    private void requestPaymentDialog() {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "Begin Payment Dialog");
+                List<PaymentEntity> paymentEntities = new ArrayList<>();
+
+                paymentEntities.add(new PaymentEntity(1, "支付宝", PaymentDataHttpRequest.TYPE_ALIPAY));
+                paymentEntities.add(new PaymentEntity(2, "微信支付", PaymentDataHttpRequest.TYPE_WXPAY));
+                PaymentSelectAdapter paymentDialogAdapter = new PaymentSelectAdapter(mActivity, paymentEntities);
+                dialogPlus = DialogPlusUtils.Builder(mActivity)
+                        .setHolder(DialogPlusUtils.LIST, new ListHolder())
+                        .setAdapter(paymentDialogAdapter)
+                        .setTitleName("请选择支付方式")
+                        .setIsHeader(true)
+                        .setIsFooter(false)
+                        .setIsExpanded(false)
+                        .setGravity(Gravity.CENTER)
+                        .showCompleteDialog();
+                paymentDialogAdapter.setOnRecyclerViewItemOnClick(new RecyclerViewItemOnClick() {
+                    @Override
+                    public void ItemOnClick(int position, Object data) {
+                        PaymentEntity select = (PaymentEntity) data;
+
+                        if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
+
+                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(paymentSubscriber, mActivity), createDiscussResponseEntity.getDiscussId(), discussContent);
+                        } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
+                            AliPayUtils.getInstant(mActivity).pay();
+                        }
+
+                    }
+
+                    @Override
+                    public void ItemOnClick(int position, Object data, boolean isSelect) {
+
+                    }
+                });
+                dialogPlus.show();
+            }
+        });
+    }
+
+    protected Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_START_STREAMING:
+                    requestPaymentDialog();
+                    break;
+
+                default:
+                    Log.e(TAG, "Invalid message");
+                    break;
+            }
+        }
+    };
 
 }

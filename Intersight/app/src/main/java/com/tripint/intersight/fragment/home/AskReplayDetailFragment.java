@@ -381,7 +381,6 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
 
                         if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
 
-                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPay(new ProgressSubscriber(paymentSubscriber, mActivity));
                         } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
                             AliPayUtils.getInstant(mActivity).pay();
                         }
@@ -439,8 +438,19 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        if (mMediaStreamingManager != null) {
+            mMediaStreamingManager.pause();
+        }
+    }
+
+    @Override
     public void onDestroyView() {
 
+        if (mMediaStreamingManager != null) {
+            mMediaStreamingManager.destroy();
+        }
         super.onDestroyView();
         ButterKnife.unbind(this);
     }

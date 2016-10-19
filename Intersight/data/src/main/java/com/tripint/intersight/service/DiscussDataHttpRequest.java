@@ -5,6 +5,7 @@ import android.content.Context;
 import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.entity.SearchArticleEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
+import com.tripint.intersight.entity.discuss.CreateDiscussResponseEntity;
 import com.tripint.intersight.entity.discuss.DiscussDetailEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.discuss.InterviewEntity;
@@ -237,6 +238,22 @@ public class DiscussDataHttpRequest extends HttpRequest {
 
         Observable observable = service.getSearchArticles(start, DEFAULT_PAGE_SIZE, keyword, industry, ability, order)
                 .map(new HttpResultFunc<BasePageableResponse<SearchArticleEntity>>());
+
+        toSubscribe(observable, subscriber);
+    }
+
+
+    /**
+     * 提交问答
+     *
+     * @param subscriber 由调用者传过来的观察者对象
+     * @param
+     */
+    public void createDiscusses(Subscriber<CreateDiscussResponseEntity> subscriber, String content, int industryId, int toUid) {
+
+        Observable observable = service.createDiscuss(content, industryId, toUid)
+                .map(new HttpResultFunc<CreateDiscussResponseEntity>());
+
 
         toSubscribe(observable, subscriber);
     }
