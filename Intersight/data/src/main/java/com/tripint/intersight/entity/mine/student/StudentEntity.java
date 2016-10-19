@@ -12,31 +12,31 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StudentEntity implements Serializable {
 
-    private List<SchoolNameEntity> schoolNameEntityList;
-    private List<SpecialitiesNameEntity> specialitiesNameEntityList;
-    private List<QualificationsNameEntity> qualificationsNameEntityList;
+    private List<SchoolNameEntity> schoolName;//学校
+    private List<SpecialitiesNameEntity> specialitiesName;//专业
+    private List<QualificationsNameEntity> qualificationsName;//学历；
 
-    public List<SchoolNameEntity> getSchoolNameEntityList() {
-        return schoolNameEntityList;
+    public List<SchoolNameEntity> getSchoolName() {
+        return schoolName;
     }
 
-    public void setSchoolNameEntityList(List<SchoolNameEntity> schoolNameEntityList) {
-        this.schoolNameEntityList = schoolNameEntityList;
+    public void setSchoolName(List<SchoolNameEntity> schoolName) {
+        this.schoolName = schoolName;
     }
 
-    public List<SpecialitiesNameEntity> getSpecialitiesNameEntityList() {
-        return specialitiesNameEntityList;
+    public List<SpecialitiesNameEntity> getSpecialitiesName() {
+        return specialitiesName;
     }
 
-    public void setSpecialitiesNameEntityList(List<SpecialitiesNameEntity> specialitiesNameEntityList) {
-        this.specialitiesNameEntityList = specialitiesNameEntityList;
+    public void setSpecialitiesName(List<SpecialitiesNameEntity> specialitiesName) {
+        this.specialitiesName = specialitiesName;
     }
 
-    public List<QualificationsNameEntity> getQualificationsNameEntityList() {
-        return qualificationsNameEntityList;
+    public List<QualificationsNameEntity> getQualificationsName() {
+        return qualificationsName;
     }
 
-    public void setQualificationsNameEntityList(List<QualificationsNameEntity> qualificationsNameEntityList) {
-        this.qualificationsNameEntityList = qualificationsNameEntityList;
+    public void setQualificationsName(List<QualificationsNameEntity> qualificationsName) {
+        this.qualificationsName = qualificationsName;
     }
 }

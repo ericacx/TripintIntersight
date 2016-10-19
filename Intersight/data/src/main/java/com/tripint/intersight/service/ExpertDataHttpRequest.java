@@ -8,6 +8,7 @@ import com.tripint.intersight.entity.mine.AskAnswerEntity;
 import com.tripint.intersight.entity.mine.InterviewDetailEntity;
 import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
+import com.tripint.intersight.entity.mine.PersonalUserHomeEntity;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
 
 import java.util.List;
@@ -28,11 +29,11 @@ public class ExpertDataHttpRequest extends HttpRequest{
 
     private static ExpertDataHttpRequest instants;
 
-    private MineDataService service;
+    private ExpertDataService service;
 
     private ExpertDataHttpRequest(Context context) {
         super(context);
-        service = retrofit.create(MineDataService.class);
+        service = retrofit.create(ExpertDataService.class);
 
     }
 
@@ -45,28 +46,27 @@ public class ExpertDataHttpRequest extends HttpRequest{
 
 
     /**
-     * 用于获取他人主页的首页
+     * 用于获取他的个人中心主页
      *
      * @param subscriber
      */
-    public void getHisPersonalPage(Subscriber<UserHomeEntity> subscriber) {
-        Observable observable = service.getUserHome()
-                .map(new HttpResultFunc<UserHomeEntity>());
+    public void getPersonalUserHome(Subscriber<PersonalUserHomeEntity> subscriber, int uid) {
+        Observable observable = service.getPersonalUserHome(uid)
+                .map(new HttpResultFunc<PersonalUserHomeEntity>());
         toSubscribe(observable, subscriber);
     }
-
     /**
      * 个人----他的观点接口
      *
      * @param subscriber
      */
-    public void getHisFollowPoint(Subscriber<BasePageableResponse<MineFollowPointEntity>> subscriber, int type, int page, int size) {
+    public void getHisFollowPoint(Subscriber<BasePageableResponse<MineFollowPointEntity>> subscriber, int type, int uid,int page) {
         if (type == option_type_my) {//他的观点
-            Observable observable = service.getMyPointList(page, size)
+            Observable observable = service.getHisPointList(uid,page, DEFAULT_PAGE_SIZE)
                     .map(new HttpResultFunc<BasePageableResponse<MineFollowPointEntity>>());
             toSubscribe(observable, subscriber);
         } else if (type == option_type_my_follow) {//他关注的观点
-            Observable observable = service.getMyFollowPointList(page, size)
+            Observable observable = service.getHisFollowPointList(uid,page, DEFAULT_PAGE_SIZE)
                     .map(new HttpResultFunc<BasePageableResponse<MineFollowPointEntity>>());
             toSubscribe(observable, subscriber);
         }
@@ -79,13 +79,13 @@ public class ExpertDataHttpRequest extends HttpRequest{
      *
      * @param subscriber
      */
-    public void getHisAskAnswer(Subscriber<BasePageableResponse<AskAnswerEntity>> subscriber, int type, int page, int size) {
+    public void getHisAskAnswer(Subscriber<BasePageableResponse<AskAnswerEntity>> subscriber, int type, int uid, int page) {
         if (type == option_type_my) {//问答
-            Observable observable = service.getMyAskAnswer(page, size)
+            Observable observable = service.getHisAskAnswer(uid,page, DEFAULT_PAGE_SIZE)
                     .map(new HttpResultFunc<BasePageableResponse<AskAnswerEntity>>());
             toSubscribe(observable, subscriber);
         } else if (type == option_type_my_follow) {//关注的问答
-            Observable observable = service.getMyFocusedAskAnswer(page, size)
+            Observable observable = service.getHisFocusedAskAnswer(uid,page, DEFAULT_PAGE_SIZE)
                     .map(new HttpResultFunc<BasePageableResponse<AskAnswerEntity>>());
             toSubscribe(observable, subscriber);
         }
@@ -96,8 +96,8 @@ public class ExpertDataHttpRequest extends HttpRequest{
      *
      * @param subscriber
      */
-    public void getHisInterview(Subscriber<BasePageableResponse<InterviewEntity>> subscriber, int page, int size) {
-        Observable observable = service.getMyInterview(page, size)
+    public void getHisInterview(Subscriber<BasePageableResponse<InterviewEntity>> subscriber, int uid,int page) {
+        Observable observable = service.getHisInterview(uid,page, DEFAULT_PAGE_SIZE)
                 .map(new HttpResultFunc<BasePageableResponse<InterviewEntity>>());
         toSubscribe(observable, subscriber);
     }
@@ -111,7 +111,7 @@ public class ExpertDataHttpRequest extends HttpRequest{
     public void getHisInterviewDetail(Subscriber<InterviewDetailEntity> subscriber, int discussId) {
 
         Observable observable
-                = service.getInterviewDetail(discussId)
+                = service.getHisInterviewDetail(discussId)
                 .map(new HttpResultFunc<InterviewDetailEntity>());
         toSubscribe(observable, subscriber);
     }

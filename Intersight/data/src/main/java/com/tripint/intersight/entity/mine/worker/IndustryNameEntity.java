@@ -15,7 +15,7 @@ public class IndustryNameEntity implements Serializable {
     private int pid;
     private String name;
     private String icon;
-    private List<IndustrySubEntity> industrySubEntityList;
+    private List<IndustrySubEntity> industrySub;
 
     public int getId() {
         return id;
@@ -49,11 +49,11 @@ public class IndustryNameEntity implements Serializable {
         this.icon = icon;
     }
 
-    public List<IndustrySubEntity> getIndustrySubEntityList() {
-        return industrySubEntityList;
+    public List<IndustrySubEntity> getIndustrySub() {
+        return industrySub;
     }
 
-    public void setIndustrySubEntityList(List<IndustrySubEntity> industrySubEntityList) {
-        this.industrySubEntityList = industrySubEntityList;
+    public void setIndustrySub(List<IndustrySubEntity> industrySub) {
+        this.industrySub = industrySub;
     }
 }

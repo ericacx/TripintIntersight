@@ -1,6 +1,7 @@
 package com.tripint.intersight.fragment;
 
 
+import android.content.Entity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,9 +23,11 @@ import com.bumptech.glide.Glide;
 import com.tripint.intersight.R;
 import com.tripint.intersight.common.utils.DialogPlusUtils;
 import com.tripint.intersight.common.utils.TakePhotoUtil;
+import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
 import com.tripint.intersight.common.widget.dialogplus.ViewHolder;
 import com.tripint.intersight.common.widget.filter.ItemModel;
 import com.tripint.intersight.common.widget.filter.adapter.SimpleTextAdapter;
+import com.tripint.intersight.common.widget.filter.interfaces.OnFilterDoneListener;
 import com.tripint.intersight.common.widget.filter.interfaces.OnFilterItemClickListener;
 import com.tripint.intersight.common.widget.filter.typeview.DoubleListView;
 import com.tripint.intersight.common.widget.filter.typeview.SingleListView;
@@ -36,8 +40,15 @@ import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.IndustryChild;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
+import com.tripint.intersight.entity.mine.student.QualificationsNameEntity;
+import com.tripint.intersight.entity.mine.student.SchoolNameEntity;
+import com.tripint.intersight.entity.mine.student.SpecialitiesNameEntity;
+import com.tripint.intersight.entity.mine.student.SpecialitiesSubEntity;
+import com.tripint.intersight.entity.mine.worker.AbilityNameEntity;
 import com.tripint.intersight.entity.mine.worker.AllResoucesEntity;
 import com.tripint.intersight.entity.mine.worker.EditUserEntity;
+import com.tripint.intersight.entity.mine.worker.IndustryNameEntity;
+import com.tripint.intersight.entity.mine.worker.IndustrySubEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.service.MineDataHttpRequest;
@@ -66,8 +77,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
 
     //    @Bind(R.id.personal_info_next_one)
 //    ImageView personalInfoNextOne;
-    @Bind(R.id.personal_info_avatar)
-    CircleImageView personalInfoAvatar;
+
     @Bind(R.id.personal_info_rl_avatar)
     RelativeLayout personalInfoRlAvatar;//头像
 
@@ -87,7 +97,8 @@ public class PersonalInfoFragment extends BaseBackFragment {
     EditText personalInfoNickname;//昵称
 
     @Bind(R.id.personal_info_textview_companyname)
-    TextView personalInfoTextviewCompanyname;
+    TextView personalInfoTextviewCompanyname;//公司名称,大学名称
+
     @Bind(R.id.personal_info_company)
     EditText personalInfoCompany;//公司名称
 
@@ -115,6 +126,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
 
     @Bind(R.id.personal_info_experience_down)
     ImageView personalInfoExperienceDown;
+
     @Bind(R.id.personal_info_experience)
     TextView personalInfoExperience;
     @Bind(R.id.personal_info_rl_experience)
@@ -123,18 +135,34 @@ public class PersonalInfoFragment extends BaseBackFragment {
     @Bind(R.id.personal_info_personalInfo)
     EditText personalInfoPersonalInfo;//个人简介
 
+    @Bind(R.id.personal_info_avatar)
+    CircleImageView personalInfoAvatar;
+
+    @Bind(R.id.personal_info_textview_company_logo)
+    TextView personalInfoTextviewCompanyLogo;//公司logo   大学logo
+    @Bind(R.id.personal_info_textview_trade)
+    TextView personalInfoTextviewTrade;//所在行业、专业名称
+    @Bind(R.id.personal_info_textview_position)
+    TextView personalInfoTextviewPosition;//所属职能、学历
+
+    @Bind(R.id.personal_info_ll)
+    LinearLayout personalInfoLl;
+
     private CodeDataEntity responseEntity;
     private UserHomeEntity userEntity;
     private PageDataSubscriberOnNext<CodeDataEntity> subscriber;
-    private PageDataSubscriberOnNext<SearchFilterEntity> filterSubscriber;
 
-    private SearchFilterEntity searchFilterEntity; //搜索过滤条件数据
+    private AllResoucesEntity allResoucesEntity; //搜索过滤条件数据
 
 
     public static final String ARG_DATA = "arg_user_data";
 
-    private List<Industry> industies = new ArrayList<>(); //行业数据
-    private List<Ability> abilities = new ArrayList<>(); //职能数据
+    private List<SchoolNameEntity> schools = new ArrayList<>();//学校
+    private List<SpecialitiesNameEntity> specialities = new ArrayList<>();//专业
+    private List<QualificationsNameEntity> qualificationst = new ArrayList<>();//学历
+
+    private List<IndustryNameEntity> industies = new ArrayList<>(); //行业数据
+    private List<AbilityNameEntity> abilities = new ArrayList<>(); //职能数据
     private List<ItemModel> work = new ArrayList<>(); //职能数据
 
     private String[] workArray = {"1年内", "1-3年", "3-5年", "5-10年", "10年以上"}; //排序数据
@@ -147,8 +175,11 @@ public class PersonalInfoFragment extends BaseBackFragment {
     private int currentSpecialities;//专业
     private int currentQualifications;//学历
 
+    private OnFilterDoneListener onFilterDoneListener;
 
-    private PageDataSubscriberOnNext<AllResoucesEntity> subscriberAllResource;
+    private PageDataSubscriberOnNext<AllResoucesEntity> filterSubscriber;
+
+    private int role = 1;
 
     public static PersonalInfoFragment newInstance(UserHomeEntity entity) {
         // Required empty public constructor
@@ -165,6 +196,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             userEntity = (UserHomeEntity) bundle.getSerializable(ARG_DATA);
+//            role = userEntity.getRole();
         }
 
     }
@@ -192,47 +224,86 @@ public class PersonalInfoFragment extends BaseBackFragment {
             }
         };
 
-        filterSubscriber = new PageDataSubscriberOnNext<SearchFilterEntity>() {
+        filterSubscriber = new PageDataSubscriberOnNext<AllResoucesEntity>() {
             @Override
-            public void onNext(SearchFilterEntity entity) {
+            public void onNext(AllResoucesEntity entity) {
                 //接口请求成功后处理
-                searchFilterEntity = entity;
-                abilities = searchFilterEntity.getAbility();
-                industies = searchFilterEntity.getIndustry();
+                allResoucesEntity = entity;
+                abilities = allResoucesEntity.getAbilityName();
+                industies = allResoucesEntity.getIndustryName();
+                specialities = allResoucesEntity.getSpecialitiesName();
+                qualificationst = allResoucesEntity.getQualificationsName();
+                schools = allResoucesEntity.getSchoolName();
                 initView();
             }
         };
 
-        BaseDataHttpRequest.getInstance(mActivity).getSearchFilterArticles(new ProgressSubscriber(filterSubscriber, mActivity));
+        MineDataHttpRequest.getInstance(mActivity).getAllResources(new ProgressSubscriber(filterSubscriber, mActivity), role);
     }
 
     private void initView() {
 
+        if (role == 1) {//职员
+            Glide.with(mActivity).load(userEntity.getAvatar())
+                    .crossFade()
+                    .fitCenter()
+                    .placeholder(R.mipmap.ic_avatar)
+                    .into(personalInfoAvatar);
+            personalInfoPhone.setText(userEntity.getMobile());
+            personalInfoEmail.setText(userEntity.getEmail());
+            personalInfoNickname.setText(userEntity.getNickname());
+            personalInfoPersonalInfo.setText(userEntity.getDesc());
+            personalInfoTextviewCompanyname.setText("公司名称");
+            personalInfoTextviewCompanyLogo.setText("公司Logo");
+            personalInfoTextviewTrade.setText("所在行业");
+            personalInfoTextviewPosition.setText("所属职能");
+            personalInfoLl.setVisibility(View.VISIBLE);
 
-        Glide.with(mActivity).load(userEntity.getAvatar())
-                .crossFade()
-                .fitCenter()
-                .placeholder(R.mipmap.ic_avatar)
-                .into(personalInfoAvatar);
-        currentAbility = userEntity.getAbilityId();
-        currentIndestry = userEntity.getIndustryId();
-        currentQualifications = userEntity.getQualifications();
-        currentSpecialities = userEntity.getSpecialitiesId();
-        personalInfoPhone.setText(userEntity.getMobile());
-        personalInfoEmail.setText(userEntity.getEmail());
-        personalInfoNickname.setText(userEntity.getNickname());
-        personalInfoCompany.setText(userEntity.getCompanyName());
-        personalInfoTrade.setText(userEntity.getIndustryName());
-        personalInfoPosition.setText(userEntity.getAbilityName());
-        personalInfoTitle.setText(userEntity.getJobName());
-        personalInfoExperience.setText(userEntity.getExperience());
-        personalInfoPersonalInfo.setText(userEntity.getDesc());
+            currentAbility = userEntity.getAbilityId();
+            currentIndestry = userEntity.getIndustryId();
 
-        Glide.with(mActivity).load(userEntity.getAvatar())
-                .crossFade()
-                .fitCenter()
-                .placeholder(R.mipmap.ic_avatar)
-                .into(personalInfoCompanyLogo);
+            personalInfoCompany.setText(userEntity.getCompanyName());
+            personalInfoTrade.setText(userEntity.getIndustryName());
+            personalInfoPosition.setText(userEntity.getAbilityName());
+            personalInfoTitle.setText(userEntity.getJobName());
+            personalInfoExperience.setText(userEntity.getExperience());
+
+            Glide.with(mActivity).load(userEntity.getCompanyLogo())
+                    .crossFade()
+                    .fitCenter()
+                    .placeholder(R.mipmap.ic_avatar)
+                    .into(personalInfoCompanyLogo);
+
+        } else if (role == 2) {//学生
+            Glide.with(mActivity).load(userEntity.getAvatar())
+                    .crossFade()
+                    .fitCenter()
+                    .placeholder(R.mipmap.ic_avatar)
+                    .into(personalInfoAvatar);
+            personalInfoPhone.setText(userEntity.getMobile());
+            personalInfoEmail.setText(userEntity.getEmail());
+            personalInfoNickname.setText(userEntity.getNickname());
+            personalInfoPersonalInfo.setText(userEntity.getDesc());
+            personalInfoTextviewCompanyname.setText("大学名称");
+            personalInfoTextviewCompanyLogo.setText("大学Logo");
+            personalInfoTextviewTrade.setText("专业");
+            personalInfoTextviewPosition.setText("学历");
+            personalInfoLl.setVisibility(View.GONE);
+
+            currentQualifications = userEntity.getQualifications();
+            currentSpecialities = userEntity.getSpecialitiesId();
+
+            personalInfoCompany.setText(userEntity.getSchoolName());
+            personalInfoTrade.setText(userEntity.getSpecialitiesName());
+            personalInfoPosition.setText(userEntity.getQualificationsName());
+
+            Glide.with(mActivity).load(userEntity.getCompanyLogo())
+                    .crossFade()
+                    .fitCenter()
+                    .placeholder(R.mipmap.ic_avatar)
+                    .into(personalInfoCompanyLogo);
+        }
+
 
     }
 
@@ -258,14 +329,27 @@ public class PersonalInfoFragment extends BaseBackFragment {
                 break;
             case R.id.personal_info_rl_position://职能
 
-                DialogPlusUtils.Builder(mActivity)
-                        .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createSingleListView()))
-                        .setTitleName("请选择职能")
-                        .setIsHeader(true)
-                        .setIsFooter(false)
-                        .setIsExpanded(false)
-                        .setGravity(Gravity.BOTTOM)
-                        .showCompleteDialog();
+                if (role == 1) {
+                    DialogPlusUtils dialogPlus = DialogPlusUtils.Builder(mActivity);
+                    DialogPlusUtils.Builder(mActivity)
+                            .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createSingleListView()))
+                            .setTitleName("请选择职能")
+                            .setIsHeader(true)
+                            .setIsFooter(false)
+                            .setIsExpanded(false)
+                            .setGravity(Gravity.BOTTOM)
+                            .showCompleteDialog();
+                } else if (role == 2) {
+                    DialogPlusUtils.Builder(mActivity)
+                            .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createStudentSingleListView()))
+                            .setTitleName("请选择学历")
+                            .setIsHeader(true)
+                            .setIsFooter(false)
+                            .setIsExpanded(false)
+                            .setGravity(Gravity.BOTTOM)
+                            .showCompleteDialog();
+                }
+
                 break;
             case R.id.personal_info_rl_experience://工作年限
 
@@ -279,7 +363,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
                 }
                 DialogPlusUtils.Builder(mActivity)
                         .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createExperSingleListView(work)))
-                        .setTitleName("请选择支付方式")
+                        .setTitleName("请选择工作年限")
                         .setIsHeader(true)
                         .setIsFooter(false)
                         .setIsExpanded(false)
@@ -287,14 +371,26 @@ public class PersonalInfoFragment extends BaseBackFragment {
                         .showCompleteDialog();
                 break;
             case R.id.personal_info_trade:
-                DialogPlusUtils.Builder(mActivity)
-                        .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createDoubleListView()))
-                        .setTitleName("请选择行业")
-                        .setIsHeader(true)
-                        .setIsFooter(false)
-                        .setIsExpanded(false)
-                        .setGravity(Gravity.BOTTOM)
-                        .showCompleteDialog();
+                if (role == 1) {
+                    DialogPlusUtils.Builder(mActivity)
+                            .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createDoubleListView()))
+                            .setTitleName("请选择行业")
+                            .setIsHeader(true)
+                            .setIsFooter(false)
+                            .setIsExpanded(false)
+                            .setGravity(Gravity.BOTTOM)
+                            .showCompleteDialog();
+                } else if (role == 2) {
+                    DialogPlusUtils.Builder(mActivity)
+                            .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createStudentDoubleListView()))
+                            .setTitleName("请选择专业")
+                            .setIsHeader(true)
+                            .setIsFooter(false)
+                            .setIsExpanded(false)
+                            .setGravity(Gravity.BOTTOM)
+                            .showCompleteDialog();
+                }
+
                 break;
         }
     }
@@ -309,9 +405,9 @@ public class PersonalInfoFragment extends BaseBackFragment {
 
     //职能
     private View createSingleListView() {
-        SimpleTextAdapter adapter = new SimpleTextAdapter<Ability>(null, mActivity) {
+        SimpleTextAdapter adapter = new SimpleTextAdapter<AbilityNameEntity>(null, mActivity) {
             @Override
-            public String provideText(Ability item) {
+            public String provideText(AbilityNameEntity item) {
                 return item.getName();
             }
 
@@ -320,22 +416,54 @@ public class PersonalInfoFragment extends BaseBackFragment {
                 checkedTextView.setPadding(UIUtil.dp(mActivity, 12), UIUtil.dp(mActivity, 12), 0, UIUtil.dp(mActivity, 12));
             }
         };
-        SingleListView<Ability> singleListView = new SingleListView<>(mActivity)
+        SingleListView<AbilityNameEntity> singleListView = new SingleListView<>(mActivity)
                 .adapter(adapter)
-                .onItemClick(new OnFilterItemClickListener<Ability>() {
+                .onItemClick(new OnFilterItemClickListener<AbilityNameEntity>() {
                     @Override
-                    public void onItemClick(Ability item) {
+                    public void onItemClick(AbilityNameEntity item) {
+                        currentAbility = item.getId();
+                        personalInfoPosition.setText(item.getName());
 
 //                        onFilterDone(type, item.getKey(), item.getName());
                     }
                 });
 
-        singleListView.setList(searchFilterEntity.getAbility(), -1);
+        singleListView.setList(allResoucesEntity.getAbilityName(), -1);
 
         return singleListView;
     }
 
-    //职能
+    //学历
+    private View createStudentSingleListView() {
+        SimpleTextAdapter adapter = new SimpleTextAdapter<QualificationsNameEntity>(null, mActivity) {
+            @Override
+            public String provideText(QualificationsNameEntity item) {
+                return item.getName();
+            }
+
+            @Override
+            protected void initCheckedTextView(FilterCheckedTextView checkedTextView) {
+                checkedTextView.setPadding(UIUtil.dp(mActivity, 12), UIUtil.dp(mActivity, 12), 0, UIUtil.dp(mActivity, 12));
+            }
+        };
+        SingleListView<QualificationsNameEntity> singleListView = new SingleListView<>(mActivity)
+                .adapter(adapter)
+                .onItemClick(new OnFilterItemClickListener<QualificationsNameEntity>() {
+                    @Override
+                    public void onItemClick(QualificationsNameEntity item) {
+                        currentQualifications = item.getId();
+                        personalInfoPosition.setText(item.getName());
+                        dismissProgressDialog();
+//                        onFilterDone(type, item.getKey(), item.getName());
+                    }
+                });
+
+        singleListView.setList(allResoucesEntity.getQualificationsName(), -1);
+
+        return singleListView;
+    }
+
+    //工作年限
     private View createExperSingleListView(List<ItemModel> list) {
         SimpleTextAdapter adapter = new SimpleTextAdapter<ItemModel>(null, mActivity) {
             @Override
@@ -353,7 +481,8 @@ public class PersonalInfoFragment extends BaseBackFragment {
                 .onItemClick(new OnFilterItemClickListener<ItemModel>() {
                     @Override
                     public void onItemClick(ItemModel item) {
-
+                        personalInfoExperience.setText(item.getName());
+                        dismissProgressDialog();
 //                        onFilterDone(type, item.getKey(), item.getName());
                     }
                 });
@@ -366,10 +495,10 @@ public class PersonalInfoFragment extends BaseBackFragment {
 
     //行业
     private View createDoubleListView() {
-        DoubleListView<Industry, IndustryChild> comTypeDoubleListView = new DoubleListView<Industry, IndustryChild>(mActivity)
-                .leftAdapter(new SimpleTextAdapter<Industry>(null, mActivity) {
+        DoubleListView<IndustryNameEntity, IndustrySubEntity> comTypeDoubleListView = new DoubleListView<IndustryNameEntity, IndustrySubEntity>(mActivity)
+                .leftAdapter(new SimpleTextAdapter<IndustryNameEntity>(null, mActivity) {
                     @Override
-                    public String provideText(Industry Industry) {
+                    public String provideText(IndustryNameEntity Industry) {
                         return Industry.getName();
                     }
 
@@ -378,9 +507,9 @@ public class PersonalInfoFragment extends BaseBackFragment {
                         checkedTextView.setPadding(UIUtil.dp(mActivity, 12), UIUtil.dp(mActivity, 12), 0, UIUtil.dp(mActivity, 12));
                     }
                 })
-                .rightAdapter(new SimpleTextAdapter<IndustryChild>(null, mActivity) {
+                .rightAdapter(new SimpleTextAdapter<IndustrySubEntity>(null, mActivity) {
                     @Override
-                    public String provideText(IndustryChild s) {
+                    public String provideText(IndustrySubEntity s) {
                         return s.getName();
                     }
 
@@ -390,10 +519,10 @@ public class PersonalInfoFragment extends BaseBackFragment {
                         checkedTextView.setBackgroundResource(android.R.color.white);
                     }
                 })
-                .onLeftItemClickListener(new DoubleListView.OnLeftItemClickListener<Industry, IndustryChild>() {
+                .onLeftItemClickListener(new DoubleListView.OnLeftItemClickListener<IndustryNameEntity, IndustrySubEntity>() {
                     @Override
-                    public List<IndustryChild> provideRightList(Industry item, int position) {
-                        List<IndustryChild> child = item.getIndustrySub();
+                    public List<IndustrySubEntity> provideRightList(IndustryNameEntity item, int position) {
+                        List<IndustrySubEntity> child = item.getIndustrySub();
                         if (CommonUtil.isEmpty(child)) {
 
 //                            onFilterDone(0, item.getId(), item.getName());
@@ -402,10 +531,12 @@ public class PersonalInfoFragment extends BaseBackFragment {
                         return child;
                     }
                 })
-                .onRightItemClickListener(new DoubleListView.OnRightItemClickListener<Industry, IndustryChild>() {
+                .onRightItemClickListener(new DoubleListView.OnRightItemClickListener<IndustryNameEntity, IndustrySubEntity>() {
                     @Override
-                    public void onRightItemClick(Industry item, IndustryChild childItem) {
-
+                    public void onRightItemClick(IndustryNameEntity item, IndustrySubEntity childItem) {
+                        currentIndestry = childItem.getId();
+                        personalInfoTrade.setText(childItem.getName());
+                        dismissProgressDialog();
 //                        onFilterDone(0, childItem.getId(), childItem.getName());
                     }
                 });
@@ -419,22 +550,92 @@ public class PersonalInfoFragment extends BaseBackFragment {
         return comTypeDoubleListView;
     }
 
-    private EditUserEntity createEditUserData() {
-        EditUserEntity editUserEntity = new EditUserEntity(EditUserEntity.USER_TYPE_STUDENT);
-        editUserEntity.setMobile(personalInfoPhone.getText().toString());
-        editUserEntity.setEmail(personalInfoEmail.getText().toString());
-        editUserEntity.setNickname(personalInfoNickname.getText().toString());
-        editUserEntity.setCompany(personalInfoCompany.getText().toString());
-        editUserEntity.setExperience(personalInfoTrade.getText().toString());
+    //专业
+    private View createStudentDoubleListView() {
+        DoubleListView<SpecialitiesNameEntity, SpecialitiesSubEntity> comTypeDoubleListView = new DoubleListView<SpecialitiesNameEntity, SpecialitiesSubEntity>(mActivity)
+                .leftAdapter(new SimpleTextAdapter<SpecialitiesNameEntity>(null, mActivity) {
+                    @Override
+                    public String provideText(SpecialitiesNameEntity Industry) {
+                        return Industry.getName();
+                    }
 
-//        editUserEntity.setSpecialities(personalInfoPosition.getText().toString());
-        editUserEntity.setJob(personalInfoTitle.getText().toString());
-        editUserEntity.setExperience(personalInfoExperience.getText().toString());
-        editUserEntity.setDesc(personalInfoPersonalInfo.getText().toString());
-        editUserEntity.setSpecialities(currentSpecialities);
-        editUserEntity.setQualifications(currentQualifications);
-        editUserEntity.setAbility_id(currentAbility);
-        editUserEntity.setIndustry_id(currentIndestry);
+                    @Override
+                    protected void initCheckedTextView(FilterCheckedTextView checkedTextView) {
+                        checkedTextView.setPadding(UIUtil.dp(mActivity, 12), UIUtil.dp(mActivity, 12), 0, UIUtil.dp(mActivity, 12));
+                    }
+                })
+                .rightAdapter(new SimpleTextAdapter<SpecialitiesSubEntity>(null, mActivity) {
+                    @Override
+                    public String provideText(SpecialitiesSubEntity s) {
+                        return s.getName();
+                    }
+
+                    @Override
+                    protected void initCheckedTextView(FilterCheckedTextView checkedTextView) {
+                        checkedTextView.setPadding(UIUtil.dp(mActivity, 12), UIUtil.dp(mActivity, 12), 0, UIUtil.dp(mActivity, 12));
+                        checkedTextView.setBackgroundResource(android.R.color.white);
+                    }
+                })
+                .onLeftItemClickListener(new DoubleListView.OnLeftItemClickListener<SpecialitiesNameEntity, SpecialitiesSubEntity>() {
+                    @Override
+                    public List<SpecialitiesSubEntity> provideRightList(SpecialitiesNameEntity item, int position) {
+                        List<SpecialitiesSubEntity> child = item.getSpecialitiesSub();
+                        if (CommonUtil.isEmpty(child)) {
+
+                        }
+                        return child;
+                    }
+                })
+                .onRightItemClickListener(new DoubleListView.OnRightItemClickListener<SpecialitiesNameEntity, SpecialitiesSubEntity>() {
+                    @Override
+                    public void onRightItemClick(SpecialitiesNameEntity item, SpecialitiesSubEntity childItem) {
+                        currentSpecialities = childItem.getId();
+                        personalInfoTrade.setText(childItem.getName());
+                        dismissProgressDialog();
+                    }
+                });
+
+
+        //初始化选中.
+        comTypeDoubleListView.setLeftList(specialities, 1);
+        comTypeDoubleListView.setRightList(specialities.get(1).getSpecialitiesSub(), -1);
+        comTypeDoubleListView.getLeftListView().setBackgroundColor(mActivity.getResources().getColor(R.color.b_c_fafafa));
+
+        return comTypeDoubleListView;
+    }
+
+    private EditUserEntity createEditUserData() {
+        EditUserEntity  editUserEntity = new EditUserEntity(role);
+        if (role == 1){
+            editUserEntity.setType(role);
+            editUserEntity.setAvatar("");
+            editUserEntity.setMobile(personalInfoPhone.getText().toString());//手机
+            editUserEntity.setEmail(personalInfoEmail.getText().toString());//邮箱
+            editUserEntity.setNickname(personalInfoNickname.getText().toString());//昵称
+            editUserEntity.setCompany(personalInfoCompany.getText().toString());//公司名称
+            editUserEntity.setLogo("");
+            editUserEntity.setJob(personalInfoTitle.getText().toString());//职位
+            editUserEntity.setIndustry_id(currentIndestry);//行业
+            editUserEntity.setAbility_id(currentAbility);//职能
+            editUserEntity.setExperience(personalInfoExperience.getText().toString());//工作年限
+            editUserEntity.setDesc(personalInfoPersonalInfo.getText().toString());//个人简介
+            return editUserEntity;
+        }
+        else if (role == 2){
+            editUserEntity.setType(role);
+            editUserEntity.setAvatar("");
+            editUserEntity.setMobile(personalInfoPhone.getText().toString());//手机
+            editUserEntity.setEmail(personalInfoEmail.getText().toString());//邮箱
+            editUserEntity.setNickname(personalInfoNickname.getText().toString());//昵称
+            editUserEntity.setSchool(personalInfoCompany.getText().toString());//学校
+            editUserEntity.setLogo("");
+            editUserEntity.setSpecialities(currentSpecialities);
+            editUserEntity.setQualifications(currentQualifications);
+            editUserEntity.setDesc(personalInfoPersonalInfo.getText().toString());
+            return editUserEntity;
+        }
         return editUserEntity;
     }
+
+
 }

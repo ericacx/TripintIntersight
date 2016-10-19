@@ -13,6 +13,7 @@ import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
 import com.tripint.intersight.entity.mine.PersonalUserHomeEntity;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
+import com.tripint.intersight.entity.mine.worker.AllResoucesEntity;
 import com.tripint.intersight.entity.mine.worker.EditUserEntity;
 
 import java.util.List;
@@ -70,17 +71,6 @@ public class MineDataHttpRequest extends HttpRequest {
     public void getUserHome(Subscriber<UserHomeEntity> subscriber) {
         Observable observable = service.getUserHome()
                 .map(new HttpResultFunc<UserHomeEntity>());
-        toSubscribe(observable, subscriber);
-    }
-
-    /**
-     * 用于获取他的个人中心主页
-     *
-     * @param subscriber
-     */
-    public void getPersonalUserHome(Subscriber<PersonalUserHomeEntity> subscriber,int uid) {
-        Observable observable = service.getPersonalUserHome(uid)
-                .map(new HttpResultFunc<PersonalUserHomeEntity>());
         toSubscribe(observable, subscriber);
     }
 
@@ -248,6 +238,8 @@ public class MineDataHttpRequest extends HttpRequest {
 
         toSubscribe(observable,subscriber);
     }
+
+
     /***
      * 用于获取邮箱验证码数据
      * @param subscriber
@@ -258,6 +250,20 @@ public class MineDataHttpRequest extends HttpRequest {
         Observable observable = service.getSendEmail(email)
                 .map(new HttpResultFunc<CodeDataEntity>());
 
+        toSubscribe(observable, subscriber);
+    }
+
+
+    /**
+     * 用得职员，学生信息。
+     *
+     * @param subscriber 由调用者传过来的观察者对象
+     * @param
+     */
+    public void getAllResources(Subscriber<AllResoucesEntity> subscriber, int type) {
+
+        Observable observable = service.getAllResources(type)
+                .map(new HttpResultFunc<AllResoucesEntity>());
         toSubscribe(observable, subscriber);
     }
 }

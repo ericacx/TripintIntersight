@@ -13,6 +13,7 @@ import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
 import com.tripint.intersight.entity.mine.PersonalUserHomeEntity;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
+import com.tripint.intersight.entity.mine.worker.AllResoucesEntity;
 import com.tripint.intersight.entity.mine.worker.EditUserEntity;
 
 import java.util.List;
@@ -40,10 +41,6 @@ public interface MineDataService {
     //个人中心首页
     @GET("userHome")
     Observable<BaseResponse<UserHomeEntity>> getUserHome();
-
-    //他的个人中心主页
-    @GET("personal/home")
-    Observable<BaseResponse<PersonalUserHomeEntity>> getPersonalUserHome(@Query("uid") int uid);
 
     //我的观点列表
     @GET("myPoint")
@@ -127,4 +124,9 @@ public interface MineDataService {
     Observable<BaseResponse<CodeDataEntity>> postOtherInterview(
             @Body PersonalUserInfoEntity personalUserInfoEntity
             );
+
+
+    //职员,学生信息
+    @GET("allResources")
+    Observable<BaseResponse<AllResoucesEntity>> getAllResources(@Query("type") int type);
 }

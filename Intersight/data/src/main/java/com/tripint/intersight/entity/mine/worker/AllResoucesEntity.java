@@ -1,6 +1,9 @@
 package com.tripint.intersight.entity.mine.worker;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.tripint.intersight.entity.mine.student.QualificationsNameEntity;
+import com.tripint.intersight.entity.mine.student.SchoolNameEntity;
+import com.tripint.intersight.entity.mine.student.SpecialitiesNameEntity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,40 +15,68 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AllResoucesEntity implements Serializable {
 
-    private List<CompanyNameEntity> companyNameEntityList;//公司信息,名字和logo
-    private List<IndustryNameEntity> industryNameEntityList;//行业
-    private List<AbilityNameEntity> abilityNameEntityList;//职能
-    private List<JobNameEntity> jobNameEntityList;//职位
+    private List<CompanyNameEntity> companyName;//公司信息,名字和logo
+    private List<IndustryNameEntity> industryName;//行业
+    private List<AbilityNameEntity> abilityName;//职能
+    private List<JobNameEntity> jobName;//职位
 
-    public List<CompanyNameEntity> getCompanyNameEntityList() {
-        return companyNameEntityList;
+    private List<SchoolNameEntity> schoolName;//学校
+    private List<SpecialitiesNameEntity> specialitiesName;//专业
+    private List<QualificationsNameEntity> qualificationsName;//学历；
+
+    public List<CompanyNameEntity> getCompanyName() {
+        return companyName;
     }
 
-    public void setCompanyNameEntityList(List<CompanyNameEntity> companyNameEntityList) {
-        this.companyNameEntityList = companyNameEntityList;
+    public void setCompanyName(List<CompanyNameEntity> companyName) {
+        this.companyName = companyName;
     }
 
-    public List<IndustryNameEntity> getIndustryNameEntityList() {
-        return industryNameEntityList;
+    public List<IndustryNameEntity> getIndustryName() {
+        return industryName;
     }
 
-    public void setIndustryNameEntityList(List<IndustryNameEntity> industryNameEntityList) {
-        this.industryNameEntityList = industryNameEntityList;
+    public void setIndustryName(List<IndustryNameEntity> industryName) {
+        this.industryName = industryName;
     }
 
-    public List<AbilityNameEntity> getAbilityNameEntityList() {
-        return abilityNameEntityList;
+    public List<AbilityNameEntity> getAbilityName() {
+        return abilityName;
     }
 
-    public void setAbilityNameEntityList(List<AbilityNameEntity> abilityNameEntityList) {
-        this.abilityNameEntityList = abilityNameEntityList;
+    public void setAbilityName(List<AbilityNameEntity> abilityName) {
+        this.abilityName = abilityName;
     }
 
-    public List<JobNameEntity> getJobNameEntityList() {
-        return jobNameEntityList;
+    public List<JobNameEntity> getJobName() {
+        return jobName;
     }
 
-    public void setJobNameEntityList(List<JobNameEntity> jobNameEntityList) {
-        this.jobNameEntityList = jobNameEntityList;
+    public void setJobName(List<JobNameEntity> jobName) {
+        this.jobName = jobName;
+    }
+
+    public List<SchoolNameEntity> getSchoolName() {
+        return schoolName;
+    }
+
+    public void setSchoolName(List<SchoolNameEntity> schoolName) {
+        this.schoolName = schoolName;
+    }
+
+    public List<SpecialitiesNameEntity> getSpecialitiesName() {
+        return specialitiesName;
+    }
+
+    public void setSpecialitiesName(List<SpecialitiesNameEntity> specialitiesName) {
+        this.specialitiesName = specialitiesName;
+    }
+
+    public List<QualificationsNameEntity> getQualificationsName() {
+        return qualificationsName;
+    }
+
+    public void setQualificationsName(List<QualificationsNameEntity> qualificationsName) {
+        this.qualificationsName = qualificationsName;
     }
 }

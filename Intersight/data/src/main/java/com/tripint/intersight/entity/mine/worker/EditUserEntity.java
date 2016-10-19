@@ -10,10 +10,10 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EditUserEntity implements Serializable {
 
-    public static final int USER_TYPE_STUFF = 0;//职员
-    public static final int USER_TYPE_STUDENT = 1;//学生
+    public static final int USER_TYPE_STUFF = 1;//职员
+    public static final int USER_TYPE_STUDENT = 2;//学生
 
-    private int type;//0,职员 1,学生
+    private int type;//1,职员 2,学生
     private String nickname;//昵称
     private String mobile;//手机
     private String email;//邮箱

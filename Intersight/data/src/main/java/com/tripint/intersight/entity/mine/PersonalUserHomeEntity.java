@@ -16,6 +16,7 @@ public class PersonalUserHomeEntity implements Serializable {
     private String industryName;//行业
     private String experience;//工作年限
     private String desc;//个人简介
+    private int role;//返回类型:1 职员 2 学生
 
     public String getNickname() {
         return nickname;
@@ -71,5 +72,13 @@ public class PersonalUserHomeEntity implements Serializable {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 }

@@ -27,6 +27,7 @@ import com.tripint.intersight.entity.PersonalUserInfoEntity;
 import com.tripint.intersight.entity.mine.PersonalUserHomeEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.service.ExpertDataHttpRequest;
 import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.image.CircleImageView;
 import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
@@ -34,6 +35,7 @@ import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
 import org.greenrobot.eventbus.EventBus;
+import org.w3c.dom.Text;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -133,7 +135,7 @@ public class PersonalMainPageFragment extends BaseBackFragment {
             }
         };
 
-        MineDataHttpRequest.getInstance(mActivity).getPersonalUserHome(new ProgressSubscriber(subscriber, mActivity),uid);
+        ExpertDataHttpRequest.getInstance(mActivity).getPersonalUserHome(new ProgressSubscriber(subscriber, mActivity),uid);
     }
 
     private void initView(View view) {
@@ -218,11 +220,30 @@ public class PersonalMainPageFragment extends BaseBackFragment {
                             @Override
                             public void confirmListener(DialogPlus dialog, View view) {
 
-                                EditText editText = ((EditText) dialog.findViewById(R.id.dialog_question_edit));
-                                if (TextUtils.isEmpty(editText.getText().toString().trim())){
-                                    ToastUtil.showToast(mActivity,"输入的内容不能为空");
-                                } else {
-                                    PersonalUserInfoEntity personalUserInfoEntity = new PersonalUserInfoEntity();
+                                EditText nickname = ((EditText) dialog.findViewById(R.id.dialog_interview_nickname));
+                                EditText email = ((EditText) dialog.findViewById(R.id.dialog_interview_email));
+                                EditText phone = ((EditText) dialog.findViewById(R.id.dialog_interview_phone));
+                                EditText company = ((EditText) dialog.findViewById(R.id.dialog_interview_company));
+                                EditText theme = ((EditText) dialog.findViewById(R.id.dialog_interview_theme));
+                                EditText editor = ((EditText) dialog.findViewById(R.id.dialog_interview_edit));
+                                if (TextUtils.isEmpty(nickname.getText().toString().trim())){
+                                    ToastUtil.showToast(mActivity,"输入的姓名不能为空");
+                                } else if (TextUtils.isEmpty(email.getText().toString().trim())){
+                                    ToastUtil.showToast(mActivity,"输入的邮箱不能为空");
+                                }else if (phone.getText().toString().trim().length() != 11){
+                                    ToastUtil.showToast(mActivity,"输入的手机不正确");
+                                }else if (TextUtils.isEmpty(company.getText().toString().trim())){
+                                    ToastUtil.showToast(mActivity,"输入的公司不能为空");
+                                }else if (TextUtils.isEmpty(theme.getText().toString().trim())){
+                                    ToastUtil.showToast(mActivity,"输入的主题不能为空");
+                                }else if (TextUtils.isEmpty(editor.getText().toString().trim())){
+                                    ToastUtil.showToast(mActivity,"输入的提纲不能为空");
+                                }else {
+                                    PersonalUserInfoEntity personalUserInfoEntity = new PersonalUserInfoEntity(
+                                            uid,nickname.getText().toString().trim(),company.getText().toString().trim(),
+                                            phone.getText().toString().trim(),email.getText().toString().trim(),
+                                            theme.getText().toString().trim(),editor.getText().toString().trim()
+                                    );
                                     MineDataHttpRequest.getInstance(mActivity).postOtherInterview(
                                             new ProgressSubscriber(subscriberCode, mActivity)
                                             ,personalUserInfoEntity
@@ -237,13 +258,13 @@ public class PersonalMainPageFragment extends BaseBackFragment {
             case R.id.personal_main_page_personalInfo://他的个人信息
                 break;
             case R.id.personal_main_page_askAnswer://他的问答
-                EventBus.getDefault().post(new StartFragmentEvent(HisAskAnswerFragment.newInstance()));
+                EventBus.getDefault().post(new StartFragmentEvent(HisAskAnswerFragment.newInstance(uid)));
                 break;
             case R.id.personal_main_page_interview://他的访谈
-                EventBus.getDefault().post(new StartFragmentEvent(HisInterviewFragment.newInstance()));
+                EventBus.getDefault().post(new StartFragmentEvent(HisInterviewFragment.newInstance(uid)));
                 break;
             case R.id.personal_main_page_opinion://他的观点
-                EventBus.getDefault().post(new StartFragmentEvent(HisOpinionFragment.newInstance()));
+                EventBus.getDefault().post(new StartFragmentEvent(HisOpinionFragment.newInstance(uid)));
                 break;
         }
     }
