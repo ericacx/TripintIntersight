@@ -4,9 +4,7 @@ package com.tripint.intersight.service;
 import com.tripint.intersight.common.BaseResponse;
 import com.tripint.intersight.entity.stream.StreamResponseEntity;
 
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
+import retrofit2.http.GET;
 import rx.Observable;
 
 /**
@@ -16,8 +14,7 @@ public interface PiliStreamDataService {
 
 
     //获取推送URL
-    @FormUrlEncoded
-    @POST("uaudio/stream")
-    Observable<BaseResponse<StreamResponseEntity>> postPublishStreamUrl(@Field("uid") int uid);
+    @GET("audio/stream")
+    Observable<BaseResponse<StreamResponseEntity>> postPublishStreamUrl();
 
 }

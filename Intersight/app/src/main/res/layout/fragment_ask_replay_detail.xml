@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:background="@mipmap/background_default"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -195,45 +195,57 @@
         android:id="@+id/container_countdown"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_centerInParent="true"
         android:background="@android:color/transparent"
         android:gravity="center"
-        android:layout_centerInParent="true"
         android:visibility="gone">
 
         <com.tripint.intersight.common.widget.countdown.CountDownView
             android:id="@+id/countdownview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            custom:showSec="true"
-            custom:showMin="true"
             custom:numberColor="@color/grey_100"
+            custom:showMin="true"
+            custom:showSec="true"
             custom:unitColor="@color/grey_100" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/speaker_container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_12_80"
+        android:layout_height="@dimen/height_16_80"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_gravity="bottom|center_horizontal"
         android:background="@android:color/transparent"
         android:gravity="center"
-        android:visibility="visible"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:visibility="visible">
+
+        <ToggleButton
+            android:id="@+id/toggle_agree_licence"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/spacing"
+            android:background="@drawable/selector_btn_checkbox_gray"
+            android:paddingBottom="@dimen/spacing_pad"
+            android:paddingLeft="@dimen/spacing_02"
+            android:paddingRight="@dimen/spacing_02"
+            android:paddingTop="@dimen/spacing_pad"
+            android:checked="true"
+            android:textOff=""
+            android:textOn="" />
 
         <TextView
             android:id="@+id/text_qa_info"
             style="@style/text_20px_styles"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="center"
-            android:layout_weight="1"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/toggle_agree_licence"
             android:background="@drawable/btn_selector_corners_grey"
-            android:drawablePadding="@dimen/width_2_80"
-            android:gravity="center"
             android:paddingBottom="@dimen/spacing_pad"
             android:paddingLeft="@dimen/spacing_02"
             android:paddingRight="@dimen/spacing_02"
@@ -244,72 +256,68 @@
         <Button
             android:id="@+id/btn_qa_record_voice_main"
             android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_6_80"
+            android:layout_below="@id/text_qa_info"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_shape_blue"
+            android:drawableLeft="@drawable/iconfont_huatong"
+            android:drawablePadding="@dimen/width_2_80"
+            android:gravity="center"
+            android:paddingBottom="@dimen/spacing_pad02"
+            android:paddingLeft="@dimen/spacing_01"
+            android:paddingRight="@dimen/spacing_01"
+            android:paddingTop="@dimen/spacing_pad02"
+            android:text="点击 录音"
+            android:textColor="@color/grey_100"
+            android:textSize="@dimen/text_size_12"
+            android:visibility="visible" />
+
+
+        <Button
+            android:id="@+id/btn_qa_record_voice_restart"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/height_5_80"
             android:layout_below="@id/text_qa_info"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/spacing_pad02"
-            android:layout_marginLeft="@dimen/spacing_01"
-            android:layout_marginRight="@dimen/spacing_01"
-            android:layout_marginTop="@dimen/spacing_pad02"
-            android:layout_weight="1"
-            android:background="@drawable/btn_shape_blue"
-            android:drawableLeft="@mipmap/iconfont_huatong"
+            android:layout_marginRight="@dimen/width_4_80"
+            android:layout_toLeftOf="@id/btn_qa_record_voice_main"
+            android:background="@drawable/btn_shape1"
+            android:drawableLeft="@mipmap/iconfont_cl"
             android:drawablePadding="@dimen/width_2_80"
             android:gravity="center"
-            android:visibility="visible"
-            android:text="按住 说话"
+            android:paddingBottom="@dimen/spacing_pad02"
+            android:paddingLeft="@dimen/spacing_01"
+            android:paddingRight="@dimen/spacing_01"
+            android:paddingTop="@dimen/spacing_pad02"
+            android:text="重录"
             android:textColor="@color/grey_100"
-            android:textSize="@dimen/text_size_12" />
+            android:textSize="@dimen/text_size_12"
+            android:visibility="gone" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_16_80"
-            android:layout_alignParentBottom="true"
-            android:visibility="gone">
+        <Button
+            android:id="@+id/btn_qa_record_voice_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_qa_info"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@id/btn_qa_record_voice_main"
+            android:background="@drawable/btn_shape1"
+            android:layout_marginLeft="@dimen/width_4_80"
+            android:drawableLeft="@mipmap/iconfont_yuyin"
+            android:drawablePadding="@dimen/width_2_80"
+            android:gravity="center"
+            android:paddingBottom="@dimen/spacing_pad02"
+            android:paddingLeft="@dimen/spacing_01"
+            android:paddingRight="@dimen/spacing_01"
+            android:paddingTop="@dimen/spacing_pad02"
+            android:text="播放"
+            android:textColor="@color/grey_100"
+            android:textSize="@dimen/text_size_12"
+            android:visibility="gone" />
 
-            <ImageButton
-                android:id="@+id/restart"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/record"
-                android:layout_toLeftOf="@+id/record"
-                android:layout_marginTop="50dp"
-                android:padding="10dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/aar_ic_restart"
-                android:onClick="restartRecording"
-                android:visibility="invisible"
-                style="@style/Widget.AppCompat.Button.Borderless" />
 
-            <ImageButton
-                android:id="@+id/record"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="50dp"
-                android:layout_margin="15dp"
-                android:padding="10dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/aar_ic_rec"
-                android:onClick="toggleRecording"
-                style="@style/Widget.AppCompat.Button.Borderless" />
-
-            <ImageButton
-                android:id="@+id/play"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/record"
-                android:layout_toRightOf="@+id/record"
-                android:layout_marginTop="50dp"
-                android:padding="10dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/aar_ic_play"
-                android:onClick="togglePlaying"
-                style="@style/Widget.AppCompat.Button.Borderless" />
-
-        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

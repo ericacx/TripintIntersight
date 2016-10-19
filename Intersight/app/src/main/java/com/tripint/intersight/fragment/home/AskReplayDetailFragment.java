@@ -1,6 +1,7 @@
 package com.tripint.intersight.fragment.home;
 
 
+import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.qiniu.android.dns.DnsManager;
@@ -44,6 +46,7 @@ import com.tripint.intersight.adapter.PaymentSelectAdapter;
 import com.tripint.intersight.adapter.listener.RecyclerViewItemOnClick;
 import com.tripint.intersight.app.InterSightApp;
 import com.tripint.intersight.common.utils.DialogPlusUtils;
+import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.common.widget.countdown.CountDownView;
 import com.tripint.intersight.common.widget.countdown.TimerListener;
 import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
@@ -123,6 +126,14 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
     LinearLayout containerChatReply;
     @Bind(R.id.countdownview)
     CountDownView countdownview;
+    @Bind(R.id.container_countdown)
+    RelativeLayout containerCountdown;
+    @Bind(R.id.toggle_agree_licence)
+    ToggleButton toggleAgreeLicence;
+    @Bind(R.id.btn_qa_record_voice_restart)
+    Button btnQaRecordVoiceRestart;
+    @Bind(R.id.btn_qa_record_voice_play)
+    Button btnQaRecordVoicePlay;
 
 
     private AskAnswerPageDetailCommentAdapter mAdapter;
@@ -332,7 +343,11 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
         streamSubscriber = new PageDataSubscriberOnNext<StreamResponseEntity>() {
             @Override
             public void onNext(StreamResponseEntity entity) {
-                initStreamProfile(entity.getPublishUrl());
+                if (!StringUtils.isEmpty(entity.getPublishUrl())) {
+                    Log.d(TAG, entity.getPublishUrl());
+                    initStreamProfile(entity.getPublishUrl());
+                    btnQaRecordVoice.setVisibility(View.VISIBLE);
+                }
             }
         };
 
@@ -340,7 +355,7 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
 
     }
 
-    @OnClick({R.id.container_voice_message, R.id.btn_qa_record_voice_main})
+    @OnClick({R.id.container_voice_message, R.id.btn_qa_record_voice_main, R.id.btn_qa_record_voice_play, R.id.btn_qa_record_voice_restart})
     public void onClick(View view) {
         switch (view.getId()) {
 
@@ -380,16 +395,35 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
                 });
 //                dialogPlus.show();
                 break;
-            case R.id.btn_qa_record_voice_main: //我的关注
-                if (countdownview.isTimerRunning()) {
+            case R.id.btn_qa_record_voice_main: //录音
+                if (countdownview.isTimerRunning() && mShutterButtonPressed) {
                     countdownview.stop();
                     stopStreaming();
-
+                    Drawable drawable = getResources().getDrawable(R.drawable.iconfont_huatong);
+                    drawable.setBounds(0, 0, 64, 64);
+                    btnQaRecordVoice.setCompoundDrawables(drawable, null, null, null);
+                    btnQaRecordVoiceRestart.setVisibility(View.VISIBLE);
+                    btnQaRecordVoicePlay.setVisibility(View.VISIBLE);
+                    btnQaRecordVoice.setText("开始录音");
 
                 } else {
                     countdownview.start();
                     startStreaming();
+                    mShutterButtonPressed = true;
+                    Drawable drawable = getResources().getDrawable(R.drawable.iconfont_stop);
+                    drawable.setBounds(0, 0, 64, 64);
+                    btnQaRecordVoice.setCompoundDrawables(drawable, null, null, null);
+                    btnQaRecordVoice.setText("结束录音");
                 }
+                break;
+            case R.id.btn_qa_record_voice_play: //播放
+
+                break;
+            case R.id.btn_qa_record_voice_restart:
+                mShutterButtonPressed = false;
+                countdownview.reset();
+                btnQaRecordVoicePlay.setVisibility(View.GONE);
+                btnQaRecordVoiceRestart.setVisibility(View.GONE);
                 break;
 
         }
@@ -418,7 +452,7 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
 
         mProfile = new StreamingProfile();
         try {
-            mProfile.setPublishUrl(publishUrlFromServer.substring(Config.EXTRA_PUBLISH_URL_PREFIX.length()));
+            mProfile.setPublishUrl(publishUrlFromServer);
         } catch (URISyntaxException e) {
             Log.e(TAG, e.getMessage());
         }
@@ -435,13 +469,17 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
                 .setSendingBufferProfile(new StreamingProfile.SendingBufferProfile(0.2f, 0.8f, 3.0f, 20 * 1000));
         mProfile.setAudioQuality(StreamingProfile.AUDIO_QUALITY_LOW1);
 
-        mMediaStreamingManager = new MediaStreamingManager(mActivity, AVCodecType.SW_AUDIO_CODEC);
-        mMediaStreamingManager.prepare(mProfile);
-        mMediaStreamingManager.setStreamingStateListener(this);
         mCameraStreamingSetting = new CameraStreamingSetting();
 
         mMicrophoneStreamingSetting = new MicrophoneStreamingSetting();
         mMicrophoneStreamingSetting.setBluetoothSCOEnabled(false);
+
+        mProfile.setAudioQuality(StreamingProfile.AUDIO_QUALITY_LOW1);
+
+        mMediaStreamingManager = new MediaStreamingManager(mActivity, AVCodecType.SW_AUDIO_CODEC);
+        mMediaStreamingManager.prepare(mProfile);
+        mMediaStreamingManager.setStreamingStateListener(this);
+        mMediaStreamingManager.resume();
 
     }
 
@@ -465,6 +503,16 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
             ex.printStackTrace();
         }
         return new DnsManager(NetworkInfo.normal, new IResolver[]{r0, r1, r2});
+    }
+
+    @Override
+    protected void initToolbarNav(Toolbar toolbar) {
+        super.initToolbarNav(toolbar);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override

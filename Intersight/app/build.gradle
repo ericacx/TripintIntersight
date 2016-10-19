@@ -58,9 +58,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
-    sourceSets {
-        main.jniLibs.srcDirs = ['libs']
-    }
 
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'

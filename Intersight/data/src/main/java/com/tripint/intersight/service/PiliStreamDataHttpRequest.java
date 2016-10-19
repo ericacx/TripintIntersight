@@ -47,7 +47,7 @@ public class PiliStreamDataHttpRequest extends HttpRequest {
      */
     public void postPublishStreamUrl(Subscriber<StreamResponseEntity> subscriber)  //问答)
     {
-        Observable observable = service.postPublishStreamUrl(0)
+        Observable observable = service.postPublishStreamUrl()
                 .map(new HttpResultFunc<StreamResponseEntity>());
         toSubscribe(observable, subscriber);
     }
