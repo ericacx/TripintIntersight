@@ -11,61 +11,20 @@
         layout="@layout/toolbar"/>
 
     <LinearLayout
-        android:id="@+id/hisAskAnswerVG"
-        android:layout_below="@id/his_opinion_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_5_80"
-        android:layout_gravity="center"
-        android:background="@android:color/transparent"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/btn_my_common_header_left"
-            style="@style/text_28px_styles"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/btn_selector_corners_grey"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:paddingBottom="@dimen/spacing_pad"
-            android:paddingLeft="@dimen/spacing_01"
-            android:paddingRight="@dimen/spacing_01"
-            android:paddingTop="@dimen/spacing_pad"
-            android:text="他的观点"
-            android:textColor="@color/grey_100" />
-
-        <TextView
-            android:id="@+id/btn_my_common_header_right"
-            style="@style/text_28px_styles"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/btn_selector_corners_grey"
-            android:gravity="center"
-            android:paddingBottom="@dimen/spacing_pad"
-            android:paddingLeft="@dimen/spacing_01"
-            android:paddingRight="@dimen/spacing_01"
-            android:paddingTop="@dimen/spacing_pad"
-            android:text="他关注的观点"
-            android:textColor="@color/grey_100" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/hisAskAnswerLL"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="@dimen/spacing"
+        android:layout_marginTop="@dimen/spacing"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_6_80">
 
         <Button
             android:id="@+id/his_opinion_ask"
-            android:text="10.00向他提问"
+            android:text="￥10.00 向他提问"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_15"
-            android:background="@drawable/btn_shape_blue"
+            android:background="@drawable/btn_shape2"
             android:layout_marginLeft="@dimen/spacing_02"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -89,13 +48,71 @@
             android:layout_height="match_parent" />
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/his_opinion_recyclerView"
-        android:layout_below="@id/hisAskAnswerVG"
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_above="@id/hisAskAnswerLL"
-        android:fadingEdge="none"
-        android:background="@android:color/transparent"
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/hisAskAnswerVG"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_5_80"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/btn_my_common_header_left"
+                    style="@style/text_28px_styles"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_selector_corners_grey"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:paddingBottom="@dimen/spacing_pad"
+                    android:paddingLeft="@dimen/spacing_01"
+                    android:paddingRight="@dimen/spacing_01"
+                    android:paddingTop="@dimen/spacing_pad"
+                    android:text="他的观点"
+                    android:textColor="@color/grey_100" />
+
+                <TextView
+                    android:id="@+id/btn_my_common_header_right"
+                    style="@style/text_28px_styles"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_selector_corners_grey"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/spacing_pad"
+                    android:paddingLeft="@dimen/spacing_01"
+                    android:paddingRight="@dimen/spacing_01"
+                    android:paddingTop="@dimen/spacing_pad"
+                    android:text="他关注的观点"
+                    android:textColor="@color/grey_100" />
+
+            </LinearLayout>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/his_opinion_recyclerView"
+                android:layout_below="@id/hisAskAnswerVG"
+                android:layout_above="@id/hisAskAnswerLL"
+                android:fadingEdge="none"
+                android:background="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

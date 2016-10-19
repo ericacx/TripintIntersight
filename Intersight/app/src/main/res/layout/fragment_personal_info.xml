@@ -243,6 +243,7 @@
                     >
 
                     <TextView
+                        android:id="@+id/personal_info_textview_company_logo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
@@ -285,6 +286,7 @@
                     >
 
                     <TextView
+                        android:id="@+id/personal_info_textview_trade"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
@@ -331,6 +333,7 @@
                     >
 
                     <TextView
+                        android:id="@+id/personal_info_textview_position"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
@@ -369,89 +372,100 @@
                     android:layout_marginBottom="@dimen/spacing_pad04"
                     android:background="@color/line" />
 
-                <RelativeLayout
+                <LinearLayout
+                    android:id="@+id/personal_info_ll"
+                    android:visibility="visible"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_5_80">
+                    android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/personal_info_textview_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:text="职位名称"
-                        android:textSize="@dimen/text_size_14"
-                        android:textColor="@color/white" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_5_80">
 
-                    <EditText
-                        android:id="@+id/personal_info_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/personal_info_textview_title"
-                        android:gravity="right|center_vertical"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@null"
-                        android:textSize="@dimen/text_size_14"
-                        android:textColor="@color/white"
-                        android:hint="请填写"
-                        android:text="市场总监"
-                        android:textColorHint="@color/line" />
+                        <TextView
+                            android:id="@+id/personal_info_textview_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:text="职位名称"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/white" />
 
-                </RelativeLayout>
+                        <EditText
+                            android:id="@+id/personal_info_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/personal_info_textview_title"
+                            android:gravity="right|center_vertical"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@null"
+                            android:textSize="@dimen/text_size_14"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textColor="@color/white"
+                            android:hint="请填写"
+                            android:text="市场总监"
+                            android:textColorHint="@color/line" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/spacing_pad04"
-                    android:layout_marginBottom="@dimen/spacing_pad04"
-                    android:background="@color/line" />
+                    </RelativeLayout>
 
-
-                <RelativeLayout
-                    android:id="@+id/personal_info_rl_experience"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_5_80"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:text="工作年限"
-                        android:textSize="@dimen/text_size_14"
-                        android:textColor="@color/white" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/spacing_pad04"
+                        android:layout_marginBottom="@dimen/spacing_pad04"
+                        android:background="@color/line" />
 
 
-                    <ImageView
-                        android:id="@+id/personal_info_experience_down"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@mipmap/iconfont_zldown" />
+                    <RelativeLayout
+                        android:id="@+id/personal_info_rl_experience"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_5_80"
+                        >
 
-                    <TextView
-                        android:id="@+id/personal_info_experience"
-                        android:text="3-5年"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_14"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/spacing"
-                        android:layout_toLeftOf="@id/personal_info_experience_down"
-                        android:src="@mipmap/iconfont_mima" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:text="工作年限"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/white" />
 
-                </RelativeLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/spacing_pad04"
-                    android:layout_marginBottom="@dimen/spacing_pad04"
-                    android:background="@color/line" />
+                        <ImageView
+                            android:id="@+id/personal_info_experience_down"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/iconfont_zldown" />
+
+                        <TextView
+                            android:id="@+id/personal_info_experience"
+                            android:text="3-5年"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/spacing"
+                            android:layout_toLeftOf="@id/personal_info_experience_down"
+                            android:src="@mipmap/iconfont_mima" />
+
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/spacing_pad04"
+                        android:layout_marginBottom="@dimen/spacing_pad04"
+                        android:background="@color/line" />
+
+                </LinearLayout>
+
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -481,7 +495,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_14"
-                        android:inputType="text"
+                        android:inputType="textMultiLine"
                         android:textCursorDrawable="@null"
                         android:hint="点击填写"
                         android:background="@null"

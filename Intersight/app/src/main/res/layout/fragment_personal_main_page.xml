@@ -22,7 +22,7 @@
 
         <Button
             android:id="@+id/personal_main_page_button_ask"
-            android:text="10.00向他提问"
+            android:text="￥10.00 向他提问"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_15"
             android:background="@drawable/btn_shape2"
@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="@dimen/spacing"
                 android:src="@mipmap/p1" />
             <TextView
                 android:id="@+id/personal_main_page_name"
@@ -184,12 +184,6 @@
 
                 <TextView
                     android:id="@+id/personal_main_page_introduction"
-                    android:text="曾为数十家国内知名企业做过免费的企业网站咨询诊断与网络营销推广咨询。
-                    曾为数十家国内知名企业做过免费的企业网站咨询诊断与网络营销推广咨询。
-                    曾为数十家国内知名企业做过免费的企业网站咨询诊断与网络营销推广咨询。
-                    曾为数十家国内知名企业做过免费的企业网站咨询诊断与网络营销推广咨询。
-                    曾为数十家国内知名企业做过免费的企业网站咨询诊断与网络营销推广咨询。
-                    曾为数十家国内知名企业做过免费的企业网站咨询诊断与网络营销推广咨询。"
                     android:textSize="@dimen/text_size_15"
                     android:background="@null"
                     android:textColor="@color/line"
@@ -199,7 +193,5 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-
-
 
 </RelativeLayout>

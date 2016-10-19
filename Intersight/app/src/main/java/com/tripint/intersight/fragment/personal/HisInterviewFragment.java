@@ -2,17 +2,46 @@ package com.tripint.intersight.fragment.personal;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.tripint.intersight.R;
+import com.tripint.intersight.adapter.MineCommonMultipleAdapter;
+import com.tripint.intersight.common.BasePageableResponse;
+import com.tripint.intersight.common.utils.DialogPlusUtils;
+import com.tripint.intersight.common.utils.ToastUtil;
+import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
+import com.tripint.intersight.common.widget.dialogplus.ViewHolder;
+import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
+import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
+import com.tripint.intersight.entity.CodeDataEntity;
+import com.tripint.intersight.entity.PersonalUserInfoEntity;
+import com.tripint.intersight.entity.mine.InterviewEntity;
+import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.fragment.mine.MyInterviewDetailFragment;
+import com.tripint.intersight.model.MineMultipleItemModel;
+import com.tripint.intersight.service.ExpertDataHttpRequest;
+import com.tripint.intersight.service.MineDataHttpRequest;
+import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
+import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,9 +51,9 @@ import butterknife.OnClick;
  * 他的访谈  --- 页面
  * A simple {@link Fragment} subclass.
  */
-public class HisInterviewFragment extends BaseBackFragment {
+public class HisInterviewFragment extends BaseBackFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
 
-
+    public static final String ARG_USER_ID = "arg_user_id";
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.his_interview_ask)
@@ -34,16 +63,43 @@ public class HisInterviewFragment extends BaseBackFragment {
     @Bind(R.id.his_interview_LL)
     LinearLayout hisInterviewLL;
     @Bind(R.id.his_interview_recyclerView)
-    RecyclerView hisInterviewRecyclerView;
+    RecyclerView mRecyclerView;
+    @Bind(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
-    public static HisInterviewFragment newInstance() {
+    private final int PAGE_SIZE = 10;
+
+    private int TOTAL_COUNTER = 0;
+
+    private int mCurrentCounter = 0;
+
+    private int uid = 0;
+    List<MineMultipleItemModel> models = new ArrayList<>();
+    private MineCommonMultipleAdapter mAdapter;
+
+    private PageDataSubscriberOnNext<BasePageableResponse<InterviewEntity>> subscriber;
+    private BasePageableResponse<InterviewEntity> data = new BasePageableResponse<InterviewEntity>();
+
+    private CodeDataEntity codeDataEntity;
+    private PageDataSubscriberOnNext<CodeDataEntity> subscriberCode;
+
+    public static HisInterviewFragment newInstance(int uid) {
         // Required empty public constructor
         Bundle args = new Bundle();
+        args.putInt(ARG_USER_ID, uid);
         HisInterviewFragment fragment = new HisInterviewFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            uid = bundle.getInt(ARG_USER_ID);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +108,7 @@ public class HisInterviewFragment extends BaseBackFragment {
         View view = inflater.inflate(R.layout.fragment_his_interview, container, false);
         ButterKnife.bind(this, view);
         initToolbar();
+        httpRequestData();
         return view;
     }
 
@@ -60,19 +117,187 @@ public class HisInterviewFragment extends BaseBackFragment {
         toolbar.setTitle("他的访谈");
     }
 
+    private void httpRequestData() {
+        subscriberCode = new PageDataSubscriberOnNext<CodeDataEntity>() {
+            @Override
+            public void onNext(CodeDataEntity entity) {
+                codeDataEntity = entity;
+            }
+        };
+
+        subscriber = new PageDataSubscriberOnNext<BasePageableResponse<InterviewEntity>>() {
+            @Override
+            public void onNext(BasePageableResponse<InterviewEntity> entity) {
+                //接口请求成功后处理
+                data = entity;
+                initView(null);
+                initAdapter();
+            }
+        };
+
+        ExpertDataHttpRequest.getInstance(mActivity).getHisInterview(new ProgressSubscriber(subscriber, mActivity), 26,1);
+    }
+
+
+    private void initAdapter() {
+
+        initData();
+        mAdapter = new MineCommonMultipleAdapter(models);
+        mAdapter.openLoadAnimation();
+        mAdapter.openLoadMore(PAGE_SIZE);
+        mAdapter.setOnLoadMoreListener(this);
+        mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
+
+            @Override
+            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
+                String content = null;
+                MineMultipleItemModel entity = (MineMultipleItemModel) adapter.getItem(position);
+                EventBus.getDefault().post(new StartFragmentEvent(MyInterviewDetailFragment.newInstance(entity.getInterviewEntity())));
+            }
+        });
+        mAdapter.setLoadingView(getLoadMoreView());
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
+    protected void initView(View view) {
+        swipeRefreshLayout.setOnRefreshListener(this);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    @Override
+    public void onRefresh() {
+        initData();
+        mAdapter.setNewData(models);
+        mAdapter.openLoadMore(PAGE_SIZE);
+        mAdapter.removeAllFooterView();
+        mCurrentCounter = PAGE_SIZE;
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        mRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mCurrentCounter >= TOTAL_COUNTER) {
+                    mAdapter.loadComplete();
+                } else {
+                    initData();
+                    mAdapter.addData(models);
+                    mCurrentCounter = mAdapter.getData().size();
+                }
+            }
+        }, 200);
+    }
+
+    private View getLoadMoreView() {
+        final View customLoading = LayoutInflater.from(mActivity).inflate(R.layout.common_loading, (ViewGroup) mRecyclerView.getParent(), false);
+        return customLoading;
+    }
+
+    private void initData(){
+        int type = MineMultipleItemModel.HIS_INTERVIEW;
+        for (InterviewEntity entiry : data.getLists()) {
+            models.add(new MineMultipleItemModel(type, entiry));
+        }
+    }
+
 
     @OnClick({R.id.his_interview_ask, R.id.his_interview_interview})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.his_interview_ask:
+            case R.id.his_ask_answer_ask:
+                final DialogPlus dialogPlus = DialogPlusUtils.Builder(mActivity)
+                        .setHolder(DialogPlusUtils.VIEW, new ViewHolder(R.layout.question_layout))
+                        .setIsHeader(false)
+                        .setIsFooter(true)
+                        .setIsExpanded(false)
+                        .setCloseName("取消")
+                        .setOnCloseListener(new DialogPlusUtils.OnCloseListener() {
+                            @Override
+                            public void closeListener(DialogPlus dialog, View view) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setConfirmName("确认")
+                        .setOnConfirmListener(new DialogPlusUtils.OnConfirmListener() {
+                            @Override
+                            public void confirmListener(DialogPlus dialog, View view) {
+
+                                EditText editText = ((EditText) dialog.findViewById(R.id.dialog_question_edit));
+                                if (TextUtils.isEmpty(editText.getText().toString().trim())){
+                                    ToastUtil.showToast(mActivity,"输入的内容不能为空");
+                                } else {
+                                    MineDataHttpRequest.getInstance(mActivity).postOtherQuestion(
+                                            new ProgressSubscriber(subscriberCode, mActivity)
+                                            ,uid,editText.getText().toString().trim()
+                                    );
+                                    dialog.dismiss();
+                                }
+                            }
+                        })
+                        .setGravity(Gravity.BOTTOM)
+                        .showCompleteDialog();
                 break;
-            case R.id.his_interview_interview:
+            case R.id.his_ask_answer_interview:
+                final DialogPlus dialog = DialogPlusUtils.Builder(mActivity)
+                        .setHolder(DialogPlusUtils.VIEW, new ViewHolder(R.layout.interview_layout))
+                        .setIsHeader(false)
+                        .setIsFooter(true)
+                        .setIsExpanded(false)
+                        .setCloseName("取消")
+                        .setOnCloseListener(new DialogPlusUtils.OnCloseListener() {
+                            @Override
+                            public void closeListener(DialogPlus dialog, View view) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setConfirmName("确认")
+                        .setOnConfirmListener(new DialogPlusUtils.OnConfirmListener() {
+                            @Override
+                            public void confirmListener(DialogPlus dialog, View view) {
+
+                                EditText nickname = ((EditText) dialog.findViewById(R.id.dialog_interview_nickname));
+                                EditText email = ((EditText) dialog.findViewById(R.id.dialog_interview_email));
+                                EditText phone = ((EditText) dialog.findViewById(R.id.dialog_interview_phone));
+                                EditText company = ((EditText) dialog.findViewById(R.id.dialog_interview_company));
+                                EditText theme = ((EditText) dialog.findViewById(R.id.dialog_interview_theme));
+                                EditText editor = ((EditText) dialog.findViewById(R.id.dialog_interview_edit));
+                                if (TextUtils.isEmpty(nickname.getText().toString().trim())){
+                                    ToastUtil.showToast(mActivity,"输入的姓名不能为空");
+                                } else if (TextUtils.isEmpty(email.getText().toString().trim())){
+                                    ToastUtil.showToast(mActivity,"输入的邮箱不能为空");
+                                }else if (phone.getText().toString().trim().length() != 11){
+                                    ToastUtil.showToast(mActivity,"输入的手机不正确");
+                                }else if (TextUtils.isEmpty(company.getText().toString().trim())){
+                                    ToastUtil.showToast(mActivity,"输入的公司不能为空");
+                                }else if (TextUtils.isEmpty(theme.getText().toString().trim())){
+                                    ToastUtil.showToast(mActivity,"输入的主题不能为空");
+                                }else if (TextUtils.isEmpty(editor.getText().toString().trim())){
+                                    ToastUtil.showToast(mActivity,"输入的提纲不能为空");
+                                }else {
+                                    PersonalUserInfoEntity personalUserInfoEntity = new PersonalUserInfoEntity(
+                                            uid,nickname.getText().toString().trim(),company.getText().toString().trim(),
+                                            phone.getText().toString().trim(),email.getText().toString().trim(),
+                                            theme.getText().toString().trim(),editor.getText().toString().trim()
+                                    );
+                                    MineDataHttpRequest.getInstance(mActivity).postOtherInterview(
+                                            new ProgressSubscriber(subscriberCode, mActivity)
+                                            ,personalUserInfoEntity
+                                    );
+                                    dialog.dismiss();
+                                }
+                            }
+                        })
+                        .setGravity(Gravity.BOTTOM)
+                        .showCompleteDialog();
                 break;
         }
     }

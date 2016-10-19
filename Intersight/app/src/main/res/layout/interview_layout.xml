@@ -29,6 +29,7 @@
                     android:text="电话访谈资费" />
 
                 <TextView
+                    android:id="@+id/dialog_interview_money"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/height_5_80"
                     android:layout_gravity="center_vertical"
@@ -36,7 +37,7 @@
                     android:textSize="@dimen/text_size_14"
                     android:textColor="@color/blue"
                     android:layout_marginLeft="5dp"
-                    android:text="$1000/小时" />
+                    android:text="￥1000/小时" />
             </LinearLayout>
 
             <View
@@ -64,6 +65,7 @@
                     android:text="您的姓名:" />
 
                 <EditText
+                    android:id="@+id/dialog_interview_nickname"
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="wrap_content"
@@ -103,6 +105,7 @@
                     android:text="您的公司:" />
 
                 <EditText
+                    android:id="@+id/dialog_interview_company"
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="@dimen/height_6_80"
@@ -142,6 +145,7 @@
                     android:text="联系电话:" />
 
                 <EditText
+                    android:id="@+id/dialog_interview_phone"
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="@dimen/height_6_80"
@@ -180,6 +184,7 @@
                     android:text="邮箱地址:" />
 
                 <EditText
+                    android:id="@+id/dialog_interview_email"
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="@dimen/height_6_80"
@@ -218,6 +223,7 @@
                     android:text="约访主题:" />
 
                 <EditText
+                    android:id="@+id/dialog_interview_theme"
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="@dimen/height_6_80"
@@ -263,7 +269,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/dialog_question_edit"
+                    android:id="@+id/dialog_interview_edit"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_20_80"
                     android:background="@drawable/bg_corners_text"

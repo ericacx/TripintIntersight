@@ -13,12 +13,22 @@ import java.io.Serializable;
 public class PersonalUserInfoEntity implements Serializable {
 
     private int to_uid;
-    private String subject;
     private String contact;
     private String company;
     private String mobile;
     private String email;
+    private String subject;//主题
     private String outline;
+
+    public PersonalUserInfoEntity(int to_uid, String contact, String company, String mobile, String email, String subject, String outline) {
+        this.to_uid = to_uid;
+        this.contact = contact;
+        this.company = company;
+        this.mobile = mobile;
+        this.email = email;
+        this.subject = subject;
+        this.outline = outline;
+    }
 
     public int getTo_uid() {
         return to_uid;
