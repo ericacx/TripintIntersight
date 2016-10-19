@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
 import com.bumptech.glide.load.model.GlideUrl;
+import com.qiniu.pili.droid.streaming.StreamingEnv;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -74,6 +75,11 @@ public class InterSightApp extends Application {
             Manifest.permission.CAMERA //允许访问摄像头进行拍照
     };
 
+    //获取摄像头权限
+    public final String[] RECORD_AUDIO = new String[]{
+            Manifest.permission.RECORD_AUDIO //允许访问mic
+    };
+
     //获取拨打电话权限
     public final String[] PHONE = new String[]{
             Manifest.permission.CALL_PHONE, //允许程序从非系统拨号器里输入电话号码
@@ -123,7 +129,8 @@ public class InterSightApp extends Application {
         initUmengAgent();
         initUmengMessage();
         initBugly();
-
+        initWXPay();
+        initQiniuStream();
         //Glide 图片加载
         Glide.get(this)
                 .register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(new OkHttpClient()));
@@ -252,6 +259,10 @@ public class InterSightApp extends Application {
         strategy.setAppReportDelay(60);
         CrashReport.initCrashReport(getApplicationContext(), Constants.BUGLY_APP_ID, false);
 
+    }
+
+    private void initQiniuStream() {
+        StreamingEnv.init(getApplicationContext());
     }
 
 

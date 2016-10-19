@@ -5,11 +5,15 @@ import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.BaseResponse;
 import com.tripint.intersight.entity.SearchArticleEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
+import com.tripint.intersight.entity.discuss.CreateDiscussResponseEntity;
 import com.tripint.intersight.entity.discuss.DiscussDetailEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.discuss.InterviewEntity;
 
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -23,6 +27,11 @@ public interface DiscussDataService {
     //观点
     @GET("discuss")
     Observable<BaseResponse<BasePageableResponse<DiscussEntiry>>> getDiscuss(@Query("page") int page, @Query("size") int size);
+
+    //观点
+    @FormUrlEncoded
+    @POST("discuss")
+    Observable<BaseResponse<CreateDiscussResponseEntity>> createDiscuss(@Field("content") String content, @Field("industryId") int industryId, @Field("toUid") int toUid);
 
     @GET("mine/discuss")
     Observable<BaseResponse<BasePageableResponse<DiscussEntiry>>> getSearchFilter(@Query("type") String type);

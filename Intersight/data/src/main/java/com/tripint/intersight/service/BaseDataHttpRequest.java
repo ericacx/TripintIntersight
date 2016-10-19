@@ -10,6 +10,7 @@ import com.tripint.intersight.entity.UserInfoEntity;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
 import com.tripint.intersight.entity.article.ArticlesEntity;
 import com.tripint.intersight.entity.common.CommonResponEntity;
+import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.user.ChooseEntity;
 import com.tripint.intersight.entity.user.LoginEntity;
 import com.tripint.intersight.entity.user.RegisterEntity;
@@ -251,5 +252,62 @@ public class BaseDataHttpRequest extends HttpRequest {
         Observable observable = baseDataService.postShareLogin(type, openid, unionid, imgUrl, nickname, email, code, password, action)
                 .map(new HttpResultFunc<CommonResponEntity>());
         toSubscribe(observable,subscriber);
+    }
+
+
+    /**
+     * 举报用户 或 文章
+     *
+     * @param subscriber
+     * @param
+     */
+    public void reportUser(Subscriber<CommentResultEntity> subscriber, int toUid)  //问答)
+    {
+        Observable observable = baseDataService.postReportUser(toUid)
+                .map(new HttpResultFunc<CommentResultEntity>());
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 举报用户 或 文章
+     *
+     * @param subscriber
+     * @param
+     */
+    public void reportArticle(Subscriber<CommentResultEntity> subscriber, // 举报人
+                              int articleId) //问答)
+    {
+        Observable observable = baseDataService.postReportArtile(articleId)
+                .map(new HttpResultFunc<CommentResultEntity>());
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 举报用户 或 文章
+     *
+     * @param subscriber
+     * @param
+     */
+    public void reportComment(Subscriber<CommentResultEntity> subscriber,
+                              int commentId//举报评论
+    )  //问答)
+    {
+        Observable observable = baseDataService.postReportComment(commentId)
+                .map(new HttpResultFunc<CommentResultEntity>());
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 举报用户 或 文章
+     *
+     * @param subscriber
+     * @param
+     */
+    public void reportDiscuss(Subscriber<CommentResultEntity> subscriber,
+                              int discussId)  //问答)
+    {
+        Observable observable = baseDataService.postReportDiscuss(discussId)
+                .map(new HttpResultFunc<CommentResultEntity>());
+        toSubscribe(observable, subscriber);
     }
 }

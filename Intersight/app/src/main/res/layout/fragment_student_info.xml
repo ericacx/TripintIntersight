@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_5_80"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/btn_shape_blue"
+        android:background="@drawable/bg_btn_shape_blue"
         android:textSize="@dimen/text_size_14"
         android:textColor="@color/white"
         android:layout_marginLeft="@dimen/spacing"

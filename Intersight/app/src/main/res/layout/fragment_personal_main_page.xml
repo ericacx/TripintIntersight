@@ -8,9 +8,6 @@
     <include
         android:id="@+id/personal_main_page_toolbar"
         layout="@layout/toolbar"/>
-
-    <!-- TODO: Update blank fragment layout -->
-
     <LinearLayout
         android:id="@+id/ll"
         android:layout_marginBottom="5dp"
@@ -48,7 +45,8 @@
             android:layout_gravity="center_vertical"
             android:layout_height="match_parent" />
     </LinearLayout>
-    <android.support.v4.widget.NestedScrollView
+
+    <ScrollView
         android:id="@+id/scrollview"
         android:layout_above="@id/ll"
         android:layout_below="@id/personal_main_page_toolbar"
@@ -192,6 +190,5 @@
             </LinearLayout>
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
-
+    </ScrollView>
 </RelativeLayout>

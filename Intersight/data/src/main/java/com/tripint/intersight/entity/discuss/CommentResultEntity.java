@@ -1,11 +1,14 @@
 package com.tripint.intersight.entity.discuss;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
 /**
  * Created by lirichen on 2016/10/10.
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CommentResultEntity implements Serializable {
     private String flg;
     private int total;

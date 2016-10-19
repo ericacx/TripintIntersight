@@ -76,7 +76,7 @@
         android:orientation="horizontal"
         android:layout_width="0dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/btn_shape1"
+        android:background="@drawable/bg_btn_shape_gray"
         android:layout_height="30dp"
         android:layout_weight="2">
 
