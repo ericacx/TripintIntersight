@@ -2,6 +2,7 @@ package com.tripint.intersight.service;
 
 import android.content.Context;
 
+import com.tripint.intersight.entity.stream.SaveStreamResponseEntity;
 import com.tripint.intersight.entity.stream.StreamResponseEntity;
 
 import rx.Observable;
@@ -40,7 +41,7 @@ public class PiliStreamDataHttpRequest extends HttpRequest {
 
 
     /**
-     * 举报用户 或 文章
+     * 获取推流的URL
      *
      * @param subscriber
      * @param
@@ -49,6 +50,19 @@ public class PiliStreamDataHttpRequest extends HttpRequest {
     {
         Observable observable = service.postPublishStreamUrl()
                 .map(new HttpResultFunc<StreamResponseEntity>());
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 保存录音的内容
+     *
+     * @param subscriber
+     * @param
+     */
+    public void postSavePublishStream(Subscriber<SaveStreamResponseEntity> subscriber, String streamId, int discussId, int timeLong)  //问答)
+    {
+        Observable observable = service.postSavePublishStream(streamId, discussId, timeLong)
+                .map(new HttpResultFunc<SaveStreamResponseEntity>());
         toSubscribe(observable, subscriber);
     }
 }

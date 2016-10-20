@@ -11,6 +11,15 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StreamResponseEntity implements Serializable {
     private String publishUrl;
+    private String streamId;
+
+    public String getStreamId() {
+        return streamId;
+    }
+
+    public void setStreamId(String streamId) {
+        this.streamId = streamId;
+    }
 
     public String getPublishUrl() {
         return publishUrl;

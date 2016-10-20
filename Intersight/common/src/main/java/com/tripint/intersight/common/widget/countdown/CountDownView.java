@@ -11,7 +11,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
-import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -47,7 +46,7 @@ public class CountDownView extends RelativeLayout {
     private void onCountDownFinished() {
         listener.timerElapsed();
         mIsTimerRunning = false;
-        startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.blink));
+//        startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.blink));
     }
 
     public CountDownView(Context context) {
@@ -167,7 +166,9 @@ public class CountDownView extends RelativeLayout {
      */
     public void stop() {
         mIsTimerRunning = false;
-        clearAnimation();
+        mTimer.cancel();
+        mTimer = null;
+//        clearAnimation();
 
     }
 
