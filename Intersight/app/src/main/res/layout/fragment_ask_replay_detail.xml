@@ -256,7 +256,7 @@
         <Button
             android:id="@+id/btn_qa_record_voice_main"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/height_6_80"
+            android:layout_height="@dimen/height_5_80"
             android:layout_below="@id/text_qa_info"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
@@ -299,7 +299,7 @@
         <Button
             android:id="@+id/btn_qa_record_voice_play"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/height_5_80"
             android:layout_below="@id/text_qa_info"
             android:layout_centerInParent="true"
             android:layout_gravity="center"

@@ -10,7 +10,7 @@
         android:id="@+id/dialog_question_edit"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_26_80"
-        android:layout_margin="30dp"
+        android:layout_margin="@dimen/spacing_04"
         android:background="@drawable/bg_corners_text"
         android:gravity="top"
         android:imeOptions="actionDone"
