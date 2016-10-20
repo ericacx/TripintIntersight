@@ -31,6 +31,7 @@ import com.tripint.intersight.common.widget.dialogplus.ViewHolder;
 import com.tripint.intersight.entity.PersonalUserInfoEntity;
 import com.tripint.intersight.entity.discuss.CreateDiscussResponseEntity;
 import com.tripint.intersight.entity.mine.PersonalUserHomeEntity;
+import com.tripint.intersight.entity.payment.AliPayResponseEntity;
 import com.tripint.intersight.entity.payment.WXPayResponseEntity;
 import com.tripint.intersight.entity.user.PaymentEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
@@ -100,7 +101,8 @@ public class PersonalMainPageFragment extends BaseBackFragment {
 
     private CreateDiscussResponseEntity createDiscussResponseEntity;
     private PageDataSubscriberOnNext<CreateDiscussResponseEntity> subscriberCode;
-    private PageDataSubscriberOnNext<WXPayResponseEntity> paymentSubscriber;
+    private PageDataSubscriberOnNext<WXPayResponseEntity> wxPaySubscriber;
+    private PageDataSubscriberOnNext<AliPayResponseEntity> aliPaySubscriber;
 
     private int uid = 0;
 
@@ -140,11 +142,20 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     private void httpRequestData() {
 
 
-        paymentSubscriber = new PageDataSubscriberOnNext<WXPayResponseEntity>() {
+        wxPaySubscriber = new PageDataSubscriberOnNext<WXPayResponseEntity>() {
             @Override
             public void onNext(WXPayResponseEntity entity) {
                 //接口请求成功后处理,调起微信支付。
                 PayUtils.getInstant().requestWXpay(entity);
+//
+            }
+        };
+
+        aliPaySubscriber = new PageDataSubscriberOnNext<AliPayResponseEntity>() {
+            @Override
+            public void onNext(AliPayResponseEntity entity) {
+                //接口请求成功后处理,调起微信支付。
+                AliPayUtils.getInstant(mActivity).pay(entity);
 //
             }
         };
@@ -348,9 +359,10 @@ public class PersonalMainPageFragment extends BaseBackFragment {
 
                         if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
 
-                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(paymentSubscriber, mActivity), createDiscussResponseEntity.getDiscussId(), discussContent);
+                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), createDiscussResponseEntity.getDiscussId(), discussContent);
                         } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
-                            AliPayUtils.getInstant(mActivity).pay();
+                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), createDiscussResponseEntity.getDiscussId(), discussContent);
+
                         }
 
                     }

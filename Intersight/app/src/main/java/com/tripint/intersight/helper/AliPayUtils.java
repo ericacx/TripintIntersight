@@ -11,12 +11,11 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.tripint.intersight.app.InterSightApp;
+import com.tripint.intersight.entity.payment.AliPayResponseEntity;
 import com.tripint.intersight.helper.demo.AuthResult;
 import com.tripint.intersight.helper.demo.PayResult;
 import com.tripint.intersight.helper.demo.SignUtils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -160,8 +159,8 @@ public class AliPayUtils {
      * call alipay sdk pay. 调用SDK支付
      *
      */
-    public void pay() {
-        if (TextUtils.isEmpty(PARTNER) || TextUtils.isEmpty(RSA_PRIVATE) || TextUtils.isEmpty(SELLER)) {
+    public void pay(AliPayResponseEntity entity) {
+        if (entity == null || TextUtils.isEmpty(entity.getOrderString())) {
             new AlertDialog.Builder(mActivity).setTitle("警告").setMessage("需要配置PARTNER | RSA_PRIVATE| SELLER")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialoginterface, int i) {
@@ -171,26 +170,29 @@ public class AliPayUtils {
                     }).show();
             return;
         }
+
         String orderInfo = getOrderInfo("测试的商品", "该测试商品的详细描述", "0.01");
 
         /**
          * 特别注意，这里的签名逻辑需要放在服务端，切勿将私钥泄露在代码中！
          */
-        String sign = sign(orderInfo);
-        try {
-            /**
-             * 仅需对sign 做URL编码
-             */
-            sign = URLEncoder.encode(sign, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+//        String sign = sign(orderInfo);
+//        String sign = entity.getOrderString();
+//        try {
+//            /**
+//             * 仅需对sign 做URL编码
+//             */
+//            sign = URLEncoder.encode(sign, "UTF-8");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
 
         /**
          * 完整的符合支付宝参数规范的订单信息
          */
-        final String payInfo = orderInfo + "&sign=\"" + sign + "\"&" + getSignType();
+//        final String payInfo = orderInfo + "&sign=\"" + sign + "\"&" + getSignType();
 
+        final String payInfo = entity.getOrderString();
         Runnable payRunnable = new Runnable() {
 
             @Override

@@ -64,7 +64,6 @@ import com.tripint.intersight.entity.stream.SaveStreamResponseEntity;
 import com.tripint.intersight.entity.stream.StreamResponseEntity;
 import com.tripint.intersight.entity.user.PaymentEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
-import com.tripint.intersight.helper.AliPayUtils;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.helper.Config;
 import com.tripint.intersight.helper.PayUtils;
@@ -451,7 +450,7 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
                         if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
 
                         } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
-                            AliPayUtils.getInstant(mActivity).pay();
+//                            AliPayUtils.getInstant(mActivity).pay();
                         }
 
                     }
