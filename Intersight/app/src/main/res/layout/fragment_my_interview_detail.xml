@@ -24,6 +24,7 @@
                 android:layout_width="@dimen/width_18_80"
                 android:layout_height="wrap_content"
                 android:text="访谈状态:"
+                android:textSize="@dimen/text_size_14"
                 android:textColor="@color/white" />
 
             <TextView
@@ -32,6 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing"
                 android:text="联系中"
+                android:textSize="@dimen/text_size_14"
                 android:textColor="@color/line" />
 
         </LinearLayout>
@@ -46,6 +48,7 @@
                 android:layout_width="@dimen/width_18_80"
                 android:layout_height="wrap_content"
                 android:text="访谈形式:"
+                android:textSize="@dimen/text_size_14"
                 android:textColor="@color/white" />
 
             <TextView
@@ -53,6 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing"
+                android:textSize="@dimen/text_size_14"
                 android:textColor="@color/line" />
 
         </LinearLayout>
@@ -67,6 +71,7 @@
                 android:layout_width="@dimen/width_18_80"
                 android:layout_height="wrap_content"
                 android:text="会议邀请码:"
+                android:textSize="@dimen/text_size_14"
                 android:textColor="@color/white" />
 
             <TextView
@@ -74,6 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing"
+                android:textSize="@dimen/text_size_14"
                 android:textColor="@color/line" />
 
         </LinearLayout>
@@ -88,6 +94,7 @@
                 android:layout_width="@dimen/width_18_80"
                 android:layout_height="wrap_content"
                 android:text="访谈时间:"
+                android:textSize="@dimen/text_size_14"
                 android:textColor="@color/white" />
 
             <TextView
@@ -95,6 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing"
+                android:textSize="@dimen/text_size_14"
                 android:textColor="@color/line" />
 
         </LinearLayout>
@@ -121,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:textColor="@color/line"
-                android:textSize="@dimen/text_size_12" />
+                android:textSize="@dimen/text_size_14" />
 
 
             <RelativeLayout
@@ -137,7 +145,7 @@
                     android:gravity="center_vertical"
                     android:text="受访者:"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_12" />
+                    android:textSize="@dimen/text_size_14" />
 
                 <TextView
                     android:id="@+id/my_interview_name"
@@ -146,7 +154,7 @@
                     android:layout_toRightOf="@id/my_interview_people"
                     android:layout_marginLeft="@dimen/spacing"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_12" />
+                    android:textSize="@dimen/text_size_14" />
 
                 <TextView
                     android:id="@+id/my_interview_title"
@@ -155,7 +163,7 @@
                     android:layout_toRightOf="@id/my_interview_name"
                     android:layout_marginLeft="@dimen/spacing"
                     android:textColor="@color/line"
-                    android:textSize="@dimen/text_size_12" />
+                    android:textSize="@dimen/text_size_14" />
 
                 <TextView
                     android:id="@+id/my_interview_company"
@@ -164,7 +172,7 @@
                     android:layout_below="@id/my_interview_title"
                     android:layout_alignLeft="@id/my_interview_name"
                     android:textColor="@color/line"
-                    android:textSize="@dimen/text_size_12" />
+                    android:textSize="@dimen/text_size_14" />
             </RelativeLayout>
 
 

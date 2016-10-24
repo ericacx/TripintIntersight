@@ -561,11 +561,11 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                     String time = simpleDateFormat.format(date);
 //                    type:0约访,1被约访
 //                    status;0联系中,1访谈成功
-                    if (item.getInterviewEntity().getStatus() == 0) {
-                        helper.setText(R.id.textView_mine_title_header, "他的约访");
-                    } else if (item.getInterviewEntity().getStatus() == 1) {
-                        helper.setText(R.id.textView_mine_title_header, "他被约访");
-                    }
+//                    if (item.getInterviewEntity().getStatus() == 0) {
+//                        helper.setText(R.id.textView_mine_title_header, "我的约访");
+//                    } else if (item.getInterviewEntity().getStatus() == 1) {
+//                        helper.setText(R.id.textView_mine_title_header, "我被约访");
+//                    }
 
                     if (item.getInterviewEntity().getStatus() == 0) {
                         helper.setText(R.id.textView_mine_title_status, "（联系中）");
@@ -574,13 +574,15 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                         helper.setText(R.id.textView_mine_title_status, "（访谈成功）");
                     }
 
-//                    helper
-//                            .setText(R.id.textView_mine_title_main, StringUtils.null2Length0(item.getInterviewEntity().getSubject()))//标题
-//                            .setText(R.id.textView_mine_sub_title, StringUtils.null2Length0(item.getInterviewEntity().getDescription()))//内容
-//                            .setText(R.id.text_view_my_item_trade, StringUtils.null2Length0(item.getInterviewEntity().get()))//行业
-//                            .setText(R.id.text_view_my_item_data_time, StringUtils.null2Length0(time));//时间
+                    helper
+                            .setText(R.id.textView_mine_title_header, StringUtils.null2Length0(item.getInterviewEntity().getType()))//我的约访
+                            .setText(R.id.textView_mine_title_main, StringUtils.null2Length0(item.getInterviewEntity().getSubject()))//标题
+                            .setText(R.id.textView_mine_sub_title, StringUtils.null2Length0(item.getInterviewEntity().getDescription()))//内容
+                            .setText(R.id.text_view_my_item_trade, StringUtils.null2Length0(item.getInterviewEntity().getName()))//行业
+                            .setText(R.id.text_view_my_item_data_time, StringUtils.null2Length0(time));//时间
 
                 }
+
                 break;
 
             case MineMultipleItemModel.MY_ACCOUNT_DETAIL://账户明细
@@ -623,7 +625,7 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                     }
                     helper
                             .setText(R.id.accountDetailItemTvQuestion, StringUtils.null2Length0(item.getAccountDetailEntity().getTitle()))
-                            .setText(R.id.accountDetailItemTvMoney, item.getAccountDetailEntity().getAmountTotal() + "")
+                            .setText(R.id.accountDetailItemTvMoney, StringUtils.null2Length0(item.getAccountDetailEntity().getAmountTotal()))
                             .setText(R.id.accountDetailItemTvDate, StringUtils.null2Length0(time));
                 }
                 break;
