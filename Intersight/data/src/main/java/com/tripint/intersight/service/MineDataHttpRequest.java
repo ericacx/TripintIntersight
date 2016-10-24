@@ -5,6 +5,7 @@ import android.content.Context;
 import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.entity.CodeDataEntity;
 import com.tripint.intersight.entity.PersonalUserInfoEntity;
+import com.tripint.intersight.entity.discuss.CreateInterviewResponseEntity;
 import com.tripint.intersight.entity.mine.AccountDetailEntity;
 import com.tripint.intersight.entity.mine.AskAnswerEntity;
 import com.tripint.intersight.entity.mine.FocusEntity;
@@ -88,14 +89,14 @@ public class MineDataHttpRequest extends HttpRequest {
 
 
     /**
-     * 用于获取向他提问的接口
+     * 用于获取约他访谈的接口
      *
      * @param subscriber
      */
-    public void postOtherInterview(Subscriber<CodeDataEntity> subscriber
+    public void postOtherInterview(Subscriber<CreateInterviewResponseEntity> subscriber
             ,PersonalUserInfoEntity personalUserInfo) {
         Observable observable = service.postOtherInterview(personalUserInfo)
-                .map(new HttpResultFunc<CodeDataEntity>());
+                .map(new HttpResultFunc<CreateInterviewResponseEntity>());
         toSubscribe(observable, subscriber);
     }
 

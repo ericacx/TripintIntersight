@@ -51,8 +51,6 @@ public class NewMessageFragment extends BaseBackFragment implements BaseQuickAda
     TextView newMessageTextViewAskAnswer;
     @Bind(R.id.new_message_text_view_comment_agree)
     TextView newMessageTextViewCommentAgree;
-    @Bind(R.id.new_message_text_view_system_message)
-    TextView newMessageTextViewSystemMessage;
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -169,7 +167,7 @@ public class NewMessageFragment extends BaseBackFragment implements BaseQuickAda
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.new_message_text_view_interview, R.id.new_message_text_view_ask_answer, R.id.new_message_text_view_comment_agree, R.id.new_message_text_view_system_message})
+    @OnClick({R.id.new_message_text_view_interview, R.id.new_message_text_view_ask_answer, R.id.new_message_text_view_comment_agree})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.new_message_text_view_interview://访谈消息
@@ -180,9 +178,6 @@ public class NewMessageFragment extends BaseBackFragment implements BaseQuickAda
                 break;
             case R.id.new_message_text_view_comment_agree://评论或赞
                 EventBus.getDefault().post(new StartFragmentEvent(CommentPhraiseFragment.newInstance()));
-                break;
-            case R.id.new_message_text_view_system_message://系统消息
-                EventBus.getDefault().post(new StartFragmentEvent(SystemMessageFragment.newInstance()));
                 break;
         }
     }

@@ -19,6 +19,7 @@ public class PaymentDataHttpRequest extends HttpRequest {
     public static final String TYPE_ALIPAY = "ALIPAY";
 
     public static final String PAY_CONTENT_TYPE_DISCUSS = "discuss";
+    public static final String PAY_CONTENT_TYPE_INTERVIEW = "interview";
 
     private PaymentDataService service;
 
@@ -47,6 +48,19 @@ public class PaymentDataHttpRequest extends HttpRequest {
     public void requestWxPayForDiscuss(Subscriber<WXPayResponseEntity> subscriber, int discussId, String discussContent) {
 
         Observable observable = service.postWxPay(PAY_CONTENT_TYPE_DISCUSS, discussId, discussContent)
+                .map(new HttpResultFunc<WXPayResponseEntity>());
+
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 访谈
+     *
+     * @param subscriber 由调用者传过来的观察者对象
+     */
+    public void requestWxPayForInterview(Subscriber<WXPayResponseEntity> subscriber, int interviewId,String interviewContent) {
+
+        Observable observable = service.postWxPay(PAY_CONTENT_TYPE_DISCUSS, interviewId,interviewContent)
                 .map(new HttpResultFunc<WXPayResponseEntity>());
 
         toSubscribe(observable, subscriber);

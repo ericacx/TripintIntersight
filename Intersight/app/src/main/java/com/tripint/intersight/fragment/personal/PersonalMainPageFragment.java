@@ -30,6 +30,7 @@ import com.tripint.intersight.common.widget.dialogplus.ListHolder;
 import com.tripint.intersight.common.widget.dialogplus.ViewHolder;
 import com.tripint.intersight.entity.PersonalUserInfoEntity;
 import com.tripint.intersight.entity.discuss.CreateDiscussResponseEntity;
+import com.tripint.intersight.entity.discuss.CreateInterviewResponseEntity;
 import com.tripint.intersight.entity.mine.PersonalUserHomeEntity;
 import com.tripint.intersight.entity.payment.AliPayResponseEntity;
 import com.tripint.intersight.entity.payment.WXPayResponseEntity;
@@ -94,19 +95,24 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     @Bind(R.id.personal_main_page_introduction)
     TextView personalMainPageIntroduction;//个人简介
 
-    protected static final int MSG_START_STREAMING = 0;
+    protected static final int MSG_START_STREAMING_DISCUSS = 0;
+    protected static final int MSG_START_STREAMING_INTERVIEW = 1;
 
     private PersonalUserHomeEntity data;
     private PageDataSubscriberOnNext<PersonalUserHomeEntity> subscriber;
 
     private CreateDiscussResponseEntity createDiscussResponseEntity;
-    private PageDataSubscriberOnNext<CreateDiscussResponseEntity> subscriberCode;
+    private CreateInterviewResponseEntity createInterviewResponseEntity;
+
+    private PageDataSubscriberOnNext<CreateDiscussResponseEntity> subscriberDiscussCode;
+    private PageDataSubscriberOnNext<CreateInterviewResponseEntity> subscriberInterviewCode;
     private PageDataSubscriberOnNext<WXPayResponseEntity> wxPaySubscriber;
     private PageDataSubscriberOnNext<AliPayResponseEntity> aliPaySubscriber;
 
     private int uid = 0;
 
     private String discussContent;
+    private String interviewContent = null;
 
     private DialogPlus dialogPlus;
 
@@ -160,14 +166,21 @@ public class PersonalMainPageFragment extends BaseBackFragment {
             }
         };
 
-        subscriberCode = new PageDataSubscriberOnNext<CreateDiscussResponseEntity>() {
+        subscriberDiscussCode = new PageDataSubscriberOnNext<CreateDiscussResponseEntity>() {
             @Override
             public void onNext(CreateDiscussResponseEntity entity) {
                 Log.d(TAG, entity.getFlg());
                 createDiscussResponseEntity = entity;
-                mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_START_STREAMING), 500);
+                mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_START_STREAMING_DISCUSS), 500);
+            }
+        };
 
-
+        subscriberInterviewCode = new PageDataSubscriberOnNext<CreateInterviewResponseEntity>() {
+            @Override
+            public void onNext(CreateInterviewResponseEntity entity) {
+                Log.d(TAG, entity.getFlg());
+                createInterviewResponseEntity = entity;
+                mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_START_STREAMING_INTERVIEW), 500);
             }
         };
 
@@ -214,98 +227,10 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.personal_main_page_button_ask://向他提问
-                dialogPlus = DialogPlusUtils.Builder(mActivity)
-                        .setHolder(DialogPlusUtils.VIEW, new ViewHolder(R.layout.question_layout))
-                        .setTitleName("请输入您的问题")
-                        .setIsHeader(true)
-                        .setIsFooter(true)
-                        .setIsExpanded(false)
-                        .setCloseName("取消")
-                        .setOnCloseListener(new DialogPlusUtils.OnCloseListener() {
-                            @Override
-                            public void closeListener(DialogPlus dialog, View view) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setConfirmName("确认")
-                        .setOnConfirmListener(new DialogPlusUtils.OnConfirmListener() {
-                            @Override
-                            public void confirmListener(DialogPlus dialog, View view) {
-
-                                EditText editText = ((EditText) dialog.findViewById(R.id.dialog_question_edit));
-                                discussContent = editText.getText().toString().trim();
-                                if (TextUtils.isEmpty(editText.getText().toString().trim())){
-                                    ToastUtil.showToast(mActivity,"输入的内容不能为空");
-                                } else {
-                                    DiscussDataHttpRequest.getInstance(mActivity).createDiscusses(
-                                            new ProgressSubscriber(subscriberCode, mActivity)
-                                            , discussContent, uid, uid
-                                    );
-                                    dialog.dismiss();
-                                }
-                            }
-                        })
-                        .setGravity(Gravity.BOTTOM)
-                        .showCompleteDialog();
-
-//                discussContent = "werwersdf";
-//                DiscussDataHttpRequest.getInstance(mActivity).createDiscusses(
-//                                            new ProgressSubscriber(subscriberCode, mActivity)
-//                                            ,discussContent, data.getIndustryId(), uid
-//                                    );
+                initAskDialog();
                 break;
             case R.id.personal_main_page_button_interview://约他访谈
-                dialogPlus = DialogPlusUtils.Builder(mActivity)
-                        .setHolder(DialogPlusUtils.VIEW, new ViewHolder(R.layout.interview_layout))
-                        .setIsHeader(false)
-                        .setIsFooter(true)
-                        .setIsExpanded(false)
-                        .setCloseName("取消")
-                        .setOnCloseListener(new DialogPlusUtils.OnCloseListener() {
-                            @Override
-                            public void closeListener(DialogPlus dialog, View view) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setConfirmName("确认")
-                        .setOnConfirmListener(new DialogPlusUtils.OnConfirmListener() {
-                            @Override
-                            public void confirmListener(DialogPlus dialog, View view) {
-
-                                EditText nickname = ((EditText) dialog.findViewById(R.id.dialog_interview_nickname));
-                                EditText email = ((EditText) dialog.findViewById(R.id.dialog_interview_email));
-                                EditText phone = ((EditText) dialog.findViewById(R.id.dialog_interview_phone));
-                                EditText company = ((EditText) dialog.findViewById(R.id.dialog_interview_company));
-                                EditText theme = ((EditText) dialog.findViewById(R.id.dialog_interview_theme));
-                                EditText editor = ((EditText) dialog.findViewById(R.id.dialog_interview_edit));
-                                if (TextUtils.isEmpty(nickname.getText().toString().trim())){
-                                    ToastUtil.showToast(mActivity,"输入的姓名不能为空");
-                                } else if (TextUtils.isEmpty(email.getText().toString().trim())){
-                                    ToastUtil.showToast(mActivity,"输入的邮箱不能为空");
-                                }else if (phone.getText().toString().trim().length() != 11){
-                                    ToastUtil.showToast(mActivity,"输入的手机不正确");
-                                }else if (TextUtils.isEmpty(company.getText().toString().trim())){
-                                    ToastUtil.showToast(mActivity,"输入的公司不能为空");
-                                }else if (TextUtils.isEmpty(theme.getText().toString().trim())){
-                                    ToastUtil.showToast(mActivity,"输入的主题不能为空");
-                                }else if (TextUtils.isEmpty(editor.getText().toString().trim())){
-                                    ToastUtil.showToast(mActivity,"输入的提纲不能为空");
-                                }else {
-                                    PersonalUserInfoEntity personalUserInfoEntity = new PersonalUserInfoEntity(
-                                            uid,nickname.getText().toString().trim(),company.getText().toString().trim(),
-                                            phone.getText().toString().trim(),email.getText().toString().trim(),
-                                            theme.getText().toString().trim(),editor.getText().toString().trim()
-                                    );
-                                    MineDataHttpRequest.getInstance(mActivity).postOtherInterview(
-                                            new ProgressSubscriber(subscriberCode, mActivity)
-                                            ,personalUserInfoEntity
-                                    );
-                                    dialog.dismiss();
-                                }
-                            }
-                        })
-                        .setGravity(Gravity.BOTTOM)
-                        .showCompleteDialog();
+                initInterviewDialog();
                 break;
             case R.id.personal_main_page_personalInfo://他的个人信息
                 break;
@@ -333,7 +258,106 @@ public class PersonalMainPageFragment extends BaseBackFragment {
 
     }
 
-    private void requestPaymentDialog() {
+    /**
+     * 向他提问
+     */
+    private void initAskDialog() {
+        dialogPlus = DialogPlusUtils.Builder(mActivity)
+                .setHolder(DialogPlusUtils.VIEW, new ViewHolder(R.layout.question_layout))
+                .setTitleName("请输入您的问题")
+                .setIsHeader(true)
+                .setIsFooter(true)
+                .setIsExpanded(false)
+                .setCloseName("取消")
+                .setOnCloseListener(new DialogPlusUtils.OnCloseListener() {
+                    @Override
+                    public void closeListener(DialogPlus dialog, View view) {
+                        dialog.dismiss();
+                    }
+                })
+                .setConfirmName("确认")
+                .setOnConfirmListener(new DialogPlusUtils.OnConfirmListener() {
+                    @Override
+                    public void confirmListener(DialogPlus dialog, View view) {
+
+                        EditText editText = ((EditText) dialog.findViewById(R.id.dialog_question_edit));
+                        discussContent = editText.getText().toString().trim();
+                        if (TextUtils.isEmpty(editText.getText().toString().trim())) {
+                            ToastUtil.showToast(mActivity, "输入的内容不能为空");
+                        } else {
+                            DiscussDataHttpRequest.getInstance(mActivity).createDiscusses(
+                                    new ProgressSubscriber(subscriberDiscussCode, mActivity)
+                                    , discussContent, uid, uid
+                            );
+                            dialog.dismiss();
+                        }
+                    }
+                })
+                .setGravity(Gravity.BOTTOM)
+                .showCompleteDialog();
+    }
+
+    /**
+     * 约他访谈
+     */
+    private void initInterviewDialog() {
+        dialogPlus = DialogPlusUtils.Builder(mActivity)
+                .setHolder(DialogPlusUtils.VIEW, new ViewHolder(R.layout.interview_layout))
+                .setIsHeader(false)
+                .setIsFooter(true)
+                .setIsExpanded(false)
+                .setCloseName("取消")
+                .setOnCloseListener(new DialogPlusUtils.OnCloseListener() {
+                    @Override
+                    public void closeListener(DialogPlus dialog, View view) {
+                        dialog.dismiss();
+                    }
+                })
+                .setConfirmName("确认")
+                .setOnConfirmListener(new DialogPlusUtils.OnConfirmListener() {
+                    @Override
+                    public void confirmListener(DialogPlus dialog, View view) {
+
+                        EditText nickname = ((EditText) dialog.findViewById(R.id.dialog_interview_nickname));
+                        EditText email = ((EditText) dialog.findViewById(R.id.dialog_interview_email));
+                        EditText phone = ((EditText) dialog.findViewById(R.id.dialog_interview_phone));
+                        EditText company = ((EditText) dialog.findViewById(R.id.dialog_interview_company));
+                        EditText theme = ((EditText) dialog.findViewById(R.id.dialog_interview_theme));
+                        EditText editor = ((EditText) dialog.findViewById(R.id.dialog_interview_edit));
+                        if (TextUtils.isEmpty(nickname.getText().toString().trim())) {
+                            ToastUtil.showToast(mActivity, "输入的姓名不能为空");
+                        } else if (TextUtils.isEmpty(email.getText().toString().trim())) {
+                            ToastUtil.showToast(mActivity, "输入的邮箱不能为空");
+                        } else if (phone.getText().toString().trim().length() != 11) {
+                            ToastUtil.showToast(mActivity, "输入的手机不正确");
+                        } else if (TextUtils.isEmpty(company.getText().toString().trim())) {
+                            ToastUtil.showToast(mActivity, "输入的公司不能为空");
+                        } else if (TextUtils.isEmpty(theme.getText().toString().trim())) {
+                            ToastUtil.showToast(mActivity, "输入的主题不能为空");
+                        } else if (TextUtils.isEmpty(editor.getText().toString().trim())) {
+                            ToastUtil.showToast(mActivity, "输入的提纲不能为空");
+                        } else {
+                            PersonalUserInfoEntity personalUserInfoEntity = new PersonalUserInfoEntity(
+                                    uid, nickname.getText().toString().trim(), company.getText().toString().trim(),
+                                    phone.getText().toString().trim(), email.getText().toString().trim(),
+                                    theme.getText().toString().trim(), editor.getText().toString().trim()
+                            );
+                            MineDataHttpRequest.getInstance(mActivity).postOtherInterview(
+                                    new ProgressSubscriber(subscriberInterviewCode, mActivity)
+                                    , personalUserInfoEntity
+                            );
+                            dialog.dismiss();
+                        }
+                    }
+                })
+                .setGravity(Gravity.BOTTOM)
+                .showCompleteDialog();
+    }
+
+    /***
+     * 提问支付对话框
+     */
+    private void requestPaymentDiscussDialog() {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -377,14 +401,62 @@ public class PersonalMainPageFragment extends BaseBackFragment {
         });
     }
 
+    /***
+     * 访谈支付对话框
+     */
+    private void requestPaymentInterviewDialog() {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "Begin Payment Dialog");
+                List<PaymentEntity> paymentEntities = new ArrayList<>();
+
+                paymentEntities.add(new PaymentEntity(1, "支付宝", PaymentDataHttpRequest.TYPE_ALIPAY));
+                paymentEntities.add(new PaymentEntity(2, "微信支付", PaymentDataHttpRequest.TYPE_WXPAY));
+                PaymentSelectAdapter paymentDialogAdapter = new PaymentSelectAdapter(mActivity, paymentEntities);
+                dialogPlus = DialogPlusUtils.Builder(mActivity)
+                        .setHolder(DialogPlusUtils.LIST, new ListHolder())
+                        .setAdapter(paymentDialogAdapter)
+                        .setTitleName("请选择支付方式")
+                        .setIsHeader(true)
+                        .setIsFooter(false)
+                        .setIsExpanded(false)
+                        .setGravity(Gravity.CENTER)
+                        .showCompleteDialog();
+                paymentDialogAdapter.setOnRecyclerViewItemOnClick(new RecyclerViewItemOnClick() {
+                    @Override
+                    public void ItemOnClick(int position, Object data) {
+                        PaymentEntity select = (PaymentEntity) data;
+
+                        if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
+
+                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), createInterviewResponseEntity.getInterviewId(), interviewContent);
+                        } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
+                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), createInterviewResponseEntity.getInterviewId(), interviewContent);
+
+                        }
+
+                    }
+
+                    @Override
+                    public void ItemOnClick(int position, Object data, boolean isSelect) {
+
+                    }
+                });
+                dialogPlus.show();
+            }
+        });
+    }
+
     protected Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case MSG_START_STREAMING:
-                    requestPaymentDialog();
+                case MSG_START_STREAMING_DISCUSS:
+                    requestPaymentDiscussDialog();
                     break;
-
+                case MSG_START_STREAMING_INTERVIEW:
+                    requestPaymentInterviewDialog();
                 default:
                     Log.e(TAG, "Invalid message");
                     break;

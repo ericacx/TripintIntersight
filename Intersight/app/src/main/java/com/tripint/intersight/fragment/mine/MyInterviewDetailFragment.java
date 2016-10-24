@@ -1,12 +1,14 @@
 package com.tripint.intersight.fragment.mine;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,9 @@ import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -40,7 +45,7 @@ import butterknife.OnClick;
  */
 public class MyInterviewDetailFragment extends BaseBackFragment {
 
-    public static final String ARG_INTERVIEW_ID = "arg_interview_id";
+    public static final String ARG_INTERVIEW_Detail_ID = "arg_interview_detail_id";
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.my_interview_status)
@@ -63,8 +68,7 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
     TextView myInterviewCompany;//公司
     @Bind(R.id.my_interview_title)
     TextView myInterviewTitle;//职位
-    @Bind(R.id.my_interview_detail_avatar)
-    CircleImageView myInterviewDetailAvatar;
+
     @Bind(R.id.my_interview_detail_look)
     TextView myInterviewDetailLook;
     @Bind(R.id.my_interview_detail_kefu)
@@ -87,7 +91,7 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
     public static MyInterviewDetailFragment newInstance(InterviewEntity entity) {
         // Required empty public constructor
         Bundle args = new Bundle();
-        args.putInt(MyInterviewDetailFragment.ARG_INTERVIEW_ID, entity.getId());
+        args.putInt(MyInterviewDetailFragment.ARG_INTERVIEW_Detail_ID, entity.getId());
         MyInterviewDetailFragment fragment = new MyInterviewDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -98,7 +102,7 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            mInterviewId = bundle.getInt(ARG_INTERVIEW_ID);
+            mInterviewId = bundle.getInt(ARG_INTERVIEW_Detail_ID);
         }
     }
 
@@ -118,7 +122,6 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
             public void onNext(InterviewDetailEntity entity) {
                 //接口请求成功后处理
                 data = entity;
-//                ToastUtil.showToast(mActivity, entity.getAbilityName().toString() +"");
                 initView(null);
                 initCommentAdapter();
             }
@@ -128,37 +131,48 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
     }
 
     private void initView(View view) {
-        if (data.getInterviewEntity() != null){
-            String type = data.getInterviewEntity().getType();
-            if ("我被约访".equals(type)) {
-                toolbar.setTitle(data.getInterviewEntity().getType());
+        if (data.getInterview() != null) {
+//            if ("我被约访".equals(data.getInterview().getType())) {
+//                toolbar.setTitle(data.getInterview().getType());
+//                myInterviewPeople.setText("约访人");
+//                myInterviewDetailTwiceInterview.setVisibility(View.GONE);
+//            } else if ("我的约访".equals(data.getInterview().getType())) {
+//                toolbar.setTitle(data.getInterview().getType());
+//                myInterviewPeople.setText("受访者");
+//                myInterviewDetailTwiceInterview.setVisibility(View.VISIBLE);
+//            }
+
+            if (data.getInterview().getCustType() == 0){
+                toolbar.setTitle("我的约访");
+                Log.e("myInterview", String.valueOf(data.getInterview().getCustType()));
                 myInterviewPeople.setText("受访者");
-            } else if ("我的约访".equals(type)) {
-                toolbar.setTitle(data.getInterviewEntity().getType());
+                myInterviewDetailTwiceInterview.setVisibility(View.VISIBLE);
+            }else if (data.getInterview().getCustType() == 1){
+                toolbar.setTitle("我被约访");
                 myInterviewPeople.setText("约访人");
                 myInterviewDetailTwiceInterview.setVisibility(View.GONE);
             }
-
-            int status = data.getInterviewEntity().getStatus();
-            if (status == 0){
+            
+            if (data.getInterview().getStatus() == 0) {
                 myInterviewStatus.setText("联系中");
-            }else if (status == 1){
+                myInterviewStatus.setTextColor(Color.RED);
+            } else if (data.getInterview().getStatus() == 1) {
                 myInterviewStatus.setText("访谈成功");
+                myInterviewStatus.setTextColor(Color.WHITE);
             }
+            Date date = new Date(data.getInterview().getCreateAt());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+            String time = simpleDateFormat.format(date);
 
-            myInterviewCode.setText(data.getInterviewEntity().getCode());
-            myInterviewTime.setText(data.getInterviewEntity().getCreateAt());
-            myInterviewHead.setText(data.getInterviewEntity().getSubject());
-            myInterviewContent.setText(data.getInterviewEntity().getDescription());
-            myInterviewName.setText(data.getInterviewEntity().getNickname());
-            myInterviewCompany.setText(data.getInterviewEntity().getCompanyNmae());
-            myInterviewTitle.setText(data.getInterviewEntity().getAbilityName());
+            myInterviewCode.setText(data.getInterview().getCode());//会议邀请码
+            myInterviewTime.setText(time);//访谈时间
+            myInterviewType.setText(data.getInterview().getStyle());//访谈形式
+            myInterviewHead.setText(data.getInterview().getSubject());//标题
+            myInterviewContent.setText(data.getInterview().getDescription());//内容
+            myInterviewName.setText(data.getInterview().getNickname());//姓名
+            myInterviewCompany.setText(data.getInterview().getCompanyName());//公司名
+            myInterviewTitle.setText(data.getInterview().getAbilityName());//职位
 
-            Glide.with(mActivity).load(data.getInterviewEntity().getAvatar())
-                    .crossFade()
-                    .placeholder(R.mipmap.ic_avatar)
-                    .transform(new GlideCircleTransform(mActivity))
-                    .into(myInterviewDetailAvatar);
         }
         initToolbarNav(toolbar);
         initToolbarMenu(toolbar);
@@ -167,8 +181,7 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
     private void initCommentAdapter() {
 
 
-
-        mAdapter = new AskAnswerPageDetailCommentAdapter(data.getCommentEntityList());
+        mAdapter = new AskAnswerPageDetailCommentAdapter(data.getLists());
         final LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
         mAdapter.openLoadAnimation();
         myInterviewDetailRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
@@ -191,17 +204,16 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
         myInterviewDetailRecyclerView.setLayoutManager(layoutManager);
         myInterviewDetailRecyclerView.setAdapter(mAdapter);
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.my_interview_detail_avatar, R.id.my_interview_detail_look, R.id.my_interview_detail_kefu, R.id.my_interview_detail_twiceInterview, R.id.my_interview_detail_ask})
+    @OnClick({R.id.my_interview_detail_look, R.id.my_interview_detail_kefu, R.id.my_interview_detail_twiceInterview, R.id.my_interview_detail_ask})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.my_interview_detail_avatar:
-                break;
             case R.id.my_interview_detail_look:
                 break;
             case R.id.my_interview_detail_kefu:

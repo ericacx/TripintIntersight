@@ -61,11 +61,11 @@
 
             <com.tripint.intersight.widget.image.CircleImageView
                 android:id="@+id/personal_main_page_personalInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/width_18_80"
+                android:layout_height="@dimen/height_10_80"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/spacing"
-                android:src="@mipmap/p1" />
+                android:src="@mipmap/ic_avatar" />
             <TextView
                 android:id="@+id/personal_main_page_name"
                 android:text="老乔"

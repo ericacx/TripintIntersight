@@ -47,7 +47,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing"
-                android:text="锂电池产业链分析"
                 android:textSize="@dimen/text_size_15"
                 android:textColor="@color/white" />
 
@@ -58,7 +57,6 @@
                 android:layout_marginTop="@dimen/spacing"
                 android:maxLines="2"
                 android:textSize="@dimen/text_size_12"
-                android:text="锂电池行业市场发展、供需状况、锂电池行业技术发展趋势、行业成本构成情况、投资热点分析。。。"
                 android:textColor="@color/line" />
 
         </LinearLayout>
@@ -107,7 +105,6 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/spacing_02"
             android:layout_toLeftOf="@id/text_view_my_item_data_time"
-            android:text="电子 | 通信 | 硬件"
             android:textColor="@color/line"
             android:textSize="@dimen/text_size_12" />
     </RelativeLayout>

@@ -12,22 +12,23 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class InterviewDetailEntity implements Serializable {
 
-    private InterviewEntity interviewEntity;
-    private List<CommentEntity> commentEntityList;
+    private InterviewEntity interview;
+    private List<CommentEntity> lists;
 
-    public InterviewEntity getInterviewEntity() {
-        return interviewEntity;
+
+    public InterviewEntity getInterview() {
+        return interview;
     }
 
-    public void setInterviewEntity(InterviewEntity interviewEntity) {
-        this.interviewEntity = interviewEntity;
+    public void setInterview(InterviewEntity interview) {
+        this.interview = interview;
     }
 
-    public List<CommentEntity> getCommentEntityList() {
-        return commentEntityList;
+    public List<CommentEntity> getLists() {
+        return lists;
     }
 
-    public void setCommentEntityList(List<CommentEntity> commentEntityList) {
-        this.commentEntityList = commentEntityList;
+    public void setLists(List<CommentEntity> lists) {
+        this.lists = lists;
     }
 }

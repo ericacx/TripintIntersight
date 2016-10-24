@@ -5,6 +5,7 @@ import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.BaseResponse;
 import com.tripint.intersight.entity.CodeDataEntity;
 import com.tripint.intersight.entity.PersonalUserInfoEntity;
+import com.tripint.intersight.entity.discuss.CreateInterviewResponseEntity;
 import com.tripint.intersight.entity.mine.AccountDetailEntity;
 import com.tripint.intersight.entity.mine.AskAnswerEntity;
 import com.tripint.intersight.entity.mine.FocusEntity;
@@ -70,6 +71,10 @@ public interface MineDataService {
     @GET("appointmentInterview")
     Observable<BaseResponse<BasePageableResponse<InterviewEntity>>> getMyInterview(@Query("page") int page, @Query("size") int size);
 
+//    //访谈详情
+//    @GET("myInterview/{id}")
+//    Observable<BaseResponse<InterviewDetailEntity>> getInterviewDetail(@Path("id") int id);
+
     //访谈详情
     @GET("myInterview/{id}")
     Observable<BaseResponse<InterviewDetailEntity>> getInterviewDetail(@Path("id") int id);
@@ -121,7 +126,7 @@ public interface MineDataService {
 
     //向他人约访
     @POST("otherInterview")
-    Observable<BaseResponse<CodeDataEntity>> postOtherInterview(
+    Observable<BaseResponse<CreateInterviewResponseEntity>> postOtherInterview(
             @Body PersonalUserInfoEntity personalUserInfoEntity
             );
 

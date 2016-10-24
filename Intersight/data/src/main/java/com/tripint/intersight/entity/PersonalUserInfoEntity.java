@@ -12,16 +12,16 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PersonalUserInfoEntity implements Serializable {
 
-    private int to_uid;
-    private String contact;
+    private int toUid;
+    private String contact;//联系人
     private String company;
     private String mobile;
     private String email;
     private String subject;//主题
     private String outline;
 
-    public PersonalUserInfoEntity(int to_uid, String contact, String company, String mobile, String email, String subject, String outline) {
-        this.to_uid = to_uid;
+    public PersonalUserInfoEntity(int toUid, String contact, String company, String mobile, String email, String subject, String outline) {
+        this.toUid = toUid;
         this.contact = contact;
         this.company = company;
         this.mobile = mobile;
@@ -30,12 +30,12 @@ public class PersonalUserInfoEntity implements Serializable {
         this.outline = outline;
     }
 
-    public int getTo_uid() {
-        return to_uid;
+    public int getToUid() {
+        return toUid;
     }
 
-    public void setTo_uid(int to_uid) {
-        this.to_uid = to_uid;
+    public void setToUid(int toUid) {
+        this.toUid = toUid;
     }
 
     public String getSubject() {

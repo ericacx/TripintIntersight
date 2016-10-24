@@ -10,14 +10,15 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CommentPraiseEntity implements Serializable{
 
-    private String nickname;
-    private String avatar;
-    private String companyName;
-    private String abilityName;
-    private String title;
-    private String content;
-    private int createAt;
-    private int state;
+    private String nickname;//名字
+    private String avatar;//头像
+    private String companyName;//公司
+    private String abilityName;//职位
+    private String title;//标题
+    private String content;//别人的评论
+    private String pidComment;//我的评论
+    private int createAt;//创建时间
+    private int state;//状态
 
     public String getNickname() {
         return nickname;
@@ -81,5 +82,13 @@ public class CommentPraiseEntity implements Serializable{
 
     public void setState(int state) {
         this.state = state;
+    }
+
+    public String getPidComment() {
+        return pidComment;
+    }
+
+    public void setPidComment(String pidComment) {
+        this.pidComment = pidComment;
     }
 }

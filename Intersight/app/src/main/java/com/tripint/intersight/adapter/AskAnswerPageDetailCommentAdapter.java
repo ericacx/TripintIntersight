@@ -48,7 +48,6 @@ public class AskAnswerPageDetailCommentAdapter extends BaseQuickAdapter<CommentE
                     .setText(R.id.textView_item_ask_date_time, item.getCreateAt())
             .addOnClickListener(R.id.textView_item_ask_action);
 
-
         }
     }
 

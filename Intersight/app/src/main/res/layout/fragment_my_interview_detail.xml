@@ -53,7 +53,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing"
-                android:text="电话访谈"
                 android:textColor="@color/line" />
 
         </LinearLayout>
@@ -75,7 +74,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing"
-                android:text="2563254"
                 android:textColor="@color/line" />
 
         </LinearLayout>
@@ -97,14 +95,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing"
-                android:text="2016.02.03    13:30"
                 android:textColor="@color/line" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_20_80"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing"
             android:background="@drawable/bg_corners_text"
             android:orientation="vertical"
@@ -115,26 +112,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing"
-                android:text="市场一片顶礼膜拜,锂电池是否是跨越新能源的关键?"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_15" />
+                android:textSize="@dimen/text_size_14" />
 
             <TextView
                 android:id="@+id/my_interview_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing"
-                android:text="比如,石墨负极终究会被取代,但是硅电极,金属氧化物电极等等哪个才是未来的主力?"
+                android:layout_marginTop="5dp"
                 android:textColor="@color/line"
                 android:textSize="@dimen/text_size_12" />
 
-            <LinearLayout
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="@dimen/spacing_02"
-                android:gravity="right"
-                android:orientation="horizontal">
+                android:layout_marginTop="@dimen/spacing">
 
                 <TextView
                     android:id="@+id/my_interview_people"
@@ -150,46 +143,30 @@
                     android:id="@+id/my_interview_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_toRightOf="@id/my_interview_people"
                     android:layout_marginLeft="@dimen/spacing"
-                    android:gravity="center_vertical"
-                    android:text="高高"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_12" />
-
-                <TextView
-                    android:id="@+id/my_interview_company"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/spacing"
-                    android:gravity="center_vertical"
-                    android:text="巨人网络"
-                    android:textColor="@color/line"
                     android:textSize="@dimen/text_size_12" />
 
                 <TextView
                     android:id="@+id/my_interview_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_toRightOf="@id/my_interview_name"
                     android:layout_marginLeft="@dimen/spacing"
-                    android:gravity="center_vertical"
-                    android:text="销售总监"
                     android:textColor="@color/line"
                     android:textSize="@dimen/text_size_12" />
 
-                <com.tripint.intersight.widget.image.CircleImageView
-                    android:id="@+id/my_interview_detail_avatar"
+                <TextView
+                    android:id="@+id/my_interview_company"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/spacing"
-                    android:layout_marginRight="@dimen/spacing"
-                    android:gravity="center_vertical"
-                    android:src="@mipmap/iconfont_mima" />
+                    android:layout_below="@id/my_interview_title"
+                    android:layout_alignLeft="@id/my_interview_name"
+                    android:textColor="@color/line"
+                    android:textSize="@dimen/text_size_12" />
+            </RelativeLayout>
 
-            </LinearLayout>
 
         </LinearLayout>
 
@@ -197,7 +174,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="@dimen/spacing_02">
+            android:layout_marginTop="@dimen/spacing_02"
+            android:gravity="center_vertical">
 
             <TextView
                 android:id="@+id/my_interview_detail_look"
@@ -205,8 +183,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:gravity="center_vertical"
                 android:text="查看评论"
-                android:textColor="@color/blue" />
+                android:textColor="@color/blue"
+                android:textSize="@dimen/text_size_14" />
 
             <Button
                 android:id="@+id/my_interview_detail_kefu"
@@ -215,39 +195,44 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/btn_shape1"
+                android:gravity="center"
                 android:text="联系客服"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_14" />
 
             <Button
                 android:id="@+id/my_interview_detail_twiceInterview"
                 android:layout_width="wrap_content"
                 android:layout_height="31dp"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/spacing"
+                android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@id/my_interview_detail_kefu"
                 android:background="@drawable/btn_shape_blue"
+                android:gravity="center"
                 android:text="再次约访"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_14" />
 
             <Button
                 android:id="@+id/my_interview_detail_ask"
                 android:layout_width="wrap_content"
                 android:layout_height="31dp"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/spacing"
+                android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@id/my_interview_detail_twiceInterview"
                 android:background="@drawable/btn_shape_blue"
+                android:gravity="center"
                 android:text="向他提问"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_14" />
 
         </RelativeLayout>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_interview_detail_recyclerView"
-        android:background="@drawable/bg_corners_grey"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:background="@drawable/bg_corners_grey" />
 
 </LinearLayout>

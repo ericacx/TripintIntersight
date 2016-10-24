@@ -97,30 +97,6 @@
                     android:text="评论/赞过我的"
                     android:textColor="@color/line" />
 
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="@dimen/spacing_pad04"
-                    android:layout_marginLeft="@dimen/spacing"
-                    android:layout_marginRight="@dimen/spacing"
-                    android:layout_marginTop="@dimen/spacing_pad04"
-                    android:background="@color/line" />
-
-
-                <TextView
-                    android:id="@+id/new_message_text_view_system_message"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_5_80"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/spacing"
-                    android:drawableLeft="@mipmap/iconfont_wenda"
-                    android:drawablePadding="@dimen/spacing"
-                    android:drawableRight="@mipmap/iconfont_nextarticle"
-                    android:gravity="left|center_vertical"
-                    android:text="系统消息"
-                    android:textColor="@color/line" />
-
             </LinearLayout>
         </LinearLayout>
 
