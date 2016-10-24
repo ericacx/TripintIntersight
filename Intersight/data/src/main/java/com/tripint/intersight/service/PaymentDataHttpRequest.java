@@ -2,6 +2,7 @@ package com.tripint.intersight.service;
 
 import android.content.Context;
 
+import com.tripint.intersight.entity.payment.AliPayResponseEntity;
 import com.tripint.intersight.entity.payment.WXPayResponseEntity;
 
 import rx.Observable;
@@ -47,6 +48,19 @@ public class PaymentDataHttpRequest extends HttpRequest {
 
         Observable observable = service.postWxPay(PAY_CONTENT_TYPE_DISCUSS, discussId, discussContent)
                 .map(new HttpResultFunc<WXPayResponseEntity>());
+
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 用于取得行业数据
+     *
+     * @param subscriber 由调用者传过来的观察者对象
+     */
+    public void requestAliPayForDiscuss(Subscriber<AliPayResponseEntity> subscriber, int discussId, String discussContent) {
+
+        Observable observable = service.postAliPay(PAY_CONTENT_TYPE_DISCUSS, discussId, discussContent)
+                .map(new HttpResultFunc<AliPayResponseEntity>());
 
         toSubscribe(observable, subscriber);
     }

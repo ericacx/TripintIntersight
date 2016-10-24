@@ -42,7 +42,6 @@ import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.payment.WXPayResponseEntity;
 import com.tripint.intersight.entity.user.PaymentEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
-import com.tripint.intersight.helper.AliPayUtils;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.helper.PayUtils;
 import com.tripint.intersight.service.BaseDataHttpRequest;
@@ -388,7 +387,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
 //                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(paymentSubscriber, mActivity));
                         } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
-                            AliPayUtils.getInstant(mActivity).pay();
+//                            AliPayUtils.getInstant(mActivity).pay();
                         }
 
                     }

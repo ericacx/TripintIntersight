@@ -64,7 +64,6 @@ import com.tripint.intersight.entity.stream.SaveStreamResponseEntity;
 import com.tripint.intersight.entity.stream.StreamResponseEntity;
 import com.tripint.intersight.entity.user.PaymentEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
-import com.tripint.intersight.helper.AliPayUtils;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.helper.Config;
 import com.tripint.intersight.helper.PayUtils;
@@ -161,7 +160,6 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
 
     private int mDiscussId;
 
-    private String currentAction = "";
 
     private StreamResponseEntity streamResponseEntity; //
 
@@ -290,6 +288,7 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
 
                             boolean res = mMediaStreamingManager.startStreaming();
                             mShutterButtonPressed = true;
+                            setShutterButtonEnabled(true);
                             Log.i(TAG, "res:" + res);
                             if (!res) {
                                 mShutterButtonPressed = false;
@@ -319,12 +318,28 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
         }
     };
 
+    protected Handler mAudioHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what != MESSAGE_ID_RECONNECTING) {
+                return;
+            }
+
+            if (!NetworkUtils.isAvailable(mActivity)) {
+                sendReconnectMessage();
+                return;
+            }
+            // The PLMediaPlayer has moved to the Error state, if you want to retry, must reset first !
+            prepareAudioPlayer(saveStreamResponseEntity.getAudioUrl());
+        }
+    };
+
     protected void setShutterButtonPressed(final boolean pressed) {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 mShutterButtonPressed = pressed;
-                btnQaRecordVoice.setPressed(pressed);
+
             }
         });
     }
@@ -333,9 +348,20 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                btnQaRecordVoice.setFocusable(enable);
-                btnQaRecordVoice.setClickable(enable);
-                btnQaRecordVoice.setEnabled(enable);
+                if (enable) {
+                    Drawable drawable = getResources().getDrawable(R.drawable.iconfont_stop);
+                    drawable.setBounds(0, 0, 64, 64);
+                    btnQaRecordVoice.setCompoundDrawables(drawable, null, null, null);
+                    btnQaRecordVoice.setText("结束录音");
+                } else {
+                    Drawable drawable = getResources().getDrawable(R.drawable.iconfont_huatong);
+                    drawable.setBounds(0, 0, 64, 64);
+                    btnQaRecordVoice.setCompoundDrawables(drawable, null, null, null);
+                    btnQaRecordVoiceRestart.setVisibility(View.VISIBLE);
+                    btnQaRecordVoicePlay.setVisibility(View.VISIBLE);
+                    btnQaRecordVoicePlay.setEnabled(false);
+                    btnQaRecordVoice.setText("开始录音");
+                }
             }
         });
     }
@@ -424,7 +450,7 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
                         if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
 
                         } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
-                            AliPayUtils.getInstant(mActivity).pay();
+//                            AliPayUtils.getInstant(mActivity).pay();
                         }
 
                     }
@@ -440,7 +466,6 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
                 if (countdownview.isTimerRunning() && mShutterButtonPressed) {
                     stopAudioRecording();
 
-
                 } else {
                     startAudioRecording();
                 }
@@ -451,7 +476,10 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
                 break;
             case R.id.btn_qa_record_voice_restart:
                 mShutterButtonPressed = false;
-                countdownview.reset();
+                if (countdownview.isTimerRunning()) {
+                    countdownview.reset();
+                }
+
                 btnQaRecordVoicePlay.setVisibility(View.GONE);
                 btnQaRecordVoiceRestart.setVisibility(View.GONE);
                 break;
@@ -464,24 +492,17 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
         countdownview.start();
         containerCountdown.setVisibility(View.VISIBLE);
         startStreaming();
-        mShutterButtonPressed = true;
-        Drawable drawable = getResources().getDrawable(R.drawable.iconfont_stop);
-        drawable.setBounds(0, 0, 64, 90);
-        btnQaRecordVoice.setCompoundDrawables(drawable, null, null, null);
-        btnQaRecordVoice.setText("结束录音");
+
     }
 
     private void stopAudioRecording() {
         countdownview.reset();
         stopStreaming();
-        mShutterButtonPressed = false;
-        Drawable drawable = getResources().getDrawable(R.drawable.iconfont_huatong);
-        drawable.setBounds(0, 0, 64, 90);
-        btnQaRecordVoice.setCompoundDrawables(drawable, null, null, null);
-        btnQaRecordVoiceRestart.setVisibility(View.VISIBLE);
-        btnQaRecordVoicePlay.setVisibility(View.VISIBLE);
-        btnQaRecordVoicePlay.setEnabled(false);
-        btnQaRecordVoice.setText("开始录音");
+
+        saveStreamHttpRequest();
+    }
+
+    private void saveStreamHttpRequest() {
         long timeLeft = 90 - countdownview.getCurrentMillis();
         PiliStreamDataHttpRequest.getInstance(mActivity).postSavePublishStream(
                 new ProgressSubscriber<SaveStreamResponseEntity>(streamSaveSubscriber, mActivity),
@@ -614,12 +635,12 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
 
     protected void startStreaming() {
         mHandler.removeCallbacksAndMessages(null);
-        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_START_STREAMING), 50);
+        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_START_STREAMING), 100);
     }
 
     protected void stopStreaming() {
         mHandler.removeCallbacksAndMessages(null);
-        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_STOP_STREAMING), 50);
+        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_STOP_STREAMING), 100);
     }
 
     private static DnsManager getMyDnsManager() {
@@ -795,21 +816,7 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
         mAudioHandler.sendMessageDelayed(mAudioHandler.obtainMessage(MESSAGE_ID_RECONNECTING), 500);
     }
 
-    protected Handler mAudioHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what != MESSAGE_ID_RECONNECTING) {
-                return;
-            }
 
-            if (!NetworkUtils.isAvailable(mActivity)) {
-                sendReconnectMessage();
-                return;
-            }
-            // The PLMediaPlayer has moved to the Error state, if you want to retry, must reset first !
-            prepareAudioPlayer(saveStreamResponseEntity.getAudioUrl());
-        }
-    };
 
     private void showToastTips(final String tips) {
         if (mIsActivityPaused) {

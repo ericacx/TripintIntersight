@@ -2,6 +2,7 @@ package com.tripint.intersight.service;
 
 
 import com.tripint.intersight.common.BaseResponse;
+import com.tripint.intersight.entity.payment.AliPayResponseEntity;
 import com.tripint.intersight.entity.payment.WXPayResponseEntity;
 
 import retrofit2.http.Field;
@@ -18,5 +19,10 @@ public interface PaymentDataService {
     @FormUrlEncoded
     @POST("wxpay")
     Observable<BaseResponse<WXPayResponseEntity>> postWxPay(@Field("type") String type, @Field("discussId") int discussId, @Field("discussTitle") String discussContent);
+
+    //支付宝支付
+    @FormUrlEncoded
+    @POST("pay/alipay")
+    Observable<BaseResponse<AliPayResponseEntity>> postAliPay(@Field("type") String type, @Field("discussId") int discussId, @Field("discussTitle") String discussContent);
 
 }
