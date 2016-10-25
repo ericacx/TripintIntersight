@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Application;
 import android.app.Notification;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
 import android.util.Log;
@@ -18,6 +20,8 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tripint.intersight.R;
+import com.tripint.intersight.activity.LoginActivity;
+import com.tripint.intersight.activity.MainActivity;
 import com.tripint.intersight.common.Constants;
 import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.common.enumkey.EnumKey;
@@ -182,12 +186,6 @@ public class InterSightApp extends Application {
                             UTrack.getInstance(getApplicationContext()).trackMsgDismissed(msg);
                         }
                         Toast.makeText(context, msg.custom, Toast.LENGTH_LONG).show();
-                        if (msg.extra != null && msg.extra.size() > 0) {
-                            Map<String, String> extraParams = msg.extra;
-                            for (String key : extraParams.keySet()) {
-                                Log.d("Intersight", "key:" + key + "  with value:" + extraParams.get(key));
-                            }
-                        }
                     }
                 });
             }
@@ -228,6 +226,8 @@ public class InterSightApp extends Application {
             @Override
             public void dealWithCustomAction(Context context, UMessage msg) {
                 Toast.makeText(context, msg.custom, Toast.LENGTH_LONG).show();
+                handleUmengMessageClicked(msg);
+
             }
         };
         //使用自定义的NotificationHandler，来结合友盟统计处理消息通知
@@ -251,6 +251,55 @@ public class InterSightApp extends Application {
 
             }
         });
+    }
+
+
+    private void handleUmengMessageClicked(UMessage msg) {
+        //当前画面没有登录
+        if (StringUtils.isEmpty(ACache.get(InterSightApp.this).getAsString(EnumKey.User.USER_TOKEN))) {
+            Intent intent = new Intent();
+            intent.setClass(InterSightApp.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } else {
+            if (msg.extra != null && msg.extra.size() > 0) {
+                Map<String, String> extraParams = msg.extra;
+                for (String key : extraParams.keySet()) {
+                    Log.d("Intersight", "key:" + key + "  with value:" + extraParams.get(key));
+                }
+                String msgType = "", paramId = "", paramExtraId, paramLink = "";
+
+                if (extraParams.containsKey("msgType")) {
+                    msgType = extraParams.get("msgType");
+                }
+                if (extraParams.containsKey("paramId")) {
+                    paramId = extraParams.get("paramId");
+                }
+                if (extraParams.containsKey("paramExtraId")) {
+                    paramExtraId = extraParams.get("paramExtraId");
+                }
+                if (extraParams.containsKey("paramLink")) {
+                    paramLink = extraParams.get("paramLink");
+                }
+
+                Intent intent = new Intent();
+                intent.setClass(InterSightApp.this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                if (StringUtils.equals(msgType, "interview")) {
+
+                } else if (StringUtils.equals(msgType, MainActivity.CONTENT_FRAGMENT_NAME_DISCUSS)) {
+                    bundle.putString(MainActivity.CONTENT_FRAGMENT_NAME, msgType);
+                    bundle.putString(MainActivity.CONTENT_FRAGMENT_PARAM_ID, paramId);
+                    intent.putExtras(bundle);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                } else if (StringUtils.equals(msgType, "comment")) {
+
+                } else if (StringUtils.equals(msgType, "system")) {
+
+                }
+            }
+        }
     }
 
     private void initUmengAgent() {

@@ -145,4 +145,42 @@ public class StringUtils {
         }
         return new String(chars);
     }
+
+    // Equals
+
+    /**
+     * 891     * <p>Compares two CharSequences, returning {@code true} if they represent
+     * 892     * equal sequences of characters.</p>
+     * 893     *
+     * 894     * <p>{@code null}s are handled without exceptions. Two {@code null}
+     * 895     * references are considered to be equal. The comparison is case sensitive.</p>
+     * 896     *
+     * 897     * <pre>
+     * 898     * StringUtils.equals(null, null)   = true
+     * 899     * StringUtils.equals(null, "abc")  = false
+     * 900     * StringUtils.equals("abc", null)  = false
+     * 901     * StringUtils.equals("abc", "abc") = true
+     * 902     * StringUtils.equals("abc", "ABC") = false
+     * 903     * </pre>
+     * 904     *
+     * 905     * @see Object#equals(Object)
+     * 906     * @param cs1  the first CharSequence, may be {@code null}
+     * 907     * @param cs2  the second CharSequence, may be {@code null}
+     * 908     * @return {@code true} if the CharSequences are equal (case-sensitive), or both {@code null}
+     * 909     * @since 3.0 Changed signature from equals(String, String) to equals(CharSequence, CharSequence)
+     * 910
+     */
+    public static boolean equals(final String cs1, final String cs2) {
+        if (cs1 == cs2) {
+            return true;
+        }
+        if (cs1 == null || cs2 == null) {
+            return false;
+        }
+        if (cs1.length() != cs2.length()) {
+            return false;
+        }
+        return cs1.equals(cs2);
+    }
+
 }

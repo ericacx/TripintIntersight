@@ -26,6 +26,14 @@ public class DiscussEntiry implements Serializable {
     private UserEntity userInfo;
     private VoiceEntity voices;
 
+    public DiscussEntiry() {
+
+    }
+
+    public DiscussEntiry(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

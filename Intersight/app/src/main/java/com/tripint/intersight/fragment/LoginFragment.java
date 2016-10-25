@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -80,8 +79,8 @@ public class LoginFragment extends BaseCloseFragment {
     ImageView login_thirdLogin_linkedin;//领英登录
     @Bind(R.id.login_thirdLogin_wechat)
     ImageView login_thirdLogin_wechat;//微信登录
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
+//    @Bind(R.id.toolbar)
+//    Toolbar toolbar;
 
 
     private LoginActivity mContext;
@@ -123,7 +122,7 @@ public class LoginFragment extends BaseCloseFragment {
 
     private void initView() {
 
-        initToolbarNav(toolbar);
+//        initToolbarNav(toolbar);
 
         login_et_password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
