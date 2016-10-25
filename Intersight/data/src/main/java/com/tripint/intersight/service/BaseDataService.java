@@ -111,6 +111,11 @@ public interface BaseDataService {
     @GET("user/check")
     Observable<BaseResponse<CommonResponEntity>> checkUserPhoneExist(@Query("email") String email);
 
+    //验证用户是否存在
+    @FormUrlEncoded
+    @POST("check/shareLogin")
+    Observable<BaseResponse<CommonResponEntity>> checkUserBindExist(@Field("unionid") String unionid, @Field("openid") String openid);
+
     //忘记密码
     @FormUrlEncoded
     @POST("share/login")

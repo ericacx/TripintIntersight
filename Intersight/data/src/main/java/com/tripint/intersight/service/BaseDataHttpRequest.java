@@ -240,6 +240,19 @@ public class BaseDataHttpRequest extends HttpRequest {
         toSubscribe(observable, subscriber);
     }
 
+    /**
+     * 检查用户是否已经绑定登录过
+     *
+     * @param subscriber
+     * @param unionid
+     * @param openid
+     */
+    public void checkUserBindExist(Subscriber<CommonResponEntity> subscriber, String unionid, String openid) {
+        Observable observable = baseDataService.checkUserBindExist(unionid, openid)
+                .map(new HttpResultFunc<CommonResponEntity>());
+        toSubscribe(observable, subscriber);
+    }
+
 
     /**
      * 用于获取观点页面的banner

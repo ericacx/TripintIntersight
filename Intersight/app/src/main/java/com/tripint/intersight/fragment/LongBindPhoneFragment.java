@@ -189,22 +189,22 @@ public class LongBindPhoneFragment extends BaseBackFragment {
             case R.id.bind_phone_complete://完成
                 if (checkUserInput(isUserExist)) {
                     if (isUserExist) {
-                        //用户已经存在，输入短信验证码，并绑定用户
+                        //用户手机号已经存在，输入短信验证码，并绑定用户
                         BaseDataHttpRequest.getInstance(mActivity).shareLogin(
                                 new ProgressSubscriber(subscriberCode, mActivity)
                                 , shareLoginModel.getShareLoginType(), shareLoginModel.getOpenId(),
                                 shareLoginModel.getUnionId(), shareLoginModel.getImgUrl(), shareLoginModel.getNickName(),
                                 bindPhoneEtPhoneNumber.getText().toString().trim(),
-                                bindPhoneEtInputVerifyCode.getText().toString(), "", "mobileUnregister");
+                                bindPhoneEtInputVerifyCode.getText().toString(), "", "mobileRegister");
                     } else {
-                        //用户已经存在，输入短信验证码，并绑定用户
+                        //用户手机号未注册，输入短信验证码，并绑定用户
                         BaseDataHttpRequest.getInstance(mActivity).shareLogin(
                                 new ProgressSubscriber(subscriberCode, mActivity)
                                 , shareLoginModel.getShareLoginType(), shareLoginModel.getOpenId(),
                                 shareLoginModel.getUnionId(), shareLoginModel.getImgUrl(), shareLoginModel.getNickName(),
                                 bindPhoneEtPhoneNumber.getText().toString().trim(),
                                 bindPhoneEtInputVerifyCode.getText().toString().trim(),
-                                bindPhoneEtInputPassword.getText().toString().trim(), "mobileRegister");
+                                bindPhoneEtInputPassword.getText().toString().trim(), "mobileUnregister");
                     }
                 }
                 break;

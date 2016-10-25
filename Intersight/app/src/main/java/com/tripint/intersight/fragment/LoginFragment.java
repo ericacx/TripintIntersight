@@ -40,6 +40,7 @@ import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.common.enumkey.EnumKey;
 import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.common.utils.ToastUtil;
+import com.tripint.intersight.entity.common.CommonResponEntity;
 import com.tripint.intersight.entity.user.LoginResponseEntity;
 import com.tripint.intersight.entity.user.User;
 import com.tripint.intersight.fragment.base.BaseCloseFragment;
@@ -91,6 +92,10 @@ public class LoginFragment extends BaseCloseFragment {
 
     private LoginResponseEntity loginEntity;
     private PageDataSubscriberOnNext<LoginResponseEntity> subscriber;
+
+    private PageDataSubscriberOnNext<CommonResponEntity> isUserBindsubscriber;
+
+    private ShareLoginModel shareLoginModel;
 
     public static LoginFragment newInstance() {
 
@@ -166,6 +171,21 @@ public class LoginFragment extends BaseCloseFragment {
 
             }
         };
+
+        isUserBindsubscriber = new PageDataSubscriberOnNext<CommonResponEntity>() {
+            @Override
+            public void onNext(CommonResponEntity entity) {
+                //接口请求成功后处理
+//                loginEntity = entity;
+                if (entity.getStatus() == 1000) {
+                    start(LongBindPhoneFragment.newInstance(shareLoginModel));
+                } else {
+                    Intent intent = new Intent();
+                    intent.setClass(mContext, MainActivity.class);
+                    startActivity(intent);
+                }
+            }
+        };
     }
 
 
@@ -236,7 +256,10 @@ public class LoginFragment extends BaseCloseFragment {
                             model.setOpenId(obj.getId());
                             model.setNickName(obj.getFirstName());
                             model.setImgUrl(obj.getSiteStandardProfileRequest() != null ? obj.getSiteStandardProfileRequest().getUrl() : "");
-                            start(LongBindPhoneFragment.newInstance(model));
+                            shareLoginModel = model;
+                            BaseDataHttpRequest.getInstance(mActivity).checkUserBindExist(
+                                    new ProgressSubscriber<CommonResponEntity>(isUserBindsubscriber, mActivity), model.getUnionId(), model.getOpenId());
+
                         } catch (JsonGenerationException e) {
                             Log.d("TAG", e.getLocalizedMessage());
                         } catch (JsonMappingException e) {
@@ -331,8 +354,10 @@ public class LoginFragment extends BaseCloseFragment {
                             }
 //                            MLog.d("授权第二步=" + params.toString());
 //                            submitLoginInfo(url, params, flag, media);
-
-                            start(LongBindPhoneFragment.newInstance(model));
+                            shareLoginModel = model;
+                            BaseDataHttpRequest.getInstance(mActivity).checkUserBindExist(
+                                    new ProgressSubscriber<CommonResponEntity>(isUserBindsubscriber, mActivity), model.getUnionId(), model.getOpenId());
+//                            start(LongBindPhoneFragment.newInstance(model));
 
                         } else {
                             CommonUtils.showToast("授权失败");
