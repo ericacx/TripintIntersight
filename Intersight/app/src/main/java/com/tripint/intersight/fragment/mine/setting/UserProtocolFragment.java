@@ -59,5 +59,6 @@ public class UserProtocolFragment extends BaseBackFragment {
 
     @OnClick(R.id.user_protocol_agree)
     public void onClick() {
+        pop();
     }
 }
