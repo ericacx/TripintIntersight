@@ -222,11 +222,11 @@ public class LongBindPhoneFragment extends BaseBackFragment {
         }
         if (!isUserExist) {
             if (bindPhoneEtInputPassword.getText().toString().length() < 6 || bindPhoneEtInputPassword.getText().toString().length() > 16) {
-                ToastUtil.showToast(mActivity, "密码必须大于16位");
+                ToastUtil.showToast(mActivity, "密码必须大于6位");
                 return false;
             }
             if (bindPhoneEtInputRePassword.getText().toString().length() < 6 || bindPhoneEtInputRePassword.getText().toString().length() > 16) {
-                ToastUtil.showToast(mActivity, "重复密码必须大于16位");
+                ToastUtil.showToast(mActivity, "重复密码必须大于6位");
                 return false;
             }
             if (!bindPhoneEtInputRePassword.getText().toString().trim().equals(bindPhoneEtInputRePassword.getText().toString().trim())) {

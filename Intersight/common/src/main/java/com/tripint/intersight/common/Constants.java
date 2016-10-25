@@ -5,6 +5,11 @@ package com.tripint.intersight.common;
  */
 
 public class Constants {
+
+    public static final String TAG = "TripInt";
+
+
+
     public static final String UMENG_KEY = "57e38f46e0f55a4e8d0035f2";
 
     public static final String BUGLY_APP_ID = "23a8cb5434";

@@ -36,11 +36,12 @@ import com.tripint.intersight.activity.LoginActivity;
 import com.tripint.intersight.activity.MainActivity;
 import com.tripint.intersight.activity.base.BaseActivity;
 import com.tripint.intersight.app.InterSightApp;
+import com.tripint.intersight.common.Constants;
 import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.common.enumkey.EnumKey;
 import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.common.utils.ToastUtil;
-import com.tripint.intersight.entity.user.LoginEntity;
+import com.tripint.intersight.entity.user.LoginResponseEntity;
 import com.tripint.intersight.entity.user.User;
 import com.tripint.intersight.fragment.base.BaseCloseFragment;
 import com.tripint.intersight.helper.CommonUtils;
@@ -49,6 +50,8 @@ import com.tripint.intersight.model.ShareLoginModel;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UTrack;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
@@ -87,8 +90,8 @@ public class LoginFragment extends BaseCloseFragment {
 
     private HashMap<String, String> params = new HashMap<String, String>();
 
-    private LoginEntity loginEntity;
-    private PageDataSubscriberOnNext<LoginEntity> subscriber;
+    private LoginResponseEntity loginEntity;
+    private PageDataSubscriberOnNext<LoginResponseEntity> subscriber;
 
     public static LoginFragment newInstance() {
 
@@ -136,12 +139,15 @@ public class LoginFragment extends BaseCloseFragment {
         });
 
         //登录
-        subscriber = new PageDataSubscriberOnNext<LoginEntity>() {
+        subscriber = new PageDataSubscriberOnNext<LoginResponseEntity>() {
             @Override
-            public void onNext(LoginEntity entity) {
+            public void onNext(LoginResponseEntity entity) {
                 //接口请求成功后处理
                 loginEntity = entity;
                 ACache.get(mActivity).put(EnumKey.User.USER_TOKEN, entity.getToken());
+                //更新device token
+                updateUmengDeviceToken(String.valueOf(entity.getUid()), EnumKey.UmengAliasType.OFFICIAL);
+
                 Log.e("login",entity.getToken());
                 int status = entity.getStatus();
                 Intent intent = new Intent();
@@ -377,6 +383,18 @@ public class LoginFragment extends BaseCloseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mContext.mShareAPI.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void updateUmengDeviceToken(String userId, String aliseType) {
+        String deviceToken = ACache.get(InterSightApp.getApp()).getAsString(EnumKey.User.UMENG_DEVICE_TOKEN);
+        PushAgent mPushAgent = PushAgent.getInstance(InterSightApp.getApp());
+        mPushAgent.addAlias(userId, aliseType, new UTrack.ICallBack() {
+            @Override
+            public void onMessage(boolean b, String s) {
+                Log.d(Constants.TAG, "add alias result" + String.valueOf(b));
+            }
+        });
+
     }
 
 

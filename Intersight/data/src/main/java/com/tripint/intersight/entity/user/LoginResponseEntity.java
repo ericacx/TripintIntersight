@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LoginEntity implements Serializable {
+public class LoginResponseEntity implements Serializable {
 
 
     /**
@@ -18,6 +18,7 @@ public class LoginEntity implements Serializable {
      */
 
     private String token;
+    private int uid;
     private int status;
 
     public String getToken() {
@@ -34,5 +35,13 @@ public class LoginEntity implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 }

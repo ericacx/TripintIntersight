@@ -12,7 +12,7 @@ import com.tripint.intersight.entity.article.ArticlesEntity;
 import com.tripint.intersight.entity.common.CommonResponEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.user.ChooseEntity;
-import com.tripint.intersight.entity.user.LoginEntity;
+import com.tripint.intersight.entity.user.LoginResponseEntity;
 import com.tripint.intersight.entity.user.RegisterEntity;
 import com.tripint.intersight.entity.user.User;
 
@@ -99,18 +99,18 @@ public class BaseDataHttpRequest extends HttpRequest {
      * 用于获取登录数据
      * @param subscriber
      */
-    public void postLogin(Subscriber<LoginEntity> subscriber, User user){
+    public void postLogin(Subscriber<LoginResponseEntity> subscriber, User user) {
 
         Observable observable = baseDataService.postLogin(user)
-                .map(new HttpResultFunc<LoginEntity>());
+                .map(new HttpResultFunc<LoginResponseEntity>());
 
         toSubscribe(observable, subscriber);
     }
 
 
-//    public void getLogin(Subscriber<LoginEntity.UserInfoBean> subscriber, String email,String password){
+//    public void getLogin(Subscriber<LoginResponseEntity.UserInfoBean> subscriber, String email,String password){
 //        Observable observable = baseDataService.getLogin(email,password)
-//                .map(new HttpResultFunc<LoginEntity.UserInfoBean>());
+//                .map(new HttpResultFunc<LoginResponseEntity.UserInfoBean>());
 //
 //        toSubscribe(observable, subscriber);
 //    }

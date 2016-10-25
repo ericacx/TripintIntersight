@@ -6,6 +6,7 @@ import android.app.Notification;
 import android.content.Context;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ import com.umeng.message.entity.UMessage;
 import com.umeng.socialize.PlatformConfig;
 
 import java.io.InputStream;
+import java.util.Map;
 
 import okhttp3.OkHttpClient;
 
@@ -145,7 +147,8 @@ public class InterSightApp extends Application {
 
     private void initUmengMessage() {
         PushAgent mPushAgent = PushAgent.getInstance(this);
-        mPushAgent.setDebugMode(true);
+        //TODO change to false at release version
+        mPushAgent.setDebugMode(false);
 
         //sdk开启通知声音
         mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE);
@@ -179,6 +182,12 @@ public class InterSightApp extends Application {
                             UTrack.getInstance(getApplicationContext()).trackMsgDismissed(msg);
                         }
                         Toast.makeText(context, msg.custom, Toast.LENGTH_LONG).show();
+                        if (msg.extra != null && msg.extra.size() > 0) {
+                            Map<String, String> extraParams = msg.extra;
+                            for (String key : extraParams.keySet()) {
+                                Log.d("Intersight", "key:" + key + "  with value:" + extraParams.get(key));
+                            }
+                        }
                     }
                 });
             }
@@ -232,6 +241,7 @@ public class InterSightApp extends Application {
             @Override
             public void onSuccess(String deviceToken) {
                 UmLog.i("Intersight", "device token: " + deviceToken);
+                ACache.get(InterSightApp.this).put(EnumKey.User.UMENG_DEVICE_TOKEN, deviceToken);
 //                sendBroadcast(new Intent(UPDATE_STATUS_ACTION));
             }
 

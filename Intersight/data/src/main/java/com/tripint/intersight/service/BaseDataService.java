@@ -12,7 +12,7 @@ import com.tripint.intersight.entity.article.ArticlesEntity;
 import com.tripint.intersight.entity.common.CommonResponEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.user.ChooseEntity;
-import com.tripint.intersight.entity.user.LoginEntity;
+import com.tripint.intersight.entity.user.LoginResponseEntity;
 import com.tripint.intersight.entity.user.RegisterEntity;
 import com.tripint.intersight.entity.user.User;
 
@@ -46,13 +46,13 @@ public interface BaseDataService {
 
     //登录
     @POST("login")
-    Observable<BaseResponse<LoginEntity>> postLogin(
+    Observable<BaseResponse<LoginResponseEntity>> postLogin(
             @Body User user
     );
 
 //    @FormUrlEncoded
 //    @POST("login")
-//    Observable<BaseResponse<LoginEntity.UserInfoBean>> getLogin(
+//    Observable<BaseResponse<LoginResponseEntity.UserInfoBean>> getLogin(
 //            @Field("email") String email,
 //            @Field("password") String password
 //

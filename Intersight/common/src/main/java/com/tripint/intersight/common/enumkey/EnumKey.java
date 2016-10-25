@@ -13,6 +13,17 @@ public class EnumKey {
      */
     public class User {
         public static final String USER_TOKEN = "user_token"; //
+        public static final String UMENG_DEVICE_TOKEN = "umeng_device_token";
+
+    }
+
+    /**
+     * 用于应用ACache缓存KEY
+     */
+    public class UmengAliasType {
+
+        public static final String OFFICIAL = "TRIPINT"; //
+
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.tripint.intersight.fragment.mine.setting;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -12,10 +13,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tripint.intersight.R;
+import com.tripint.intersight.activity.LoginActivity;
 import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.common.enumkey.EnumKey;
 import com.tripint.intersight.common.utils.ClearFileUtil;
-import com.tripint.intersight.common.utils.FileUtils;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.fragment.mine.AdviceFeedbackFragment;
@@ -90,7 +91,11 @@ public class SettingFragment extends BaseBackFragment {
                 break;
             case R.id.button_logout: //退出登录
                 ACache.get(mActivity).put(EnumKey.User.USER_TOKEN, "");
-                pop();
+
+                Intent intent = new Intent();
+                intent.setClass(mActivity, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 break;
             case R.id.setting_account_info://帐号信息
                 EventBus.getDefault().post(new StartFragmentEvent(AccountInfoFragment.newInstance()));
