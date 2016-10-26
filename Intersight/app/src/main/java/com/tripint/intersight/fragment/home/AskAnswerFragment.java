@@ -29,6 +29,7 @@ import com.tripint.intersight.fragment.base.BaseFragment;
 import com.tripint.intersight.model.PaginationModel;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
+import com.tripint.intersight.service.HttpRequest;
 import com.tripint.intersight.widget.BannerViewHolder;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
@@ -47,23 +48,17 @@ import butterknife.OnClick;
  */
 public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
+    private final int PAGE_SIZE = 10;
     @Bind(R.id.recycler_view_ask_answer)
     RecyclerView mRecyclerView;
-
     @Bind(R.id.btn_qa_profession)
     TextView mQAPrefessionButton;
-
     @Bind(R.id.btn_qa_interest)
     TextView mQAInterestrButton;
-
     @Bind(R.id.btn_qa_recommend)
     TextView mQARecommendButton;
-
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
-
-    private final int PAGE_SIZE = 10;
-
     private int TOTAL_COUNTER = 0;
 
     private int mCurrentCounter = 0;
@@ -132,7 +127,7 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
             }
         };
         BaseDataHttpRequest.getInstance(mActivity).getBanner(
-                new ProgressSubscriber(bannerSubscriber, mActivity),2);
+                new ProgressSubscriber(bannerSubscriber, mActivity), 3);
     }
 
     private void httpRequestData(int type) {
@@ -279,13 +274,17 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
                     mAdapter.loadComplete();
 
                 } else {
-                    mAdapter.addData(data.getLists());
-                    mCurrentCounter = mAdapter.getData().size();
+                    DiscussDataHttpRequest.getInstance(mActivity).getDiscusses(new ProgressSubscriber(subscriber, mActivity), mCurrentTab, getCurrentPage(), PAGE_SIZE);
+
                 }
             }
         }, 200);
 
 
+    }
+
+    public int getCurrentPage() {
+        return mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE + 1;
     }
 
     @Override

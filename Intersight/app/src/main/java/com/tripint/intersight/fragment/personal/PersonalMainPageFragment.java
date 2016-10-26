@@ -64,14 +64,14 @@ import butterknife.OnClick;
 public class PersonalMainPageFragment extends BaseBackFragment {
 
     public static final String ARG_USER_ID = "arg_user_id";
-
+    protected static final int MSG_START_STREAMING_DISCUSS = 0;
+    protected static final int MSG_START_STREAMING_INTERVIEW = 1;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.personal_main_page_button_ask)
     Button personalMainPageButtonAsk;
     @Bind(R.id.personal_main_page_button_interview)
     Button personalMainPageButtonInterview;
-
     @Bind(R.id.ll)
     LinearLayout ll;
     @Bind(R.id.personal_main_page_personalInfo)
@@ -94,10 +94,6 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     TextView personalMainPageOpinion;//观点
     @Bind(R.id.personal_main_page_introduction)
     TextView personalMainPageIntroduction;//个人简介
-
-    protected static final int MSG_START_STREAMING_DISCUSS = 0;
-    protected static final int MSG_START_STREAMING_INTERVIEW = 1;
-
     private PersonalUserHomeEntity data;
     private PageDataSubscriberOnNext<PersonalUserHomeEntity> subscriber;
 
@@ -115,6 +111,21 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     private String interviewContent = null;
 
     private DialogPlus dialogPlus;
+    protected Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_START_STREAMING_DISCUSS:
+                    requestPaymentDiscussDialog();
+                    break;
+                case MSG_START_STREAMING_INTERVIEW:
+                    requestPaymentInterviewDialog();
+                default:
+                    Log.e(TAG, "Invalid message");
+                    break;
+            }
+        }
+    };
 
     public static PersonalMainPageFragment newInstance(int uid) {
         Bundle args = new Bundle();
@@ -203,6 +214,7 @@ public class PersonalMainPageFragment extends BaseBackFragment {
         personalMainPageCompany.setText(data.getCompanyName());//公司
         personalMainPageTrade.setText(data.getIndustryName());//行业
         personalMainPageExperience.setText(data.getExperience());//工作年限
+        personalMainPageIntroduction.setText(data.getDesc());
         Glide.with(mActivity).load(data.getAvatar())//头像
                 .crossFade()
                 .fitCenter()
@@ -211,6 +223,7 @@ public class PersonalMainPageFragment extends BaseBackFragment {
                 .into(personalMainPagePersonalInfo);
 
     }
+
     private void initToolbar() {
 
         toolbar.setTitle(data.getNickname()+"的主页");
@@ -450,21 +463,5 @@ public class PersonalMainPageFragment extends BaseBackFragment {
             }
         });
     }
-
-    protected Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_START_STREAMING_DISCUSS:
-                    requestPaymentDiscussDialog();
-                    break;
-                case MSG_START_STREAMING_INTERVIEW:
-                    requestPaymentInterviewDialog();
-                default:
-                    Log.e(TAG, "Invalid message");
-                    break;
-            }
-        }
-    };
 
 }

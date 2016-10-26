@@ -5,18 +5,18 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <ImageView
+    <android.support.design.widget.CheckableImageButton
         android:id="@+id/itemRecyclerviewInterestedIv"
-        android:src="@mipmap/img_choseone_0101"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:src="@mipmap/img_choseone_0101" />
 
     <TextView
         android:id="@+id/itemRecyclerviewInterestedTv"
-        android:text="知识技能"
-        android:layout_marginTop="@dimen/height_1_80"
-        android:textColor="@color/line"
-        android:textSize="@dimen/text_size_15"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/height_1_80"
+        android:text="知识技能"
+        android:textColor="@color/line"
+        android:textSize="@dimen/text_size_15" />
 </LinearLayout>

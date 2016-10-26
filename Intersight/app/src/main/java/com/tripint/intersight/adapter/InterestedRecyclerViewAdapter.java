@@ -1,6 +1,7 @@
 package com.tripint.intersight.adapter;
 
 import android.content.Context;
+import android.support.design.widget.CheckableImageButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -47,11 +48,11 @@ public class InterestedRecyclerViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        final ViewHolder holder;
         if (convertView == null){
             holder = new ViewHolder();
             convertView= LayoutInflater.from(context).inflate(R.layout.item_gridview_interested, null);
-            holder.itemRecyclerviewInterestedIv = ((ImageView) convertView.findViewById(R.id.itemRecyclerviewInterestedIv));
+            holder.itemRecyclerviewInterestedIv = ((CheckableImageButton) convertView.findViewById(R.id.itemRecyclerviewInterestedIv));
             holder.itemRecyclerviewInterestedTv = ((TextView) convertView.findViewById(R.id.itemRecyclerviewInterestedTv));
 
             convertView.setTag(holder);
@@ -61,12 +62,18 @@ public class InterestedRecyclerViewAdapter extends BaseAdapter {
 
         holder.itemRecyclerviewInterestedIv.setImageResource(interestedDataEntities.get(position).getIcon());
         holder.itemRecyclerviewInterestedTv.setText(interestedDataEntities.get(position).getTrade());
+        holder.itemRecyclerviewInterestedIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.itemRecyclerviewInterestedIv.setChecked(!holder.itemRecyclerviewInterestedIv.isChecked());
+            }
+        });
         return convertView;
     }
 
     class ViewHolder{
 
-        ImageView itemRecyclerviewInterestedIv;
+        CheckableImageButton itemRecyclerviewInterestedIv;
         TextView itemRecyclerviewInterestedTv;
     }
 }

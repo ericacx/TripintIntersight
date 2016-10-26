@@ -32,6 +32,7 @@ import com.tripint.intersight.fragment.personal.PersonalMainPageFragment;
 import com.tripint.intersight.fragment.search.SearchPersonFragment;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
+import com.tripint.intersight.service.HttpRequest;
 import com.tripint.intersight.widget.BannerViewHolder;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
@@ -52,6 +53,7 @@ import butterknife.OnClick;
 public class AskFragment extends BaseLazyMainFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
 
+    private final int PAGE_SIZE = 10;
     @Bind(R.id.toolbar_search_text)
     TextView toolbarSearchText;
     @Bind(R.id.toolbar)
@@ -62,21 +64,12 @@ public class AskFragment extends BaseLazyMainFragment implements BaseQuickAdapte
     ImageView toolbarSearchButton;
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
-
     private AskRecyclerViewAdapter mAdapter;
-
-
     private PageDataSubscriberOnNext<BasePageableResponse<InterviewEntity>> subscriber;
     private PageDataSubscriberOnNext<ArticleBannerEntity> bannerSubscriber;
-
     private BasePageableResponse<InterviewEntity> data = new BasePageableResponse<>();
-
     private LinearLayoutManager linearLayoutManager;
-
     private List<String> networkImages;
-
-    private final int PAGE_SIZE = 10;
-
     private int TOTAL_COUNTER = 0;
 
     private int mCurrentCounter = 0;
@@ -227,11 +220,12 @@ public class AskFragment extends BaseLazyMainFragment implements BaseQuickAdapte
 
     @Override
     public void onRefresh() {
+        mCurrentCounter = 0;
+        DiscussDataHttpRequest.getInstance(mActivity).searchSpecialLists(new ProgressSubscriber(subscriber, mActivity), 1, "", "", "");
 
-        mAdapter.setNewData(data.getLists());
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.removeAllFooterView();
-        mCurrentCounter = PAGE_SIZE;
+
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -244,10 +238,14 @@ public class AskFragment extends BaseLazyMainFragment implements BaseQuickAdapte
                     mAdapter.loadComplete();
 
                 } else {
-                    mAdapter.addData(data.getLists());
-                    mCurrentCounter = mAdapter.getData().size();
+                    DiscussDataHttpRequest.getInstance(mActivity).searchSpecialLists(new ProgressSubscriber(subscriber, mActivity), getCurrentPage(), "", "", "");
+
                 }
             }
         }, 200);
+    }
+
+    public int getCurrentPage() {
+        return mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE + 1;
     }
 }

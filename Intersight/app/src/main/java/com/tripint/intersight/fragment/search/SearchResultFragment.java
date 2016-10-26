@@ -25,13 +25,17 @@ import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemC
 import com.tripint.intersight.entity.SearchArticleEntity;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.discuss.InterviewEntity;
+import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.fragment.personal.PersonalMainPageFragment;
 import com.tripint.intersight.model.MultipleSearchItemModel;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.service.HttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -241,6 +245,8 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
 
                 } else if (entity.getItemType() == MultipleSearchItemModel.INTERVIEW) {
 
+                    EventBus.getDefault().post(new StartFragmentEvent(PersonalMainPageFragment.newInstance(entity.getInterview().getUid())));
+
                 }
 //                EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity.getContent())));
             }
@@ -259,15 +265,16 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
 
     @Override
     public void onRefresh() {
-        if (ARG_SEARCH_TYPE_PERSON == searchType) {
-            mAdapter.setNewData(getMultipleSearchInterViewItemModels(interviews.getLists()));
-        } else {
-            mAdapter.setNewData(getMultipleSearchArticleItemModels(articles.getLists()));
+        mCurrentCounter = 0;
+        if (searchType == ARG_SEARCH_TYPE_PERSON) {
 
+            DiscussDataHttpRequest.getInstance(mActivity).searchSpecialLists(new ProgressSubscriber(searchInterviewSubscriber, mActivity), getCurrentPage(), searchIndustry, searchAbility, "");
+        } else {
+            DiscussDataHttpRequest.getInstance(mActivity).searchArticles(new ProgressSubscriber(searchArticleSubscriber, mActivity), getCurrentPage(), keyword, searchIndustry, searchAbility, sort);
         }
         mAdapter.openLoadMore(HttpRequest.DEFAULT_PAGE_SIZE);
         mAdapter.removeAllFooterView();
-        mCurrentCounter = HttpRequest.DEFAULT_PAGE_SIZE;
+
         mSwipeRefreshLayout.setRefreshing(false);
 
     }
@@ -282,14 +289,12 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
                     mAdapter.loadComplete();
 
                 } else {
-                    if (ARG_SEARCH_TYPE_PERSON == searchType) {
-                        mAdapter.addData(getMultipleSearchInterViewItemModels(interviews.getLists()));
+                    if (searchType == ARG_SEARCH_TYPE_PERSON) {
+
+                        DiscussDataHttpRequest.getInstance(mActivity).searchSpecialLists(new ProgressSubscriber(searchInterviewSubscriber, mActivity), getCurrentPage(), searchIndustry, searchAbility, "");
                     } else {
-                        mAdapter.addData(getMultipleSearchArticleItemModels(articles.getLists()));
-
+                        DiscussDataHttpRequest.getInstance(mActivity).searchArticles(new ProgressSubscriber(searchArticleSubscriber, mActivity), getCurrentPage(), keyword, searchIndustry, searchAbility, sort);
                     }
-
-                    mCurrentCounter = mAdapter.getData().size();
                 }
             }
         }, 200);
@@ -329,9 +334,9 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
 
         if (searchType == ARG_SEARCH_TYPE_PERSON) {
 
-            DiscussDataHttpRequest.getInstance(mActivity).searchSpecialLists(new ProgressSubscriber(searchInterviewSubscriber, mActivity), 1, searchIndustry, searchAbility, "");
+            DiscussDataHttpRequest.getInstance(mActivity).searchSpecialLists(new ProgressSubscriber(searchInterviewSubscriber, mActivity), getCurrentPage(), searchIndustry, searchAbility, "");
         } else {
-            DiscussDataHttpRequest.getInstance(mActivity).searchArticles(new ProgressSubscriber(searchArticleSubscriber, mActivity), mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE, keyword, searchIndustry, searchAbility, sort);
+            DiscussDataHttpRequest.getInstance(mActivity).searchArticles(new ProgressSubscriber(searchArticleSubscriber, mActivity), getCurrentPage(), keyword, searchIndustry, searchAbility, sort);
         }
     }
 
@@ -344,6 +349,9 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
 
     }
 
+    public int getCurrentPage() {
+        return mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE + 1;
+    }
 
     @OnClick({R.id.toolbar_search_button})
     public void onClick(View view) {

@@ -39,9 +39,11 @@ import com.tripint.intersight.entity.discuss.CommentEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.discuss.DiscussDetailEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.payment.AliPayResponseEntity;
 import com.tripint.intersight.entity.payment.WXPayResponseEntity;
 import com.tripint.intersight.entity.user.PaymentEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.helper.AliPayUtils;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.helper.PayUtils;
 import com.tripint.intersight.service.BaseDataHttpRequest;
@@ -61,7 +63,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * A simple {@link Fragment} subclass.
  */
 public class AskAnswerDetailFragment extends BaseBackFragment {
 
@@ -119,7 +120,8 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
     private PageDataSubscriberOnNext<CommentResultEntity> putSubscriber;
 
-    private PageDataSubscriberOnNext<WXPayResponseEntity> paymentSubscriber;
+    private PageDataSubscriberOnNext<WXPayResponseEntity> wxPaySubscriber;
+    private PageDataSubscriberOnNext<AliPayResponseEntity> aliPaySubscriber;
 
     private DiscussDetailEntity data;
 
@@ -285,11 +287,20 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             }
         };
 
-        paymentSubscriber = new PageDataSubscriberOnNext<WXPayResponseEntity>() {
+        wxPaySubscriber = new PageDataSubscriberOnNext<WXPayResponseEntity>() {
             @Override
             public void onNext(WXPayResponseEntity entity) {
                 //接口请求成功后处理,调起微信支付。
                 PayUtils.getInstant().requestWXpay(entity);
+//
+            }
+        };
+
+        aliPaySubscriber = new PageDataSubscriberOnNext<AliPayResponseEntity>() {
+            @Override
+            public void onNext(AliPayResponseEntity entity) {
+                //接口请求成功后处理,调起微信支付。
+                AliPayUtils.getInstant(mActivity).pay(entity);
 //
             }
         };
@@ -364,7 +375,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
                 break;
             case R.id.container_voice_message: //我的关注
-                List<PaymentEntity> paymentEntities = new ArrayList<>();
+                final List<PaymentEntity> paymentEntities = new ArrayList<>();
 
                 paymentEntities.add(new PaymentEntity(1, "支付宝", PaymentDataHttpRequest.TYPE_ALIPAY));
                 paymentEntities.add(new PaymentEntity(2, "微信支付", PaymentDataHttpRequest.TYPE_WXPAY));
@@ -380,14 +391,15 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                         .showCompleteDialog();
                 paymentDialogAdapter.setOnRecyclerViewItemOnClick(new RecyclerViewItemOnClick() {
                     @Override
-                    public void ItemOnClick(int position, Object data) {
-                        PaymentEntity select = (PaymentEntity) data;
+                    public void ItemOnClick(int position, Object itemdata) {
+                        PaymentEntity select = (PaymentEntity) itemdata;
 
                         if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
 
-//                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(paymentSubscriber, mActivity));
+                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), data.getDetail().getId(), data.getDetail().getContent());
                         } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
-//                            AliPayUtils.getInstant(mActivity).pay();
+                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), data.getDetail().getId(), data.getDetail().getContent());
+
                         }
 
                     }

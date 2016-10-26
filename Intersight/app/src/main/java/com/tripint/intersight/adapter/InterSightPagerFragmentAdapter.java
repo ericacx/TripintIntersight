@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.tripint.intersight.fragment.NewsFragment;
-import com.tripint.intersight.fragment.OpinionFragment;
+import com.tripint.intersight.fragment.home.OpinionFragment;
 import com.tripint.intersight.fragment.home.AskAnswerFragment;
 
 

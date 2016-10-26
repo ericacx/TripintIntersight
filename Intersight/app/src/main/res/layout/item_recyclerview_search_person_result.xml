@@ -6,93 +6,92 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:padding="@dimen/spacing"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/spacing">
 
         <ImageView
             android:id="@+id/image_search_person_profile"
-            android:src="@drawable/loading_normal_icon"
-            android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:src="@drawable/loading_normal_icon" />
         <LinearLayout
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="8"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_marginLeft="@dimen/spacing_02"
                 android:layout_height="@dimen/height_3_80"
-                android:gravity="center_vertical">
+                android:layout_marginLeft="@dimen/spacing_02"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:text="Susan"
                     android:id="@+id/text_view_search_person_name"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_12"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="Susan"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_12" />
                 <TextView
+                    android:id="@+id/text_view_search_person_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginLeft="@dimen/spacing"
                     android:text="10+"
                     android:textColor="@color/line"
-                    android:id="@+id/text_view_search_person_year"
-
-                    android:textSize="@dimen/text_size_12"
-                    android:layout_marginLeft="@dimen/spacing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textSize="@dimen/text_size_12" />
 
             </LinearLayout>
 
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_marginLeft="@dimen/spacing_02"
                 android:layout_height="@dimen/height_3_80"
+                android:layout_marginLeft="@dimen/spacing_02"
+                android:orientation="horizontal"
                 >
 
                 <TextView
-                    android:text="销售总监"
                     android:id="@+id/text_view_search_person_job_title"
-
-                    android:textColor="@color/line"
-                    android:textSize="@dimen/text_size_12"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+
+                    android:layout_height="wrap_content"
+                    android:text="销售总监"
+                    android:textColor="@color/line"
+                    android:textSize="@dimen/text_size_12" />
                 <TextView
-                    android:text="巨人网络"
                     android:id="@+id/text_view_search_person_job_pos"
-
-                    android:textColor="@color/line"
-                    android:textSize="@dimen/text_size_12"
-                    android:layout_marginLeft="@dimen/spacing"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:text="巨人网络"
+                    android:textColor="@color/line"
+                    android:textSize="@dimen/text_size_12" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_marginLeft="@dimen/spacing_02"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/height_3_80"
+                android:layout_marginLeft="@dimen/spacing_02"
+                android:orientation="horizontal"
                 >
 
                 <TextView
                     android:id="@+id/text_view_search_person_industry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/spacing"
                     android:text="电子 | 通信 | 硬件"
                     android:textColor="@color/line"
-                    android:textSize="@dimen/text_size_12"
-                    android:layout_marginRight="@dimen/spacing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textSize="@dimen/text_size_12" />
 
             </LinearLayout>
 
@@ -100,11 +99,11 @@
 
 
         <ImageView
-            android:src="@mipmap/iconfont_nextarticle"
-            android:layout_gravity="center_vertical"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:src="@mipmap/iconfont_nextarticle" />
 
     </LinearLayout>
 

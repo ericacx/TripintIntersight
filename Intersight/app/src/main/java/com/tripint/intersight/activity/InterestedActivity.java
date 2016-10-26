@@ -79,8 +79,8 @@ public class InterestedActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        InterestedDataEntity dataEntity1 = new InterestedDataEntity(R.mipmap.img_choseone, "知识技能");
-        InterestedDataEntity dataEntity2 = new InterestedDataEntity(R.mipmap.img_chosetwo, "行业资讯");
+        InterestedDataEntity dataEntity1 = new InterestedDataEntity(R.drawable.btn_selector_choose_one, "知识技能");
+        InterestedDataEntity dataEntity2 = new InterestedDataEntity(R.drawable.btn_selector_choose_two, "行业资讯");
         entityList = new ArrayList<InterestedDataEntity>();
         entityList.add(dataEntity1);
         entityList.add(dataEntity2);

@@ -19,12 +19,8 @@ import rx.Subscriber;
 
 public class DiscussDataHttpRequest extends HttpRequest {
 
-    private final String FLITER_TYPE_INTERVIEWER = "interviewer";
-    private final String FLITER_TYPE_ARTICLES = "articles";
-
     public static final String ACTION_CREATE = "create";
     public static final String ACTION_DELETE = "delete";
-
     public static final String TYPE_COMMENT = "comment";
     public static final String TYPE_SUB_COMMENT = "subcomment";
     public static final String TYPE_PRAISES = "praises";
@@ -32,6 +28,8 @@ public class DiscussDataHttpRequest extends HttpRequest {
     public static final String TYPE_FOLLOW = "follows";
     public static final String TYPE_UNFOLLOW = "unfollows";
     public static final String TYPE_REPORT = "report"; //举报
+    private static DiscussDataHttpRequest instants;
+    private final String FLITER_TYPE_INTERVIEWER = "interviewer";
 //    'action':'create',
 //            'type':'comment',
 //            'content':'评论的内容'
@@ -58,7 +56,7 @@ public class DiscussDataHttpRequest extends HttpRequest {
 //            // 取消关注
 //            'type':'unfollows'
 //            'action':'delete',
-
+private final String FLITER_TYPE_ARTICLES = "articles";
     private DiscussDataService service;
 
     private DiscussDataHttpRequest(Context context) {
@@ -66,9 +64,6 @@ public class DiscussDataHttpRequest extends HttpRequest {
         service = retrofit.create(DiscussDataService.class);
 
     }
-
-    private static DiscussDataHttpRequest instants;
-
 
     public static DiscussDataHttpRequest getInstance(Context context) {
         if (instants == null) {
@@ -83,20 +78,20 @@ public class DiscussDataHttpRequest extends HttpRequest {
      *
      * @param subscriber 由调用者传过来的观察者对象
      * @param tab        0 问答首页接口  1,我关注的问答  2,精选
-     * @param start      起始位置
+     * @param page      起始位置
      * @param count      获取长度
      */
-    public void getDiscusses(Subscriber<BasePageableResponse<DiscussEntiry>> subscriber, int tab, int start, int count) {
+    public void getDiscusses(Subscriber<BasePageableResponse<DiscussEntiry>> subscriber, int tab, int page, int count) {
 
         Observable observable = null;
         if (tab == 0) {
-            observable = service.getDiscuss(start, DEFAULT_PAGE_SIZE)
+            observable = service.getDiscuss(page, DEFAULT_PAGE_SIZE)
                     .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
         } else if (tab == 1) {
-            observable = service.getDiscuss(start, DEFAULT_PAGE_SIZE)
+            observable = service.getDiscuss(page, DEFAULT_PAGE_SIZE)
                     .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
         } else if (tab == 2) {
-            observable = service.getDiscuss(start, DEFAULT_PAGE_SIZE)
+            observable = service.getDiscuss(page, DEFAULT_PAGE_SIZE)
                     .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
         }
 

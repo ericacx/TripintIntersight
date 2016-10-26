@@ -1,21 +1,17 @@
-package com.tripint.intersight.fragment;
+package com.tripint.intersight.fragment.home;
 
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.widget.flipview.FlipView;
 import com.tripint.intersight.common.widget.flipview.OverFlipMode;
-import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.entity.article.ArticlesEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.fragment.flipview.OpinionFlipViewAdapter;
@@ -30,7 +26,7 @@ import butterknife.ButterKnife;
  * 观点(文章)画面
  * A simple {@link Fragment} subclass.
  */
-public class OpinionFragment extends BaseBackFragment{
+public class OpinionFragment extends BaseBackFragment {
 
     @Bind(R.id.opinionFlipView)
     FlipView opinionFlipView;
