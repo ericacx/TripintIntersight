@@ -26,94 +26,29 @@ public class InterviewEntity implements Serializable {
     */
     //列表返回数据
     private int id;
-    private int fromUid;
-    private int status;//状态:0联系中-红色,1访谈成功-白色
-    private String subject;//标题名
+    private int status;//约访,被约访
+    private int custType;//状态:0联系中-红色,1访谈成功-白色
+    private String title;//标题名
     private String description;//内容
-    private int createAt;//时间
-    private String name;
-    private String type;//我的约访,我被约访
+    private String createAt;//时间
+    private String industryName;
 
 
     //访谈或约访页面数据
-    private int code;
-    private int custType;
-    private String nickname;
-    private String avatar;
-    private String companyName;
-    private String abilityName;
-    private String style;//访谈形式
+    private int invitationCode;//邀请码
+    private String userNickname;//姓名
+    private String userAvatar;//头像
+    private String userCompany;//公司
+    private String content;//内容
+    private String userAbility;//职能
+    private String interviewTime;//详情-时间
+    private int customType;//访谈形式
 
-    public int getCode() {
-        return code;
+    public InterviewEntity() {
     }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public int getCustType() {
-        return custType;
-    }
-
-    public void setCustType(int custType) {
-        this.custType = custType;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public String getAbilityName() {
-        return abilityName;
-    }
-
-    public void setAbilityName(String abilityName) {
-        this.abilityName = abilityName;
-    }
-
-    public String getStyle() {
-        return style;
-    }
-
-    public void setStyle(String style) {
-        this.style = style;
-    }
-
-    public int getFromUid() {
-        return fromUid;
-    }
-
-    public void setFromUid(int fromUid) {
-        this.fromUid = fromUid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public InterviewEntity(int id) {
+        this.id = id;
     }
 
     public int getId() {
@@ -132,20 +67,20 @@ public class InterviewEntity implements Serializable {
         this.status = status;
     }
 
-    public String getType() {
-        return type;
+    public int getCustType() {
+        return custType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCustType(int custType) {
+        this.custType = custType;
     }
 
-    public String getSubject() {
-        return subject;
+    public String getTitle() {
+        return title;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -156,11 +91,83 @@ public class InterviewEntity implements Serializable {
         this.description = description;
     }
 
-    public int getCreateAt() {
+    public String getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(int createAt) {
+    public void setCreateAt(String createAt) {
         this.createAt = createAt;
+    }
+
+    public String getIndustryName() {
+        return industryName;
+    }
+
+    public void setIndustryName(String industryName) {
+        this.industryName = industryName;
+    }
+
+    public int getInvitationCode() {
+        return invitationCode;
+    }
+
+    public void setInvitationCode(int invitationCode) {
+        this.invitationCode = invitationCode;
+    }
+
+    public String getUserNickname() {
+        return userNickname;
+    }
+
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
+    }
+
+    public String getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
+    }
+
+    public String getUserCompany() {
+        return userCompany;
+    }
+
+    public void setUserCompany(String userCompany) {
+        this.userCompany = userCompany;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getUserAbility() {
+        return userAbility;
+    }
+
+    public void setUserAbility(String userAbility) {
+        this.userAbility = userAbility;
+    }
+
+    public String getInterviewTime() {
+        return interviewTime;
+    }
+
+    public void setInterviewTime(String interviewTime) {
+        this.interviewTime = interviewTime;
+    }
+
+    public int getCustomType() {
+        return customType;
+    }
+
+    public void setCustomType(int customType) {
+        this.customType = customType;
     }
 }

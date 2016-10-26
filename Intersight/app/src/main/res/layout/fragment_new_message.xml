@@ -13,92 +13,98 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/new_message_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:fadingEdge="none" />
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_corners_grey"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <View
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/new_message_recyclerview"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/line" />
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:fadingEdge="none" />
 
-                <TextView
-                    android:id="@+id/new_message_text_view_interview"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_5_80"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/spacing"
-                    android:drawableLeft="@mipmap/iconfont_fangtan"
-                    android:drawablePadding="@dimen/spacing"
-                    android:drawableRight="@mipmap/iconfont_nextarticle"
-                    android:gravity="left|center_vertical"
-                    android:text="访谈消息"
-                    android:textColor="@color/line" />
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_corners_grey"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/line" />
+
+                    <TextView
+                        android:id="@+id/new_message_text_view_interview"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_5_80"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/spacing"
+                        android:drawableLeft="@mipmap/iconfont_fangtan"
+                        android:drawablePadding="@dimen/spacing"
+                        android:drawableRight="@mipmap/iconfont_nextarticle"
+                        android:gravity="left|center_vertical"
+                        android:text="访谈消息"
+                        android:textColor="@color/line" />
 
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="@dimen/spacing_pad04"
-                    android:layout_marginLeft="@dimen/spacing"
-                    android:layout_marginRight="@dimen/spacing"
-                    android:layout_marginTop="@dimen/spacing_pad04"
-                    android:background="@color/line" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="@dimen/spacing_pad04"
+                        android:layout_marginLeft="@dimen/spacing"
+                        android:layout_marginRight="@dimen/spacing"
+                        android:layout_marginTop="@dimen/spacing_pad04"
+                        android:background="@color/line" />
 
 
-                <TextView
-                    android:id="@+id/new_message_text_view_ask_answer"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_5_80"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/spacing"
-                    android:drawableLeft="@mipmap/iconfont_wenda"
-                    android:drawablePadding="@dimen/spacing"
-                    android:drawableRight="@mipmap/iconfont_nextarticle"
-                    android:gravity="left|center_vertical"
-                    android:text="问答消息"
-                    android:textColor="@color/line" />
+                    <TextView
+                        android:id="@+id/new_message_text_view_ask_answer"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_5_80"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/spacing"
+                        android:drawableLeft="@mipmap/iconfont_wenda"
+                        android:drawablePadding="@dimen/spacing"
+                        android:drawableRight="@mipmap/iconfont_nextarticle"
+                        android:gravity="left|center_vertical"
+                        android:text="问答消息"
+                        android:textColor="@color/line" />
 
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="@dimen/spacing_pad04"
-                    android:layout_marginLeft="@dimen/spacing"
-                    android:layout_marginRight="@dimen/spacing"
-                    android:layout_marginTop="@dimen/spacing_pad04"
-                    android:background="@color/line" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="@dimen/spacing_pad04"
+                        android:layout_marginLeft="@dimen/spacing"
+                        android:layout_marginRight="@dimen/spacing"
+                        android:layout_marginTop="@dimen/spacing_pad04"
+                        android:background="@color/line" />
 
 
-                <TextView
-                    android:id="@+id/new_message_text_view_comment_agree"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_5_80"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/spacing"
-                    android:drawableLeft="@mipmap/iconfont_guandian"
-                    android:drawablePadding="@dimen/spacing"
-                    android:drawableRight="@mipmap/iconfont_nextarticle"
-                    android:gravity="left|center_vertical"
-                    android:text="评论/赞过我的"
-                    android:textColor="@color/line" />
+                    <TextView
+                        android:id="@+id/new_message_text_view_comment_agree"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_5_80"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/spacing"
+                        android:drawableLeft="@mipmap/iconfont_guandian"
+                        android:drawablePadding="@dimen/spacing"
+                        android:drawableRight="@mipmap/iconfont_nextarticle"
+                        android:gravity="left|center_vertical"
+                        android:text="评论/赞过我的"
+                        android:textColor="@color/line" />
 
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        </ScrollView>
+
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

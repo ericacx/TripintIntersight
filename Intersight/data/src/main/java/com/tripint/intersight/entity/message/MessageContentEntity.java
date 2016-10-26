@@ -11,12 +11,16 @@ import java.io.Serializable;
 public class MessageContentEntity implements Serializable {
 
     private int id;
-    private String subject;//标题
-    private int time;
-    private int code;
-    private String nickname;
-    private int createAt;
-    private int state;//3:发起访谈,
+    private int type;//1:访谈,2:问答
+    private int messageType;//1:发起的,2:被邀请的
+    private int status;//1:收到 2:确认 3:完成4:取消
+    private String title;//标题
+    private String interviewDate;//时间
+    private String invitationCode;
+    private int userId;
+    private String createAt;//创建时间
+    private String userNickname;//姓名
+    private int itemId;
 
     public int getId() {
         return id;
@@ -26,51 +30,83 @@ public class MessageContentEntity implements Serializable {
         this.id = id;
     }
 
-    public String getSubject() {
-        return subject;
+    public int getType() {
+        return type;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setType(int type) {
+        this.type = type;
     }
 
-    public int getTime() {
-        return time;
+    public int getMessageType() {
+        return messageType;
     }
 
-    public void setTime(int time) {
-        this.time = time;
+    public void setMessageType(int messageType) {
+        this.messageType = messageType;
     }
 
-    public int getCode() {
-        return code;
+    public int getStatus() {
+        return status;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getTitle() {
+        return title;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public int getCreateAt() {
+    public String getInterviewDate() {
+        return interviewDate;
+    }
+
+    public void setInterviewDate(String interviewDate) {
+        this.interviewDate = interviewDate;
+    }
+
+    public String getInvitationCode() {
+        return invitationCode;
+    }
+
+    public void setInvitationCode(String invitationCode) {
+        this.invitationCode = invitationCode;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(int createAt) {
+    public void setCreateAt(String createAt) {
         this.createAt = createAt;
     }
 
-    public int getState() {
-        return state;
+    public String getUserNickname() {
+        return userNickname;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
+    }
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 }

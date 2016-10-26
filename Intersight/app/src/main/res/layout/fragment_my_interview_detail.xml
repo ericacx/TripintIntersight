@@ -1,246 +1,305 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/background_default"
-    android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context="com.tripint.intersight.fragment.mine.MyInterviewDetailFragment">
 
     <include layout="@layout/toolbar" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="@dimen/width_18_80"
-                android:layout_height="wrap_content"
-                android:text="访谈状态:"
-                android:textSize="@dimen/text_size_14"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/my_interview_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spacing"
-                android:text="联系中"
-                android:textSize="@dimen/text_size_14"
-                android:textColor="@color/line" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="@dimen/width_18_80"
-                android:layout_height="wrap_content"
-                android:text="访谈形式:"
-                android:textSize="@dimen/text_size_14"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/my_interview_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spacing"
-                android:textSize="@dimen/text_size_14"
-                android:textColor="@color/line" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="@dimen/width_18_80"
-                android:layout_height="wrap_content"
-                android:text="会议邀请码:"
-                android:textSize="@dimen/text_size_14"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/my_interview_code"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spacing"
-                android:textSize="@dimen/text_size_14"
-                android:textColor="@color/line" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="@dimen/width_18_80"
-                android:layout_height="wrap_content"
-                android:text="访谈时间:"
-                android:textSize="@dimen/text_size_14"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/my_interview_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spacing"
-                android:textSize="@dimen/text_size_14"
-                android:textColor="@color/line" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing"
-            android:background="@drawable/bg_corners_text"
-            android:orientation="vertical"
-            android:padding="@dimen/spacing">
-
-            <TextView
-                android:id="@+id/my_interview_head"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_14" />
-
-            <TextView
-                android:id="@+id/my_interview_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/line"
-                android:textSize="@dimen/text_size_14" />
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing">
-
-                <TextView
-                    android:id="@+id/my_interview_people"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:text="受访者:"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_14" />
-
-                <TextView
-                    android:id="@+id/my_interview_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/my_interview_people"
-                    android:layout_marginLeft="@dimen/spacing"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_14" />
-
-                <TextView
-                    android:id="@+id/my_interview_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/my_interview_name"
-                    android:layout_marginLeft="@dimen/spacing"
-                    android:textColor="@color/line"
-                    android:textSize="@dimen/text_size_14" />
-
-                <TextView
-                    android:id="@+id/my_interview_company"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/my_interview_title"
-                    android:layout_alignLeft="@id/my_interview_name"
-                    android:textColor="@color/line"
-                    android:textSize="@dimen/text_size_14" />
-            </RelativeLayout>
-
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="@dimen/spacing_02"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:id="@+id/my_interview_detail_look"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:gravity="center_vertical"
-                android:text="查看评论"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_14" />
-
-            <Button
-                android:id="@+id/my_interview_detail_kefu"
-                android:layout_width="wrap_content"
-                android:layout_height="31dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/btn_shape1"
-                android:gravity="center"
-                android:text="联系客服"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_14" />
-
-            <Button
-                android:id="@+id/my_interview_detail_twiceInterview"
-                android:layout_width="wrap_content"
-                android:layout_height="31dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/my_interview_detail_kefu"
-                android:background="@drawable/btn_shape_blue"
-                android:gravity="center"
-                android:text="再次约访"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_14" />
-
-            <Button
-                android:id="@+id/my_interview_detail_ask"
-                android:layout_width="wrap_content"
-                android:layout_height="31dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/my_interview_detail_twiceInterview"
-                android:background="@drawable/btn_shape_blue"
-                android:gravity="center"
-                android:text="向他提问"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_14" />
-
-        </RelativeLayout>
-    </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/my_interview_detail_recyclerView"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_corners_grey" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_marginRight="@dimen/spacing"
+                android:layout_marginBottom="@dimen/spacing"
+                android:layout_marginTop="?attr/actionBarSize"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/width_18_80"
+                        android:layout_height="wrap_content"
+                        android:text="访谈状态:"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <TextView
+                        android:id="@+id/my_interview_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing"
+                        android:text="联系中"
+                        android:textColor="@color/line"
+                        android:textSize="@dimen/text_size_14" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/width_18_80"
+                        android:layout_height="wrap_content"
+                        android:text="访谈形式:"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <TextView
+                        android:id="@+id/my_interview_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing"
+                        android:textColor="@color/line"
+                        android:textSize="@dimen/text_size_14" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/width_18_80"
+                        android:layout_height="wrap_content"
+                        android:text="会议邀请码:"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <TextView
+                        android:id="@+id/my_interview_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing"
+                        android:textColor="@color/line"
+                        android:textSize="@dimen/text_size_14" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/width_18_80"
+                        android:layout_height="wrap_content"
+                        android:text="访谈时间:"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <TextView
+                        android:id="@+id/my_interview_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing"
+                        android:textColor="@color/line"
+                        android:textSize="@dimen/text_size_14" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing"
+                    android:background="@drawable/bg_corners_text"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing">
+
+                    <TextView
+                        android:id="@+id/my_interview_head"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <TextView
+                        android:id="@+id/my_interview_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/line"
+                        android:textSize="@dimen/text_size_14" />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing">
+
+                        <TextView
+                            android:id="@+id/my_interview_people"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:text="受访者:"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_14" />
+
+                        <TextView
+                            android:id="@+id/my_interview_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/spacing"
+                            android:layout_toRightOf="@id/my_interview_people"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_14" />
+
+                        <TextView
+                            android:id="@+id/my_interview_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/spacing"
+                            android:layout_toRightOf="@id/my_interview_name"
+                            android:textColor="@color/line"
+                            android:textSize="@dimen/text_size_14" />
+
+                        <TextView
+                            android:id="@+id/my_interview_company"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@id/my_interview_name"
+                            android:layout_below="@id/my_interview_title"
+                            android:textColor="@color/line"
+                            android:textSize="@dimen/text_size_14" />
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="@dimen/spacing_02"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/my_interview_detail_look"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:text="查看评论"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <Button
+                        android:id="@+id/my_interview_detail_kefu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="31dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/btn_shape1"
+                        android:gravity="center"
+                        android:text="联系客服"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <Button
+                        android:id="@+id/my_interview_detail_twiceInterview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="31dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        android:layout_toLeftOf="@id/my_interview_detail_kefu"
+                        android:background="@drawable/btn_shape_blue"
+                        android:gravity="center"
+                        android:text="再次约访"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <Button
+                        android:id="@+id/my_interview_detail_ask"
+                        android:layout_width="wrap_content"
+                        android:layout_height="31dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        android:layout_toLeftOf="@id/my_interview_detail_twiceInterview"
+                        android:background="@drawable/btn_shape_blue"
+                        android:gravity="center"
+                        android:text="向他提问"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_14" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/my_interview_detail_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fadingEdge="none"
+                android:background="@drawable/bg_corners_grey" />
+
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:id="@+id/user_replay_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_7_80"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@color/colorToolbarPrimary"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/spacing"
+        android:paddingRight="@dimen/spacing"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/text_view_comment_submit"
+            android:layout_width="@dimen/width_8_80"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/spacing"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="发送"
+            android:textColor="@color/text_colors_white" />
+
+        <EditText
+            android:id="@+id/edit_user_comment_replay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_margin="@dimen/spacing"
+            android:layout_toLeftOf="@id/text_view_comment_submit"
+            android:background="@drawable/btn_shape_corner"
+            android:hint="我也说两句"
+            android:padding="@dimen/spacing"
+            android:textColor="@color/text_colors_black_light"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/text_size_12" />
+    </RelativeLayout>
+
+</RelativeLayout>

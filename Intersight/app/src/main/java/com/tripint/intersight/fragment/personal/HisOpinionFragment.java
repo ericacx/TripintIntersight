@@ -68,6 +68,7 @@ import butterknife.OnClick;
 public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
 
     public static final String ARG_USER_ID = "arg_user_id";
+    public static final String ARG_USER_NAME = "arg_user_name";
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -104,6 +105,7 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
 
     private int tab;
     private int uid = 0;
+    private String name = null;
 
     private CreateDiscussResponseEntity createDiscussResponseEntity;
     private CreateInterviewResponseEntity createInterviewResponseEntity;
@@ -120,10 +122,11 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
     protected static final int MSG_START_STREAMING_DISCUSS = 0;
     protected static final int MSG_START_STREAMING_INTERVIEW = 1;
 
-    public static HisOpinionFragment newInstance(int uid) {
+    public static HisOpinionFragment newInstance(int uid,String nickname) {
         // Required empty public constructor
         Bundle args = new Bundle();
         args.putInt(ARG_USER_ID, uid);
+        args.putString(ARG_USER_NAME,nickname);
         HisOpinionFragment fragment = new HisOpinionFragment();
         fragment.setArguments(args);
         return fragment;
@@ -135,6 +138,7 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
         Bundle bundle = getArguments();
         if (bundle != null) {
             uid = bundle.getInt(ARG_USER_ID);
+            name = bundle.getString(ARG_USER_NAME);
         }
     }
 
@@ -151,7 +155,7 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
 
     private void initToolbar() {
         initToolbarNav(toolbar);
-        toolbar.setTitle("他的观点");
+        toolbar.setTitle(name+"的观点");
     }
 
 
@@ -214,7 +218,7 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
             }
         };
 
-        ExpertDataHttpRequest.getInstance(mActivity).getHisFollowPoint(new ProgressSubscriber(subscriber, mActivity), type, 26,1);
+        ExpertDataHttpRequest.getInstance(mActivity).getHisFollowPoint(new ProgressSubscriber(subscriber, mActivity), type, uid,1);
     }
 
 

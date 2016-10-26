@@ -8,13 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.tripint.intersight.R;
+import com.tripint.intersight.entity.mine.UserHomeEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.service.MineDataHttpRequest;
+import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
+import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -28,6 +33,7 @@ import butterknife.OnClick;
  */
 public class AccountInfoFragment extends BaseBackFragment {
 
+    ListView listView;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -58,6 +64,10 @@ public class AccountInfoFragment extends BaseBackFragment {
     @Bind(R.id.account_info_linkedin_switch)
     Switch accountInfoLinkedinSwitch;
 
+    private PageDataSubscriberOnNext<UserHomeEntity> subscriber;
+
+    private UserHomeEntity data;
+
     public static AccountInfoFragment newInstance() {
         Bundle args = new Bundle();
         AccountInfoFragment fragment = new AccountInfoFragment();
@@ -74,8 +84,30 @@ public class AccountInfoFragment extends BaseBackFragment {
         ButterKnife.bind(this, view);
         initToolbarNav(toolbar);
         toolbar.setTitle("帐号信息");
+        httpRequestData();
         return view;
     }
+
+
+    private void httpRequestData() {
+        subscriber = new PageDataSubscriberOnNext<UserHomeEntity>() {
+            @Override
+            public void onNext(UserHomeEntity entity) {
+                //接口请求成功后处理
+                data = entity;
+                initView(null);
+
+            }
+        };
+
+        MineDataHttpRequest.getInstance(mActivity).getUserHome(new ProgressSubscriber(subscriber, mActivity));
+    }
+
+    private void initView(View view) {
+        accountInfoTextviewPhone.setText(data.getMobile());
+        accountInfoTextviewEmail.setText(data.getEmail());
+    }
+
 
     @Override
     public void onDestroyView() {
@@ -88,10 +120,10 @@ public class AccountInfoFragment extends BaseBackFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.account_info_phone://绑定手机
-                EventBus.getDefault().post(new StartFragmentEvent(BindPhoneFragment.newInstance()));
+//                EventBus.getDefault().post(new StartFragmentEvent(BindPhoneFragment.newInstance()));
                 break;
             case R.id.account_info_email://绑定邮箱
-                EventBus.getDefault().post(new StartFragmentEvent(BindEmailFragment.newInstance()));
+//                EventBus.getDefault().post(new StartFragmentEvent(BindEmailFragment.newInstance()));
                 break;
             case R.id.account_info_password://修改密码
                 EventBus.getDefault().post(new StartFragmentEvent(ModifyPasswordFragment.newInstance()));
@@ -102,4 +134,6 @@ public class AccountInfoFragment extends BaseBackFragment {
                 break;
         }
     }
+
+
 }

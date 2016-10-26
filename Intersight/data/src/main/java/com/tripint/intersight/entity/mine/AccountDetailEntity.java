@@ -12,10 +12,11 @@ public class AccountDetailEntity implements Serializable {
 
     private int id;
     private String title;//标题
-    private String amountTotal;//金额数
-    private int payLastTime;//时间
-    private int type;//类型:0回答,1提问 2约访 3充值
-    private int status;//状态:0等待对方回答 1:等待访谈完成 2 没有东西
+    private int totalMoney;//金额数
+    private String createAt;//时间
+    private int type;//类型:1回答,2提问 3约访
+    private int status;//状态:1等待对方回答 2:等待访谈完成 3 没有东西
+    private int moneyType;//1:支出 2:收入
 
     public int getId() {
         return id;
@@ -33,20 +34,20 @@ public class AccountDetailEntity implements Serializable {
         this.title = title;
     }
 
-    public String getAmountTotal() {
-        return amountTotal;
+    public int getTotalMoney() {
+        return totalMoney;
     }
 
-    public void setAmountTotal(String amountTotal) {
-        this.amountTotal = amountTotal;
+    public void setTotalMoney(int totalMoney) {
+        this.totalMoney = totalMoney;
     }
 
-    public int getPayLastTime() {
-        return payLastTime;
+    public String getCreateAt() {
+        return createAt;
     }
 
-    public void setPayLastTime(int payLastTime) {
-        this.payLastTime = payLastTime;
+    public void setCreateAt(String createAt) {
+        this.createAt = createAt;
     }
 
     public int getType() {
@@ -63,5 +64,13 @@ public class AccountDetailEntity implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getMoneyType() {
+        return moneyType;
+    }
+
+    public void setMoneyType(int moneyType) {
+        this.moneyType = moneyType;
     }
 }

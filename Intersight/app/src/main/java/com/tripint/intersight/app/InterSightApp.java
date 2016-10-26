@@ -285,16 +285,25 @@ public class InterSightApp extends Application {
                 Intent intent = new Intent();
                 intent.setClass(InterSightApp.this, MainActivity.class);
                 Bundle bundle = new Bundle();
-                if (StringUtils.equals(msgType, "interview")) {
 
-                } else if (StringUtils.equals(msgType, MainActivity.CONTENT_FRAGMENT_NAME_DISCUSS)) {
+                if (StringUtils.equals(msgType, MainActivity.INTERVIEW_CONTENT_FRAGMENT_NAME_INTERVIEW)) {//访谈消息
                     bundle.putString(MainActivity.CONTENT_FRAGMENT_NAME, msgType);
                     bundle.putString(MainActivity.CONTENT_FRAGMENT_PARAM_ID, paramId);
                     intent.putExtras(bundle);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                } else if (StringUtils.equals(msgType, "comment")) {
-
+                } else if (StringUtils.equals(msgType, MainActivity.DISCUSS_CONTENT_FRAGMENT_NAME_DISCUSS)) {//问答消息
+                    bundle.putString(MainActivity.CONTENT_FRAGMENT_NAME, msgType);
+                    bundle.putString(MainActivity.CONTENT_FRAGMENT_PARAM_ID, paramId);
+                    intent.putExtras(bundle);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                } else if (StringUtils.equals(msgType, MainActivity.COMMENT_CONTENT_FRAGMENT_NAME_COMMENT)) {//评论或赞消息
+                    bundle.putString(MainActivity.CONTENT_FRAGMENT_NAME, msgType);
+                    bundle.putString(MainActivity.CONTENT_FRAGMENT_PARAM_ID, paramId);
+                    intent.putExtras(bundle);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else if (StringUtils.equals(msgType, "system")) {
 
                 }

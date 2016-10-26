@@ -73,21 +73,33 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/focus_ll"
         android:orientation="horizontal"
         android:layout_width="0dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/bg_btn_shape_gray"
+        android:background="@drawable/bg_btn_shape_blue"
         android:layout_height="30dp"
+        android:gravity="center"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         android:layout_weight="2">
 
+        <ImageView
+            android:id="@+id/focus_image_icon"
+            android:src="@mipmap/iconfont_wgz"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <TextView
+            android:id="@+id/focus_textView_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
             android:textSize="@dimen/text_size_12"
-
-            android:drawableLeft="@mipmap/iconfont_mima"
-            android:text="已关注" />
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:text="关注" />
 
     </LinearLayout>
 

@@ -79,10 +79,10 @@
 
             <TextView
                 android:id="@+id/opinion_flipview_three_agreeNum"
-                android:layout_width="@dimen/width_15_80"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/height_4_80"
                 android:gravity="center_vertical"
-                android:drawableLeft="@mipmap/iconfont_mima"
+                android:drawableLeft="@mipmap/iconfont_zan01"
                 android:drawablePadding="@dimen/spacing"
                 android:layout_marginLeft="@dimen/spacing"
                 android:text="285"
@@ -90,23 +90,23 @@
 
             <TextView
                 android:id="@+id/opinion_flipview_three_talkNum"
-                android:layout_width="@dimen/width_15_80"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/height_4_80"
                 android:gravity="center_vertical"
                 android:drawablePadding="@dimen/spacing"
                 android:layout_marginLeft="@dimen/spacing"
-                android:drawableLeft="@mipmap/iconfont_mima"
+                android:drawableLeft="@mipmap/iconfont_heartbig01"
                 android:text="5"
                 android:textColor="@color/line" />
 
             <TextView
                 android:id="@+id/opinion_flipview_three_report"
-                android:layout_width="@dimen/width_15_80"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/height_4_80"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="@dimen/spacing"
                 android:drawablePadding="@dimen/spacing"
-                android:drawableLeft="@mipmap/iconfont_mima"
+                android:drawableLeft="@mipmap/iconfont_jubao"
                 />
 
         </LinearLayout>

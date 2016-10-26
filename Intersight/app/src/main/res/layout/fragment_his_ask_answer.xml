@@ -82,7 +82,7 @@
                     android:paddingLeft="@dimen/spacing_01"
                     android:paddingRight="@dimen/spacing_01"
                     android:paddingTop="@dimen/spacing_pad"
-                    android:text="他的观点"
+                    android:text="他的问答"
                     android:textColor="@color/grey_100" />
 
                 <TextView
@@ -97,7 +97,7 @@
                     android:paddingLeft="@dimen/spacing_01"
                     android:paddingRight="@dimen/spacing_01"
                     android:paddingTop="@dimen/spacing_pad"
-                    android:text="他关注的观点"
+                    android:text="他关注的问答"
                     android:textColor="@color/grey_100" />
 
             </LinearLayout>

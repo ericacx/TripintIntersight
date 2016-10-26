@@ -13,7 +13,7 @@ import java.util.List;
 public class InterviewDetailEntity implements Serializable {
 
     private InterviewEntity interview;
-    private List<CommentEntity> lists;
+    private List<CommentEntity> comments;
 
 
     public InterviewEntity getInterview() {
@@ -24,11 +24,11 @@ public class InterviewDetailEntity implements Serializable {
         this.interview = interview;
     }
 
-    public List<CommentEntity> getLists() {
-        return lists;
+    public List<CommentEntity> getComments() {
+        return comments;
     }
 
-    public void setLists(List<CommentEntity> lists) {
-        this.lists = lists;
+    public void setComments(List<CommentEntity> comments) {
+        this.comments = comments;
     }
 }

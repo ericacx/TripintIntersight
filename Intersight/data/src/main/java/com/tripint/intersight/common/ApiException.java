@@ -10,7 +10,7 @@ public class ApiException extends RuntimeException {
     public static final int INTER_MAIN = 102;
     public static final int INPUT_REEOR = 406;
     public static final int INPUT_EMAIL_REEOR = 4006;
-    public static final int REGISTER_USER_EXIST = 409;
+    public static final int REGISTER_USER_EXIST = 4009;
 
 
 
@@ -40,7 +40,7 @@ public class ApiException extends RuntimeException {
             case INTER_MAIN://102
                 message = "进入主页";
                 break;
-            case REGISTER_USER_EXIST://409
+            case REGISTER_USER_EXIST://4009
                 message = "用户已经注册";
                 break;
             case INPUT_REEOR://406

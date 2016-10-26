@@ -19,12 +19,17 @@ import com.tripint.intersight.adapter.MineCommonMultipleAdapter;
 import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
+import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.mine.AskAnswerEntity;
+import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.fragment.home.AskAnswerDetailFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
 import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;

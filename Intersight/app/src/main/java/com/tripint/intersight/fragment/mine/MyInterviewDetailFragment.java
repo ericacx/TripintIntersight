@@ -19,15 +19,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.AskAnswerPageDetailCommentAdapter;
 import com.tripint.intersight.adapter.PaymentSelectAdapter;
 import com.tripint.intersight.adapter.listener.RecyclerViewItemOnClick;
 import com.tripint.intersight.common.utils.DialogPlusUtils;
+import com.tripint.intersight.common.utils.KeyboardUtils;
+import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
 import com.tripint.intersight.common.widget.dialogplus.ListHolder;
@@ -36,6 +38,7 @@ import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
 import com.tripint.intersight.entity.PersonalUserInfoEntity;
 import com.tripint.intersight.entity.discuss.CommentEntity;
+import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.discuss.CreateDiscussResponseEntity;
 import com.tripint.intersight.entity.discuss.CreateInterviewResponseEntity;
 import com.tripint.intersight.entity.mine.InterviewDetailEntity;
@@ -45,12 +48,11 @@ import com.tripint.intersight.entity.payment.WXPayResponseEntity;
 import com.tripint.intersight.entity.user.PaymentEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.helper.AliPayUtils;
+import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.helper.PayUtils;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.service.PaymentDataHttpRequest;
-import com.tripint.intersight.widget.image.CircleImageView;
-import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
@@ -104,6 +106,12 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
     Button myInterviewDetailAsk;
     @Bind(R.id.my_interview_detail_recyclerView)
     RecyclerView myInterviewDetailRecyclerView;
+    @Bind(R.id.text_view_comment_submit)
+    TextView textViewCommentSubmit;
+    @Bind(R.id.edit_user_comment_replay)
+    EditText editUserCommentReplay;
+    @Bind(R.id.user_replay_container)
+    RelativeLayout userReplayContainer;
 
     private int mInterviewId;
 
@@ -125,6 +133,12 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
 
     protected static final int MSG_START_STREAMING_DISCUSS = 0;
     protected static final int MSG_START_STREAMING_INTERVIEW = 1;
+
+    private String currentAction = "";
+
+    private CommentEntity currentSubCommentEntity; //创建子摩评论
+
+    private PageDataSubscriberOnNext<CommentResultEntity> putSubscriber;
 
     private AskAnswerPageDetailCommentAdapter mAdapter;
 
@@ -208,57 +222,50 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
 
     private void initView(View view) {
         if (data.getInterview() != null) {
-//            if ("我被约访".equals(data.getInterview().getType())) {
-//                toolbar.setTitle(data.getInterview().getType());
-//                myInterviewPeople.setText("约访人");
-//                myInterviewDetailTwiceInterview.setVisibility(View.GONE);
-//            } else if ("我的约访".equals(data.getInterview().getType())) {
-//                toolbar.setTitle(data.getInterview().getType());
-//                myInterviewPeople.setText("受访者");
-//                myInterviewDetailTwiceInterview.setVisibility(View.VISIBLE);
-//            }
 
-            if (data.getInterview().getCustType() == 0){
-                Log.e("myInterview", String.valueOf(data.getInterview().getCustType()));
+            if (data.getInterview().getStatus() == 1) {
                 toolbar.setTitle("我的约访");
                 myInterviewPeople.setText("受访者:");
                 myInterviewDetailTwiceInterview.setVisibility(View.VISIBLE);
-            }else if (data.getInterview().getCustType() == 1){
+            } else if (data.getInterview().getStatus() == 2) {
                 toolbar.setTitle("我被约访");
                 myInterviewPeople.setText("约访人:");
                 myInterviewDetailTwiceInterview.setVisibility(View.GONE);
             }
-            
-            if (data.getInterview().getStatus() == 0) {
+
+            if (data.getInterview().getCustType() == 1) {
                 myInterviewStatus.setText("联系中");
                 myInterviewStatus.setTextColor(Color.RED);
-            } else if (data.getInterview().getStatus() == 1) {
+            } else if (data.getInterview().getCustType() == 2) {
                 myInterviewStatus.setText("访谈成功");
                 myInterviewStatus.setTextColor(Color.WHITE);
             }
-            myInterviewType.setText(data.getInterview().getStyle());//访谈形式
-            myInterviewCode.setText(data.getInterview().getCode() + "");//会议邀请码
-            Date date = new Date(data.getInterview().getCreateAt());
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
-            String time = simpleDateFormat.format(date);
 
-            myInterviewTime.setText(time);//访谈时间
+            if (data.getInterview().getCustomType() == 1) {
+                myInterviewType.setText("电话访谈");
+            } else if (data.getInterview().getCustomType() == 2) {
+                myInterviewType.setText("面谈");
+            }
+            myInterviewCode.setText(data.getInterview().getInvitationCode() + "");//会议邀请码
+            myInterviewTime.setText(data.getInterview().getInterviewTime());//访谈时间
 
-            myInterviewHead.setText(data.getInterview().getSubject());//标题
-            myInterviewContent.setText(data.getInterview().getDescription());//内容
-            myInterviewName.setText(data.getInterview().getNickname());//姓名
-            myInterviewCompany.setText(data.getInterview().getCompanyName());//公司名
-            myInterviewTitle.setText(data.getInterview().getAbilityName());//职位
+            myInterviewHead.setText(data.getInterview().getTitle());//标题
+            myInterviewContent.setText(data.getInterview().getContent());//内容
+            myInterviewName.setText(data.getInterview().getUserNickname());//姓名
+            myInterviewCompany.setText(data.getInterview().getUserCompany());//公司名
+            myInterviewTitle.setText(data.getInterview().getUserAbility());//职位
 
         }
         initToolbarNav(toolbar);
         initToolbarMenu(toolbar);
+
+        inithttpPutRequestData();
     }
 
     private void initCommentAdapter() {
 
 
-        mAdapter = new AskAnswerPageDetailCommentAdapter(data.getLists());
+        mAdapter = new AskAnswerPageDetailCommentAdapter(data.getComments());
         final LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
         mAdapter.openLoadAnimation();
         myInterviewDetailRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
@@ -270,8 +277,10 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
                     case R.id.image_ask_profile:
                         content = "img:" + status.getContent();
                         break;
-                    case R.id.textView_item_ask_title:
+                    case R.id.textView_item_ask_action:
+                        currentSubCommentEntity = status;
                         content = "name:" + status.getCreateAt();
+                        KeyboardUtils.showSoftInput(mActivity, editUserCommentReplay);
                         break;
                 }
                 Toast.makeText(getActivity(), content, Toast.LENGTH_LONG).show();
@@ -280,6 +289,7 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
 
         myInterviewDetailRecyclerView.setLayoutManager(layoutManager);
         myInterviewDetailRecyclerView.setAdapter(mAdapter);
+
     }
 
     @Override
@@ -293,22 +303,32 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
         switch (view.getId()) {
             case R.id.my_interview_detail_look:
                 break;
-            case R.id.my_interview_detail_kefu:
+            case R.id.my_interview_detail_kefu://客服
+                initKefuDialog();
                 break;
-            case R.id.my_interview_detail_twiceInterview:
+            case R.id.my_interview_detail_twiceInterview://再次约访
                 initInterviewDialog();
                 break;
-            case R.id.my_interview_detail_ask:
+            case R.id.my_interview_detail_ask://向他提问
                 initAskDialog();
                 break;
         }
     }
 
+    /**
+     * 联系客服
+     */
+    private void initKefuDialog() {
+//        dialogPlus = DialogPlusUtils.Builder(mActivity)
+//                .setHolder()
+//                .setTitleName("联系客服")
+//                .
+    }
 
     /**
      * 向他提问
      */
-    private void initAskDialog(){
+    private void initAskDialog() {
         dialogPlus = DialogPlusUtils.Builder(mActivity)
                 .setHolder(DialogPlusUtils.VIEW, new ViewHolder(R.layout.question_layout))
                 .setTitleName("请输入您的问题")
@@ -329,8 +349,8 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
 
                         EditText editText = ((EditText) dialog.findViewById(R.id.dialog_question_edit));
                         discussContent = editText.getText().toString().trim();
-                        if (TextUtils.isEmpty(editText.getText().toString().trim())){
-                            ToastUtil.showToast(mActivity,"输入的内容不能为空");
+                        if (TextUtils.isEmpty(editText.getText().toString().trim())) {
+                            ToastUtil.showToast(mActivity, "输入的内容不能为空");
                         } else {
                             DiscussDataHttpRequest.getInstance(mActivity).createDiscusses(
                                     new ProgressSubscriber(subscriberDiscussCode, mActivity)
@@ -343,6 +363,7 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
                 .setGravity(Gravity.BOTTOM)
                 .showCompleteDialog();
     }
+
     /**
      * 约他访谈
      */
@@ -370,27 +391,27 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
                         EditText company = ((EditText) dialog.findViewById(R.id.dialog_interview_company));
                         EditText theme = ((EditText) dialog.findViewById(R.id.dialog_interview_theme));
                         EditText editor = ((EditText) dialog.findViewById(R.id.dialog_interview_edit));
-                        if (TextUtils.isEmpty(nickname.getText().toString().trim())){
-                            ToastUtil.showToast(mActivity,"输入的姓名不能为空");
-                        } else if (TextUtils.isEmpty(email.getText().toString().trim())){
-                            ToastUtil.showToast(mActivity,"输入的邮箱不能为空");
-                        }else if (phone.getText().toString().trim().length() != 11){
-                            ToastUtil.showToast(mActivity,"输入的手机不正确");
-                        }else if (TextUtils.isEmpty(company.getText().toString().trim())){
-                            ToastUtil.showToast(mActivity,"输入的公司不能为空");
-                        }else if (TextUtils.isEmpty(theme.getText().toString().trim())){
-                            ToastUtil.showToast(mActivity,"输入的主题不能为空");
-                        }else if (TextUtils.isEmpty(editor.getText().toString().trim())){
-                            ToastUtil.showToast(mActivity,"输入的提纲不能为空");
-                        }else {
+                        if (TextUtils.isEmpty(nickname.getText().toString().trim())) {
+                            ToastUtil.showToast(mActivity, "输入的姓名不能为空");
+                        } else if (TextUtils.isEmpty(email.getText().toString().trim())) {
+                            ToastUtil.showToast(mActivity, "输入的邮箱不能为空");
+                        } else if (phone.getText().toString().trim().length() != 11) {
+                            ToastUtil.showToast(mActivity, "输入的手机不正确");
+                        } else if (TextUtils.isEmpty(company.getText().toString().trim())) {
+                            ToastUtil.showToast(mActivity, "输入的公司不能为空");
+                        } else if (TextUtils.isEmpty(theme.getText().toString().trim())) {
+                            ToastUtil.showToast(mActivity, "输入的主题不能为空");
+                        } else if (TextUtils.isEmpty(editor.getText().toString().trim())) {
+                            ToastUtil.showToast(mActivity, "输入的提纲不能为空");
+                        } else {
                             PersonalUserInfoEntity personalUserInfoEntity = new PersonalUserInfoEntity(
-                                    mInterviewId,nickname.getText().toString().trim(),company.getText().toString().trim(),
-                                    phone.getText().toString().trim(),email.getText().toString().trim(),
-                                    theme.getText().toString().trim(),editor.getText().toString().trim()
+                                    mInterviewId, nickname.getText().toString().trim(), company.getText().toString().trim(),
+                                    phone.getText().toString().trim(), email.getText().toString().trim(),
+                                    theme.getText().toString().trim(), editor.getText().toString().trim()
                             );
                             MineDataHttpRequest.getInstance(mActivity).postOtherInterview(
                                     new ProgressSubscriber(subscriberInterviewCode, mActivity)
-                                    ,personalUserInfoEntity
+                                    , personalUserInfoEntity
                             );
                             dialog.dismiss();
                         }
@@ -509,4 +530,48 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
             }
         }
     };
+
+
+
+    private void inithttpPutRequestData() {
+        putSubscriber = new PageDataSubscriberOnNext<CommentResultEntity>() {
+            @Override
+            public void onNext(CommentResultEntity entity) {
+                switch (currentAction) {
+
+                    case DiscussDataHttpRequest.TYPE_COMMENT: //行业领域
+                        CommonUtils.showToast("提交成功");
+                        editUserCommentReplay.setText("");
+                        break;
+                    case DiscussDataHttpRequest.TYPE_SUB_COMMENT: //行业领域
+                        CommonUtils.showToast("提交成功");
+                        editUserCommentReplay.setText("");
+                        break;
+                }
+            }
+        };
+
+
+    }
+
+    @OnClick(R.id.text_view_comment_submit)
+    public void onClick() {
+        if (currentSubCommentEntity == null) {
+            currentAction = DiscussDataHttpRequest.TYPE_SUB_COMMENT;
+        } else {
+            currentAction = DiscussDataHttpRequest.TYPE_COMMENT;
+        }
+        String content = editUserCommentReplay.getText().toString();
+        if (StringUtils.isEmpty(content)) {
+            CommonUtils.showToast("点评内容不能为空");
+        } else {
+            if (currentSubCommentEntity == null) {
+                DiscussDataHttpRequest.getInstance(mActivity).createComment(new ProgressSubscriber(putSubscriber, mActivity), mInterviewId, content);
+            } else {
+                DiscussDataHttpRequest.getInstance(mActivity).createSubComment(new ProgressSubscriber(putSubscriber, mActivity),
+                        mInterviewId, content, currentSubCommentEntity.getId(), currentSubCommentEntity.getToNickname());
+
+            }
+        }
+    }
 }

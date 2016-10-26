@@ -37,7 +37,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/iconfont_nextarticle"
                 android:textColor="@color/line"
                 android:textSize="@dimen/text_size_12" />
 
@@ -47,7 +46,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/accountInfoArrow"
-                android:text="去设置"
                 android:textColor="@color/line"
                 android:textSize="@dimen/text_size_12" />
         </RelativeLayout>
@@ -78,7 +76,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/iconfont_nextarticle"
                 android:textColor="@color/line"
                 android:textSize="@dimen/text_size_12" />
 
@@ -88,7 +85,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/accountInfoArrow2"
-                android:text="123456789@qq.com"
                 android:textColor="@color/line"
                 android:textSize="@dimen/text_size_12" />
         </RelativeLayout>

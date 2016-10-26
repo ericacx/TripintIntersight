@@ -70,6 +70,8 @@ import butterknife.OnClick;
 public class HisInterviewFragment extends BaseBackFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
 
     public static final String ARG_USER_ID = "arg_user_id";
+    public static final String ARG_USER_NAME = "arg_user_name";
+
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.his_interview_ask)
@@ -90,6 +92,8 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
     private int mCurrentCounter = 0;
 
     private int uid = 0;
+    private String name = null;
+
     List<MineMultipleItemModel> models = new ArrayList<>();
     private MineCommonMultipleAdapter mAdapter;
 
@@ -110,10 +114,12 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
     private DialogPlus dialogPlus;
     protected static final int MSG_START_STREAMING_DISCUSS = 0;
     protected static final int MSG_START_STREAMING_INTERVIEW = 1;
-    public static HisInterviewFragment newInstance(int uid) {
+
+    public static HisInterviewFragment newInstance(int uid, String nickname) {
         // Required empty public constructor
         Bundle args = new Bundle();
         args.putInt(ARG_USER_ID, uid);
+        args.putString(ARG_USER_NAME,nickname);
         HisInterviewFragment fragment = new HisInterviewFragment();
         fragment.setArguments(args);
         return fragment;
@@ -125,6 +131,7 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
         Bundle bundle = getArguments();
         if (bundle != null) {
             uid = bundle.getInt(ARG_USER_ID);
+            name = bundle.getString(ARG_USER_NAME);
         }
     }
 
@@ -141,7 +148,7 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
 
     private void initToolbar() {
         initToolbarNav(toolbar);
-        toolbar.setTitle("他的访谈");
+        toolbar.setTitle(name+"的访谈");
     }
 
     private void httpRequestData() {
@@ -192,7 +199,7 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
             }
         };
 
-        ExpertDataHttpRequest.getInstance(mActivity).getHisInterview(new ProgressSubscriber(subscriber, mActivity), 26,1);
+        ExpertDataHttpRequest.getInstance(mActivity).getHisInterview(new ProgressSubscriber(subscriber, mActivity),uid,1);
     }
 
 
@@ -207,7 +214,6 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
 
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String content = null;
                 MineMultipleItemModel entity = (MineMultipleItemModel) adapter.getItem(position);
                 EventBus.getDefault().post(new StartFragmentEvent(MyInterviewDetailFragment.newInstance(entity.getInterviewEntity())));
             }

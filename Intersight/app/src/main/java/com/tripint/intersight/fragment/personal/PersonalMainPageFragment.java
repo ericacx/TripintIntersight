@@ -110,7 +110,7 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     private PageDataSubscriberOnNext<AliPayResponseEntity> aliPaySubscriber;
 
     private int uid = 0;
-
+    private String nickname = null;
     private String discussContent;
     private String interviewContent = null;
 
@@ -235,13 +235,16 @@ public class PersonalMainPageFragment extends BaseBackFragment {
             case R.id.personal_main_page_personalInfo://他的个人信息
                 break;
             case R.id.personal_main_page_askAnswer://他的问答
-                EventBus.getDefault().post(new StartFragmentEvent(HisAskAnswerFragment.newInstance(uid)));
+                nickname = data.getNickname();
+                EventBus.getDefault().post(new StartFragmentEvent(HisAskAnswerFragment.newInstance(uid,nickname)));
                 break;
             case R.id.personal_main_page_interview://他的访谈
-                EventBus.getDefault().post(new StartFragmentEvent(HisInterviewFragment.newInstance(uid)));
+                nickname = data.getNickname();
+                EventBus.getDefault().post(new StartFragmentEvent(HisInterviewFragment.newInstance(uid,nickname)));
                 break;
             case R.id.personal_main_page_opinion://他的观点
-                EventBus.getDefault().post(new StartFragmentEvent(HisOpinionFragment.newInstance(uid)));
+                nickname = data.getNickname();
+                EventBus.getDefault().post(new StartFragmentEvent(HisOpinionFragment.newInstance(uid,nickname)));
                 break;
         }
     }
