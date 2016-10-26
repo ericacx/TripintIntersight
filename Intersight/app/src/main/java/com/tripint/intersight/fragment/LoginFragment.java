@@ -163,9 +163,11 @@ public class LoginFragment extends BaseCloseFragment {
                     startActivity(intent);
                 } else if (status == 102){
                     intent.setClass(mContext, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 } else {
                     intent.setClass(mContext, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
 
@@ -180,8 +182,11 @@ public class LoginFragment extends BaseCloseFragment {
                 if (entity.getStatus() == 1000) {
                     start(LongBindPhoneFragment.newInstance(shareLoginModel));
                 } else {
+                    ACache.get(mActivity).put(EnumKey.User.USER_TOKEN, entity.getToken());
+
                     Intent intent = new Intent();
                     intent.setClass(mContext, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
             }

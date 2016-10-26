@@ -94,7 +94,7 @@ public class SettingFragment extends BaseBackFragment {
 
                 Intent intent = new Intent();
                 intent.setClass(mActivity, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 break;
             case R.id.setting_account_info://帐号信息
