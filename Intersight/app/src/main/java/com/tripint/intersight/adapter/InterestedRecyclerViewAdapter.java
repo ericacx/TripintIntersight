@@ -1,6 +1,7 @@
 package com.tripint.intersight.adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.support.design.widget.CheckableImageButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextThemeWrapper;
@@ -22,6 +23,7 @@ import java.util.List;
 
 public class InterestedRecyclerViewAdapter extends BaseAdapter {
 
+    int selectedIndex = -1;
     private Context context;
     private List<InterestedDataEntity> interestedDataEntities;
 
@@ -46,34 +48,49 @@ public class InterestedRecyclerViewAdapter extends BaseAdapter {
         return 0;
     }
 
+    public int getSelectedIndex() {
+        return selectedIndex;
+    }
+
+    public void setSelectedIndex(int index) {
+        selectedIndex = index;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         if (convertView == null){
             holder = new ViewHolder();
             convertView= LayoutInflater.from(context).inflate(R.layout.item_gridview_interested, null);
-            holder.itemRecyclerviewInterestedIv = ((CheckableImageButton) convertView.findViewById(R.id.itemRecyclerviewInterestedIv));
+            holder.itemRecyclerviewInterestedIv = ((ImageView) convertView.findViewById(R.id.itemRecyclerviewInterestedIv));
             holder.itemRecyclerviewInterestedTv = ((TextView) convertView.findViewById(R.id.itemRecyclerviewInterestedTv));
 
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
-
-        holder.itemRecyclerviewInterestedIv.setImageResource(interestedDataEntities.get(position).getIcon());
+        final int pos = position;
+        holder.itemRecyclerviewInterestedIv.setImageDrawable(context.getResources().getDrawable(interestedDataEntities.get(position).getIcon()));
         holder.itemRecyclerviewInterestedTv.setText(interestedDataEntities.get(position).getTrade());
-        holder.itemRecyclerviewInterestedIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder.itemRecyclerviewInterestedIv.setChecked(!holder.itemRecyclerviewInterestedIv.isChecked());
-            }
-        });
+        if (selectedIndex == position) {
+            holder.itemRecyclerviewInterestedIv.setSelected(true);
+        } else {
+            holder.itemRecyclerviewInterestedIv.setSelected(false);
+        }
+//        holder.itemRecyclerviewInterestedIv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                view.setSelected(!view.isSelected());
+//                interestedDataEntities.get(pos).setChecked(!view.isSelected());
+//            }
+//        });
         return convertView;
     }
 
     class ViewHolder{
 
-        CheckableImageButton itemRecyclerviewInterestedIv;
+        ImageView itemRecyclerviewInterestedIv;
         TextView itemRecyclerviewInterestedTv;
     }
 }
