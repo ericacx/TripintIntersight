@@ -426,9 +426,15 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                                     .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getTitle()))//标题
                                     .setText(R.id.comment_praise_comment, StringUtils.null2Length0(item.getCommentPraiseEntity().getContent()))//回复
                             ;
-                        } else if (item.getCommentPraiseEntity().getType() == 4) {//评论
+                        } else if (item.getCommentPraiseEntity().getType() == 4) {//评论-观点
                             helper
-                                    .setText(R.id.comment_praise_status, "回复了我的回复:")//状态
+                                    .setText(R.id.comment_praise_status, "评论了观点内的回复:")//状态
+                                    .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getTitle()))//标题
+                                    .setText(R.id.comment_praise_comment, StringUtils.null2Length0(item.getCommentPraiseEntity().getContent()))//回复
+                            ;
+                        } else if (item.getCommentPraiseEntity().getType() == 5) {//评论-问答
+                            helper
+                                    .setText(R.id.comment_praise_status, "评论了问答内的回复:")//状态
                                     .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getTitle()))//标题
                                     .setText(R.id.comment_praise_comment, StringUtils.null2Length0(item.getCommentPraiseEntity().getContent()))//回复
                             ;
@@ -456,7 +462,12 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                             ;
                         } else if (item.getCommentPraiseEntity().getType() == 4) {//评论
                             helper
-                                    .setText(R.id.comment_praise_status, "赞赏了我的评论:")//状态
+                                    .setText(R.id.comment_praise_status, "赞赏了观点中的评论:")//状态
+                                    .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getContent()))//标题
+                            ;
+                        }else if (item.getCommentPraiseEntity().getType() == 5) {//评论
+                            helper
+                                    .setText(R.id.comment_praise_status, "赞赏了问答中的评论:")//状态
                                     .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getContent()))//标题
                             ;
                         }

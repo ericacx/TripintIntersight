@@ -43,7 +43,10 @@ import com.tripint.intersight.entity.mine.MineFollowPointEntity;
 import com.tripint.intersight.entity.payment.AliPayResponseEntity;
 import com.tripint.intersight.entity.payment.WXPayResponseEntity;
 import com.tripint.intersight.entity.user.PaymentEntity;
+import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.fragment.create.CreateDiscussFragment;
+import com.tripint.intersight.fragment.create.CreateInterviewFragment;
 import com.tripint.intersight.helper.AliPayUtils;
 import com.tripint.intersight.helper.PayUtils;
 import com.tripint.intersight.model.MineMultipleItemModel;
@@ -53,6 +56,8 @@ import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.service.PaymentDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -310,10 +315,12 @@ public class HisAskAnswerFragment extends BaseBackFragment implements BaseQuickA
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.his_ask_answer_ask:
-                initAskDialog();
+//                initAskDialog();
+                EventBus.getDefault().post(new StartFragmentEvent(CreateDiscussFragment.newInstance(uid)));
                 break;
             case R.id.his_ask_answer_interview:
-                initInterviewDialog();
+//                initInterviewDialog();
+                EventBus.getDefault().post(new StartFragmentEvent(CreateInterviewFragment.newInstance(uid)));
                 break;
         }
     }
@@ -397,15 +404,6 @@ public class HisAskAnswerFragment extends BaseBackFragment implements BaseQuickA
                         } else if (TextUtils.isEmpty(editor.getText().toString().trim())) {
                             ToastUtil.showToast(mActivity, "输入的提纲不能为空");
                         } else {
-                            PersonalUserInfoEntity personalUserInfoEntity = new PersonalUserInfoEntity(
-                                    uid, nickname.getText().toString().trim(), company.getText().toString().trim(),
-                                    phone.getText().toString().trim(), email.getText().toString().trim(),
-                                    theme.getText().toString().trim(), editor.getText().toString().trim()
-                            );
-                            MineDataHttpRequest.getInstance(mActivity).postOtherInterview(
-                                    new ProgressSubscriber(subscriberInterviewCode, mActivity)
-                                    , personalUserInfoEntity
-                            );
                             dialog.dismiss();
                         }
                     }

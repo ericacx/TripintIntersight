@@ -1,8 +1,73 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@mipmap/background_default"
     tools:context="com.tripint.intersight.fragment.create.CreateOpinionFragment">
 
+    <include layout="@layout/toolbar"/>
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/dialog_question_edit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_26_80"
+        android:layout_margin="@dimen/spacing_04"
+        android:background="@drawable/bg_corners_text"
+        android:gravity="top"
+        android:imeOptions="actionDone"
+        android:inputType="textMultiLine"
+        android:padding="@dimen/spacing"
+        android:maxLength="200"
+        android:hint="点击输入文字"
+        android:textColorHint="@color/line"
+        android:textColor="@color/line"
+        android:textSize="@dimen/text_size_14" />
+
+    <LinearLayout
+        android:id="@+id/create_discuss_ll_choose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/spacing_04"
+        android:layout_marginRight="@dimen/spacing_04"
+        android:layout_marginBottom="@dimen/height_5_80"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/height_4_80"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="@color/white"
+            android:text="观点行业:" />
+
+        <TextView
+            android:id="@+id/choose_industry"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="@color/line"
+            android:textCursorDrawable="@null"
+            android:text="点击选择"
+            android:drawablePadding="@dimen/spacing"
+            android:drawableRight="@mipmap/iconfont_zldown"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical|right"
+            />
+    </LinearLayout>
+    <Button
+        android:id="@+id/create_discuss_send"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_5_80"
+        android:background="@drawable/btn_shape2"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/white"
+        android:layout_marginLeft="@dimen/spacing_02"
+        android:layout_marginRight="@dimen/spacing_02"
+        android:layout_marginBottom="@dimen/spacing"
+        android:text="发送" />
+
+</LinearLayout>

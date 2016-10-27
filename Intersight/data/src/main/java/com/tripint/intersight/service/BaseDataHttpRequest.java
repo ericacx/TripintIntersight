@@ -10,6 +10,7 @@ import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
 import com.tripint.intersight.entity.article.ArticlesEntity;
+import com.tripint.intersight.entity.article.CreateOpinionResponseEntity;
 import com.tripint.intersight.entity.common.CommonResponEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.user.ChooseEntity;
@@ -198,6 +199,17 @@ public class BaseDataHttpRequest extends HttpRequest {
     public void getArticles(Subscriber<BasePageableResponse<ArticlesEntity>> subscriber, int page){
         Observable observable = baseDataService.getArticles(page,DEFAULT_PAGE_SIZE)
                 .map(new HttpResultFunc<BasePageableResponse<ArticlesEntity>>());
+        toSubscribe(observable,subscriber);
+    }
+
+    /**
+     * 用于获取观点页面数据
+     * @param subscriber
+     * @param industryId
+     */
+    public void postArticles(Subscriber<CreateOpinionResponseEntity> subscriber, String content, int industryId){
+        Observable observable = baseDataService.postArticles(content,industryId)
+                .map(new HttpResultFunc<CreateOpinionResponseEntity>());
         toSubscribe(observable,subscriber);
     }
 

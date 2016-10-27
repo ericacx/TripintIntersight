@@ -99,8 +99,8 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     private PersonalUserHomeEntity data;
     private PageDataSubscriberOnNext<PersonalUserHomeEntity> subscriber;
 
-    private CreateDiscussResponseEntity createDiscussResponseEntity;
     private CreateInterviewResponseEntity createInterviewResponseEntity;
+    private CreateDiscussResponseEntity createDiscussResponseEntity;
 
     private PageDataSubscriberOnNext<CreateDiscussResponseEntity> subscriberDiscussCode;
     private PageDataSubscriberOnNext<CreateInterviewResponseEntity> subscriberInterviewCode;
@@ -243,11 +243,11 @@ public class PersonalMainPageFragment extends BaseBackFragment {
         switch (view.getId()) {
             case R.id.personal_main_page_button_ask://向他提问
 //                initAskDialog();
-                EventBus.getDefault().post(new StartFragmentEvent(CreateDiscussFragment.newInstance()));
+                EventBus.getDefault().post(new StartFragmentEvent(CreateDiscussFragment.newInstance(uid)));
                 break;
             case R.id.personal_main_page_button_interview://约他访谈
 //                initInterviewDialog();
-                EventBus.getDefault().post(new StartFragmentEvent(CreateInterviewFragment.newInstance()));
+                EventBus.getDefault().post(new StartFragmentEvent(CreateInterviewFragment.newInstance(uid)));
                 break;
             case R.id.personal_main_page_personalInfo://他的个人信息
                 break;
@@ -360,7 +360,7 @@ public class PersonalMainPageFragment extends BaseBackFragment {
                             PersonalUserInfoEntity personalUserInfoEntity = new PersonalUserInfoEntity(
                                     uid, nickname.getText().toString().trim(), company.getText().toString().trim(),
                                     phone.getText().toString().trim(), email.getText().toString().trim(),
-                                    theme.getText().toString().trim(), editor.getText().toString().trim()
+                                    theme.getText().toString().trim(),uid, editor.getText().toString().trim()
                             );
                             MineDataHttpRequest.getInstance(mActivity).postOtherInterview(
                                     new ProgressSubscriber(subscriberInterviewCode, mActivity)

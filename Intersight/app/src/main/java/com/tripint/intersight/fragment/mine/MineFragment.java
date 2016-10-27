@@ -231,7 +231,7 @@ public class MineFragment extends BaseLazyMainFragment {
 //                break;
             case R.id.text_view_help://使用帮助
                 EventBus.getDefault().post(new StartFragmentEvent(UseHelpFragment.newInstance()));
-//                EventBus.getDefault().post(new StartFragmentEvent(PersonalMainPageFragment.newInstance()));
+//                EventBus.getDefault().post(new StartFragmentEvent(CreateOpinionFragment.newInstance()));
                 break;
             case R.id.text_view_setting://设置
                 EventBus.getDefault().post(new StartFragmentEvent(SettingFragment.newInstance()));

@@ -43,6 +43,8 @@ import com.tripint.intersight.entity.payment.WXPayResponseEntity;
 import com.tripint.intersight.entity.user.PaymentEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.fragment.create.CreateDiscussFragment;
+import com.tripint.intersight.fragment.create.CreateInterviewFragment;
 import com.tripint.intersight.fragment.mine.MyInterviewDetailFragment;
 import com.tripint.intersight.helper.AliPayUtils;
 import com.tripint.intersight.helper.PayUtils;
@@ -277,10 +279,12 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.his_interview_ask:
-                initAskDialog();
+//                initAskDialog();
+                EventBus.getDefault().post(new StartFragmentEvent(CreateDiscussFragment.newInstance(uid)));
                 break;
             case R.id.his_interview_interview:
-                initInterviewDialog();
+                EventBus.getDefault().post(new StartFragmentEvent(CreateInterviewFragment.newInstance(uid)));
+//                initInterviewDialog();
                 break;
         }
     }
@@ -363,16 +367,6 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
                         }else if (TextUtils.isEmpty(editor.getText().toString().trim())){
                             ToastUtil.showToast(mActivity,"输入的提纲不能为空");
                         }else {
-                            PersonalUserInfoEntity personalUserInfoEntity = new PersonalUserInfoEntity(
-                                    uid,nickname.getText().toString().trim(),company.getText().toString().trim(),
-                                    phone.getText().toString().trim(),email.getText().toString().trim(),
-                                    theme.getText().toString().trim(),editor.getText().toString().trim()
-                            );
-                            MineDataHttpRequest.getInstance(mActivity).postOtherInterview(
-                                    new ProgressSubscriber(subscriberInterviewCode, mActivity)
-                                    ,personalUserInfoEntity
-                            );
-                            dialog.dismiss();
                         }
                     }
                 })

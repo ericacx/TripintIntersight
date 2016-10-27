@@ -1,26 +1,28 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/background_default"
-    android:orientation="vertical"
     tools:context="com.tripint.intersight.fragment.create.CreateInterviewFragment">
 
     <include layout="@layout/toolbar" />
 
     <ScrollView
+        android:layout_marginBottom="@dimen/height_7_80"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/height_6_80"
+                android:layout_height="@dimen/height_5_80"
                 android:gravity="center_horizontal"
                 android:background="@color/blue"
                 android:orientation="horizontal">
@@ -240,6 +242,7 @@
                 android:background="@color/line" />
 
             <LinearLayout
+                android:id="@+id/choose_industry_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing"
@@ -265,7 +268,7 @@
                     android:drawableRight="@mipmap/iconfont_zldown"
                     android:drawablePadding="@dimen/spacing"
                     android:gravity="center_vertical|right"
-                    android:text="电子通信硬件"
+                    android:text="点击选择"
                     android:textColor="@color/line"
                     android:textCursorDrawable="@null"
                     android:textSize="@dimen/text_size_14" />
@@ -306,13 +309,13 @@
                 <EditText
                     android:id="@+id/dialog_interview_edit"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_20_80"
+                    android:layout_height="@dimen/height_25_80"
                     android:background="@drawable/bg_corners_text"
                     android:gravity="top"
                     android:imeOptions="actionDone"
                     android:inputType="textMultiLine"
                     android:padding="@dimen/spacing"
-                    android:text=""
+                    android:maxLength="200"
                     android:hint="点击输入文字"
                     android:textColorHint="@color/line"
                     android:textColor="@color/line"
@@ -322,4 +325,16 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/create_discuss_send"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_5_80"
+        android:background="@drawable/btn_shape2"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/spacing"
+        android:layout_marginRight="@dimen/spacing"
+        android:layout_marginBottom="@dimen/spacing"
+        android:text="发送" />
+</RelativeLayout>

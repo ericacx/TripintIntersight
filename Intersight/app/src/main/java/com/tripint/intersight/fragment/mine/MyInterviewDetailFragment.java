@@ -404,15 +404,6 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
                         } else if (TextUtils.isEmpty(editor.getText().toString().trim())) {
                             ToastUtil.showToast(mActivity, "输入的提纲不能为空");
                         } else {
-                            PersonalUserInfoEntity personalUserInfoEntity = new PersonalUserInfoEntity(
-                                    mInterviewId, nickname.getText().toString().trim(), company.getText().toString().trim(),
-                                    phone.getText().toString().trim(), email.getText().toString().trim(),
-                                    theme.getText().toString().trim(), editor.getText().toString().trim()
-                            );
-                            MineDataHttpRequest.getInstance(mActivity).postOtherInterview(
-                                    new ProgressSubscriber(subscriberInterviewCode, mActivity)
-                                    , personalUserInfoEntity
-                            );
                             dialog.dismiss();
                         }
                     }

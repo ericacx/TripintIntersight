@@ -10,6 +10,7 @@ import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
 import com.tripint.intersight.entity.article.ArticlesEntity;
+import com.tripint.intersight.entity.article.CreateOpinionResponseEntity;
 import com.tripint.intersight.entity.common.CommonResponEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.user.ChooseEntity;
@@ -99,6 +100,13 @@ public interface BaseDataService {
             @Query("size") int size
     );
 
+    //观点创建页面
+    @FormUrlEncoded
+    @POST("articles")
+    Observable<BaseResponse<CreateOpinionResponseEntity>> postArticles(
+            @Field("content") String content,
+            @Field("industryId") int industryId
+    );
     //观点banner
     @GET("banner")
     Observable<BaseResponse<ArticleBannerEntity>> getArticleBanner(@Query("type") int type);

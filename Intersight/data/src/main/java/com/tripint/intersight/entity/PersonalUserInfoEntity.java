@@ -18,16 +18,27 @@ public class PersonalUserInfoEntity implements Serializable {
     private String mobile;
     private String email;
     private String subject;//主题
+    private int industryId;
     private String outline;
 
-    public PersonalUserInfoEntity(int toUid, String contact, String company, String mobile, String email, String subject, String outline) {
+
+    public PersonalUserInfoEntity(int toUid, String contact, String company, String mobile, String email, String subject,int industryId, String outline) {
         this.toUid = toUid;
         this.contact = contact;
         this.company = company;
         this.mobile = mobile;
         this.email = email;
         this.subject = subject;
+        this.industryId = industryId;
         this.outline = outline;
+    }
+
+    public int getIndustryId() {
+        return industryId;
+    }
+
+    public void setIndustryId(int industryId) {
+        this.industryId = industryId;
     }
 
     public int getToUid() {
