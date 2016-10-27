@@ -18,6 +18,8 @@ public class Industry implements Serializable{
     private int status;
     private int sort;
 
+    private boolean isChecked;
+
     private List<IndustryChild> industrySub;
 
     public int getId() {
@@ -76,5 +78,13 @@ public class Industry implements Serializable{
 
     public void setIndustrySub(List<IndustryChild> industrySub) {
         this.industrySub = industrySub;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 }

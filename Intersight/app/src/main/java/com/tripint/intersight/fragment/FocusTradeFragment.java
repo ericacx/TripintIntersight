@@ -12,12 +12,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Checkable;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.tripint.intersight.R;
 import com.tripint.intersight.activity.MainActivity;
 import com.tripint.intersight.adapter.FocusTradePageAdapter;
+import com.tripint.intersight.common.Constants;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
+import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.IndustryListEntity;
@@ -90,7 +93,7 @@ public class FocusTradeFragment extends BaseFragment {
             @Override
             public void onNext(ChooseEntity entity) {
                 chooseEntity = entity;
-                Log.e("focus", String.valueOf(entity.getStatus()));
+                Log.d("focus", String.valueOf(entity.getStatus()));
                 int status = entity.getStatus();
                 if (status == 102) {
                     goMainActivity();
@@ -133,17 +136,32 @@ public class FocusTradeFragment extends BaseFragment {
 
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String content = null;
                 Industry entity = (Industry) adapter.getItem(position);
                 CheckBox checkBox = (CheckBox) view.findViewById(R.id.toggle_select_industry);
-                if (list.contains(entity.getId())) {
-                    list.remove(entity.getId());
-                    checkBox.setChecked(false);
-                } else {
-                    list.add(entity.getId());
-                    checkBox.setChecked(true);
+                checkBox.setChecked(!checkBox.isChecked());
+                entity.setChecked(checkBox.isChecked());
+
+
+            }
+
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                super.onItemChildClick(adapter, view, position);
+                Industry entity = (Industry) adapter.getItem(position);
+
+                switch (view.getId()) {
+                    case R.id.toggle_select_industry:
+                        CheckBox checkBox = (CheckBox) view;
+
+                        checkBox.setChecked(!checkBox.isChecked());
+                        entity.setChecked(checkBox.isChecked());
+
+                        break;
+                    default:
+                        break;
                 }
             }
+
         });
 
         mRecyclerView.setAdapter(mAdapter);
@@ -153,15 +171,20 @@ public class FocusTradeFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.interestedNext:
+                for (Industry industry : mAdapter.getData()) {
+                    if (industry.isChecked()) {
+                        list.add(industry.getId());
+                    }
+                }
                 if (list != null && list.size() > 0) {
                     String s = new Gson().toJson(list);
-                    Log.e("s", s);
+                    Log.d(Constants.TAG, s);
                     BaseDataHttpRequest.getInstance(mActivity)
                             .postInsterestIndustry(
                                     new ProgressSubscriber<ChooseEntity>(subscriber, mActivity)
                                     , s);
 
-                    goMainActivity();
+
                 } else {
                     CommonUtils.showToast("请选择感兴趣的行业");
                 }

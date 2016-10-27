@@ -23,10 +23,11 @@ public class FocusTradePageAdapter extends BaseQuickAdapter<Industry> {
     protected void convert(BaseViewHolder helper, Industry item) {
         String avatar = item.getIcon();
         helper.setText(R.id.text_item_industry_name, item.getName())
-                .linkify(R.id.text_item_industry_name);
+                .addOnClickListener(R.id.toggle_select_industry);
 
         Glide.with(mContext).load(avatar)
                 .crossFade()
+                .fitCenter()
                 .placeholder(R.drawable.loading_normal_icon)
                 .into((ImageView) helper.getView(R.id.image_item_industry));
     }

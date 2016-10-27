@@ -23,7 +23,8 @@
         android:layout_alignParentTop="true"
         android:layout_margin="@dimen/spacing_pad06"
         android:background="@drawable/selector_btn_checkbox_green"
-        android:button="@null" />
+        android:button="@null"
+        android:checked="false" />
 
     <TextView
         android:id="@+id/text_item_industry_name"
