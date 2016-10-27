@@ -36,7 +36,6 @@ import com.tripint.intersight.common.widget.dialogplus.ListHolder;
 import com.tripint.intersight.common.widget.dialogplus.ViewHolder;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
-import com.tripint.intersight.entity.PersonalUserInfoEntity;
 import com.tripint.intersight.entity.discuss.CommentEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.discuss.CreateDiscussResponseEntity;
@@ -56,9 +55,7 @@ import com.tripint.intersight.service.PaymentDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -116,7 +113,7 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
     private int mInterviewId;
 
     private PageDataSubscriberOnNext<InterviewDetailEntity> subscriber;
-    private InterviewDetailEntity data;
+    private InterviewDetailEntity detailEntity;
 
     private CreateDiscussResponseEntity createDiscussResponseEntity;
     private CreateInterviewResponseEntity createInterviewResponseEntity;
@@ -211,7 +208,7 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
             @Override
             public void onNext(InterviewDetailEntity entity) {
                 //接口请求成功后处理
-                data = entity;
+                detailEntity = entity;
                 initView(null);
                 initCommentAdapter();
             }
@@ -221,39 +218,39 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
     }
 
     private void initView(View view) {
-        if (data.getInterview() != null) {
+        if (detailEntity.getInterview() != null) {
 
-            if (data.getInterview().getStatus() == 1) {
+            if (detailEntity.getInterview().getStatus() == 1) {
                 toolbar.setTitle("我的约访");
                 myInterviewPeople.setText("受访者:");
                 myInterviewDetailTwiceInterview.setVisibility(View.VISIBLE);
-            } else if (data.getInterview().getStatus() == 2) {
+            } else if (detailEntity.getInterview().getStatus() == 2) {
                 toolbar.setTitle("我被约访");
                 myInterviewPeople.setText("约访人:");
                 myInterviewDetailTwiceInterview.setVisibility(View.GONE);
             }
 
-            if (data.getInterview().getCustType() == 1) {
+            if (detailEntity.getInterview().getCustType() == 1) {
                 myInterviewStatus.setText("联系中");
                 myInterviewStatus.setTextColor(Color.RED);
-            } else if (data.getInterview().getCustType() == 2) {
+            } else if (detailEntity.getInterview().getCustType() == 2) {
                 myInterviewStatus.setText("访谈成功");
                 myInterviewStatus.setTextColor(Color.WHITE);
             }
 
-            if (data.getInterview().getCustomType() == 1) {
+            if (detailEntity.getInterview().getCustomType() == 1) {
                 myInterviewType.setText("电话访谈");
-            } else if (data.getInterview().getCustomType() == 2) {
+            } else if (detailEntity.getInterview().getCustomType() == 2) {
                 myInterviewType.setText("面谈");
             }
-            myInterviewCode.setText(data.getInterview().getInvitationCode() + "");//会议邀请码
-            myInterviewTime.setText(data.getInterview().getInterviewTime());//访谈时间
+            myInterviewCode.setText(detailEntity.getInterview().getInvitationCode() + "");//会议邀请码
+            myInterviewTime.setText(detailEntity.getInterview().getInterviewTime());//访谈时间
 
-            myInterviewHead.setText(data.getInterview().getTitle());//标题
-            myInterviewContent.setText(data.getInterview().getContent());//内容
-            myInterviewName.setText(data.getInterview().getUserNickname());//姓名
-            myInterviewCompany.setText(data.getInterview().getUserCompany());//公司名
-            myInterviewTitle.setText(data.getInterview().getUserAbility());//职位
+            myInterviewHead.setText(detailEntity.getInterview().getTitle());//标题
+            myInterviewContent.setText(detailEntity.getInterview().getContent());//内容
+            myInterviewName.setText(detailEntity.getInterview().getUserNickname());//姓名
+            myInterviewCompany.setText(detailEntity.getInterview().getUserCompany());//公司名
+            myInterviewTitle.setText(detailEntity.getInterview().getUserAbility());//职位
 
         }
         initToolbarNav(toolbar);
@@ -265,7 +262,7 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
     private void initCommentAdapter() {
 
 
-        mAdapter = new AskAnswerPageDetailCommentAdapter(data.getComments());
+        mAdapter = new AskAnswerPageDetailCommentAdapter(detailEntity.getComments());
         final LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
         mAdapter.openLoadAnimation();
         myInterviewDetailRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
@@ -441,9 +438,9 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
 
                         if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
 
-                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), createDiscussResponseEntity.getDiscussId(), discussContent);
+                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), createDiscussResponseEntity.getDiscussId(), detailEntity.getInterview().getUserId(), discussContent);
                         } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
-                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), createDiscussResponseEntity.getDiscussId(), discussContent);
+                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), createDiscussResponseEntity.getDiscussId(), detailEntity.getInterview().getUserId(), discussContent);
 
                         }
 
@@ -488,9 +485,9 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
 
                         if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
 
-                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), createInterviewResponseEntity.getInterviewId(), interviewContent);
+                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), createInterviewResponseEntity.getInterviewId(), detailEntity.getInterview().getUserId(), interviewContent);
                         } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
-                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), createInterviewResponseEntity.getInterviewId(), interviewContent);
+                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), createInterviewResponseEntity.getInterviewId(), detailEntity.getInterview().getUserId(), interviewContent);
 
                         }
 

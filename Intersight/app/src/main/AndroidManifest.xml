@@ -66,6 +66,8 @@
             android:exported="false"
             android:screenOrientation="behind"></activity>
 
+        <service android:name=".service.RegisterDeviceTokenService" />
+
         <meta-data
             android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
             android:value="GlideModule" />

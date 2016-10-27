@@ -5,9 +5,18 @@ package com.tripint.intersight.event;
  */
 
 public class PayEvent {
-    private boolean success;
+    private boolean result;
 
     public PayEvent(boolean success) {
-        this.success = success;
+        this.result = success;
+    }
+
+
+    public boolean isResult() {
+        return result;
+    }
+
+    public void setResult(boolean result) {
+        this.result = result;
     }
 }

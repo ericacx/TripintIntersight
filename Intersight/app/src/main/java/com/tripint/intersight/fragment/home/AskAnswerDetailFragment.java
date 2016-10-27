@@ -3,7 +3,6 @@ package com.tripint.intersight.fragment.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -42,6 +41,7 @@ import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.payment.AliPayResponseEntity;
 import com.tripint.intersight.entity.payment.WXPayResponseEntity;
 import com.tripint.intersight.entity.user.PaymentEntity;
+import com.tripint.intersight.event.PayEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.helper.AliPayUtils;
 import com.tripint.intersight.helper.CommonUtils;
@@ -54,6 +54,8 @@ import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 import com.tripint.intersight.widget.tabbar.BottomTabBarItem;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -396,9 +398,9 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
                         if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
 
-                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), data.getDetail().getId(), data.getDetail().getContent());
+                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), data.getDetail().getId(), data.getDetail().getUid(), data.getDetail().getContent());
                         } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
-                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), data.getDetail().getId(), data.getDetail().getContent());
+                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), data.getDetail().getId(), data.getDetail().getUid(), data.getDetail().getContent());
 
                         }
 
@@ -470,6 +472,14 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
         recyclerViewAskAnswerComment.setLayoutManager(layoutManager);
         recyclerViewAskAnswerComment.setAdapter(mAdapter);
+    }
+
+    @Subscribe
+    public void onEvent(PayEvent event) {
+        /* Do something */
+        if (event.isResult()) {
+            CommonUtils.showToast("开始听吧");
+        }
     }
 
 

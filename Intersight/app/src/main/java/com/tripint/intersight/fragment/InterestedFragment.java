@@ -115,10 +115,11 @@ public class InterestedFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.interestedNext:
-                if (interestedRecyclerViewAdapter.getSelectedIndex() > 0) {
+                if (interestedRecyclerViewAdapter.getSelectedIndex() >= 0) {
+                    int role = interestedRecyclerViewAdapter.getSelectedIndex() == 0 ? 2 : 1;
                     BaseDataHttpRequest.getInstance(mActivity).postChooseRole(
                             new ProgressSubscriber(subscriber, mActivity)
-                            , interestedRecyclerViewAdapter.getSelectedIndex() + "");
+                            , role + "");
                 } else {
                     CommonUtils.showToast("请选择您的身份类型");
                 }

@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.entity.CodeDataEntity;
-import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.IndustryListEntity;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
@@ -17,8 +16,7 @@ import com.tripint.intersight.entity.user.ChooseEntity;
 import com.tripint.intersight.entity.user.LoginResponseEntity;
 import com.tripint.intersight.entity.user.RegisterEntity;
 import com.tripint.intersight.entity.user.User;
-
-import java.util.List;
+import com.tripint.intersight.entity.user.UserDeviceTokenResponseEntity;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -328,6 +326,21 @@ public class BaseDataHttpRequest extends HttpRequest {
     {
         Observable observable = baseDataService.postReportDiscuss(discussId)
                 .map(new HttpResultFunc<CommentResultEntity>());
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 注册用户设备 umeng device token
+     *
+     * @param subscriber
+     * @param deviceToken
+     * @param client      'client':1 // 1:安卓  2:IOS
+     */
+    public void registerUserDeviceToken(Subscriber<UserDeviceTokenResponseEntity> subscriber,
+                                        String deviceToken, int client)  //问答)
+    {
+        Observable observable = baseDataService.postDeviceToken(deviceToken, client)
+                .map(new HttpResultFunc<UserDeviceTokenResponseEntity>());
         toSubscribe(observable, subscriber);
     }
 }

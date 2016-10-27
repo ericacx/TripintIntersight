@@ -1,7 +1,6 @@
 package com.tripint.intersight.fragment;
 
 
-import android.content.Entity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -34,11 +33,7 @@ import com.tripint.intersight.common.widget.filter.typeview.SingleListView;
 import com.tripint.intersight.common.widget.filter.util.CommonUtil;
 import com.tripint.intersight.common.widget.filter.util.UIUtil;
 import com.tripint.intersight.common.widget.filter.view.FilterCheckedTextView;
-import com.tripint.intersight.entity.Ability;
 import com.tripint.intersight.entity.CodeDataEntity;
-import com.tripint.intersight.entity.Industry;
-import com.tripint.intersight.entity.IndustryChild;
-import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
 import com.tripint.intersight.entity.mine.student.QualificationsNameEntity;
 import com.tripint.intersight.entity.mine.student.SchoolNameEntity;
@@ -50,7 +45,6 @@ import com.tripint.intersight.entity.mine.worker.EditUserEntity;
 import com.tripint.intersight.entity.mine.worker.IndustryNameEntity;
 import com.tripint.intersight.entity.mine.worker.IndustrySubEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
-import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.image.CircleImageView;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
@@ -313,7 +307,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.personal_info_submit, R.id.personal_info_rl_avatar, R.id.personal_info_rl_position, R.id.personal_info_rl_experience, R.id.personal_info_trade})
+    @OnClick({R.id.personal_info_submit, R.id.personal_info_rl_avatar, R.id.personal_info_rl_position, R.id.personal_info_rl_experience, R.id.personal_info_rl_trade})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.personal_info_submit://提交
@@ -370,7 +364,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
                         .showCompleteDialog();
                 break;
             case R.id.personal_info_trade:
-                if (role == 1) {
+                if (role == 1) {//职员
                     dialogPlus = DialogPlusUtils.Builder(mActivity)
                             .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createDoubleListView()))
                             .setTitleName("请选择行业")
@@ -379,7 +373,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
                             .setIsExpanded(false)
                             .setGravity(Gravity.BOTTOM)
                             .showCompleteDialog();
-                } else if (role == 2) {
+                } else if (role == 2) {//学生
                     dialogPlus = DialogPlusUtils.Builder(mActivity)
                             .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createStudentDoubleListView()))
                             .setTitleName("请选择专业")

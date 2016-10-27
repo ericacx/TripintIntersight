@@ -90,7 +90,7 @@
     <string name="flickr_share">flickr分享</string>
     <string name="fb_app_id">567261760019884</string>
     <string name="photo_post">Photo Post</string>
-    <string name="success">Success</string>
+    <string name="result">Success</string>
     <string name="successfully_posted_post">Successfully posted \'%1$s\'.\nPost ID: %2$s</string>
     <string name="error">Error</string>
     <string name="status_update">Updating Facebook status at </string>

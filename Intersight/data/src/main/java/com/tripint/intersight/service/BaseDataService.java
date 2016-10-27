@@ -4,7 +4,6 @@ package com.tripint.intersight.service;
 import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.BaseResponse;
 import com.tripint.intersight.entity.CodeDataEntity;
-import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.IndustryListEntity;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
@@ -17,8 +16,7 @@ import com.tripint.intersight.entity.user.ChooseEntity;
 import com.tripint.intersight.entity.user.LoginResponseEntity;
 import com.tripint.intersight.entity.user.RegisterEntity;
 import com.tripint.intersight.entity.user.User;
-
-import java.util.List;
+import com.tripint.intersight.entity.user.UserDeviceTokenResponseEntity;
 
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -164,6 +162,13 @@ public interface BaseDataService {
     @POST("report")
     Observable<BaseResponse<CommentResultEntity>> postReportDiscuss(
             @Field("discussId") int discussId  //问答
+    );
+
+    //举报
+    @FormUrlEncoded
+    @POST("user/deviceToken")
+    Observable<BaseResponse<UserDeviceTokenResponseEntity>> postDeviceToken(
+            @Field("deviceTokens") String deviceToken, @Field("client") int client
     );
 
 }

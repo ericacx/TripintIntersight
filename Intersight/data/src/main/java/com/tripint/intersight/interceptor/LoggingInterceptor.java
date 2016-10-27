@@ -12,7 +12,7 @@ import okhttp3.Response;
  * Created by lirichen on 16/9/12.
  */
 public class LoggingInterceptor implements Interceptor {
-    private String TAG = "LoggingInterceptor";
+    public static final String TAG = "TripInt";
     @Override public Response intercept(Interceptor.Chain chain) throws IOException {
         Request request = chain.request();
 

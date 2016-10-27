@@ -125,8 +125,7 @@ public class ResigterFragment extends BaseBackFragment {
                 int status = entity.getStatus();
                 if (status == 100) {
                     Intent intent = new Intent();
-                    intent.setClass(mActivity, InterestedFragment.class);
-                    startActivity(intent);
+                    start(InterestedFragment.newInstance());
                 }
             }
         };

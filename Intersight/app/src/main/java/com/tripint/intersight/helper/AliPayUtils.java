@@ -12,9 +12,12 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.tripint.intersight.app.InterSightApp;
 import com.tripint.intersight.entity.payment.AliPayResponseEntity;
+import com.tripint.intersight.event.PayEvent;
 import com.tripint.intersight.helper.demo.AuthResult;
 import com.tripint.intersight.helper.demo.PayResult;
 import com.tripint.intersight.helper.demo.SignUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -111,6 +114,7 @@ public class AliPayUtils {
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
                         Toast.makeText(mActivity, "支付成功", Toast.LENGTH_SHORT).show();
+                        EventBus.getDefault().post(new PayEvent(true));
                     } else {
                         // 判断resultStatus 为非"9000"则代表可能支付失败
                         // "8000"代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
@@ -122,6 +126,7 @@ public class AliPayUtils {
                             Toast.makeText(mActivity, "支付失败", Toast.LENGTH_SHORT).show();
 
                         }
+                        EventBus.getDefault().post(new PayEvent(false));
                     }
                     break;
                 }
@@ -161,7 +166,7 @@ public class AliPayUtils {
      */
     public void pay(AliPayResponseEntity entity) {
         if (entity == null || TextUtils.isEmpty(entity.getOrderString())) {
-            new AlertDialog.Builder(mActivity).setTitle("警告").setMessage("需要配置PARTNER | RSA_PRIVATE| SELLER")
+            new AlertDialog.Builder(mActivity).setTitle("警告").setMessage("支付代码错误")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialoginterface, int i) {
                             //

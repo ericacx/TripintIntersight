@@ -33,7 +33,6 @@ import com.tripint.intersight.activity.LoginActivity;
 import com.tripint.intersight.activity.MainActivity;
 import com.tripint.intersight.activity.base.BaseActivity;
 import com.tripint.intersight.app.InterSightApp;
-import com.tripint.intersight.common.Constants;
 import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.common.enumkey.EnumKey;
 import com.tripint.intersight.common.utils.StringUtils;
@@ -46,10 +45,9 @@ import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.model.LinkedinResponeModel;
 import com.tripint.intersight.model.ShareLoginModel;
 import com.tripint.intersight.service.BaseDataHttpRequest;
+import com.tripint.intersight.service.RegisterDeviceTokenService;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
-import com.umeng.message.PushAgent;
-import com.umeng.message.UTrack;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
@@ -152,7 +150,8 @@ public class LoginFragment extends BaseCloseFragment {
                 loginEntity = entity;
                 ACache.get(mActivity).put(EnumKey.User.USER_TOKEN, entity.getToken());
                 //更新device token
-                updateUmengDeviceToken(String.valueOf(entity.getUid()), EnumKey.UmengAliasType.OFFICIAL);
+//                updateUmengDeviceToken(String.valueOf(entity.getUid()), EnumKey.UmengAliasType.OFFICIAL);
+                registerUserDeviceToken();
 
                 Log.e("login",entity.getToken());
                 int status = entity.getStatus();
@@ -179,6 +178,7 @@ public class LoginFragment extends BaseCloseFragment {
             @Override
             public void onNext(CommonResponEntity entity) {
                 //接口请求成功后处理
+
 //                loginEntity = entity;
                 if (entity.getStatus() == 1000) {
                     start(LongBindPhoneFragment.newInstance(shareLoginModel));
@@ -335,9 +335,11 @@ public class LoginFragment extends BaseCloseFragment {
                                 }
                                 if ("screen_name".equals(entry.getKey())) {
                                     params.put(entry.getKey(), entry.getValue());
+                                    model.setNickName(entry.getValue());
                                 }
-                                if ("version".equals(entry.getKey())) {
+                                if ("profile_image_url".equals(entry.getKey())) {
                                     params.put(entry.getKey(), entry.getValue());
+                                    model.setImgUrl(entry.getValue());
                                 }
                                 if (share_media == SHARE_MEDIA.WEIXIN) {
                                     if (entry.getKey().equals("openid")) {
@@ -409,16 +411,20 @@ public class LoginFragment extends BaseCloseFragment {
         mContext.mShareAPI.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void updateUmengDeviceToken(String userId, String aliseType) {
-        String deviceToken = ACache.get(InterSightApp.getApp()).getAsString(EnumKey.User.UMENG_DEVICE_TOKEN);
-        PushAgent mPushAgent = PushAgent.getInstance(InterSightApp.getApp());
-        mPushAgent.addAlias(userId, aliseType, new UTrack.ICallBack() {
-            @Override
-            public void onMessage(boolean b, String s) {
-                Log.d(Constants.TAG, "add alias result" + String.valueOf(b));
-            }
-        });
+//    private void updateUmengDeviceToken(String userId, String aliseType) {
+//        String deviceToken = ACache.get(InterSightApp.getApp()).getAsString(EnumKey.User.UMENG_DEVICE_TOKEN);
+//        PushAgent mPushAgent = PushAgent.getInstance(InterSightApp.getApp());
+//        mPushAgent.addAlias(userId, aliseType, new UTrack.ICallBack() {
+//            @Override
+//            public void onMessage(boolean b, String s) {
+//                Log.d(Constants.TAG, "add alias result" + String.valueOf(b));
+//            }
+//        });
+//
+//    }
 
+    private void registerUserDeviceToken() {
+        mActivity.startService(new Intent(mActivity, RegisterDeviceTokenService.class));
     }
 
 

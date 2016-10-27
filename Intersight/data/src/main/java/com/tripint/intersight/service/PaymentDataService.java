@@ -17,12 +17,12 @@ public interface PaymentDataService {
 
     //调起微信支付
     @FormUrlEncoded
-    @POST("wxpay")
-    Observable<BaseResponse<WXPayResponseEntity>> postWxPay(@Field("type") String type, @Field("discussId") int discussId, @Field("discussTitle") String discussContent);
+    @POST("pay/wxpay")
+    Observable<BaseResponse<WXPayResponseEntity>> postWxPay(@Field("type") String type, @Field("itemId") int discussId, @Field("toUid") int toUid, @Field("title") String title);
 
     //支付宝支付
     @FormUrlEncoded
     @POST("pay/alipay")
-    Observable<BaseResponse<AliPayResponseEntity>> postAliPay(@Field("type") String type, @Field("discussId") int discussId, @Field("discussTitle") String discussContent);
+    Observable<BaseResponse<AliPayResponseEntity>> postAliPay(@Field("type") String type, @Field("itemId") int discussId, @Field("toUid") int toUid, @Field("title") String title);
 
 }

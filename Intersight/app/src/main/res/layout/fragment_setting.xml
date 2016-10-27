@@ -173,7 +173,7 @@
     <Button
         android:id="@+id/button_logout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/height_5_80"
         android:layout_gravity="bottom"
         android:textColor="@color/grey_50"
         android:layout_marginLeft="@dimen/spacing_04"

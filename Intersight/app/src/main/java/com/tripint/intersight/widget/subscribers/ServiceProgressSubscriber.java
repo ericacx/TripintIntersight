@@ -4,10 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.tripint.intersight.common.ApiException;
-import com.tripint.intersight.common.Constants;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.widget.progress.ProgressCancelListener;
-import com.tripint.intersight.widget.progress.ProgressDialogHandler;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -15,37 +13,25 @@ import java.net.SocketTimeoutException;
 import rx.Subscriber;
 
 /**
+ * 在Service里用的Subscriber 不显示Dialog
  * 用于在Http请求开始时，自动显示一个ProgressDialog
  * 在Http请求结束是，关闭ProgressDialog
  * 调用者自己对请求数据进行处理
  * Created by liukun on 16/3/10.
  */
-public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCancelListener {
+public class ServiceProgressSubscriber<T> extends Subscriber<T> implements ProgressCancelListener {
 
-    private final String TAG = Constants.TAG;
+    private final String TAG = "Intersight";
     private PageDataSubscriberOnNext mPageDataSubscriberOnNext;
-    private ProgressDialogHandler mProgressDialogHandler;
+
 
     private Context context;
 
-    public ProgressSubscriber(PageDataSubscriberOnNext mPageDataSubscriberOnNext, Context context) {
+    public ServiceProgressSubscriber(PageDataSubscriberOnNext mPageDataSubscriberOnNext, Context context) {
         this.mPageDataSubscriberOnNext = mPageDataSubscriberOnNext;
         this.context = context;
-        mProgressDialogHandler = new ProgressDialogHandler(context, this, true);
     }
 
-    private void showProgressDialog(){
-        if (mProgressDialogHandler != null) {
-            mProgressDialogHandler.obtainMessage(ProgressDialogHandler.SHOW_PROGRESS_DIALOG).sendToTarget();
-        }
-    }
-
-    private void dismissProgressDialog(){
-        if (mProgressDialogHandler != null) {
-            mProgressDialogHandler.obtainMessage(ProgressDialogHandler.DISMISS_PROGRESS_DIALOG).sendToTarget();
-            mProgressDialogHandler = null;
-        }
-    }
 
     /**
      * 订阅开始时调用
@@ -53,7 +39,7 @@ public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCanc
      */
     @Override
     public void onStart() {
-        showProgressDialog();
+
     }
 
     /**
@@ -61,12 +47,13 @@ public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCanc
      */
     @Override
     public void onCompleted() {
-        dismissProgressDialog();
+
     }
 
     /**
      * 对错误进行统一处理
      * 隐藏ProgressDialog
+     *
      * @param e
      */
     @Override
@@ -82,7 +69,7 @@ public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCanc
             CommonUtils.showToast("未知错误,请查看日志异常");
             Log.e(TAG, e.getMessage());
         }
-        dismissProgressDialog();
+
 
     }
 

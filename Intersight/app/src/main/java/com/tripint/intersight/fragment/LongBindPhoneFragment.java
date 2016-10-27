@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.activity.MainActivity;
+import com.tripint.intersight.common.Constants;
 import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.common.enumkey.EnumKey;
 import com.tripint.intersight.common.utils.ToastUtil;
@@ -27,6 +28,7 @@ import com.tripint.intersight.entity.common.CommonResponEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.ShareLoginModel;
 import com.tripint.intersight.service.BaseDataHttpRequest;
+import com.tripint.intersight.service.RegisterDeviceTokenService;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
@@ -137,15 +139,14 @@ public class LongBindPhoneFragment extends BaseBackFragment {
                 } else {
 
                     ACache.get(mActivity).put(EnumKey.User.USER_TOKEN, entity.getToken());
-                    Log.e("login", entity.getToken());
+                    Log.d(Constants.TAG, entity.getToken());
+                    registerUserDeviceToken();
                     int status = entity.getStatus();
                     Intent intent = new Intent();
                     if (status == 100) {
-                        intent.setClass(mActivity, InterestedFragment.class);
-                        startActivity(intent);
+                        start(InterestedFragment.newInstance());
                     } else if (status == 101) {
-                        intent.setClass(mActivity, FocusTradeFragment.class);
-                        startActivity(intent);
+                        start(FocusTradeFragment.newInstance());
                     } else if (status == 102) {
                         intent.setClass(mActivity, MainActivity.class);
                         startActivity(intent);
@@ -230,4 +231,10 @@ public class LongBindPhoneFragment extends BaseBackFragment {
         }
         return true;
     }
+
+
+    private void registerUserDeviceToken() {
+        mActivity.startService(new Intent(mActivity, RegisterDeviceTokenService.class));
+    }
+
 }

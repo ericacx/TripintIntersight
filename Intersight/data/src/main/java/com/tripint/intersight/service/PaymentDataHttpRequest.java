@@ -45,9 +45,9 @@ public class PaymentDataHttpRequest extends HttpRequest {
      *
      * @param subscriber 由调用者传过来的观察者对象
      */
-    public void requestWxPayForDiscuss(Subscriber<WXPayResponseEntity> subscriber, int discussId, String discussContent) {
+    public void requestWxPayForDiscuss(Subscriber<WXPayResponseEntity> subscriber, int discussId, int toUid, String discussContent) {
 
-        Observable observable = service.postWxPay(PAY_CONTENT_TYPE_DISCUSS, discussId, discussContent)
+        Observable observable = service.postWxPay(PAY_CONTENT_TYPE_DISCUSS, discussId, toUid, discussContent)
                 .map(new HttpResultFunc<WXPayResponseEntity>());
 
         toSubscribe(observable, subscriber);
@@ -58,9 +58,9 @@ public class PaymentDataHttpRequest extends HttpRequest {
      *
      * @param subscriber 由调用者传过来的观察者对象
      */
-    public void requestWxPayForInterview(Subscriber<WXPayResponseEntity> subscriber, int interviewId,String interviewContent) {
+    public void requestWxPayForInterview(Subscriber<WXPayResponseEntity> subscriber, int interviewId, int toUid, String interviewContent) {
 
-        Observable observable = service.postWxPay(PAY_CONTENT_TYPE_DISCUSS, interviewId,interviewContent)
+        Observable observable = service.postWxPay(PAY_CONTENT_TYPE_DISCUSS, interviewId, toUid, interviewContent)
                 .map(new HttpResultFunc<WXPayResponseEntity>());
 
         toSubscribe(observable, subscriber);
@@ -71,9 +71,9 @@ public class PaymentDataHttpRequest extends HttpRequest {
      *
      * @param subscriber 由调用者传过来的观察者对象
      */
-    public void requestAliPayForDiscuss(Subscriber<AliPayResponseEntity> subscriber, int discussId, String discussContent) {
+    public void requestAliPayForDiscuss(Subscriber<AliPayResponseEntity> subscriber, int discussId, int toUid, String discussContent) {
 
-        Observable observable = service.postAliPay(PAY_CONTENT_TYPE_DISCUSS, discussId, discussContent)
+        Observable observable = service.postAliPay(PAY_CONTENT_TYPE_DISCUSS, discussId, toUid, discussContent)
                 .map(new HttpResultFunc<AliPayResponseEntity>());
 
         toSubscribe(observable, subscriber);

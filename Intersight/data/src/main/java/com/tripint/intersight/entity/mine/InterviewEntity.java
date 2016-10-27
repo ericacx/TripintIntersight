@@ -36,6 +36,7 @@ public class InterviewEntity implements Serializable {
 
     //访谈或约访页面数据
     private int invitationCode;//邀请码
+    private int userId;
     private String userNickname;//姓名
     private String userAvatar;//头像
     private String userCompany;//公司
@@ -169,5 +170,13 @@ public class InterviewEntity implements Serializable {
 
     public void setCustomType(int customType) {
         this.customType = customType;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
