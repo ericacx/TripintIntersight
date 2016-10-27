@@ -187,13 +187,11 @@ public class LoginFragment extends BaseCloseFragment {
 
                     Intent intent = new Intent();
                     intent.setClass(mContext, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
             }
         };
-
-        start(FocusTradeFragment.newInstance());
     }
 
     @OnClick({R.id.login_forget_pwd, R.id.login_button_login, R.id.login_button_register, R.id.login_thirdLogin_linkedin, R.id.login_thirdLogin_wechat})
