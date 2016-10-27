@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.tripint.intersight.R;
-import com.tripint.intersight.activity.InterestedActivity;
 import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.common.enumkey.EnumKey;
 import com.tripint.intersight.common.utils.ToastUtil;
@@ -58,13 +57,28 @@ public class ResigterFragment extends BaseBackFragment {
     Toolbar toolbar;
 
     private int time = 60;
-
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 100:
+                    if (time == 0) {
+                        time = 60;
+                        registerVerifyCode.setClickable(true);
+                        registerVerifyCode.setText("获取验证码");
+                    } else {
+                        registerVerifyCode.setText("重新获取(" + (--time) + ")");
+                        handler.sendEmptyMessageDelayed(100, 1000);
+                    }
+                    break;
+            }
+        }
+    };
     private CodeDataEntity codeDataEntity;
     private PageDataSubscriberOnNext<CodeDataEntity> subscriberCode;
-
     private RegisterEntity registerEntity;
     private PageDataSubscriberOnNext<RegisterEntity> subscriber;
-
 
     public static ResigterFragment newInstance() {
 
@@ -74,7 +88,6 @@ public class ResigterFragment extends BaseBackFragment {
         fragment.setArguments(args);
         return fragment;
     }
-
 
     @Nullable
     @Override
@@ -112,33 +125,13 @@ public class ResigterFragment extends BaseBackFragment {
                 int status = entity.getStatus();
                 if (status == 100) {
                     Intent intent = new Intent();
-                    intent.setClass(mActivity, InterestedActivity.class);
+                    intent.setClass(mActivity, InterestedFragment.class);
                     startActivity(intent);
                 }
             }
         };
 
     }
-
-
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 100:
-                    if (time == 0) {
-                        time = 60;
-                        registerVerifyCode.setClickable(true);
-                        registerVerifyCode.setText("获取验证码");
-                    } else {
-                        registerVerifyCode.setText("重新获取(" + (--time) + ")");
-                        handler.sendEmptyMessageDelayed(100, 1000);
-                    }
-                    break;
-            }
-        }
-    };
 
     @OnClick({R.id.register_verify_code, R.id.register_tv_userProtocol, R.id.register_button_register, R.id.register_button_reset})
 

@@ -19,8 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tripint.intersight.R;
-import com.tripint.intersight.activity.FocusTradeActivity;
-import com.tripint.intersight.activity.InterestedActivity;
 import com.tripint.intersight.activity.MainActivity;
 import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.common.enumkey.EnumKey;
@@ -68,11 +66,27 @@ public class LongBindPhoneFragment extends BaseBackFragment {
     LinearLayout containerPasswordInput;
 
     private int time = 60;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 100:
+                    if (time == 0) {
+                        time = 10;
+                        bindPhoneBtnVerifyCode.setClickable(true);
+                        bindPhoneBtnVerifyCode.setText("获取验证码");
+                    } else {
+                        bindPhoneBtnVerifyCode.setText("重新获取(" + (--time) + ")");
+                        handler.sendEmptyMessageDelayed(100, 1000);
+                    }
+                    break;
+            }
+        }
+    };
     private CommonResponEntity codeDataEntity;
     private PageDataSubscriberOnNext<CommonResponEntity> subscriberCode;
-
     private ShareLoginModel shareLoginModel;
-
     private boolean isUserExist;
 
     public static LongBindPhoneFragment newInstance(ShareLoginModel model) {
@@ -92,7 +106,6 @@ public class LongBindPhoneFragment extends BaseBackFragment {
             this.shareLoginModel = (ShareLoginModel) bundle.getSerializable(SHARE_LOGIN_MODEL);
         }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -128,10 +141,10 @@ public class LongBindPhoneFragment extends BaseBackFragment {
                     int status = entity.getStatus();
                     Intent intent = new Intent();
                     if (status == 100) {
-                        intent.setClass(mActivity, InterestedActivity.class);
+                        intent.setClass(mActivity, InterestedFragment.class);
                         startActivity(intent);
                     } else if (status == 101) {
-                        intent.setClass(mActivity, FocusTradeActivity.class);
+                        intent.setClass(mActivity, FocusTradeFragment.class);
                         startActivity(intent);
                     } else if (status == 102) {
                         intent.setClass(mActivity, MainActivity.class);
@@ -144,25 +157,6 @@ public class LongBindPhoneFragment extends BaseBackFragment {
             }
         };
     }
-
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 100:
-                    if (time == 0) {
-                        time = 10;
-                        bindPhoneBtnVerifyCode.setClickable(true);
-                        bindPhoneBtnVerifyCode.setText("获取验证码");
-                    } else {
-                        bindPhoneBtnVerifyCode.setText("重新获取(" + (--time) + ")");
-                        handler.sendEmptyMessageDelayed(100, 1000);
-                    }
-                    break;
-            }
-        }
-    };
 
     @Override
     public void onDestroyView() {

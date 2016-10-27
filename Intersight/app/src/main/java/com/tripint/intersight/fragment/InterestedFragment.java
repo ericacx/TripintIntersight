@@ -1,12 +1,10 @@
-package com.tripint.intersight.activity;
+package com.tripint.intersight.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,8 +13,8 @@ import android.widget.ListView;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.InterestedRecyclerViewAdapter;
 import com.tripint.intersight.bean.InterestedDataEntity;
-import com.tripint.intersight.entity.CodeDataEntity;
 import com.tripint.intersight.entity.user.ChooseEntity;
+import com.tripint.intersight.fragment.base.BaseFragment;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
@@ -32,7 +30,7 @@ import butterknife.OnClick;
 /**
  * 订阅页面---感兴趣的
  */
-public class InterestedActivity extends AppCompatActivity {
+public class InterestedFragment extends BaseFragment {
 
 
     @Bind(R.id.imageView)
@@ -49,16 +47,32 @@ public class InterestedActivity extends AppCompatActivity {
     private PageDataSubscriberOnNext<ChooseEntity> subscriber;
 
 
+    public static InterestedFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        InterestedFragment fragment = new InterestedFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_interested);
-        ButterKnife.bind(this);
+
+
+    }
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_interested, container, false);
+        ButterKnife.bind(this, view);
 
         initView();
         initData();
 
-        interestedRecyclerViewAdapter = new InterestedRecyclerViewAdapter(InterestedActivity.this,entityList);
+        interestedRecyclerViewAdapter = new InterestedRecyclerViewAdapter(mActivity, entityList);
         interestedGridView.setAdapter(interestedRecyclerViewAdapter);
         interestedGridView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         interestedGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -69,6 +83,8 @@ public class InterestedActivity extends AppCompatActivity {
             }
         });
 
+
+        return view;
     }
 
     private void initView() {
@@ -81,9 +97,7 @@ public class InterestedActivity extends AppCompatActivity {
                 Log.e("interested", String.valueOf(entity.getStatus()));
                 int status = entity.getStatus();
                 if (status == 101){
-                    Intent intent = new Intent();
-                    intent.setClass(InterestedActivity.this,FocusTradeActivity.class);
-                    startActivity(intent);
+                    start(FocusTradeFragment.newInstance());
                 }
             }
         };
@@ -102,11 +116,11 @@ public class InterestedActivity extends AppCompatActivity {
         switch (view.getId()){
             case R.id.interestedNext:
                 if (interestedRecyclerViewAdapter.getSelectedIndex() > 0) {
-                    BaseDataHttpRequest.getInstance(InterestedActivity.this).postChooseRole(
-                            new ProgressSubscriber(subscriber, InterestedActivity.this)
+                    BaseDataHttpRequest.getInstance(mActivity).postChooseRole(
+                            new ProgressSubscriber(subscriber, mActivity)
                             , interestedRecyclerViewAdapter.getSelectedIndex() + "");
                 } else {
-                    CommonUtils.showToast("请选择");
+                    CommonUtils.showToast("请选择您的身份类型");
                 }
                 break;
         }

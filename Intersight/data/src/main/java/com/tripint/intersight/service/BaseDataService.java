@@ -5,6 +5,7 @@ import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.BaseResponse;
 import com.tripint.intersight.entity.CodeDataEntity;
 import com.tripint.intersight.entity.Industry;
+import com.tripint.intersight.entity.IndustryListEntity;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
@@ -33,7 +34,7 @@ public interface BaseDataService {
 
 
     @GET("industry")
-    Observable<BaseResponse<List<Industry>>> getIndustry(@Query("start") int start, @Query("count") int count);
+    Observable<BaseResponse<IndustryListEntity>> getIndustry();
 
     @GET("filter")
     Observable<BaseResponse<SearchFilterEntity>> getSearchFilter(@Query("type") String type);

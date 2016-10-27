@@ -29,8 +29,6 @@ import com.linkedin.platform.listeners.ApiResponse;
 import com.linkedin.platform.listeners.AuthListener;
 import com.linkedin.platform.utils.Scope;
 import com.tripint.intersight.R;
-import com.tripint.intersight.activity.FocusTradeActivity;
-import com.tripint.intersight.activity.InterestedActivity;
 import com.tripint.intersight.activity.LoginActivity;
 import com.tripint.intersight.activity.MainActivity;
 import com.tripint.intersight.activity.base.BaseActivity;
@@ -106,6 +104,10 @@ public class LoginFragment extends BaseCloseFragment {
         return fragment;
     }
 
+    private static Scope buildScope() {
+        return Scope.build(Scope.R_BASICPROFILE, Scope.W_SHARE);
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,11 +158,10 @@ public class LoginFragment extends BaseCloseFragment {
                 int status = entity.getStatus();
                 Intent intent = new Intent();
                 if (status == 100){
-                    intent.setClass(mContext,InterestedActivity.class);
-                    startActivity(intent);
+                    start(InterestedFragment.newInstance());
                 } else if (status == 101){
-                    intent.setClass(mContext,FocusTradeActivity.class);
-                    startActivity(intent);
+                    start(FocusTradeFragment.newInstance());
+
                 } else if (status == 102){
                     intent.setClass(mContext, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -191,8 +192,9 @@ public class LoginFragment extends BaseCloseFragment {
                 }
             }
         };
-    }
 
+        start(FocusTradeFragment.newInstance());
+    }
 
     @OnClick({R.id.login_forget_pwd, R.id.login_button_login, R.id.login_button_register, R.id.login_thirdLogin_linkedin, R.id.login_thirdLogin_wechat})
     public void onClick(View view) {
@@ -217,7 +219,6 @@ public class LoginFragment extends BaseCloseFragment {
                 break;
         }
     }
-
 
     private void submit() {
         User user = new User(login_et_username.getText().toString().trim(), login_et_password.getText().toString().trim());
@@ -297,10 +298,6 @@ public class LoginFragment extends BaseCloseFragment {
         LISession session = sessionManager.getSession();
         boolean accessTokenValid = session.isValid();
 
-    }
-
-    private static Scope buildScope() {
-        return Scope.build(Scope.R_BASICPROFILE, Scope.W_SHARE);
     }
 
     protected void sharedLogin(final SHARE_MEDIA platform) {

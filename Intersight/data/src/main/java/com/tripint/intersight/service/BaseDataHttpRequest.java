@@ -5,6 +5,7 @@ import android.content.Context;
 import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.entity.CodeDataEntity;
 import com.tripint.intersight.entity.Industry;
+import com.tripint.intersight.entity.IndustryListEntity;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
@@ -27,23 +28,19 @@ import rx.Subscriber;
 
 public class BaseDataHttpRequest extends HttpRequest {
 
-    private final String FLITER_TYPE_INTERVIEWER = "interviewer";
-    private final String FLITER_TYPE_ARTICLES = "articles";
-
-    private BaseDataService baseDataService;
-
     public final static int RESPONSE_STATUS_USER_EXIST = 1001;  //表示用户存在
     public final static int RESPONSE_STATUS_USER_NOT_EXIST = 1000;  //表示用户不存在
     public final static int RESPONSE_STATUS_SHARE_LOGIN_ERROR = 1003;  //用户绑定验证码不正确
+    private static BaseDataHttpRequest instants;
+    private final String FLITER_TYPE_INTERVIEWER = "interviewer";
+    private final String FLITER_TYPE_ARTICLES = "articles";
+    private BaseDataService baseDataService;
 
     private BaseDataHttpRequest(Context context) {
         super(context);
         baseDataService = retrofit.create(BaseDataService.class);
 
     }
-
-    private static BaseDataHttpRequest instants;
-
 
     public static BaseDataHttpRequest getInstance(Context context) {
         if (instants == null) {
@@ -57,13 +54,11 @@ public class BaseDataHttpRequest extends HttpRequest {
      * 用于取得行业数据
      *
      * @param subscriber 由调用者传过来的观察者对象
-     * @param start      起始位置
-     * @param count      获取长度
      */
-    public void getIndustry(Subscriber<List<Industry>> subscriber, int start, int count) {
+    public void getIndustry(Subscriber<IndustryListEntity> subscriber) {
 
-        Observable observable = baseDataService.getIndustry(start, count)
-                .map(new HttpResultFunc<List<Industry>>());
+        Observable observable = baseDataService.getIndustry()
+                .map(new HttpResultFunc<IndustryListEntity>());
 
         toSubscribe(observable, subscriber);
     }
