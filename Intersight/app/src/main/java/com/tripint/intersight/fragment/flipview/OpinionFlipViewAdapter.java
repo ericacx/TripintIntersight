@@ -15,6 +15,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.tripint.intersight.R;
 import com.tripint.intersight.entity.article.ArticlesEntity;
+import com.tripint.intersight.event.StartFragmentEvent;
+import com.tripint.intersight.fragment.create.CreateOpinionFragment;
+import com.tripint.intersight.fragment.home.OpinionDetailFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,6 +118,12 @@ public class OpinionFlipViewAdapter extends BaseAdapter{
                     break;
                 case VIEWTYPE_TWO:
                     convertView = LayoutInflater.from(context).inflate(R.layout.opinion_flipview_two, parent, false);
+                    convertView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance()));
+                        }
+                    });
                     viewHolderTwo.opinionFlipviewTwoPic = ((ImageView) convertView.findViewById(R.id.opinion_flipview_two_pic));
                     viewHolderTwo.opinionFlipviewTwoHeader = ((TextView) convertView.findViewById(R.id.opinion_flipview_two_header));
                     viewHolderTwo.opinionFlipviewTwoContent = ((TextView) convertView.findViewById(R.id.opinion_flipview_two_content));
@@ -121,13 +132,25 @@ public class OpinionFlipViewAdapter extends BaseAdapter{
                     viewHolderTwo.opinionFlipviewTwoTitle = ((TextView) convertView.findViewById(R.id.opinion_flipview_two_title));
                     viewHolderTwo.opinionFlipviewTwoAgreeNum = ((TextView) convertView.findViewById(R.id.opinion_flipview_two_agreeNum));
                     viewHolderTwo.opinionFlipviewTwoTalkNum = ((TextView) convertView.findViewById(R.id.opinion_flipview_two_talkNum));
-
+                    viewHolderTwo.opioionFlipviewTwoSubmit = ((Button) convertView.findViewById(R.id.opioion_flipview_two_submit));
+                    viewHolderTwo.opioionFlipviewTwoSubmit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            EventBus.getDefault().post(new StartFragmentEvent(CreateOpinionFragment.newInstance()));
+                        }
+                    });
                     convertView.setTag(viewHolderTwo);
                     break;
                 case VIEWTYPE_THREE:
                     convertView = LayoutInflater.from(context).inflate(R.layout.opinion_flipview_three, parent, false);
                     viewHolderThree.opioionFlipviewThreeContent = ((TextView) convertView.findViewById(R.id.opioion_flipview_three_content));
                     viewHolderThree.opinionFlipviewThreeTime = ((TextView) convertView.findViewById(R.id.opinion_flipview_three_time));
+                    convertView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance()));
+                        }
+                    });
                     convertView.setTag(viewHolderThree);
                     break;
                 default:
@@ -138,6 +161,12 @@ public class OpinionFlipViewAdapter extends BaseAdapter{
             switch (type) {
                 case VIEWTYPE_ONE:
                     viewHolderOne = (ViewHolderOne) convertView.getTag();
+                    convertView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    });
                     break;
                 case VIEWTYPE_TWO:
                     viewHolderTwo = (ViewHolderTwo) convertView.getTag();
@@ -252,14 +281,14 @@ public class OpinionFlipViewAdapter extends BaseAdapter{
                 }
                 break;
             case VIEWTYPE_THREE:
-//                if (resList.get(position).getTextDetail() != null) {
-//                    viewHolderThree.opioionFlipviewThreeContent.setText(resList.get(position).getTextDetail().get(0).getContent());
+                if (resList.get(position).getTextDetail() != null) {
+                    viewHolderThree.opioionFlipviewThreeContent.setText(resList.get(position).getTextDetail().get(0).getContent());
 //                    viewHolderThree.opinionFlipviewThreeTime.setText(resList.get(position).getTextDetail().get(0).getCreateAt());
 
-//                    viewHolderThree.opioionFlipviewThreeContent.setText(resList.get(position).getTextDetail().get(1).getContent());
+                    viewHolderThree.opioionFlipviewThreeContent.setText(resList.get(position).getTextDetail().get(1).getContent());
 //                    viewHolderThree.opinionFlipviewThreeTime.setText(resList.get(position).getTextDetail().get(1).getCreateAt());
 
-//                }
+                }
                 break;
         }
         return convertView;

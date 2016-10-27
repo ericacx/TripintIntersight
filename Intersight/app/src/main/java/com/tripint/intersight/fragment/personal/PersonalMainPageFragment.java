@@ -37,6 +37,8 @@ import com.tripint.intersight.entity.payment.WXPayResponseEntity;
 import com.tripint.intersight.entity.user.PaymentEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.fragment.create.CreateDiscussFragment;
+import com.tripint.intersight.fragment.create.CreateInterviewFragment;
 import com.tripint.intersight.helper.AliPayUtils;
 import com.tripint.intersight.helper.PayUtils;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
@@ -240,10 +242,12 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.personal_main_page_button_ask://向他提问
-                initAskDialog();
+//                initAskDialog();
+                EventBus.getDefault().post(new StartFragmentEvent(CreateDiscussFragment.newInstance()));
                 break;
             case R.id.personal_main_page_button_interview://约他访谈
-                initInterviewDialog();
+//                initInterviewDialog();
+                EventBus.getDefault().post(new StartFragmentEvent(CreateInterviewFragment.newInstance()));
                 break;
             case R.id.personal_main_page_personalInfo://他的个人信息
                 break;

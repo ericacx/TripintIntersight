@@ -367,7 +367,7 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                 if (item.getMessageContentEntity() != null) {
                     helper.setText(R.id.message_time, StringUtils.null2Length0(item.getMessageContentEntity().getCreateAt()));
 
-                    if (item.getMessageContentEntity().getMessageType() == 1){//发起
+                    if (item.getMessageContentEntity().getMessageType() == 1) {//发起
                         String h9 = "<font color='#BABABA' size='14'>" + "你发起了关于" + "</font>"
                                 + "<font color='#FFFFFF' size='14'>" + item.getMessageContentEntity().getTitle() + "</font>"
                                 + "<font color='#BABABA' size='14'>" + "的提问," + "</font>"
@@ -375,7 +375,7 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                                 + "<font color='#BABABA' size='14'>" + "回答了你" + "</font>";
                         helper.setText(R.id.message_content, Html.fromHtml(h9));
                         helper.setText(R.id.message_status, "前往查看");
-                    } else if (item.getMessageContentEntity().getMessageType() == 2){//邀请
+                    } else if (item.getMessageContentEntity().getMessageType() == 2) {//邀请
                         String h10 = "<font color='#FFFFFF' size='14'>" + item.getMessageContentEntity().getUserNickname() + "</font>"
                                 + "<font color='#BABABA' size='14'>" + "邀请了你回答" + "</font>"
                                 + "<font color='#FFFFFF' size='14'>" + item.getMessageContentEntity().getTitle() + "</font>"
@@ -385,92 +385,84 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                         helper.setText(R.id.message_status, "前往回答");
                     }
                 }
-            break;
+                break;
 
             case MineMultipleItemModel.MY_MESSAGE_COMMENT_PRAISE://评论/赞消息
-//                if (item.getCommentPraiseEntity() != null) {
-//
-//                    Date date = new Date(item.getCommentPraiseEntity().getCreateAt());
-//                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-//                    String time = simpleDateFormat.format(date);
-//                    Glide.with(mContext).load(item.getCommentPraiseEntity().getAvatar())
-//                            .crossFade()
-//                            .placeholder(R.mipmap.ic_avatar)
-//                            .transform(new GlideCircleTransform(mContext))
-//                            .into((ImageView) helper.getView(R.id.comment_praise_avatar));//头像
-//                    helper
-//                            .setText(R.id.comment_praise_name, StringUtils.null2Length0(item.getCommentPraiseEntity().getNickname()))//姓名
-//                            .setText(R.id.comment_praise_company, StringUtils.null2Length0(item.getCommentPraiseEntity().getCompanyName()))//公司
-//                            .setText(R.id.comment_praise__title, StringUtils.null2Length0(item.getCommentPraiseEntity().getAbilityName()))//职位
-//                            .setText(R.id.comment_praise_time, StringUtils.null2Length0(time));//时间
-//
-//
-//                    if (item.getCommentPraiseEntity().getState() == 11) {//评论文章
-//                        helper
-//                                .setVisible(R.id.comment_praise_ll_comment, true)
-//                                .setText(R.id.comment_praise_status, "评论了我的文章:")//状态
-//                                .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getTitle()))//标题
-//                                .setTextColor(R.id.comment_praise_content, R.color.blue)//标题的颜色
-//                                .setText(R.id.comment_praise_comment, StringUtils.null2Length0(item.getCommentPraiseEntity().getContent()))//回复
-//                        ;
-//                    } else if (item.getCommentPraiseEntity().getState() == 12) {//回复了回复
-//                        helper
-//                                .setVisible(R.id.comment_praise_ll_comment, true)
-//                                .setText(R.id.comment_praise_status, "回复了我的回复:")//状态
-//                                .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getPidComment()))//标题
-//                                .setTextColor(R.id.comment_praise_content, R.color.line)//标题颜色
-//                                .setText(R.id.comment_praise_comment, StringUtils.null2Length0(item.getCommentPraiseEntity().getContent()))//回复
-//                        ;
-//                    } else if (item.getCommentPraiseEntity().getState() == 13) {//赞赏了文章
-//                        helper.setVisible(R.id.comment_praise_ll_comment, false)
-//                                .setText(R.id.comment_praise_status, "赞赏了我的文章:")//状态
-//                                .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getTitle()))//标题
-//                                .setTextColor(R.id.comment_praise_content, R.color.line)//标题颜色
-//                        ;
-//                    } else if (item.getCommentPraiseEntity().getState() == 14) {//赞赏了评论
-//                        helper.setVisible(R.id.comment_praise_ll_comment, false)
-//                                .setText(R.id.comment_praise_status, "赞赏了我的评论:")//状态
-//                                .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getPidComment()))//标题
-//                                .setTextColor(R.id.comment_praise_content, R.color.line)//标题颜色
-//                        ;
-//                    } else if (item.getCommentPraiseEntity().getState() == 15) {//评论了访谈
-//                        helper
-//                                .setVisible(R.id.comment_praise_ll_comment, true)
-//                                .setText(R.id.comment_praise_status, "评论了我的访谈:")//状态
-//                                .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getTitle()))//标题
-//                                .setTextColor(R.id.comment_praise_content, R.color.line)//标题的颜色
-//                                .setText(R.id.comment_praise_comment, StringUtils.null2Length0(item.getCommentPraiseEntity().getContent()))//回复
-//                        ;
-//                    } else if (item.getCommentPraiseEntity().getState() == 16) {//评论了问答
-//                        helper
-//                                .setVisible(R.id.comment_praise_ll_comment, true)
-//                                .setText(R.id.comment_praise_status, "评论了我的问答:")//状态
-//                                .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getTitle()))//标题
-//                                .setTextColor(R.id.comment_praise_content, R.color.blue)//标题的颜色
-//                                .setText(R.id.comment_praise_comment, StringUtils.null2Length0(item.getCommentPraiseEntity().getContent()))//回复
-//                        ;
-//                    } else if (item.getCommentPraiseEntity().getState() == 17) {//评论了回复
-//                        helper
-//                                .setVisible(R.id.comment_praise_ll_comment, true)
-//                                .setText(R.id.comment_praise_status, "评论了我的回复:")//状态
-//                                .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getPidComment()))//标题
-//                                .setTextColor(R.id.comment_praise_content, R.color.line)//标题的颜色
-//                                .setText(R.id.comment_praise_comment, StringUtils.null2Length0(item.getCommentPraiseEntity().getContent()))//回复
-//                        ;
-//                    } else if (item.getCommentPraiseEntity().getState() == 18) {//赞赏了问答
-//                        helper.setVisible(R.id.comment_praise_ll_comment, false)
-//                                .setText(R.id.comment_praise_status, "赞赏了我的问答:")//状态
-//                                .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getTitle()))//标题
-//                                .setTextColor(R.id.comment_praise_content, R.color.line)//标题颜色
-//                        ;
-//                    } else if (item.getCommentPraiseEntity().getState() == 19) {//赞赏了评论
-//                        helper.setVisible(R.id.comment_praise_ll_comment, false)
-//                                .setText(R.id.comment_praise_status, "赞赏了我的评论:")//状态
-//                                .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getPidComment()))//标题
-//                                .setTextColor(R.id.comment_praise_content, R.color.line)//标题颜色
-//                        ;
-//                    }
-//                }
+                if (item.getCommentPraiseEntity() != null) {
+
+                    Glide.with(mContext).load(item.getCommentPraiseEntity().getAvatar())
+                            .crossFade()
+                            .placeholder(R.mipmap.ic_avatar)
+                            .transform(new GlideCircleTransform(mContext))
+                            .into((ImageView) helper.getView(R.id.comment_praise_avatar));//头像
+                    helper
+                            .setText(R.id.comment_praise_name, StringUtils.null2Length0(item.getCommentPraiseEntity().getNickname()))//姓名
+                            .setText(R.id.comment_praise_company, StringUtils.null2Length0(item.getCommentPraiseEntity().getCompanyName()))//公司
+                            .setText(R.id.comment_praise__title, StringUtils.null2Length0(item.getCommentPraiseEntity().getAbilityName()))//职位
+                            .setText(R.id.comment_praise_time, StringUtils.null2Length0(item.getCommentPraiseEntity().getCreateAt()));//时间
+
+                    if (item.getCommentPraiseEntity().getMessageType() == 1) {//评论
+
+                        helper
+                                .setVisible(R.id.comment_praise_ll_comment, true)
+                                .setVisible(R.id.comment_praise_icon, true)
+                        ;
+
+                        if (item.getCommentPraiseEntity().getType() == 1) {//访谈
+                            helper
+                                    .setText(R.id.comment_praise_status, "评论了我的访谈:")//状态
+                                    .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getTitle()))//标题
+                                    .setText(R.id.comment_praise_comment, StringUtils.null2Length0(item.getCommentPraiseEntity().getContent()))//回复
+                            ;
+                        } else if (item.getCommentPraiseEntity().getType() == 2) {//问答
+                            helper
+                                    .setText(R.id.comment_praise_status, "评论了我的问答:")//状态
+                                    .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getTitle()))//标题
+                                    .setText(R.id.comment_praise_comment, StringUtils.null2Length0(item.getCommentPraiseEntity().getContent()))//回复
+                            ;
+                        } else if (item.getCommentPraiseEntity().getType() == 3) {//观点
+                            helper
+                                    .setText(R.id.comment_praise_status, "评论了我的文章:")//状态
+                                    .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getTitle()))//标题
+                                    .setText(R.id.comment_praise_comment, StringUtils.null2Length0(item.getCommentPraiseEntity().getContent()))//回复
+                            ;
+                        } else if (item.getCommentPraiseEntity().getType() == 4) {//评论
+                            helper
+                                    .setText(R.id.comment_praise_status, "回复了我的回复:")//状态
+                                    .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getTitle()))//标题
+                                    .setText(R.id.comment_praise_comment, StringUtils.null2Length0(item.getCommentPraiseEntity().getContent()))//回复
+                            ;
+                        }
+                    } else if (item.getCommentPraiseEntity().getMessageType() == 2) {//赞赏
+
+                        helper
+                                .setVisible(R.id.comment_praise_icon, false)
+                                .setVisible(R.id.comment_praise_ll_comment, false);
+                        if (item.getCommentPraiseEntity().getType() == 1) {//访谈
+                            helper
+                                    .setText(R.id.comment_praise_status, "赞赏了我的访谈:")//状态
+                                    .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getTitle()))//标题
+                            ;
+                        } else if (item.getCommentPraiseEntity().getType() == 2) {//问答
+                            helper
+                                    .setText(R.id.comment_praise_status, "赞赏了我的问答:")//状态
+                                    .setVisible(R.id.comment_praise_ll_comment, false)
+                                    .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getTitle()))//标题
+                            ;
+                        } else if (item.getCommentPraiseEntity().getType() == 3) {//观点
+                            helper
+                                    .setText(R.id.comment_praise_status, "赞赏了我的文章:")//状态
+                                    .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getTitle()))//标题
+                            ;
+                        } else if (item.getCommentPraiseEntity().getType() == 4) {//评论
+                            helper
+                                    .setText(R.id.comment_praise_status, "赞赏了我的评论:")//状态
+                                    .setText(R.id.comment_praise_content, StringUtils.null2Length0(item.getCommentPraiseEntity().getContent()))//标题
+                            ;
+                        }
+                    }
+
+                }
                 break;
 
             case MineMultipleItemModel.HIS_OPTION://他的观点

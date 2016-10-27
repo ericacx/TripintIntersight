@@ -1,0 +1,325 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/background_default"
+    android:orientation="vertical"
+    tools:context="com.tripint.intersight.fragment.create.CreateInterviewFragment">
+
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_6_80"
+                android:gravity="center_horizontal"
+                android:background="@color/blue"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/height_5_80"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:text="电话访谈资费"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_14" />
+
+                <TextView
+                    android:id="@+id/dialog_interview_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/height_5_80"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center_vertical"
+                    android:text="￥1000/小时"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_14" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_marginRight="@dimen/spacing"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_6_80"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="您的姓名:"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_14" />
+
+                <EditText
+                    android:id="@+id/dialog_interview_nickname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="3"
+                    android:background="@null"
+                    android:gravity="center_vertical|right"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/line"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/text_size_14" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_marginRight="@dimen/spacing"
+                android:background="@color/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_marginRight="@dimen/spacing"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_6_80"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="您的公司:"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_14" />
+
+                <EditText
+                    android:id="@+id/dialog_interview_company"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_6_80"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_weight="3"
+                    android:background="@null"
+                    android:gravity="center_vertical|right"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/line"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/text_size_14" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_marginRight="@dimen/spacing"
+                android:background="@color/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_marginRight="@dimen/spacing"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_6_80"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="联系电话:"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_14" />
+
+                <EditText
+                    android:id="@+id/dialog_interview_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_6_80"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_weight="3"
+                    android:background="@null"
+                    android:gravity="center_vertical|right"
+                    android:inputType="phone"
+                    android:maxLines="1"
+                    android:textColor="@color/line"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/text_size_14" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_marginRight="@dimen/spacing"
+                android:background="@color/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_marginRight="@dimen/spacing"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_6_80"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="邮箱地址:"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_14" />
+
+                <EditText
+                    android:id="@+id/dialog_interview_email"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_6_80"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_weight="3"
+                    android:background="@null"
+                    android:gravity="center_vertical|right"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:textColor="@color/line"
+                    android:textSize="@dimen/text_size_14" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_marginRight="@dimen/spacing"
+                android:background="@color/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_marginRight="@dimen/spacing"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_6_80"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="约访主题:"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_14" />
+
+                <EditText
+                    android:id="@+id/dialog_interview_theme"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_6_80"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_weight="3"
+                    android:background="@null"
+                    android:gravity="center_vertical|right"
+                    android:inputType="textShortMessage"
+                    android:maxLines="1"
+                    android:textColor="@color/line"
+                    android:textSize="@dimen/text_size_14" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_marginRight="@dimen/spacing"
+                android:background="@color/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_marginRight="@dimen/spacing"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_6_80"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="约访行业:"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_14" />
+
+                <TextView
+                    android:id="@+id/choose_industry"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="3"
+                    android:drawableRight="@mipmap/iconfont_zldown"
+                    android:drawablePadding="@dimen/spacing"
+                    android:gravity="center_vertical|right"
+                    android:text="电子通信硬件"
+                    android:textColor="@color/line"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/text_size_14" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_marginRight="@dimen/spacing"
+                android:background="@color/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_marginRight="@dimen/spacing"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/height_6_80"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:text="约访提纲:"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_14" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_marginRight="@dimen/spacing"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/dialog_interview_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_20_80"
+                    android:background="@drawable/bg_corners_text"
+                    android:gravity="top"
+                    android:imeOptions="actionDone"
+                    android:inputType="textMultiLine"
+                    android:padding="@dimen/spacing"
+                    android:text=""
+                    android:hint="点击输入文字"
+                    android:textColorHint="@color/line"
+                    android:textColor="@color/line"
+                    android:textSize="@dimen/text_size_14" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

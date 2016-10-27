@@ -7,9 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.common.BasePageableResponse;
+import com.tripint.intersight.common.widget.dialogplus.OnItemClickListener;
 import com.tripint.intersight.common.widget.flipview.FlipView;
 import com.tripint.intersight.common.widget.flipview.OverFlipMode;
 import com.tripint.intersight.entity.article.ArticlesEntity;
@@ -26,7 +28,7 @@ import butterknife.ButterKnife;
  * 观点(文章)画面
  * A simple {@link Fragment} subclass.
  */
-public class OpinionFragment extends BaseBackFragment {
+public class OpinionFragment extends BaseBackFragment{
 
     @Bind(R.id.opinionFlipView)
     FlipView opinionFlipView;

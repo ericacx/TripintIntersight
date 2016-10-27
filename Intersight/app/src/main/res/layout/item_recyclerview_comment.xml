@@ -104,7 +104,7 @@
         <TextView
             android:id="@+id/comment_praise_content"
             android:text="石墨烯到底是怎样一种材料?"
-            android:textColor="@color/blue"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_14"
             android:layout_marginLeft="@dimen/spacing"
             android:layout_width="wrap_content"

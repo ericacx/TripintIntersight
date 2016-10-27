@@ -18,6 +18,7 @@
         android:textColor="@color/white"
         android:layout_marginLeft="@dimen/spacing"
         android:layout_marginRight="@dimen/spacing"
+        android:layout_marginBottom="@dimen/spacing"
         android:text="保存" />
 
     <LinearLayout

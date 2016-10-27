@@ -154,7 +154,6 @@ public class PersonalInfoFragment extends BaseBackFragment {
 
     private AllResoucesEntity allResoucesEntity; //搜索过滤条件数据
 
-
     public static final String ARG_DATA = "arg_user_data";
 
     private List<SchoolNameEntity> schools = new ArrayList<>();//学校
@@ -168,6 +167,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
     private String[] workArray = {"1年内", "1-3年", "3-5年", "5-10年", "10年以上"}; //排序数据
     private Integer[] workArrayKey = {0, 1, 2, 3, 4}; //排序数据
 
+    private DialogPlus dialogPlus;
     //画面编辑的数据
 
     private int currentIndestry;//行业
@@ -330,8 +330,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
             case R.id.personal_info_rl_position://职能
 
                 if (role == 1) {
-                    DialogPlusUtils dialogPlus = DialogPlusUtils.Builder(mActivity);
-                    DialogPlusUtils.Builder(mActivity)
+                    dialogPlus = DialogPlusUtils.Builder(mActivity)
                             .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createSingleListView()))
                             .setTitleName("请选择职能")
                             .setIsHeader(true)
@@ -340,7 +339,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
                             .setGravity(Gravity.BOTTOM)
                             .showCompleteDialog();
                 } else if (role == 2) {
-                    DialogPlusUtils.Builder(mActivity)
+                    dialogPlus = DialogPlusUtils.Builder(mActivity)
                             .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createStudentSingleListView()))
                             .setTitleName("请选择学历")
                             .setIsHeader(true)
@@ -361,7 +360,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
                     work.add(itemModel);
                     i++;
                 }
-                DialogPlusUtils.Builder(mActivity)
+                dialogPlus = DialogPlusUtils.Builder(mActivity)
                         .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createExperSingleListView(work)))
                         .setTitleName("请选择工作年限")
                         .setIsHeader(true)
@@ -372,7 +371,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
                 break;
             case R.id.personal_info_trade:
                 if (role == 1) {
-                    DialogPlusUtils.Builder(mActivity)
+                    dialogPlus = DialogPlusUtils.Builder(mActivity)
                             .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createDoubleListView()))
                             .setTitleName("请选择行业")
                             .setIsHeader(true)
@@ -381,7 +380,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
                             .setGravity(Gravity.BOTTOM)
                             .showCompleteDialog();
                 } else if (role == 2) {
-                    DialogPlusUtils.Builder(mActivity)
+                    dialogPlus = DialogPlusUtils.Builder(mActivity)
                             .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createStudentDoubleListView()))
                             .setTitleName("请选择专业")
                             .setIsHeader(true)
@@ -423,7 +422,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
                     public void onItemClick(AbilityNameEntity item) {
                         currentAbility = item.getId();
                         personalInfoPosition.setText(item.getName());
-
+                        dialogPlus.dismiss();
 //                        onFilterDone(type, item.getKey(), item.getName());
                     }
                 });
@@ -453,7 +452,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
                     public void onItemClick(QualificationsNameEntity item) {
                         currentQualifications = item.getId();
                         personalInfoPosition.setText(item.getName());
-                        dismissProgressDialog();
+                        dialogPlus.dismiss();
 //                        onFilterDone(type, item.getKey(), item.getName());
                     }
                 });
@@ -482,7 +481,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
                     @Override
                     public void onItemClick(ItemModel item) {
                         personalInfoExperience.setText(item.getName());
-                        dismissProgressDialog();
+                        dialogPlus.dismiss();
 //                        onFilterDone(type, item.getKey(), item.getName());
                     }
                 });
@@ -536,7 +535,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
                     public void onRightItemClick(IndustryNameEntity item, IndustrySubEntity childItem) {
                         currentIndestry = childItem.getId();
                         personalInfoTrade.setText(childItem.getName());
-                        dismissProgressDialog();
+                        dialogPlus.dismiss();
 //                        onFilterDone(0, childItem.getId(), childItem.getName());
                     }
                 });
@@ -591,7 +590,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
                     public void onRightItemClick(SpecialitiesNameEntity item, SpecialitiesSubEntity childItem) {
                         currentSpecialities = childItem.getId();
                         personalInfoTrade.setText(childItem.getName());
-                        dismissProgressDialog();
+                        dialogPlus.dismiss();
                     }
                 });
 

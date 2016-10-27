@@ -11,8 +11,8 @@ import java.io.Serializable;
 public class CommentPraiseEntity implements Serializable{
 
     private int id;
-    private int type;//类型:1:
-    private int messageType;
+    private int type;//类型:// 1访谈 2问答 3观点 4评论
+    private int messageType;// 1评论 2点赞
     private String nickname;//名字
     private String avatar;//头像
     private String companyName;//公司
@@ -20,6 +20,15 @@ public class CommentPraiseEntity implements Serializable{
     private String title;//标题
     private String content;//别人的评论
     private String createAt;//创建时间
+    private int itemId;
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
 
     public int getId() {
         return id;
