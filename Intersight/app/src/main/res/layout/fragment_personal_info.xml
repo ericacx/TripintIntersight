@@ -488,7 +488,7 @@
                     android:background="@drawable/bg_corners_text"
                     android:layout_width="match_parent"
                     android:padding="@dimen/spacing_pad04"
-                    android:layout_height="@dimen/height_15_80"
+                    android:layout_height="@dimen/height_25_80"
                     android:layout_marginBottom="@dimen/spacing">
 
                     <EditText

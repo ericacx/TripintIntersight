@@ -141,6 +141,8 @@ public class PersonalInfoFragment extends BaseBackFragment {
 
     @Bind(R.id.personal_info_ll)
     LinearLayout personalInfoLl;
+    @Bind(R.id.personal_info_rl_trade)
+    RelativeLayout personalInfoRlTrade;
 
     private CodeDataEntity responseEntity;
     private UserHomeEntity userEntity;
@@ -173,7 +175,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
 
     private PageDataSubscriberOnNext<AllResoucesEntity> filterSubscriber;
 
-    private int role = 1;
+    private int role;
 
     public static PersonalInfoFragment newInstance(UserHomeEntity entity) {
         // Required empty public constructor
@@ -190,7 +192,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             userEntity = (UserHomeEntity) bundle.getSerializable(ARG_DATA);
-//            role = userEntity.getRole();
+            role = userEntity.getRole();
         }
 
     }
@@ -363,7 +365,8 @@ public class PersonalInfoFragment extends BaseBackFragment {
                         .setGravity(Gravity.BOTTOM)
                         .showCompleteDialog();
                 break;
-            case R.id.personal_info_trade:
+            case R.id.personal_info_rl_trade:
+
                 if (role == 1) {//职员
                     dialogPlus = DialogPlusUtils.Builder(mActivity)
                             .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createDoubleListView()))
@@ -598,8 +601,8 @@ public class PersonalInfoFragment extends BaseBackFragment {
     }
 
     private EditUserEntity createEditUserData() {
-        EditUserEntity  editUserEntity = new EditUserEntity(role);
-        if (role == 1){
+        EditUserEntity editUserEntity = new EditUserEntity(role);
+        if (role == 1) {
             editUserEntity.setType(role);
             editUserEntity.setAvatar("");
             editUserEntity.setMobile(personalInfoPhone.getText().toString());//手机
@@ -613,8 +616,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
             editUserEntity.setExperience(personalInfoExperience.getText().toString());//工作年限
             editUserEntity.setDesc(personalInfoPersonalInfo.getText().toString());//个人简介
             return editUserEntity;
-        }
-        else if (role == 2){
+        } else if (role == 2) {
             editUserEntity.setType(role);
             editUserEntity.setAvatar("");
             editUserEntity.setMobile(personalInfoPhone.getText().toString());//手机
@@ -629,6 +631,5 @@ public class PersonalInfoFragment extends BaseBackFragment {
         }
         return editUserEntity;
     }
-
 
 }

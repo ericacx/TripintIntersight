@@ -65,11 +65,15 @@ public class ResigterFragment extends BaseBackFragment {
                 case 100:
                     if (time == 0) {
                         time = 60;
-                        registerVerifyCode.setClickable(true);
-                        registerVerifyCode.setText("获取验证码");
+                        if (registerVerifyCode != null) {
+                            registerVerifyCode.setClickable(true);
+                            registerVerifyCode.setText("获取验证码");
+                        }
                     } else {
-                        registerVerifyCode.setText("重新获取(" + (--time) + ")");
-                        handler.sendEmptyMessageDelayed(100, 1000);
+                        if (registerVerifyCode != null) {
+                            registerVerifyCode.setText("重新获取(" + (--time) + ")");
+                            handler.sendEmptyMessageDelayed(100, 1000);
+                        }
                     }
                     break;
             }

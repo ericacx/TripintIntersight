@@ -14,7 +14,7 @@
     <Button
         android:id="@+id/opioion_flipview_two_submit"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_6_80"
+        android:layout_height="@dimen/height_5_80"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/width_10_80"
         android:layout_marginRight="@dimen/width_10_80"
@@ -22,7 +22,7 @@
         android:background="@drawable/btn_shape"
         android:text="发表观点"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_15" />
+        android:textSize="@dimen/text_size_14" />
 
 
     <LinearLayout
@@ -38,9 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/spacing"
-            android:text="@string/opinion_text_title"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_15" />
+            android:textSize="@dimen/text_size_14" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -51,7 +50,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing"
-                android:text="Maggie"
                 android:textColor="@color/line"
                 android:textSize="@dimen/text_size_12" />
 
@@ -61,7 +59,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing"
                 android:layout_toRightOf="@id/opinion_flipview_two_name"
-                android:text="互联网 | 游戏 | 软件"
                 android:textColor="@color/line"
                 android:textSize="@dimen/text_size_12" />
 
@@ -71,7 +68,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing"
                 android:layout_toRightOf="@id/opinion_flipview_two_trade"
-                android:text="销售总监"
                 android:textColor="@color/line"
                 android:textSize="@dimen/text_size_12" />
 
@@ -86,38 +82,56 @@
             android:layout_gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/opinion_flipview_two_agreeNum"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/height_4_80"
-                android:gravity="center_vertical"
-                android:drawableLeft="@mipmap/iconfont_zan01"
-                android:drawablePadding="@dimen/spacing"
-                android:layout_marginLeft="@dimen/spacing"
-                android:text="285"
-                android:textColor="@color/line" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/opinion_flipview_two_agreeNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/height_4_80"
+                    android:gravity="center_vertical"
+                    android:drawableLeft="@mipmap/iconfont_zan01"
+                    android:drawablePadding="@dimen/spacing"
+                    android:textSize="@dimen/text_size_12"
+                    android:textColor="@color/line" />
+
+                <TextView
+                    android:id="@+id/opinion_flipview_two_talkNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/height_4_80"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="@dimen/spacing"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:textSize="@dimen/text_size_12"
+                    android:drawableLeft="@mipmap/iconfont_heartbig01"
+                    android:textColor="@color/line" />
+
+                <TextView
+                    android:id="@+id/opinion_flipview_two_report"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/height_4_80"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:drawablePadding="@dimen/spacing"
+                    android:textSize="@dimen/text_size_12"
+                    android:drawableLeft="@mipmap/iconfont_jubao"
+                    />
+            </LinearLayout>
+
 
             <TextView
-                android:id="@+id/opinion_flipview_two_talkNum"
-                android:layout_width="wrap_content"
+                android:id="@+id/opinion_flipview_two_time"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="@dimen/height_4_80"
                 android:gravity="center_vertical"
-                android:drawablePadding="@dimen/spacing"
-                android:layout_marginLeft="@dimen/spacing"
-                android:drawableLeft="@mipmap/iconfont_heartbig01"
-                android:text="5"
-                android:textColor="@color/line" />
-
-            <TextView
-                android:id="@+id/opinion_flipview_two_report"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/height_4_80"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="@dimen/spacing"
-                android:drawablePadding="@dimen/spacing"
-                android:drawableLeft="@mipmap/iconfont_jubao"
+                android:layout_gravity="end"
+                android:textColor="@color/line"
+                android:layout_marginLeft="30dp"
+                android:textSize="@dimen/text_size_12"
                 />
-
         </LinearLayout>
 
         <TextView
@@ -126,9 +140,9 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lineSpacingMultiplier="1.5"
-            android:maxLines="10"
+            android:maxEms="10"
+            android:maxLines="4"
             android:padding="@dimen/spacing"
-            android:text="@string/opinion_text_content"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_12" />
 

@@ -211,4 +211,16 @@ public class CreateOpinionFragment extends BaseBackFragment {
 
         return comTypeDoubleListView;
     }
+
+    @Override
+    public boolean onBackPressedSupport() {
+        if (dialogPlus != null) {
+            if (dialogPlus.isShowing()) {
+                dialogPlus.dismiss();
+                return false;
+            }
+        }
+        return super.onBackPressedSupport();
+
+    }
 }
