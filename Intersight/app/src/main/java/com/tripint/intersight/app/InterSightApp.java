@@ -76,6 +76,13 @@ public class InterSightApp extends Application {
             Manifest.permission.READ_CONTACTS //允许应用访问联系人通讯录信息
     };
 
+    //获取联系人权限
+    public final String[] FILE_CAMERA = new String[]{
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,  //允许程序写入外部存储
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA //允许应用访问联系人通讯录信息
+    };
+
     //获取摄像头权限
     public final String[] CAMERA = new String[]{
             Manifest.permission.CAMERA //允许访问摄像头进行拍照
@@ -269,11 +276,11 @@ public class InterSightApp extends Application {
                 }
                 String msgType = "", paramId = "", paramExtraId, paramLink = "";
 
-                if (extraParams.containsKey("msgType")) {
-                    msgType = extraParams.get("msgType");
+                if (extraParams.containsKey("type")) {
+                    msgType = extraParams.get("type");
                 }
-                if (extraParams.containsKey("paramId")) {
-                    paramId = extraParams.get("paramId");
+                if (extraParams.containsKey("itemId")) {
+                    paramId = extraParams.get("itemId");
                 }
                 if (extraParams.containsKey("paramExtraId")) {
                     paramExtraId = extraParams.get("paramExtraId");

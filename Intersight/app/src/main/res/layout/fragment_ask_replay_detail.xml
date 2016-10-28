@@ -21,7 +21,7 @@
             android:layout_marginTop="?attr/actionBarSize"
             android:background="@android:color/transparent"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -37,8 +37,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/width_3_80"
-                    android:src="@mipmap/dongcha" />
+                    android:layout_margin="@dimen/width_3_80" />
             </RelativeLayout>
 
             <LinearLayout
@@ -99,7 +98,7 @@
             android:background="@android:color/transparent"
             android:gravity="right"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="gone">
 
 
             <com.tripint.intersight.widget.image.TouchImageView
@@ -183,8 +182,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/width_3_80"
-                    android:src="@mipmap/dongcha" />
+                    android:layout_margin="@dimen/width_3_80" />
             </RelativeLayout>
         </LinearLayout>
 

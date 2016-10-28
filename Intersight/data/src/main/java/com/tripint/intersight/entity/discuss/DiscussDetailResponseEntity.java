@@ -10,34 +10,16 @@ import java.util.List;
  * Created by: ModelGenerator on 2016/9/22
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DiscussDetailEntity implements Serializable {
-    private DiscussEntiry detail;
-    private VoiceEntity voices;
-    private AuthorEntity author;
+public class DiscussDetailResponseEntity implements Serializable {
+    private DiscussAskDetailEntity detail;
     private List<CommentEntity> comments;
 
-    public DiscussEntiry getDetail() {
+    public DiscussAskDetailEntity getDetail() {
         return detail;
     }
 
-    public void setDetail(DiscussEntiry detail) {
+    public void setDetail(DiscussAskDetailEntity detail) {
         this.detail = detail;
-    }
-
-    public VoiceEntity getVoices() {
-        return voices;
-    }
-
-    public void setVoices(VoiceEntity voices) {
-        this.voices = voices;
-    }
-
-    public AuthorEntity getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(AuthorEntity author) {
-        this.author = author;
     }
 
     public List<CommentEntity> getComments() {

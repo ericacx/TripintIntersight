@@ -6,7 +6,7 @@ import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.entity.SearchArticleEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.discuss.CreateDiscussResponseEntity;
-import com.tripint.intersight.entity.discuss.DiscussDetailEntity;
+import com.tripint.intersight.entity.discuss.DiscussDetailResponseEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.discuss.InterviewEntity;
 
@@ -104,11 +104,11 @@ private final String FLITER_TYPE_ARTICLES = "articles";
      * @param subscriber 由调用者传过来的观察者对象
      * @param
      */
-    public void getDiscussDetail(Subscriber<DiscussDetailEntity> subscriber, int discussId) {
+    public void getDiscussDetail(Subscriber<DiscussDetailResponseEntity> subscriber, int discussId) {
 
         Observable observable
                 = service.getDiscussDetail(discussId)
-                .map(new HttpResultFunc<DiscussDetailEntity>());
+                .map(new HttpResultFunc<DiscussDetailResponseEntity>());
 
 
         toSubscribe(observable, subscriber);

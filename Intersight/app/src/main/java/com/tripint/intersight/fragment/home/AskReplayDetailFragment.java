@@ -57,7 +57,8 @@ import com.tripint.intersight.common.widget.countdown.CountDownView;
 import com.tripint.intersight.common.widget.countdown.TimerListener;
 import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
 import com.tripint.intersight.common.widget.dialogplus.ListHolder;
-import com.tripint.intersight.entity.discuss.DiscussDetailEntity;
+import com.tripint.intersight.entity.discuss.DiscussAskDetailEntity;
+import com.tripint.intersight.entity.discuss.DiscussDetailResponseEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.payment.WXPayResponseEntity;
 import com.tripint.intersight.entity.stream.SaveStreamResponseEntity;
@@ -146,7 +147,7 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
     private AskAnswerPageDetailCommentAdapter mAdapter;
 
     //取得问答详情
-    private PageDataSubscriberOnNext<DiscussDetailEntity> subscriber;
+    private PageDataSubscriberOnNext<DiscussDetailResponseEntity> subscriber;
 
     //取得推送流URL
     private PageDataSubscriberOnNext<StreamResponseEntity> streamSubscriber;
@@ -156,7 +157,7 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
 
     private PageDataSubscriberOnNext<WXPayResponseEntity> paymentSubscriber;
 
-    private DiscussDetailEntity data;
+    private DiscussDetailResponseEntity data;
 
     private int mDiscussId;
 
@@ -228,43 +229,38 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
 
 
         //问答标题与作者
-        if (data.getAuthor() != null) {
+        if (data.getDetail() != null) {
+            DiscussAskDetailEntity entity = data.getDetail();
+
             containerChatReply.setVisibility(View.VISIBLE);
-            Glide.with(mActivity).load(data.getAuthor().getAvatar())
+            Glide.with(mActivity).load(entity.getAuthorUserAvatar())
                     .crossFade()
 //                    .placeholder(R.mipmap.ic_avatar)
                     .transform(new GlideCircleTransform(mActivity))
                     .into(imageAskProfile);
-            String special = data.getAuthor().getNickname();
-            if (data.getAuthor().getAbility() != null) {
-                special += data.getAuthor().getAbility().getName();
-            }
-            if (data.getAuthor().getIndustry() != null) {
-                special += data.getAuthor().getIndustry().getName();
-            }
+            String special = entity.getAuthorUserNickname();
+            special += entity.getAuthorUserAbility();
+            special += entity.getAuthorUserCompany();
+
             textViewItemAskSpecialist.setText(special);
-        }
-        //回答内容
-        if (data.getDetail() != null) {
             containerChatAuthor.setVisibility(View.VISIBLE);
-            textViewItemAskTitle.setText(data.getDetail().getContent());
-            textViewItemAskDateTime.setText(data.getDetail().getCreateAt());
-            String special = data.getAuthor().getNickname();
-            if (data.getDetail().getUserInfo() != null) {
-                if (data.getDetail().getUserInfo().getAbility() != null) {
-                    special += data.getAuthor().getAbility().getName();
-                }
-                if (data.getDetail().getUserInfo().getIndustry() != null) {
-                    special += data.getAuthor().getIndustry().getName();
-                }
+            textViewItemAskTitle.setText(entity.getContent());
+            textViewItemAskDateTime.setText(entity.getAuthorCreateAt());
+            String specialAnswer = entity.getAnswerUserNickname();
+            specialAnswer += entity.getAnswerUserAbility();
+            specialAnswer += entity.getAnswerUserCompany();
                 textViewItemAnswerSpecialist.setText(special);
 
-            }
-            if (data.getDetail().getVoices() != null) {
-                textViewItemAnswerTitle.setText(data.getDetail().getVoices().getTimeLong() + "s");
-                textViewItemAnswerPayment.setText(data.getDetail().getVoices().getPayment() + "元即听");
-            }
-            textViewItemAnswerDateTime.setText(data.getDetail().getCreateAt());
+
+            textViewItemAnswerTitle.setText(entity.getAudioTime() + "s");
+            textViewItemAnswerPayment.setText(entity.getPayment() + "元即听");
+
+            textViewItemAnswerDateTime.setText(entity.getAnswerCreateAt());
+            Glide.with(mActivity).load(entity.getAuthorUserAvatar())
+                    .crossFade()
+//                    .placeholder(R.mipmap.ic_avatar)
+                    .transform(new GlideCircleTransform(mActivity))
+                    .into(imageAskProfile);
 
         } else {
             layoutSpeakerContainer.setVisibility(View.VISIBLE);
@@ -368,9 +364,9 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
 
 
     private void httpRequestData() {
-        subscriber = new PageDataSubscriberOnNext<DiscussDetailEntity>() {
+        subscriber = new PageDataSubscriberOnNext<DiscussDetailResponseEntity>() {
             @Override
-            public void onNext(DiscussDetailEntity entity) {
+            public void onNext(DiscussDetailResponseEntity entity) {
                 //接口请求成功后处理
                 data = entity;
 //                ToastUtil.showToast(mActivity, entity.getAbilityName().toString() +"");
@@ -413,7 +409,7 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
             }
         };
 
-        DiscussDataHttpRequest.getInstance(mActivity).getDiscussDetail(new ProgressSubscriber<DiscussDetailEntity>(subscriber, mActivity), mDiscussId);
+        DiscussDataHttpRequest.getInstance(mActivity).getDiscussDetail(new ProgressSubscriber<DiscussDetailResponseEntity>(subscriber, mActivity), mDiscussId);
     }
 
     private void inithttpPutRequestData() {

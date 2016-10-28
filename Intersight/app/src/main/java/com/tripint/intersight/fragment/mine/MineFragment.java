@@ -183,27 +183,24 @@ public class MineFragment extends BaseLazyMainFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.mineCIVPersonalInfo:
-                if (InterSightApp.getApp().getPermissionsChecker().lacksPermissions(InterSightApp.getApp().CONTACTS)) {
-                    PermissionsActivity.startActivityForResult(mActivity, InterSightApp.getApp().REQUEST_CODE, InterSightApp.getApp().CONTACTS);
+                if (InterSightApp.getApp().getPermissionsChecker().lacksPermissions(InterSightApp.getApp().FILE_CAMERA)) {
+                    PermissionsActivity.startActivityForResult(mActivity, InterSightApp.getApp().REQUEST_CODE, InterSightApp.getApp().FILE_CAMERA);
                 } else {
-                    if (InterSightApp.getApp().getPermissionsChecker().lacksPermissions(InterSightApp.getApp().CAMERA)) {
-                        PermissionsActivity.startActivityForResult(mActivity, InterSightApp.getApp().REQUEST_CODE, InterSightApp.getApp().CAMERA);
-                    } else {
-                        List<ItemModel> list = new ArrayList<>();
-                        list.add(new ItemModel(1, "拍照"));
-                        list.add(new ItemModel(2, "从相册选择"));
+                    List<ItemModel> list = new ArrayList<>();
+                    list.add(new ItemModel(1, "拍照"));
+                    list.add(new ItemModel(2, "从相册选择"));
 
-                        dialog = DialogPlusUtils.Builder(mActivity)
-                                .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createSingleListView(list)))
-                                .setTitleName("请选择")
-                                .setIsHeader(true)
-                                .setIsFooter(false)
-                                .setIsExpanded(false)
-                                .setGravity(Gravity.CENTER)
-                                .showCompleteDialog();
-                        break;
-                    }
+                    dialog = DialogPlusUtils.Builder(mActivity)
+                            .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createSingleListView(list)))
+                            .setTitleName("请选择")
+                            .setIsHeader(true)
+                            .setIsFooter(false)
+                            .setIsExpanded(false)
+                            .setGravity(Gravity.CENTER)
+                            .showCompleteDialog();
+                    break;
                 }
+
                 break;
             case R.id.mineIvRewriteInfo://编辑个人资料
                 EventBus.getDefault().post(new StartFragmentEvent(PersonalInfoFragment.newInstance(data)));

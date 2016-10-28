@@ -36,7 +36,8 @@ import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
 import com.tripint.intersight.entity.discuss.CommentEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
-import com.tripint.intersight.entity.discuss.DiscussDetailEntity;
+import com.tripint.intersight.entity.discuss.DiscussAskDetailEntity;
+import com.tripint.intersight.entity.discuss.DiscussDetailResponseEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.payment.AliPayResponseEntity;
 import com.tripint.intersight.entity.payment.WXPayResponseEntity;
@@ -55,6 +56,7 @@ import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 import com.tripint.intersight.widget.tabbar.BottomTabBarItem;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -118,14 +120,14 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
     private AskAnswerPageDetailCommentAdapter mAdapter;
 
-    private PageDataSubscriberOnNext<DiscussDetailEntity> subscriber;
+    private PageDataSubscriberOnNext<DiscussDetailResponseEntity> subscriber;
 
     private PageDataSubscriberOnNext<CommentResultEntity> putSubscriber;
 
     private PageDataSubscriberOnNext<WXPayResponseEntity> wxPaySubscriber;
     private PageDataSubscriberOnNext<AliPayResponseEntity> aliPaySubscriber;
 
-    private DiscussDetailEntity data;
+    private DiscussDetailResponseEntity data;
 
     private int mDiscussId;
 
@@ -158,6 +160,8 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
         View view = inflater.inflate(R.layout.fragment_ask_answer_detail, container, false);
         ButterKnife.bind(this, view);
 
+        EventBus.getDefault().register(this);
+
         httpRequestData();
         return view;
     }
@@ -171,44 +175,39 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
 
         //问答标题与作者
-        if (data.getAuthor() != null) {
+        if (data.getDetail() != null) {
+            DiscussAskDetailEntity entity = data.getDetail();
             containerChatReply.setVisibility(View.VISIBLE);
-            Glide.with(mActivity).load(data.getAuthor().getAvatar())
+            Glide.with(mActivity).load(entity.getAuthorUserAvatar())
                     .crossFade()
-//                    .placeholder(R.mipmap.ic_avatar)
+                    .placeholder(R.mipmap.ic_avatar)
                     .transform(new GlideCircleTransform(mActivity))
                     .into(imageAskProfile);
-            String special = data.getAuthor().getNickname();
-            if (data.getAuthor().getAbility() != null) {
-                special += data.getAuthor().getAbility().getName();
-            }
-            if (data.getAuthor().getIndustry() != null) {
-                special += data.getAuthor().getIndustry().getName();
-            }
+            String special = data.getDetail().getAnswerUserNickname();
+
+            special += entity.getAuthorUserAbility();
+            special += entity.getAuthorUserCompany();
+
             textViewItemAskSpecialist.setText(special);
-        }
-        //回答内容
-        if (data.getDetail() != null) {
             containerChatAuthor.setVisibility(View.VISIBLE);
-            textViewItemAskTitle.setText(data.getDetail().getContent());
-            textViewItemAskDateTime.setText(data.getDetail().getCreateAt());
-            String special = data.getAuthor().getNickname();
-            if (data.getDetail().getUserInfo() != null) {
-                if (data.getDetail().getUserInfo().getAbility() != null) {
-                    special += data.getAuthor().getAbility().getName();
-                }
-                if (data.getDetail().getUserInfo().getIndustry() != null) {
-                    special += data.getAuthor().getIndustry().getName();
-                }
-                textViewItemAnswerSpecialist.setText(special);
+            textViewItemAskTitle.setText(entity.getContent());
+            textViewItemAskDateTime.setText(entity.getAuthorCreateAt());
+            String specialAnswer = entity.getAnswerUserNickname();
+            specialAnswer += entity.getAnswerUserAbility();
+            specialAnswer += entity.getAnswerUserCompany();
 
-            }
-            if (data.getDetail().getVoices() != null) {
-                textViewItemAnswerTitle.setText(data.getDetail().getVoices().getTimeLong() + "s");
-                textViewItemAnswerPayment.setText(data.getDetail().getVoices().getPayment() + "元即听");
-            }
-            textViewItemAnswerDateTime.setText(data.getDetail().getCreateAt());
+            textViewItemAnswerSpecialist.setText(specialAnswer);
 
+            textViewItemAnswerTitle.setText(entity.getAudioTime() + "s");
+            textViewItemAnswerPayment.setText(entity.getPayment() + "元即听");
+
+            textViewItemAnswerDateTime.setText(entity.getAnswerCreateAt());
+
+            Glide.with(mActivity).load(entity.getAnswerUserAvatar())
+                    .crossFade()
+                    .placeholder(R.mipmap.ic_avatar)
+                    .transform(new GlideCircleTransform(mActivity))
+                    .into(imageAnswerProfile);
 
             //点赞 点关注 点
             LinearLayout.LayoutParams mTabParams;
@@ -216,10 +215,10 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             mTabParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
             mTabParams.weight = 1;
             final boolean isPraises = data.getDetail().getIsPraises() == 1001;
-            final boolean isFollow = data.getDetail().getIsFollows() == 1001;
+            final boolean isFollow = data.getDetail().getIsFavorites() == 1001;
             int praises = isPraises ? R.mipmap.iconfont_zan01 : R.mipmap.iconfont_zan02;
             int follow = isFollow ? R.mipmap.iconfont_heartbig01 : R.mipmap.iconfont_heartbig02;
-            item1 = new BottomTabBarItem(mActivity, praises, "赞" + data.getDetail().getPraises());
+            item1 = new BottomTabBarItem(mActivity, praises, "赞" + data.getDetail().getPraisesCount());
             item1.setSelected(isPraises);
             item1.setTabPosition(1);
             item1.setLayoutParams(mTabParams);
@@ -239,7 +238,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             });
             userCommentBar.addView(item1);
 
-            item2 = new BottomTabBarItem(mActivity, follow, "关注" + data.getDetail().getFollows());
+            item2 = new BottomTabBarItem(mActivity, follow, "关注" + data.getDetail().getFavoritesCount());
             item2.setSelected(isFollow);
             item2.setTabPosition(2);
             item2.setLayoutParams(mTabParams);
@@ -278,9 +277,9 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
 
     private void httpRequestData() {
-        subscriber = new PageDataSubscriberOnNext<DiscussDetailEntity>() {
+        subscriber = new PageDataSubscriberOnNext<DiscussDetailResponseEntity>() {
             @Override
-            public void onNext(DiscussDetailEntity entity) {
+            public void onNext(DiscussDetailResponseEntity entity) {
                 //接口请求成功后处理
                 data = entity;
 //                ToastUtil.showToast(mActivity, entity.getAbilityName().toString() +"");
@@ -398,9 +397,9 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
                         if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
 
-                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), data.getDetail().getId(), data.getDetail().getUid(), data.getDetail().getContent());
+                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), data.getDetail().getId(), data.getDetail().getAnswerUserId(), data.getDetail().getContent());
                         } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
-                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), data.getDetail().getId(), data.getDetail().getUid(), data.getDetail().getContent());
+                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), data.getDetail().getId(), data.getDetail().getAnswerUserId(), data.getDetail().getContent());
 
                         }
 
@@ -482,6 +481,12 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+
+    }
 
     @Override
     public void onDestroyView() {

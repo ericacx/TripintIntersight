@@ -6,7 +6,7 @@ import com.tripint.intersight.common.BaseResponse;
 import com.tripint.intersight.entity.SearchArticleEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.discuss.CreateDiscussResponseEntity;
-import com.tripint.intersight.entity.discuss.DiscussDetailEntity;
+import com.tripint.intersight.entity.discuss.DiscussDetailResponseEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.discuss.InterviewEntity;
 
@@ -37,7 +37,7 @@ public interface DiscussDataService {
     Observable<BaseResponse<BasePageableResponse<DiscussEntiry>>> getSearchFilter(@Query("type") String type);
 
     @GET("discuss/{id}")
-    Observable<BaseResponse<DiscussDetailEntity>> getDiscussDetail(@Path("id") int id);
+    Observable<BaseResponse<DiscussDetailResponseEntity>> getDiscussDetail(@Path("id") int id);
 
     @PUT("discuss/{id}")
     Observable<BaseResponse<CommentResultEntity>> createComment(@Path("id") int id, @Query("action") String action, @Query("type") String type, @Query("content") String content);

@@ -13,7 +13,7 @@ import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.fragment.MainContentFragment;
-import com.tripint.intersight.fragment.home.AskAnswerDetailFragment;
+import com.tripint.intersight.fragment.home.AskReplayDetailFragment;
 import com.tripint.intersight.fragment.mine.MyInterviewDetailFragment;
 import com.umeng.common.UmengMessageDeviceConfig;
 import com.umeng.message.MsgConstant;
@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivity {
 
             if (StringUtils.equals(fragmentName, DISCUSS_CONTENT_FRAGMENT_NAME_DISCUSS) && !StringUtils.isEmpty(paramId)) {
                 int paramIdInt = Integer.parseInt(paramId);//问答
-                replaceLoadRootFragment(R.id.main_container, AskAnswerDetailFragment.newInstance(new DiscussEntiry(paramIdInt)), true);
+                replaceLoadRootFragment(R.id.main_container, AskReplayDetailFragment.newInstance(new DiscussEntiry(paramIdInt)), true);
 
             } else if (StringUtils.equals(fragmentName, INTERVIEW_CONTENT_FRAGMENT_NAME_INTERVIEW) && !StringUtils.isEmpty(paramId)) {
                 int paramIdInt = Integer.parseInt(paramId);//访谈
