@@ -29,9 +29,6 @@
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.VerifyPhoneActivity"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.PermissionsActivity"

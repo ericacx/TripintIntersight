@@ -62,7 +62,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/spacing"
                             android:layout_toRightOf="@id/opinion_flipview_two_name"
-                            android:text="互联网 | 游戏 | 软件"
                             android:textColor="@color/line"
                             android:textSize="@dimen/text_size_12" />
 
@@ -72,7 +71,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/spacing"
                             android:layout_toRightOf="@id/opinion_flipview_two_trade"
-                            android:text="销售总监"
                             android:textColor="@color/line"
                             android:textSize="@dimen/text_size_12" />
 

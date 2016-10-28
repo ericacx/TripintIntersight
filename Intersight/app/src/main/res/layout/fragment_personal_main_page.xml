@@ -68,7 +68,6 @@
                 android:src="@mipmap/ic_avatar" />
             <TextView
                 android:id="@+id/personal_main_page_name"
-                android:text="老乔"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_15"
                 android:layout_marginTop="@dimen/spacing"
@@ -78,7 +77,6 @@
 
             <TextView
                 android:id="@+id/personal_main_page_title"
-                android:text="市场总监"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_15"
                 android:layout_marginTop="@dimen/spacing"
@@ -87,7 +85,6 @@
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/personal_main_page_company"
-                android:text="美国德州仪器公司"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_15"
                 android:layout_marginTop="@dimen/spacing"
@@ -97,7 +94,6 @@
 
             <TextView
                 android:id="@+id/personal_main_page_trade"
-                android:text="电子 | 通信 | 硬件"
                 android:textColor="@color/line"
                 android:textSize="@dimen/text_size_12"
                 android:layout_marginTop="@dimen/spacing_02"
@@ -107,7 +103,6 @@
 
             <TextView
                 android:id="@+id/personal_main_page_experience"
-                android:text="10年以上工作经验"
                 android:textColor="@color/line"
                 android:textSize="@dimen/text_size_12"
                 android:layout_marginTop="5dp"

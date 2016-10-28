@@ -68,6 +68,6 @@
         android:layout_marginLeft="@dimen/spacing_02"
         android:layout_marginRight="@dimen/spacing_02"
         android:layout_marginBottom="@dimen/spacing"
-        android:text="发送" />
+        android:text="确认" />
 
 </LinearLayout>

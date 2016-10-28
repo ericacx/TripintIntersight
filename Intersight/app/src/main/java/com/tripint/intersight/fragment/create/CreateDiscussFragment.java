@@ -294,9 +294,9 @@ public class CreateDiscussFragment extends BaseBackFragment {
 
                         if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
 
-//                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), createDiscussResponseEntity.getDiscussId(), discussContent);
+                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), createDiscussResponseEntity.getDiscussId(),uid, discussContent);
                         } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
-//                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), createDiscussResponseEntity.getDiscussId(), discussContent);
+                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), createDiscussResponseEntity.getDiscussId(),uid, discussContent);
 
                         }
 
@@ -310,5 +310,17 @@ public class CreateDiscussFragment extends BaseBackFragment {
                 dialogPlus.show();
             }
         });
+    }
+
+    @Override
+    public boolean onBackPressedSupport() {
+        if (dialogPlus != null) {
+            if (dialogPlus.isShowing()) {
+                dialogPlus.dismiss();
+                return false;
+            }
+        }
+        return super.onBackPressedSupport();
+
     }
 }

@@ -15,7 +15,7 @@ public class ArticlesEntity implements Serializable {
     private int type;//0:banner 1:图文 2:文字
     private List<BannerEntity> banner;//banner
     private List<ArticleContentEntity> article;//带有banner的文章资源
-    private List<TextDetailEntity> textDetail;//文字
+    private List<ArticleContentEntity> textDetail;//文字
     private List<ArticleContentEntity> imgTextDetail;//图文
 
     public int getType() {
@@ -42,11 +42,11 @@ public class ArticlesEntity implements Serializable {
         this.article = article;
     }
 
-    public List<TextDetailEntity> getTextDetail() {
+    public List<ArticleContentEntity> getTextDetail() {
         return textDetail;
     }
 
-    public void setTextDetail(List<TextDetailEntity> textDetail) {
+    public void setTextDetail(List<ArticleContentEntity> textDetail) {
         this.textDetail = textDetail;
     }
 

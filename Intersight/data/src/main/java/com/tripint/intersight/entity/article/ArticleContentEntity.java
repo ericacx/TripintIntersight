@@ -15,34 +15,17 @@ public class ArticleContentEntity implements Serializable {
 
     //图文
     private int id;
-    private int uid;
-    private String title;
-    private int type;
-    private String subTitle;
-    private String content;
+    private int type;//类型
     private String thumb;//图片
-    private int industryId;
-    private int status;
-    private int views;
-    private int comments;
-    private int follows;
-    private int favorites;
-    private int praises;
-    private int unpraises;
-    private int createAt;
-    private int updateAt;
-    private int removeAt;
-    private ArticleUserInfoEntity userInfo;
-    private ArticleIndustryEntity industry;
-
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
+    private String title;//标题
+    private String content;//内容
+    private String createAt;//时间
+    private int userId;
+    private String userNickname;
+    private String userCompany;
+    private String userAbility;
+    private int praisesCount;//点赞数
+    private int commentsCount;//评论数
 
     public int getId() {
         return id;
@@ -50,22 +33,6 @@ public class ArticleContentEntity implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getUid() {
-        return uid;
-    }
-
-    public void setUid(int uid) {
-        this.uid = uid;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public int getType() {
@@ -76,14 +43,6 @@ public class ArticleContentEntity implements Serializable {
         this.type = type;
     }
 
-    public String getSubTitle() {
-        return subTitle;
-    }
-
-    public void setSubTitle(String subTitle) {
-        this.subTitle = subTitle;
-    }
-
     public String getThumb() {
         return thumb;
     }
@@ -92,107 +51,75 @@ public class ArticleContentEntity implements Serializable {
         this.thumb = thumb;
     }
 
-    public int getIndustryId() {
-        return industryId;
+    public String getTitle() {
+        return title;
     }
 
-    public void setIndustryId(int industryId) {
-        this.industryId = industryId;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public int getStatus() {
-        return status;
+    public String getContent() {
+        return content;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public int getViews() {
-        return views;
-    }
-
-    public void setViews(int views) {
-        this.views = views;
-    }
-
-    public int getComments() {
-        return comments;
-    }
-
-    public void setComments(int comments) {
-        this.comments = comments;
-    }
-
-    public int getFollows() {
-        return follows;
-    }
-
-    public void setFollows(int follows) {
-        this.follows = follows;
-    }
-
-    public int getFavorites() {
-        return favorites;
-    }
-
-    public void setFavorites(int favorites) {
-        this.favorites = favorites;
-    }
-
-    public int getPraises() {
-        return praises;
-    }
-
-    public void setPraises(int praises) {
-        this.praises = praises;
-    }
-
-    public int getUnpraises() {
-        return unpraises;
-    }
-
-    public void setUnpraises(int unpraises) {
-        this.unpraises = unpraises;
-    }
-
-    public int getCreateAt() {
+    public String getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(int createAt) {
+    public void setCreateAt(String createAt) {
         this.createAt = createAt;
     }
 
-    public int getUpdateAt() {
-        return updateAt;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUpdateAt(int updateAt) {
-        this.updateAt = updateAt;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public int getRemoveAt() {
-        return removeAt;
+    public String getUserNickname() {
+        return userNickname;
     }
 
-    public void setRemoveAt(int removeAt) {
-        this.removeAt = removeAt;
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
     }
 
-    public ArticleUserInfoEntity getUserInfo() {
-        return userInfo;
+    public String getUserCompany() {
+        return userCompany;
     }
 
-    public void setUserInfo(ArticleUserInfoEntity userInfo) {
-        this.userInfo = userInfo;
+    public void setUserCompany(String userCompany) {
+        this.userCompany = userCompany;
     }
 
-    public ArticleIndustryEntity getIndustry() {
-        return industry;
+    public String getUserAbility() {
+        return userAbility;
     }
 
-    public void setIndustry(ArticleIndustryEntity industry) {
-        this.industry = industry;
+    public void setUserAbility(String userAbility) {
+        this.userAbility = userAbility;
+    }
+
+    public int getPraisesCount() {
+        return praisesCount;
+    }
+
+    public void setPraisesCount(int praisesCount) {
+        this.praisesCount = praisesCount;
+    }
+
+    public int getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(int commentsCount) {
+        this.commentsCount = commentsCount;
     }
 }
