@@ -8,6 +8,7 @@ import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.discuss.CreateDiscussResponseEntity;
 import com.tripint.intersight.entity.discuss.DiscussDetailResponseEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.discuss.DiscussEntity;
 import com.tripint.intersight.entity.discuss.InterviewEntity;
 
 import retrofit2.http.Field;
@@ -26,7 +27,7 @@ public interface DiscussDataService {
 
     //观点
     @GET("discuss")
-    Observable<BaseResponse<BasePageableResponse<DiscussEntiry>>> getDiscuss(@Query("page") int page, @Query("size") int size);
+    Observable<BaseResponse<BasePageableResponse<DiscussEntity>>> getDiscuss(@Query("page") int page, @Query("size") int size);
 
     //观点
     @FormUrlEncoded

@@ -73,6 +73,7 @@ public class CreateDiscussFragment extends BaseBackFragment {
     private String discussContent;
     private List<Industry> industies = new ArrayList<>(); //行业数据
     private int currentIndestry;//行业
+    private int discussId;
     private DialogPlus dialogPlus;
     private int uid;
     private SearchFilterEntity searchFilterEntity; //搜索过滤条件数据
@@ -149,6 +150,7 @@ public class CreateDiscussFragment extends BaseBackFragment {
             @Override
             public void onNext(CreateDiscussResponseEntity entity) {
                 createDiscussResponseEntity = entity;
+                discussId = entity.getDiscussId();
 //                mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_START_STREAMING_DISCUSS), 500);
                 requestPaymentDiscussDialog();
             }
@@ -191,6 +193,7 @@ public class CreateDiscussFragment extends BaseBackFragment {
                         .showCompleteDialog();
                 break;
             case R.id.create_discuss_send:
+
                 discussContent = dialogQuestionEdit.getText().toString().trim();
                 if (TextUtils.isEmpty(dialogQuestionEdit.getText().toString().trim())) {
                     ToastUtil.showToast(mActivity, "输入的内容不能为空");
@@ -202,6 +205,8 @@ public class CreateDiscussFragment extends BaseBackFragment {
                             , discussContent, currentIndestry, uid
                     );
                 }
+
+
                 break;
         }
 
@@ -294,9 +299,9 @@ public class CreateDiscussFragment extends BaseBackFragment {
 
                         if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
 
-                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), createDiscussResponseEntity.getDiscussId(),uid, discussContent);
+                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), discussId, uid, discussContent);
                         } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
-                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), createDiscussResponseEntity.getDiscussId(),uid, discussContent);
+                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), discussId, uid, discussContent);
 
                         }
 

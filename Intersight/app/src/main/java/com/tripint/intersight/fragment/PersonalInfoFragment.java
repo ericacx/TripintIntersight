@@ -44,11 +44,14 @@ import com.tripint.intersight.entity.mine.worker.AllResoucesEntity;
 import com.tripint.intersight.entity.mine.worker.EditUserEntity;
 import com.tripint.intersight.entity.mine.worker.IndustryNameEntity;
 import com.tripint.intersight.entity.mine.worker.IndustrySubEntity;
+import com.tripint.intersight.event.PersonalEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.image.CircleImageView;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -216,6 +219,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
             @Override
             public void onNext(CodeDataEntity entity) {
                 responseEntity = entity;
+                EventBus.getDefault().post(new PersonalEvent());
                 pop();
             }
         };

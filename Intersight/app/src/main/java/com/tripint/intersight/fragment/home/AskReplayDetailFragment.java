@@ -60,6 +60,7 @@ import com.tripint.intersight.common.widget.dialogplus.ListHolder;
 import com.tripint.intersight.entity.discuss.DiscussAskDetailEntity;
 import com.tripint.intersight.entity.discuss.DiscussDetailResponseEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.discuss.DiscussEntity;
 import com.tripint.intersight.entity.payment.WXPayResponseEntity;
 import com.tripint.intersight.entity.stream.SaveStreamResponseEntity;
 import com.tripint.intersight.entity.stream.StreamResponseEntity;
@@ -187,7 +188,7 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
 
     protected boolean mShutterButtonPressed = false;
 
-    public static AskReplayDetailFragment newInstance(DiscussEntiry entiry) {
+    public static AskReplayDetailFragment newInstance(DiscussEntity entiry) {
 
         Bundle args = new Bundle();
         args.putInt(AskReplayDetailFragment.ARG_DISCUSS_ID, entiry.getId());

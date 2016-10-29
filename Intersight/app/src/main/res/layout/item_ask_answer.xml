@@ -39,7 +39,7 @@
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/spacing"
-                    android:src="@mipmap/iconfont_heartbig02" />
+                    android:src="@mipmap/iconfont_heartbig01" />
 
                 <TextView
                     android:id="@+id/textView_item_liked_number"
@@ -57,7 +57,7 @@
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/spacing_02"
-                    android:src="@mipmap/iconfont_heartbig01" />
+                    android:src="@mipmap/iconfont_ear" />
 
                 <TextView
                     android:id="@+id/textView_item_listened_number"
@@ -103,6 +103,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_4_80"
                 android:layout_margin="@dimen/spacing_pad04"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
                 android:background="@drawable/img_yuyin_gary"
                 android:orientation="horizontal">
 
@@ -113,12 +115,14 @@
                     android:layout_gravity="center_vertical"
                     android:layout_alignParentLeft="true"
                     android:text=""
+                    android:gravity="center_vertical"
                     android:textColor="@color/grey_500"
                     android:textSize="@dimen/text_size_10" />
                 <TextView
                     android:id="@+id/textView_item_ask_voice_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:layout_gravity="center_vertical"
                     android:layout_alignParentRight="true"
                     android:text=""

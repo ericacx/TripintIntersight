@@ -15,11 +15,15 @@ import com.tripint.intersight.common.widget.dialogplus.OnItemClickListener;
 import com.tripint.intersight.common.widget.flipview.FlipView;
 import com.tripint.intersight.common.widget.flipview.OverFlipMode;
 import com.tripint.intersight.entity.article.ArticlesEntity;
+import com.tripint.intersight.event.PersonalEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.fragment.flipview.OpinionFlipViewAdapter;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,6 +59,7 @@ public class OpinionFragment extends BaseBackFragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_opinion, container, false);
         ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         httpRequestData();
         return view;
     }
@@ -95,6 +100,11 @@ public class OpinionFragment extends BaseBackFragment{
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
     }
 
+    @Subscribe
+    public void onEvent(PersonalEvent event){
+        httpRequestData();
+    }
 }

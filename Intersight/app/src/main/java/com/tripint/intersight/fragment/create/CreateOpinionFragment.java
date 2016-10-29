@@ -28,10 +28,13 @@ import com.tripint.intersight.entity.Industry;
 import com.tripint.intersight.entity.IndustryChild;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.article.CreateOpinionResponseEntity;
+import com.tripint.intersight.event.PersonalEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +96,7 @@ public class CreateOpinionFragment extends BaseBackFragment {
             @Override
             public void onNext(CreateOpinionResponseEntity entity) {
                 createOpinionResponseEntity = entity;
+                EventBus.getDefault().post(new PersonalEvent());
                 pop();
             }
         };

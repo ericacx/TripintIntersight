@@ -23,7 +23,7 @@ import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
-import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.discuss.DiscussEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseFragment;
 import com.tripint.intersight.model.PaginationModel;
@@ -67,11 +67,11 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
 
     private AskAnswerPageAdapter mAdapter;
 
-    private PageDataSubscriberOnNext<BasePageableResponse<DiscussEntiry>> subscriber;
+    private PageDataSubscriberOnNext<BasePageableResponse<DiscussEntity>> subscriber;
 
     private PageDataSubscriberOnNext<ArticleBannerEntity> bannerSubscriber;
 
-    private BasePageableResponse<DiscussEntiry> data = new BasePageableResponse<DiscussEntiry>();
+    private BasePageableResponse<DiscussEntity> data = new BasePageableResponse<DiscussEntity>();
 
     private PaginationModel pageModel = new PaginationModel();
 
@@ -131,9 +131,9 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
     }
 
     private void httpRequestData(int type) {
-        subscriber = new PageDataSubscriberOnNext<BasePageableResponse<DiscussEntiry>>() {
+        subscriber = new PageDataSubscriberOnNext<BasePageableResponse<DiscussEntity>>() {
             @Override
-            public void onNext(BasePageableResponse<DiscussEntiry> entity) {
+            public void onNext(BasePageableResponse<DiscussEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
                 if (mCurrentCounter == 0) {
@@ -156,9 +156,6 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
         swipeRefreshLayout.setOnRefreshListener(this);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
-
     }
 
     private View getHeaderView(View.OnClickListener clickListener) {
@@ -229,7 +226,7 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
                 String content = null;
-                DiscussEntiry entity = (DiscussEntiry) adapter.getItem(position);
+                DiscussEntity entity = (DiscussEntity) adapter.getItem(position);
                 if (mCurrentTab == 0) {
                     EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity)));
                 } else {

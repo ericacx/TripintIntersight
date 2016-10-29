@@ -43,8 +43,11 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
     private final int VIEWTYPE_TWO = 1;//图文
     private final int VIEWTYPE_THREE = 2;//只有文字
 
-    private int type;
-    private int articleId;
+    private int typeOne;
+    private int typeTwo;
+    private int articleIdOne;
+    private int articleIdTwo;
+
     List<String> urlList = new ArrayList<>();//banner图片的数据源
 
     public OpinionFlipViewAdapter(Context context, List<ArticlesEntity> list) {
@@ -269,8 +272,9 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
                     viewHolderTwo.opinionFlipviewTwoName.setText(resList.get(position).getImgTextDetail().get(0).getUserNickname());
                     viewHolderTwo.opinionFlipviewTwoTitle.setText(resList.get(position).getImgTextDetail().get(0).getUserAbility());
                     viewHolderTwo.opinionFlipviewTwoTime.setText(resList.get(position).getImgTextDetail().get(0).getCreateAt());
-                    articleId = resList.get(position).getImgTextDetail().get(0).getId();
-                    type = resList.get(position).getImgTextDetail().get(0).getType();
+
+                    articleIdOne = resList.get(position).getImgTextDetail().get(0).getId();
+                    typeOne = resList.get(position).getImgTextDetail().get(0).getType();
                 }
                 viewHolderTwo.opioionFlipviewTwoSubmit.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -278,11 +282,10 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
                         EventBus.getDefault().post(new StartFragmentEvent(CreateOpinionFragment.newInstance()));
                     }
                 });
-                final int finalTypeOne = type;
                 convertView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance(finalTypeOne,articleId)));
+                        EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance(typeOne,articleIdOne)));
                     }
                 });
                 break;
@@ -296,6 +299,7 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
                     viewHolderThree.opinionFlipviewThreeAgreeNum.setText(resList.get(position).getTextDetail().get(0).getPraisesCount() + "");
                     viewHolderThree.opinionFlipviewThreeTalkNum.setText(resList.get(position).getTextDetail().get(0).getCommentsCount() + "");
 
+
                     viewHolderThree.opioionFlipviewThreeContentTwo.setText(resList.get(position).getTextDetail().get(1).getContent());
                     viewHolderThree.opinionFlipviewThreeTimeTwo.setText(resList.get(position).getTextDetail().get(1).getCreateAt());
                     viewHolderThree.opinionFlipviewThreeNameTwo.setText(resList.get(position).getTextDetail().get(1).getUserNickname());
@@ -304,16 +308,35 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
                     viewHolderThree.opinionFlipviewThreeAgreeNumTwo.setText(resList.get(position).getTextDetail().get(1).getPraisesCount() + "");
                     viewHolderThree.opinionFlipviewThreeTalkNumTwo.setText(resList.get(position).getTextDetail().get(1).getCommentsCount() + "");
 
-                    type = resList.get(position).getTextDetail().get(position).getType();
-                    articleId = resList.get(position).getTextDetail().get(position).getId();
+                    for (int i = 0; i < 2; i++) {
+                    }
+                    typeOne = resList.get(position).getTextDetail().get(0).getType();
+                    articleIdOne = resList.get(position).getTextDetail().get(0).getId();
+
+                    typeTwo = resList.get(position).getTextDetail().get(1).getType();
+                    articleIdTwo = resList.get(position).getTextDetail().get(1).getId();
                 }
-                final int finalTypeTwo = type;
-                convertView.setOnClickListener(new View.OnClickListener() {
+
+                viewHolderThree.opinionFlipviewThreeLlOne.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance(finalTypeTwo,articleId)));
+                        EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance(typeOne,articleIdOne)));
                     }
                 });
+
+                viewHolderThree.opinionFlipviewThreeLlTwo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance(typeTwo,articleIdTwo)));
+                    }
+                });
+
+//                convertView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance(typeOne,articleIdOne)));
+//                    }
+//                });
 
                 break;
         }

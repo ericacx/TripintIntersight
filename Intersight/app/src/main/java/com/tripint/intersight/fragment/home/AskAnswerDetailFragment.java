@@ -39,6 +39,7 @@ import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.discuss.DiscussAskDetailEntity;
 import com.tripint.intersight.entity.discuss.DiscussDetailResponseEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.discuss.DiscussEntity;
 import com.tripint.intersight.entity.payment.AliPayResponseEntity;
 import com.tripint.intersight.entity.payment.WXPayResponseEntity;
 import com.tripint.intersight.entity.user.PaymentEntity;
@@ -135,7 +136,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
     private CommentEntity currentSubCommentEntity; //创建子摩评论
 
-    public static AskAnswerDetailFragment newInstance(DiscussEntiry entiry) {
+    public static AskAnswerDetailFragment newInstance(DiscussEntity entiry) {
 
         Bundle args = new Bundle();
         args.putInt(AskAnswerDetailFragment.ARG_DISCUSS_ID, entiry.getId());

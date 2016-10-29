@@ -36,6 +36,7 @@ import com.tripint.intersight.common.widget.filter.typeview.SingleListView;
 import com.tripint.intersight.common.widget.filter.util.UIUtil;
 import com.tripint.intersight.common.widget.filter.view.FilterCheckedTextView;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
+import com.tripint.intersight.event.PersonalEvent;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.event.StartFragmentForResultEvent;
 import com.tripint.intersight.fragment.PersonalInfoFragment;
@@ -48,6 +49,7 @@ import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -117,12 +119,13 @@ public class MineFragment extends BaseLazyMainFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_mine1, container, false);
-
         ButterKnife.bind(this, view);
-
+        EventBus.getDefault().register(this);
         return view;
     }
 
+
+    @Subscribe
     private void initView(View view) {
         mineTextViewName.setText(data.getNickname());
         textViewMyMoney.setText(data.getBalance());
@@ -170,10 +173,16 @@ public class MineFragment extends BaseLazyMainFragment {
 
     }
 
+    @Subscribe
+    public void onEvent(PersonalEvent event) {
+        httpRequestData();
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @OnClick({R.id.mineIvRewriteInfo, R.id.text_view_mine_ask_answer, R.id.text_view_mine_interview,

@@ -84,6 +84,7 @@ public class CreateInterviewFragment extends BaseBackFragment {
 
     private List<Industry> industies = new ArrayList<>(); //行业数据
     private int currentIndestry;//行业
+    private int interviewId;//访谈id
     private String interviewContent = null;
     private DialogPlus dialogPlus;
     private int uid;
@@ -147,6 +148,7 @@ public class CreateInterviewFragment extends BaseBackFragment {
             @Override
             public void onNext(CreateInterviewResponseEntity entity) {
                 createInterviewResponseEntity = entity;
+                interviewId = entity.getInterviewId();
                 requestPaymentInterviewDialog();
             }
         };

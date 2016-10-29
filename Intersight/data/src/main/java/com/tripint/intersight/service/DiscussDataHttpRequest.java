@@ -8,6 +8,7 @@ import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.discuss.CreateDiscussResponseEntity;
 import com.tripint.intersight.entity.discuss.DiscussDetailResponseEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.discuss.DiscussEntity;
 import com.tripint.intersight.entity.discuss.InterviewEntity;
 
 import rx.Observable;
@@ -81,18 +82,18 @@ private final String FLITER_TYPE_ARTICLES = "articles";
      * @param page      起始位置
      * @param count      获取长度
      */
-    public void getDiscusses(Subscriber<BasePageableResponse<DiscussEntiry>> subscriber, int tab, int page, int count) {
+    public void getDiscusses(Subscriber<BasePageableResponse<DiscussEntity>> subscriber, int tab, int page, int count) {
 
         Observable observable = null;
         if (tab == 0) {
             observable = service.getDiscuss(page, DEFAULT_PAGE_SIZE)
-                    .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
+                    .map(new HttpResultFunc<BasePageableResponse<DiscussEntity>>());
         } else if (tab == 1) {
             observable = service.getDiscuss(page, DEFAULT_PAGE_SIZE)
-                    .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
+                    .map(new HttpResultFunc<BasePageableResponse<DiscussEntity>>());
         } else if (tab == 2) {
             observable = service.getDiscuss(page, DEFAULT_PAGE_SIZE)
-                    .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
+                    .map(new HttpResultFunc<BasePageableResponse<DiscussEntity>>());
         }
 
         toSubscribe(observable, subscriber);
@@ -121,10 +122,10 @@ private final String FLITER_TYPE_ARTICLES = "articles";
      * @param start      起始位置
      * @param count      获取长度
      */
-    public void getDiscusses(Subscriber<BasePageableResponse<DiscussEntiry>> subscriber, int start, int count) {
+    public void getDiscusses(Subscriber<BasePageableResponse<DiscussEntity>> subscriber, int start, int count) {
 
         Observable observable = service.getDiscuss(start, DEFAULT_PAGE_SIZE)
-                .map(new HttpResultFunc<BasePageableResponse<DiscussEntiry>>());
+                .map(new HttpResultFunc<BasePageableResponse<DiscussEntity>>());
 
 
         toSubscribe(observable, subscriber);
