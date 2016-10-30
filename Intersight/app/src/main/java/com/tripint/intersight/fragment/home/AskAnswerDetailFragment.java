@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.tripint.intersight.adapter.listener.RecyclerViewItemOnClick;
 import com.tripint.intersight.common.utils.DialogPlusUtils;
 import com.tripint.intersight.common.utils.KeyboardUtils;
 import com.tripint.intersight.common.utils.StringUtils;
+import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
 import com.tripint.intersight.common.widget.dialogplus.ListHolder;
 import com.tripint.intersight.common.widget.filter.ItemModel;
@@ -49,6 +51,7 @@ import com.tripint.intersight.helper.AliPayUtils;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.helper.PayUtils;
 import com.tripint.intersight.service.BaseDataHttpRequest;
+import com.tripint.intersight.service.CommonDataHttpRequest;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.service.PaymentDataHttpRequest;
 import com.tripint.intersight.widget.image.CircleImageView;
@@ -131,7 +134,8 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
     private DiscussDetailResponseEntity data;
 
     private int mDiscussId;
-
+    private int toUid;
+    private int pid;//评论的id
     private String currentAction = "";
 
     private CommentEntity currentSubCommentEntity; //创建子摩评论
@@ -184,18 +188,20 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                     .placeholder(R.mipmap.ic_avatar)
                     .transform(new GlideCircleTransform(mActivity))
                     .into(imageAskProfile);
-            String special = data.getDetail().getAnswerUserNickname();
-
+            String special = entity.getAuthorUserNickname()+ "  ";
+            special += entity.getAuthorUserCompany() + "  ";
             special += entity.getAuthorUserAbility();
-            special += entity.getAuthorUserCompany();
 
+            toUid = entity.getAuthorUserId();
             textViewItemAskSpecialist.setText(special);
             containerChatAuthor.setVisibility(View.VISIBLE);
             textViewItemAskTitle.setText(entity.getContent());
             textViewItemAskDateTime.setText(entity.getAuthorCreateAt());
-            String specialAnswer = entity.getAnswerUserNickname();
+
+
+            String specialAnswer = entity.getAnswerUserNickname() + "  ";
+            specialAnswer += entity.getAnswerUserCompany() + "  ";
             specialAnswer += entity.getAnswerUserAbility();
-            specialAnswer += entity.getAnswerUserCompany();
 
             textViewItemAnswerSpecialist.setText(specialAnswer);
 
@@ -227,12 +233,14 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                 @Override
                 public void onClick(View v) {
                     if (isPraises) {
+                        //取消赞
                         currentAction = DiscussDataHttpRequest.TYPE_UNPRAISES;
-                        DiscussDataHttpRequest.getInstance(mActivity).deleteParises(new ProgressSubscriber(putSubscriber, mActivity), mDiscussId);
+                        CommonDataHttpRequest.getInstance(mActivity).deleteDiscussPraise(new ProgressSubscriber(putSubscriber, mActivity), mDiscussId, toUid);
 
                     } else {
+                        //点赞
                         currentAction = DiscussDataHttpRequest.TYPE_PRAISES;
-                        DiscussDataHttpRequest.getInstance(mActivity).createParises(new ProgressSubscriber(putSubscriber, mActivity), mDiscussId);
+                        CommonDataHttpRequest.getInstance(mActivity).createDiscussPraise(new ProgressSubscriber(putSubscriber, mActivity), mDiscussId, toUid);
                     }
 
                 }
@@ -247,12 +255,13 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                 @Override
                 public void onClick(View v) {
                     if (isFollow) {
+                        //取消关注
                         currentAction = DiscussDataHttpRequest.TYPE_UNFOLLOW;
-                        DiscussDataHttpRequest.getInstance(mActivity).deleteFollow(new ProgressSubscriber<CommentResultEntity>(putSubscriber, mActivity), mDiscussId);
+                        CommonDataHttpRequest.getInstance(mActivity).deleteDiscussFocus(new ProgressSubscriber<CommentResultEntity>(putSubscriber, mActivity), mDiscussId, toUid);
 
                     } else {
                         currentAction = DiscussDataHttpRequest.TYPE_FOLLOW;
-                        DiscussDataHttpRequest.getInstance(mActivity).createFollow(new ProgressSubscriber<CommentResultEntity>(putSubscriber, mActivity), mDiscussId);
+                        CommonDataHttpRequest.getInstance(mActivity).createDiscussFocus(new ProgressSubscriber<CommentResultEntity>(putSubscriber, mActivity), mDiscussId, toUid);
                     }
                 }
             });
@@ -318,32 +327,35 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                 switch (currentAction) {
 
                     case DiscussDataHttpRequest.TYPE_COMMENT: //行业领域
-                        CommonUtils.showToast("提交成功");
+                        ToastUtil.showToast(mActivity,"提交成功");
                         editUserCommentReplay.setText("");
                         break;
                     case DiscussDataHttpRequest.TYPE_SUB_COMMENT: //行业领域
-                        CommonUtils.showToast("提交成功");
+                        ToastUtil.showToast(mActivity,"提交成功");
                         editUserCommentReplay.setText("");
-
                         break;
                     case DiscussDataHttpRequest.TYPE_FOLLOW: //我的
                         item2.setSelected(true);
                         item2.setTitle(entity.getTotal() + "");
+                        ToastUtil.showToast(mActivity,"关注成功");
                         break;
                     case DiscussDataHttpRequest.TYPE_UNFOLLOW: //我的
                         item2.setSelected(false);
                         item2.setTitle(entity.getTotal() + "");
+                        ToastUtil.showToast(mActivity,"取消关注成功");
                         break;
                     case DiscussDataHttpRequest.TYPE_PRAISES: //我的
                         item1.setSelected(true);
                         item1.setTitle(entity.getTotal() + "");
+                        ToastUtil.showToast(mActivity,"点赞成功");
                         break;
                     case DiscussDataHttpRequest.TYPE_UNPRAISES:
                         item1.setSelected(false);
                         item1.setTitle(entity.getTotal() + "");
+                        ToastUtil.showToast(mActivity,"取消赞成功");
                         break;
                     case DiscussDataHttpRequest.TYPE_REPORT:
-                        CommonUtils.showToast("举报信息提交成功");
+                        ToastUtil.showToast(mActivity,"举报信息提交成功");
                         break;
                 }
             }
@@ -367,10 +379,12 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                     CommonUtils.showToast("点评内容不能为空");
                 } else {
                     if (currentSubCommentEntity == null) {
-                        DiscussDataHttpRequest.getInstance(mActivity).createComment(new ProgressSubscriber(putSubscriber, mActivity), mDiscussId, content);
+                        currentAction = DiscussDataHttpRequest.TYPE_SUB_COMMENT;
+                        CommonDataHttpRequest.getInstance(mActivity).createDiscussComment(new ProgressSubscriber(putSubscriber, mActivity), mDiscussId, toUid,content);
                     } else {
-                        DiscussDataHttpRequest.getInstance(mActivity).createSubComment(new ProgressSubscriber(putSubscriber, mActivity),
-                                mDiscussId, content, currentSubCommentEntity.getId(), currentSubCommentEntity.getToNickname());
+                        currentAction = DiscussDataHttpRequest.TYPE_COMMENT;
+                        CommonDataHttpRequest.getInstance(mActivity).createDiscussSubComment(new ProgressSubscriber(putSubscriber, mActivity),
+                                mDiscussId,toUid, content,pid);
 
                     }
                 }
@@ -456,6 +470,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 String content = null;
                 CommentEntity status = (CommentEntity) adapter.getItem(position);
+                pid = ((CommentEntity) adapter.getItem(position)).getPid();
                 switch (view.getId()) {
                     case R.id.image_ask_profile:
                         content = "img:" + status.getContent();
@@ -466,7 +481,6 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                         KeyboardUtils.showSoftInput(mActivity, editUserCommentReplay);
                         break;
                 }
-                Toast.makeText(getActivity(), content, Toast.LENGTH_LONG).show();
             }
         });
 

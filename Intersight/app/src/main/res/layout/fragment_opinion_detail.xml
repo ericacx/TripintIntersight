@@ -28,8 +28,8 @@
                 <ImageView
                     android:id="@+id/opinion_flipview_two_pic"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_25_80"
-                    android:src="@mipmap/p1" />
+                    android:layout_height="wrap_content"
+                     />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -46,7 +46,7 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="@dimen/height_4_80">
 
                         <TextView
                             android:id="@+id/opinion_flipview_two_name"
@@ -79,48 +79,19 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/spacing"
-                        android:layout_marginTop="@dimen/spacing"
+                        android:layout_height="@dimen/height_5_5_80"
                         android:layout_gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <LinearLayout
+                            android:id="@+id/opinion_detail_praise"
                             android:orientation="horizontal"
                             android:layout_width="0dp"
                             android:layout_weight="4"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:layout_height="wrap_content">
-                            <TextView
-                                android:id="@+id/opinion_flipview_two_agreeNum"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                android:drawableLeft="@mipmap/iconfont_zan01"
-                                android:drawablePadding="@dimen/spacing"
-                                android:textSize="@dimen/text_size_12"
-                                android:textColor="@color/line" />
 
-                            <TextView
-                                android:id="@+id/opinion_flipview_two_talkNum"
-                                android:layout_width="wrap_content"
-                                android:layout_height="@dimen/height_4_80"
-                                android:gravity="center_vertical"
-                                android:drawablePadding="@dimen/spacing"
-                                android:layout_marginLeft="@dimen/spacing"
-                                android:textSize="@dimen/text_size_12"
-                                android:drawableLeft="@mipmap/iconfont_heartbig01"
-                                android:textColor="@color/line" />
-
-                            <TextView
-                                android:id="@+id/opinion_flipview_two_report"
-                                android:layout_width="wrap_content"
-                                android:layout_height="@dimen/height_4_80"
-                                android:gravity="center_vertical"
-                                android:layout_marginLeft="@dimen/spacing"
-                                android:drawablePadding="@dimen/spacing"
-                                android:textSize="@dimen/text_size_12"
-                                android:drawableLeft="@mipmap/iconfont_jubao"
-                                />
                         </LinearLayout>
 
 
@@ -130,9 +101,10 @@
                             android:layout_weight="1"
                             android:layout_height="@dimen/height_4_80"
                             android:gravity="center_vertical"
-                            android:layout_gravity="end"
+                            android:layout_gravity="center_vertical|end"
                             android:textColor="@color/line"
-                            android:layout_marginLeft="30dp"
+                            android:layout_marginRight="@dimen/spacing"
+                            android:layout_marginLeft="@dimen/spacing"
                             android:textSize="@dimen/text_size_12"
                             />
                     </LinearLayout>
@@ -141,23 +113,25 @@
                         android:id="@+id/opinion_flipview_two_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ellipsize="end"
                         android:lineSpacingMultiplier="1.5"
-                        android:maxEms="10"
-                        android:maxLines="4"
                         android:padding="@dimen/spacing"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_12" />
-
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.7dp"
+                        android:layout_marginTop="@dimen/spacing"
+                        android:background="@color/color_line" />
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/opinion_flipview_ll_detail_text"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_margin="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -184,7 +158,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/spacing"
-                        android:text=""
                         android:gravity="center_vertical"
                         android:textColor="@color/line"
                         android:textSize="@dimen/text_size_12" />
@@ -195,7 +168,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_toRightOf="@id/opinion_flipview_three_name"
-                        android:text=""
                         android:gravity="center_vertical"
                         android:textColor="@color/line"
                         android:textSize="@dimen/text_size_12" />
@@ -206,7 +178,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_toRightOf="@id/opinion_flipview_three_trade"
-                        android:text=""
                         android:gravity="center_vertical"
                         android:textColor="@color/line"
                         android:textSize="@dimen/text_size_12" />
@@ -216,49 +187,20 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_5_80"
+                    android:layout_height="@dimen/height_5_5_80"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/spacing"
                     android:gravity="center_vertical|end"
                     android:orientation="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/opinion_detail_ll_praise"
                         android:orientation="horizontal"
                         android:layout_width="0dp"
                         android:layout_weight="4"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
                         android:layout_height="match_parent">
-                        <TextView
-                            android:id="@+id/opinion_flipview_three_agreeNum"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/height_4_80"
-                            android:drawableLeft="@mipmap/iconfont_zan01"
-                            android:drawablePadding="@dimen/spacing"
-                            android:gravity="center_vertical"
-                            android:text=""
-                            android:textSize="@dimen/text_size_12"
-                            android:textColor="@color/line" />
 
-                        <TextView
-                            android:id="@+id/opinion_flipview_three_talkNum"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/height_4_80"
-                            android:layout_marginLeft="@dimen/spacing"
-                            android:drawableLeft="@mipmap/iconfont_heartbig01"
-                            android:drawablePadding="@dimen/spacing"
-                            android:gravity="center_vertical"
-                            android:text=""
-                            android:textSize="@dimen/text_size_12"
-                            android:textColor="@color/line" />
-
-                        <TextView
-                            android:id="@+id/opinion_flipview_three_report"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/height_4_80"
-                            android:layout_marginLeft="@dimen/spacing"
-                            android:textSize="@dimen/text_size_12"
-                            android:drawableLeft="@mipmap/iconfont_jubao"
-                            android:drawablePadding="@dimen/spacing"
-                            android:gravity="center_vertical" />
                     </LinearLayout>
 
                     <TextView
@@ -268,13 +210,19 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:gravity="center_vertical|end"
+                        android:layout_gravity="center_vertical"
                         android:text=""
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="@dimen/spacing"
+                        android:layout_marginRight="@dimen/spacing"
                         android:textColor="@color/line"
                         android:textSize="@dimen/text_size_12" />
                 </LinearLayout>
 
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.7dp"
+                    android:layout_marginTop="@dimen/spacing"
+                    android:background="@color/color_line" />
             </LinearLayout>
 
 

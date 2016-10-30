@@ -1,25 +1,25 @@
-package com.tripint.intersight.entity.discuss;
+package com.tripint.intersight.entity.article;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.tripint.intersight.entity.article.ArticleCommentEntity;
+import com.tripint.intersight.entity.discuss.CommentEntity;
 
 import java.io.Serializable;
 import java.util.List;
 
 /**
- * Author: lirichen
- * Created by: ModelGenerator on 2016/9/22
+ * Created by Eric on 16/10/29.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DiscussDetailResponseEntity implements Serializable {
-    private DiscussAskDetailEntity detail;
+public class ArticleDetailEntity implements Serializable {
+
+    private OpinionDetailEntity detail;
     private List<ArticleCommentEntity> comments;
 
-    public DiscussAskDetailEntity getDetail() {
+    public OpinionDetailEntity getDetail() {
         return detail;
     }
 
-    public void setDetail(DiscussAskDetailEntity detail) {
+    public void setDetail(OpinionDetailEntity detail) {
         this.detail = detail;
     }
 

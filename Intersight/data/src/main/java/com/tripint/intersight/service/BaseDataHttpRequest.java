@@ -8,6 +8,7 @@ import com.tripint.intersight.entity.IndustryListEntity;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
+import com.tripint.intersight.entity.article.ArticleDetailEntity;
 import com.tripint.intersight.entity.article.ArticlesEntity;
 import com.tripint.intersight.entity.article.CreateOpinionResponseEntity;
 import com.tripint.intersight.entity.common.CommonResponEntity;
@@ -341,6 +342,22 @@ public class BaseDataHttpRequest extends HttpRequest {
     {
         Observable observable = baseDataService.postDeviceToken(deviceToken, client)
                 .map(new HttpResultFunc<UserDeviceTokenResponseEntity>());
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 用得问答详情数据。
+     *
+     * @param subscriber 由调用者传过来的观察者对象
+     * @param
+     */
+    public void getArticleDetail(Subscriber<ArticleDetailEntity> subscriber, int articleId) {
+
+        Observable observable
+                = baseDataService.getArticleDetail(articleId)
+                .map(new HttpResultFunc<ArticleDetailEntity>());
+
+
         toSubscribe(observable, subscriber);
     }
 }

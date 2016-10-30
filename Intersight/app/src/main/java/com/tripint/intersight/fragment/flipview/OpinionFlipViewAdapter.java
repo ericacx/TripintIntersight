@@ -45,8 +45,10 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
 
     private int typeOne;
     private int typeTwo;
+    private int typeThree;
     private int articleIdOne;
     private int articleIdTwo;
+    private int articleIdThree;
 
     List<String> urlList = new ArrayList<>();//banner图片的数据源
 
@@ -308,26 +310,23 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
                     viewHolderThree.opinionFlipviewThreeAgreeNumTwo.setText(resList.get(position).getTextDetail().get(1).getPraisesCount() + "");
                     viewHolderThree.opinionFlipviewThreeTalkNumTwo.setText(resList.get(position).getTextDetail().get(1).getCommentsCount() + "");
 
-                    for (int i = 0; i < 2; i++) {
-                    }
-                    typeOne = resList.get(position).getTextDetail().get(0).getType();
-                    articleIdOne = resList.get(position).getTextDetail().get(0).getId();
-
-                    typeTwo = resList.get(position).getTextDetail().get(1).getType();
-                    articleIdTwo = resList.get(position).getTextDetail().get(1).getId();
+                    typeTwo = resList.get(position).getTextDetail().get(0).getType();
+                    articleIdTwo = resList.get(position).getTextDetail().get(0).getId();
+                    typeThree = resList.get(position).getTextDetail().get(1).getType();
+                    articleIdThree = resList.get(position).getTextDetail().get(1).getId();
                 }
 
                 viewHolderThree.opinionFlipviewThreeLlOne.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance(typeOne,articleIdOne)));
+                        EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance(typeTwo,articleIdTwo)));
                     }
                 });
 
                 viewHolderThree.opinionFlipviewThreeLlTwo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance(typeTwo,articleIdTwo)));
+                        EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance(typeThree,articleIdThree)));
                     }
                 });
 

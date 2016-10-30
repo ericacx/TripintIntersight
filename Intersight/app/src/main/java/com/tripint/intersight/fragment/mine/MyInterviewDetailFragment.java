@@ -262,31 +262,6 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
     private void initCommentAdapter() {
 
 
-        mAdapter = new AskAnswerPageDetailCommentAdapter(detailEntity.getComments());
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
-        mAdapter.openLoadAnimation();
-        myInterviewDetailRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
-            @Override
-            public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                String content = null;
-                CommentEntity status = (CommentEntity) adapter.getItem(position);
-                switch (view.getId()) {
-                    case R.id.image_ask_profile:
-                        content = "img:" + status.getContent();
-                        break;
-                    case R.id.textView_item_ask_action:
-                        currentSubCommentEntity = status;
-                        content = "name:" + status.getCreateAt();
-                        KeyboardUtils.showSoftInput(mActivity, editUserCommentReplay);
-                        break;
-                }
-                Toast.makeText(getActivity(), content, Toast.LENGTH_LONG).show();
-            }
-        });
-
-        myInterviewDetailRecyclerView.setLayoutManager(layoutManager);
-        myInterviewDetailRecyclerView.setAdapter(mAdapter);
-
     }
 
     @Override

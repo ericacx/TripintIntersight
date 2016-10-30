@@ -8,6 +8,7 @@ import com.tripint.intersight.entity.IndustryListEntity;
 import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.UserInfoEntity;
 import com.tripint.intersight.entity.article.ArticleBannerEntity;
+import com.tripint.intersight.entity.article.ArticleDetailEntity;
 import com.tripint.intersight.entity.article.ArticlesEntity;
 import com.tripint.intersight.entity.article.CreateOpinionResponseEntity;
 import com.tripint.intersight.entity.common.CommonResponEntity;
@@ -23,6 +24,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -105,6 +107,7 @@ public interface BaseDataService {
             @Field("content") String content,
             @Field("industryId") int industryId
     );
+
     //观点banner
     @GET("banner")
     Observable<BaseResponse<ArticleBannerEntity>> getArticleBanner(@Query("type") int type);
@@ -112,6 +115,7 @@ public interface BaseDataService {
     //观点banner
     @GET("banner")
     Observable<BaseResponse<ArticleBannerEntity>> getBanner(@Query("type") int type);
+
 
 
     //验证用户是否存在
@@ -171,4 +175,8 @@ public interface BaseDataService {
             @Field("deviceTokens") String deviceToken, @Field("client") int client
     );
 
+
+    //观点详情
+    @GET("articles/{id}")
+    Observable<BaseResponse<ArticleDetailEntity>> getArticleDetail(@Path("id") int id);
 }
