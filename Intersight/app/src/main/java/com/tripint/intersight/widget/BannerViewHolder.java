@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tripint.intersight.R;
 import com.tripint.intersight.widget.image.RequestImageView;
 
@@ -28,10 +29,11 @@ public class BannerViewHolder implements Holder<String> {
     @Override
     public void UpdateUI(Context context, int position, String data) {
         Glide.with(context).load(data)
-                .crossFade()
-                .fitCenter()
-                .dontAnimate()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.loading_normal_icon)
+                .error(R.drawable.loading_normal_icon)
+                .crossFade()
+                .dontAnimate()
                 .into(imageView);
     }
 }
