@@ -219,7 +219,7 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
         mAdapter = new AskAnswerPageAdapter(data.getLists());
         mAdapter.openLoadAnimation();
 
-        mAdapter.openLoadMore(PAGE_SIZE);
+//        mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.setOnLoadMoreListener(this);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 

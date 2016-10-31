@@ -58,6 +58,7 @@ import butterknife.OnClick;
 public class CreateDiscussFragment extends BaseBackFragment {
 
     public static final String ARG_USER_ID = "arg_user_id";
+    public static final String ARG_INTERVIEW_PAY_ID = "arg_interview_pay_id";
     //    protected static final int MSG_START_STREAMING_DISCUSS = 0;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -76,6 +77,7 @@ public class CreateDiscussFragment extends BaseBackFragment {
     private int discussId;
     private DialogPlus dialogPlus;
     private int uid;
+    private String discussPay;
     private SearchFilterEntity searchFilterEntity; //搜索过滤条件数据
     private PageDataSubscriberOnNext<SearchFilterEntity> subscriber;
     private CreateDiscussResponseEntity createDiscussResponseEntity;
@@ -96,11 +98,12 @@ public class CreateDiscussFragment extends BaseBackFragment {
 //            }
 //        }
 //    };
-    public static CreateDiscussFragment newInstance(int uid) {
+    public static CreateDiscussFragment newInstance(int uid,String interviewPay) {
         // Required empty public constructor
         CreateDiscussFragment fragment = new CreateDiscussFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_USER_ID, uid);
+        args.putString(ARG_INTERVIEW_PAY_ID,interviewPay);
         fragment.setArguments(args);
         return fragment;
     }
@@ -112,6 +115,7 @@ public class CreateDiscussFragment extends BaseBackFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             uid = bundle.getInt(ARG_USER_ID);
+            discussPay = bundle.getString(ARG_INTERVIEW_PAY_ID);
         }
     }
 
@@ -123,7 +127,12 @@ public class CreateDiscussFragment extends BaseBackFragment {
         ButterKnife.bind(this, view);
         initToolbar();
         httpRequestData();
+        initView();
         return view;
+    }
+
+    private void initView() {
+
     }
 
     private void httpRequestData() {

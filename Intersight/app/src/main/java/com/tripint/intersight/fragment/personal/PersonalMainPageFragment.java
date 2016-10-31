@@ -97,11 +97,11 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     private PersonalUserHomeEntity data;
     private PageDataSubscriberOnNext<PersonalUserHomeEntity> subscriber;
 
-
     private int uid = 0;
     private String nickname = null;
 
-
+    private String discucssPay = null;
+    private String interviewPay = null;
     public static PersonalMainPageFragment newInstance(int uid) {
         Bundle args = new Bundle();
         PersonalMainPageFragment fragment = new PersonalMainPageFragment();
@@ -147,6 +147,8 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     }
 
     private void initView(View view) {
+        discucssPay = data.getDiscussPay();
+        interviewPay = data.getInterviewPay();
         personalMainPageName.setText(data.getNickname());//名字
         personalMainPageTitle.setText(data.getAbilityName());//职位
         personalMainPageCompany.setText(data.getCompanyName());//公司
@@ -179,25 +181,26 @@ public class PersonalMainPageFragment extends BaseBackFragment {
         switch (view.getId()) {
             case R.id.personal_main_page_button_ask://向他提问
 //                initAskDialog();
-                EventBus.getDefault().post(new StartFragmentEvent(CreateDiscussFragment.newInstance(uid)));
+                personalMainPageButtonAsk.setText("￥"+discucssPay+" 向他提问");
+                EventBus.getDefault().post(new StartFragmentEvent(CreateDiscussFragment.newInstance(uid,discucssPay)));
                 break;
             case R.id.personal_main_page_button_interview://约他访谈
 //                initInterviewDialog();
-                EventBus.getDefault().post(new StartFragmentEvent(CreateInterviewFragment.newInstance(uid)));
+                EventBus.getDefault().post(new StartFragmentEvent(CreateInterviewFragment.newInstance(uid,interviewPay)));
                 break;
             case R.id.personal_main_page_personalInfo://他的个人信息
                 break;
             case R.id.personal_main_page_askAnswer://他的问答
                 nickname = data.getNickname();
-                EventBus.getDefault().post(new StartFragmentEvent(HisAskAnswerFragment.newInstance(uid,nickname)));
+                EventBus.getDefault().post(new StartFragmentEvent(HisAskAnswerFragment.newInstance(uid,nickname,discucssPay,interviewPay)));
                 break;
             case R.id.personal_main_page_interview://他的访谈
                 nickname = data.getNickname();
-                EventBus.getDefault().post(new StartFragmentEvent(HisInterviewFragment.newInstance(uid,nickname)));
+                EventBus.getDefault().post(new StartFragmentEvent(HisInterviewFragment.newInstance(uid,nickname,discucssPay,interviewPay)));
                 break;
             case R.id.personal_main_page_opinion://他的观点
                 nickname = data.getNickname();
-                EventBus.getDefault().post(new StartFragmentEvent(HisOpinionFragment.newInstance(uid,nickname)));
+                EventBus.getDefault().post(new StartFragmentEvent(HisOpinionFragment.newInstance(uid,nickname,discucssPay,interviewPay)));
                 break;
         }
     }

@@ -134,4 +134,11 @@ public interface MineDataService {
     //职员,学生信息
     @GET("allResources")
     Observable<BaseResponse<AllResoucesEntity>> getAllResources(@Query("type") int type);
+
+    //更新用户头像
+    @FormUrlEncoded
+    @POST("update/avatar")
+    Observable<BaseResponse<CodeDataEntity>> postUpdateAvatar(
+            @Field("uploadKey") String uploadKey
+    );
 }

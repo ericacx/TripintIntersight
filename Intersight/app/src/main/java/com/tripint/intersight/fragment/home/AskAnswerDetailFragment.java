@@ -36,6 +36,7 @@ import com.tripint.intersight.common.widget.filter.util.UIUtil;
 import com.tripint.intersight.common.widget.filter.view.FilterCheckedTextView;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
+import com.tripint.intersight.entity.article.ArticleCommentEntity;
 import com.tripint.intersight.entity.discuss.CommentEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.discuss.DiscussAskDetailEntity;
@@ -121,6 +122,8 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
     BottomTabBarItem item2; // 关注
     BottomTabBarItem item3; // 举报
 
+    private boolean isPraises;
+    private boolean isFollow;
 
     private AskAnswerPageDetailCommentAdapter mAdapter;
 
@@ -138,7 +141,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
     private int pid;//评论的id
     private String currentAction = "";
 
-    private CommentEntity currentSubCommentEntity; //创建子摩评论
+    private ArticleCommentEntity currentSubCommentEntity; //创建子摩评论
 
     public static AskAnswerDetailFragment newInstance(DiscussEntity entiry) {
 
@@ -221,8 +224,8 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
             mTabParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
             mTabParams.weight = 1;
-            final boolean isPraises = data.getDetail().getIsPraises() == 1001;
-            final boolean isFollow = data.getDetail().getIsFavorites() == 1001;
+            isPraises = data.getDetail().getIsPraises() == 1001;
+            isFollow = data.getDetail().getIsFavorites() == 1001;
             int praises = isPraises ? R.mipmap.iconfont_zan01 : R.mipmap.iconfont_zan02;
             int follow = isFollow ? R.mipmap.iconfont_heartbig01 : R.mipmap.iconfont_heartbig02;
             item1 = new BottomTabBarItem(mActivity, praises, "赞" + data.getDetail().getPraisesCount());
@@ -329,30 +332,36 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                     case DiscussDataHttpRequest.TYPE_COMMENT: //行业领域
                         ToastUtil.showToast(mActivity,"提交成功");
                         editUserCommentReplay.setText("");
+                        initCommentAdapter();
                         break;
                     case DiscussDataHttpRequest.TYPE_SUB_COMMENT: //行业领域
                         ToastUtil.showToast(mActivity,"提交成功");
                         editUserCommentReplay.setText("");
+                        initCommentAdapter();
                         break;
                     case DiscussDataHttpRequest.TYPE_FOLLOW: //我的
                         item2.setSelected(true);
                         item2.setTitle(entity.getTotal() + "");
                         ToastUtil.showToast(mActivity,"关注成功");
+                        isFollow = data.getDetail().getIsFavorites() == 1000;
                         break;
                     case DiscussDataHttpRequest.TYPE_UNFOLLOW: //我的
                         item2.setSelected(false);
                         item2.setTitle(entity.getTotal() + "");
                         ToastUtil.showToast(mActivity,"取消关注成功");
+                        isFollow = data.getDetail().getIsFavorites() == 1001;
                         break;
                     case DiscussDataHttpRequest.TYPE_PRAISES: //我的
                         item1.setSelected(true);
                         item1.setTitle(entity.getTotal() + "");
                         ToastUtil.showToast(mActivity,"点赞成功");
+                        isPraises = data.getDetail().getIsPraises() == 1000;
                         break;
                     case DiscussDataHttpRequest.TYPE_UNPRAISES:
                         item1.setSelected(false);
                         item1.setTitle(entity.getTotal() + "");
                         ToastUtil.showToast(mActivity,"取消赞成功");
+                        isPraises = data.getDetail().getIsPraises() == 1001;
                         break;
                     case DiscussDataHttpRequest.TYPE_REPORT:
                         ToastUtil.showToast(mActivity,"举报信息提交成功");
@@ -369,20 +378,16 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
         switch (view.getId()) {
 
             case R.id.text_view_comment_submit: //行业领域
-                if (currentSubCommentEntity == null) {
-                    currentAction = DiscussDataHttpRequest.TYPE_SUB_COMMENT;
-                } else {
-                    currentAction = DiscussDataHttpRequest.TYPE_COMMENT;
-                }
+
                 String content = editUserCommentReplay.getText().toString();
                 if (StringUtils.isEmpty(content)) {
                     CommonUtils.showToast("点评内容不能为空");
                 } else {
                     if (currentSubCommentEntity == null) {
-                        currentAction = DiscussDataHttpRequest.TYPE_SUB_COMMENT;
+                        currentAction = DiscussDataHttpRequest.TYPE_COMMENT;
                         CommonDataHttpRequest.getInstance(mActivity).createDiscussComment(new ProgressSubscriber(putSubscriber, mActivity), mDiscussId, toUid,content);
                     } else {
-                        currentAction = DiscussDataHttpRequest.TYPE_COMMENT;
+                        currentAction = DiscussDataHttpRequest.TYPE_SUB_COMMENT;
                         CommonDataHttpRequest.getInstance(mActivity).createDiscussSubComment(new ProgressSubscriber(putSubscriber, mActivity),
                                 mDiscussId,toUid, content,pid);
 
@@ -469,8 +474,8 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             @Override
             public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 String content = null;
-                CommentEntity status = (CommentEntity) adapter.getItem(position);
-                pid = ((CommentEntity) adapter.getItem(position)).getPid();
+                ArticleCommentEntity status = (ArticleCommentEntity) adapter.getItem(position);
+                pid = ((ArticleCommentEntity) adapter.getItem(position)).getId();
                 switch (view.getId()) {
                     case R.id.image_ask_profile:
                         content = "img:" + status.getContent();

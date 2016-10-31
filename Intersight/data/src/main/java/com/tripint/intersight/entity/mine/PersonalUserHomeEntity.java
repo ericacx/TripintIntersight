@@ -18,7 +18,9 @@ public class PersonalUserHomeEntity implements Serializable {
     private String experience;//工作年限
     private String desc;//个人简介
     private int role;//返回类型:1 职员 2 学生
-
+    private String discussPay;
+    private String interviewPay;
+    private String userAccountCount;
     public String getNickname() {
         return nickname;
     }
@@ -89,5 +91,29 @@ public class PersonalUserHomeEntity implements Serializable {
 
     public void setIndustryId(int industryId) {
         this.industryId = industryId;
+    }
+
+    public String getDiscussPay() {
+        return discussPay;
+    }
+
+    public void setDiscussPay(String discussPay) {
+        this.discussPay = discussPay;
+    }
+
+    public String getInterviewPay() {
+        return interviewPay;
+    }
+
+    public void setInterviewPay(String interviewPay) {
+        this.interviewPay = interviewPay;
+    }
+
+    public String getUserAccountCount() {
+        return userAccountCount;
+    }
+
+    public void setUserAccountCount(String userAccountCount) {
+        this.userAccountCount = userAccountCount;
     }
 }

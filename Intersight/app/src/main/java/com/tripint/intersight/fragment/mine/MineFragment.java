@@ -378,6 +378,8 @@ public class MineFragment extends BaseLazyMainFragment {
 
             if (photo == null) {
                 return;
+            } else {
+                mineCIVPersonalInfo.setImageBitmap(photo);
             }
             /**
              * 下面注释的方法是将裁剪之后的图片以Base64Coder的字符方式上
@@ -389,7 +391,7 @@ public class MineFragment extends BaseLazyMainFragment {
             // 将图片流以字符串形式存储下来
             String imageBase64Data = Base64.encodeToString(b, Base64.NO_WRAP);
 //            userInfo.setIconUri(strImgPath);
-            mineCIVPersonalInfo.setImageBitmap(photo);
+//            mineCIVPersonalInfo.setImageBitmap(photo);
 //            userInfo.setImgIco(new PicComment(FileUtils.getFileName(strImgPath), imageBase64Data));
 //            modify(userInfo);
         }

@@ -70,7 +70,8 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
 
     public static final String ARG_USER_ID = "arg_user_id";
     public static final String ARG_USER_NAME = "arg_user_name";
-
+    public static final String ARG_INTERVIEW_PAY_ID = "arg_interview_pay_id";
+    public static final String ARG_DISCUSS_PAY_ID = "arg_discuss_pay_id";
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.btn_my_common_header_left)
@@ -95,7 +96,8 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
     private int TOTAL_COUNTER = 0;
 
     private int mCurrentCounter = 0;
-
+    private String discussPay;
+    private String interviewPay;
     List<MineMultipleItemModel> models = new ArrayList<>();
 
     private MineCommonMultipleAdapter mAdapter;
@@ -123,11 +125,13 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
     protected static final int MSG_START_STREAMING_DISCUSS = 0;
     protected static final int MSG_START_STREAMING_INTERVIEW = 1;
 
-    public static HisOpinionFragment newInstance(int uid,String nickname) {
+    public static HisOpinionFragment newInstance(int uid,String nickname,String discussPay,String interviewPay) {
         // Required empty public constructor
         Bundle args = new Bundle();
         args.putInt(ARG_USER_ID, uid);
         args.putString(ARG_USER_NAME,nickname);
+        args.putString(ARG_DISCUSS_PAY_ID,discussPay);
+        args.putString(ARG_INTERVIEW_PAY_ID,interviewPay);
         HisOpinionFragment fragment = new HisOpinionFragment();
         fragment.setArguments(args);
         return fragment;
@@ -140,6 +144,8 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
         if (bundle != null) {
             uid = bundle.getInt(ARG_USER_ID);
             name = bundle.getString(ARG_USER_NAME);
+            discussPay = bundle.getString(ARG_DISCUSS_PAY_ID);
+            interviewPay = bundle.getString(ARG_INTERVIEW_PAY_ID);
         }
     }
 
@@ -309,11 +315,12 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
                 break;
             case R.id.his_opinion_ask:
 //                initAskDialog();
-                EventBus.getDefault().post(new StartFragmentEvent(CreateDiscussFragment.newInstance(uid)));
+                hisOpinionAsk.setText("￥"+discussPay+" 向他提问");
+                EventBus.getDefault().post(new StartFragmentEvent(CreateDiscussFragment.newInstance(uid,discussPay)));
                 break;
             case R.id.his_opinion_interview:
 //                initInterviewDialog();
-                EventBus.getDefault().post(new StartFragmentEvent(CreateInterviewFragment.newInstance(uid)));
+                EventBus.getDefault().post(new StartFragmentEvent(CreateInterviewFragment.newInstance(uid,interviewPay)));
                 break;
         }
     }

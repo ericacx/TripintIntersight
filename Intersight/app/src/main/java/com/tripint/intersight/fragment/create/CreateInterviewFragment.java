@@ -59,6 +59,7 @@ import butterknife.OnClick;
 public class CreateInterviewFragment extends BaseBackFragment {
 
     public static final String ARG_USER_ID = "arg_user_id";
+    public static final String ARG_INTERVIEW_PAY_ID = "arg_interview_pay_id";
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.dialog_interview_money)
@@ -88,6 +89,7 @@ public class CreateInterviewFragment extends BaseBackFragment {
     private String interviewContent = null;
     private DialogPlus dialogPlus;
     private int uid;
+    private String interviewPay;
     private SearchFilterEntity searchFilterEntity; //搜索过滤条件数据
     private PageDataSubscriberOnNext<SearchFilterEntity> subscriber;
     private CreateInterviewResponseEntity createInterviewResponseEntity;
@@ -95,11 +97,12 @@ public class CreateInterviewFragment extends BaseBackFragment {
     private PageDataSubscriberOnNext<WXPayResponseEntity> wxPaySubscriber;
     private PageDataSubscriberOnNext<AliPayResponseEntity> aliPaySubscriber;
 
-    public static CreateInterviewFragment newInstance(int uid) {
+    public static CreateInterviewFragment newInstance(int uid,String interviewPay) {
         // Required empty public constructor
         CreateInterviewFragment fragment = new CreateInterviewFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_USER_ID, uid);
+        args.putString(ARG_INTERVIEW_PAY_ID, interviewPay);
         fragment.setArguments(args);
         return fragment;
     }
@@ -111,6 +114,7 @@ public class CreateInterviewFragment extends BaseBackFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             uid = bundle.getInt(ARG_USER_ID);
+            interviewPay = bundle.getString(ARG_INTERVIEW_PAY_ID);
         }
     }
 
@@ -122,7 +126,12 @@ public class CreateInterviewFragment extends BaseBackFragment {
         ButterKnife.bind(this, view);
         initToolbar();
         httpRequestData();
+        initView();
         return view;
+    }
+
+    private void initView() {
+        dialogInterviewMoney.setText(interviewPay + "/小时");
     }
 
     private void httpRequestData() {

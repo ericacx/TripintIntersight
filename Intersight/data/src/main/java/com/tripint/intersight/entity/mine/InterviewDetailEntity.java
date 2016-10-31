@@ -1,6 +1,7 @@
 package com.tripint.intersight.entity.mine;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.tripint.intersight.entity.article.ArticleCommentEntity;
 import com.tripint.intersight.entity.discuss.CommentEntity;
 
 import java.io.Serializable;
@@ -13,7 +14,7 @@ import java.util.List;
 public class InterviewDetailEntity implements Serializable {
 
     private InterviewEntity interview;
-    private List<CommentEntity> comments;
+    private List<ArticleCommentEntity> comments;
 
 
     public InterviewEntity getInterview() {
@@ -24,11 +25,11 @@ public class InterviewDetailEntity implements Serializable {
         this.interview = interview;
     }
 
-    public List<CommentEntity> getComments() {
+    public List<ArticleCommentEntity> getComments() {
         return comments;
     }
 
-    public void setComments(List<CommentEntity> comments) {
+    public void setComments(List<ArticleCommentEntity> comments) {
         this.comments = comments;
     }
 }

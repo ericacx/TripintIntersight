@@ -12,10 +12,12 @@ import com.tripint.intersight.common.fragmentation.anim.FragmentAnimator;
 import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.discuss.DiscussEntity;
+import com.tripint.intersight.entity.message.CommentPraiseEntity;
 import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.fragment.MainContentFragment;
 import com.tripint.intersight.fragment.home.AskReplayDetailFragment;
 import com.tripint.intersight.fragment.mine.MyInterviewDetailFragment;
+import com.tripint.intersight.fragment.mine.message.CommentPhraiseFragment;
 import com.umeng.common.UmengMessageDeviceConfig;
 import com.umeng.message.MsgConstant;
 
@@ -58,9 +60,9 @@ public class MainActivity extends BaseActivity {
                 int paramIdInt = Integer.parseInt(paramId);//访谈
                 replaceLoadRootFragment(R.id.main_container, MyInterviewDetailFragment.newInstance(new InterviewEntity(paramIdInt)), true);
 
-            } else if (StringUtils.equals(fragmentName, INTERVIEW_CONTENT_FRAGMENT_NAME_INTERVIEW) && !StringUtils.isEmpty(paramId)) {
+            } else if (StringUtils.equals(fragmentName, COMMENT_CONTENT_FRAGMENT_NAME_COMMENT) && !StringUtils.isEmpty(paramId)) {
                 int paramIdInt = Integer.parseInt(paramId);//评论或赞
-                replaceLoadRootFragment(R.id.main_container, MyInterviewDetailFragment.newInstance(new InterviewEntity(paramIdInt)), true);
+                replaceLoadRootFragment(R.id.main_container, CommentPhraiseFragment.newInstance(new CommentPraiseEntity(paramIdInt)), true);
             }
 
         } else {

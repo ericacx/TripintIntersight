@@ -22,6 +22,13 @@ public class CommentPraiseEntity implements Serializable{
     private String createAt;//创建时间
     private int itemId;
 
+    public CommentPraiseEntity() {
+    }
+
+    public CommentPraiseEntity(int id) {
+        this.id = id;
+    }
+
     public int getItemId() {
         return itemId;
     }

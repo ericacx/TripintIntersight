@@ -22,6 +22,7 @@ import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemC
 import com.tripint.intersight.entity.mine.FocusEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
+import com.tripint.intersight.service.HttpRequest;
 import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
@@ -81,7 +82,6 @@ public class MyFocusedFragment extends BaseBackFragment implements BaseQuickAdap
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_focused, container, false);
         ButterKnife.bind(this, view);
-
         initToolbarNav(toolbar);
         toolbar.setTitle("我的关注");
         setTab(0);
@@ -94,12 +94,28 @@ public class MyFocusedFragment extends BaseBackFragment implements BaseQuickAdap
             public void onNext(BasePageableResponse<FocusEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
-                Log.e("myfocus", String.valueOf(entity.getLists()));
-                initView(null);
-                initAdapter(tab);
+                init();
             }
         };
         MineDataHttpRequest.getInstance(mActivity).getMyFocus(new ProgressSubscriber(subscriber, mActivity), type, 1);
+    }
+
+    private void init(){
+        initData();
+        initView(null);
+        initAdapter();
+        initPage();
+    }
+    //分页
+    private void initPage() {
+        if (mCurrentCounter == 0){
+            mAdapter.setNewData(models);
+        } else {
+            mAdapter.addData(models);
+        }
+
+        TOTAL_COUNTER = data.getTotal();
+        mCurrentCounter = mAdapter.getData().size();
     }
 
 
@@ -133,9 +149,7 @@ public class MyFocusedFragment extends BaseBackFragment implements BaseQuickAdap
     }
 
 
-    private void initAdapter(int tab) {
-
-        initData();
+    private void initAdapter() {
 
         mAdapter = new MineCommonMultipleAdapter(models);
         mAdapter.openLoadAnimation();
@@ -176,7 +190,6 @@ public class MyFocusedFragment extends BaseBackFragment implements BaseQuickAdap
 
     @Override
     public void onRefresh() {
-        initData();
         mAdapter.setNewData(models);
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.removeAllFooterView();
@@ -193,14 +206,15 @@ public class MyFocusedFragment extends BaseBackFragment implements BaseQuickAdap
                     mAdapter.loadComplete();
 
                 } else {
-                    initData();
-                    mAdapter.addData(models);
-                    mCurrentCounter = mAdapter.getData().size();
+                    MineDataHttpRequest.getInstance(mActivity).getMyFocus(new ProgressSubscriber(subscriber, mActivity), tab,getCurrentPage());
                 }
             }
         }, 200);
     }
 
+    public int getCurrentPage() {
+        return mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE + 1;
+    }
     private View getLoadMoreView() {
         final View customLoading = LayoutInflater.from(mActivity).inflate(R.layout.common_loading, (ViewGroup) mRecyclerView.getParent(), false);
         return customLoading;

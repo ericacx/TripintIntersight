@@ -16,11 +16,13 @@ import android.widget.TextView;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.MineCommonMultipleAdapter;
 import com.tripint.intersight.common.BasePageableResponse;
+import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
+import com.tripint.intersight.service.HttpRequest;
 import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
@@ -36,7 +38,7 @@ import butterknife.OnClick;
  * 我的观点页面
  * A simple {@link Fragment} subclass.
  */
-public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
+public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
 
     @Bind(R.id.toolbar)
@@ -64,7 +66,7 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
 
     private BasePageableResponse<MineFollowPointEntity> data = new BasePageableResponse<MineFollowPointEntity>();
 
-    private int tab;
+    private int mCurrentTab;
 
     public static MyOpinionFragment newInstance() {
 
@@ -92,6 +94,11 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
         toolbar.setTitle("我的观点");
     }
 
+    private void init(){
+        initData();
+        initView(null);
+        initAdapter();
+    }
 
     private void httpRequestData(int type) {
         subscriber = new PageDataSubscriberOnNext<BasePageableResponse<MineFollowPointEntity>>() {
@@ -99,9 +106,15 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
             public void onNext(BasePageableResponse<MineFollowPointEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
-                Log.e("tag", String.valueOf(entity.getTotal()));
-                initView(null);
-                initAdapter(tab);
+                init();
+                if (mCurrentCounter == 0) {
+                    mAdapter.setNewData(models);
+                } else {
+                    mAdapter.addData(models);
+                }
+                TOTAL_COUNTER = data.getTotal();
+                mCurrentCounter = mAdapter.getData().size();
+
             }
         };
 
@@ -132,18 +145,15 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
      * @param tab
      */
     private void setTab(int tab) {
-        this.tab = tab;
         btnMyCommonHeaderLeft.setSelected(tab == 0);
         btnMyCommonHeaderRight.setSelected(tab == 1);
         httpRequestData(tab);
+        this.mCurrentTab = tab;
     }
 
-    private void initAdapter(int tab) {
-
-        initData();
+    private void initAdapter() {
         mAdapter = new MineCommonMultipleAdapter(models);
         mAdapter.openLoadAnimation();
-        mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.setOnLoadMoreListener(this);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
@@ -154,8 +164,10 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
 //                EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity)));
             }
         });
+
         mAdapter.setLoadingView(getLoadMoreView());
         mRecyclerView.setAdapter(mAdapter);
+
     }
 
     @Override
@@ -172,12 +184,14 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
 
     @Override
     public void onRefresh() {
-        initData();
-        mAdapter.setNewData(models);
+        mCurrentCounter = 0;
+        MineDataHttpRequest.getInstance(mActivity).getMyFollowPoint(new ProgressSubscriber(subscriber, mActivity), mCurrentTab, 1);
+
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.removeAllFooterView();
-        mCurrentCounter = PAGE_SIZE;
+
         swipeRefreshLayout.setRefreshing(false);
+
     }
 
     @Override
@@ -188,12 +202,14 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
                 if (mCurrentCounter >= TOTAL_COUNTER) {
                     mAdapter.loadComplete();
                 } else {
-                    initData();
-                    mAdapter.addData(models);
-                    mCurrentCounter = mAdapter.getData().size();
+                    MineDataHttpRequest.getInstance(mActivity).getMyFollowPoint(new ProgressSubscriber(subscriber, mActivity), mCurrentTab, getCurrentPage());
                 }
             }
         }, 200);
+    }
+
+    public int getCurrentPage() {
+        return mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE + 1;
     }
 
     private View getLoadMoreView() {
@@ -201,10 +217,9 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
         return customLoading;
     }
 
-    private void initData(){
-        int type = tab == 0 ? MineMultipleItemModel.MY_OPTION : MineMultipleItemModel.MY_OPTION_FOLLOW;
+    private void initData() {
+        int type = mCurrentTab == 0 ? MineMultipleItemModel.MY_OPTION : MineMultipleItemModel.MY_OPTION_FOLLOW;
         for (MineFollowPointEntity entiry : data.getLists()) {
-
             models.add(new MineMultipleItemModel(type, entiry));
         }
     }

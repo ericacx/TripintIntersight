@@ -36,6 +36,7 @@ import com.tripint.intersight.common.widget.dialogplus.ListHolder;
 import com.tripint.intersight.common.widget.dialogplus.ViewHolder;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
+import com.tripint.intersight.entity.article.ArticleCommentEntity;
 import com.tripint.intersight.entity.discuss.CommentEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.discuss.CreateDiscussResponseEntity;
@@ -49,6 +50,7 @@ import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.helper.AliPayUtils;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.helper.PayUtils;
+import com.tripint.intersight.service.CommonDataHttpRequest;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.service.PaymentDataHttpRequest;
@@ -102,7 +104,7 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
     @Bind(R.id.my_interview_detail_ask)
     Button myInterviewDetailAsk;
     @Bind(R.id.my_interview_detail_recyclerView)
-    RecyclerView myInterviewDetailRecyclerView;
+    RecyclerView recyclerViewAskAnswerComment;
     @Bind(R.id.text_view_comment_submit)
     TextView textViewCommentSubmit;
     @Bind(R.id.edit_user_comment_replay)
@@ -111,7 +113,9 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
     RelativeLayout userReplayContainer;
 
     private int mInterviewId;
-
+    private int toUid;
+    private int pid = 0;
+    private int userId = 0;
     private PageDataSubscriberOnNext<InterviewDetailEntity> subscriber;
     private InterviewDetailEntity detailEntity;
 
@@ -133,7 +137,7 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
 
     private String currentAction = "";
 
-    private CommentEntity currentSubCommentEntity; //创建子摩评论
+    private ArticleCommentEntity currentSubCommentEntity; //创建子摩评论
 
     private PageDataSubscriberOnNext<CommentResultEntity> putSubscriber;
 
@@ -220,6 +224,7 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
     private void initView(View view) {
         if (detailEntity.getInterview() != null) {
 
+            toUid = detailEntity.getInterview().getUserId();
             if (detailEntity.getInterview().getStatus() == 1) {
                 toolbar.setTitle("我的约访");
                 myInterviewPeople.setText("受访者:");
@@ -261,7 +266,31 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
 
     private void initCommentAdapter() {
 
+        mAdapter = new AskAnswerPageDetailCommentAdapter(detailEntity.getComments());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
+        mAdapter.openLoadAnimation();
+        recyclerViewAskAnswerComment.addOnItemTouchListener(new OnItemChildClickListener() {
+            @Override
+            public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                String content = null;
+                ArticleCommentEntity status = (ArticleCommentEntity) adapter.getItem(position);
+                pid = ((ArticleCommentEntity) adapter.getItem(position)).getId();
+                userId = ((ArticleCommentEntity) adapter.getItem(position)).getUserId();
+                switch (view.getId()) {
+                    case R.id.image_ask_profile:
+                        content = "img:" + status.getContent();
+                        break;
+                    case R.id.textView_item_ask_action:
+                        currentSubCommentEntity = status;
+                        content = "name:" + status.getCreateAt();
+                        KeyboardUtils.showSoftInput(mActivity, editUserCommentReplay);
+                        break;
+                }
+            }
+        });
 
+        recyclerViewAskAnswerComment.setLayoutManager(layoutManager);
+        recyclerViewAskAnswerComment.setAdapter(mAdapter);
     }
 
     @Override
@@ -519,21 +548,17 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
 
     @OnClick(R.id.text_view_comment_submit)
     public void onClick() {
-        if (currentSubCommentEntity == null) {
-            currentAction = DiscussDataHttpRequest.TYPE_SUB_COMMENT;
-        } else {
-            currentAction = DiscussDataHttpRequest.TYPE_COMMENT;
-        }
         String content = editUserCommentReplay.getText().toString();
         if (StringUtils.isEmpty(content)) {
             CommonUtils.showToast("点评内容不能为空");
         } else {
             if (currentSubCommentEntity == null) {
-                DiscussDataHttpRequest.getInstance(mActivity).createComment(new ProgressSubscriber(putSubscriber, mActivity), mInterviewId, content);
+                currentAction = DiscussDataHttpRequest.TYPE_COMMENT;
+                CommonDataHttpRequest.getInstance(mActivity).createInterviewComment(new ProgressSubscriber(putSubscriber, mActivity), mInterviewId, toUid, content);
             } else {
-                DiscussDataHttpRequest.getInstance(mActivity).createSubComment(new ProgressSubscriber(putSubscriber, mActivity),
-                        mInterviewId, content, currentSubCommentEntity.getId(), currentSubCommentEntity.getToNickname());
-
+                currentAction = DiscussDataHttpRequest.TYPE_SUB_COMMENT;
+                CommonDataHttpRequest.getInstance(mActivity).createInterviewSubComment(new ProgressSubscriber(putSubscriber, mActivity),
+                        mInterviewId, userId, content, pid);
             }
         }
     }

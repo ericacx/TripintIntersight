@@ -101,6 +101,17 @@ public class MineDataHttpRequest extends HttpRequest {
     }
 
     /**
+     * 更新用户头像
+     *
+     * @param subscriber
+     */
+    public void postUpdateAvatar(Subscriber<CodeDataEntity> subscriber
+            ,String uploadKey) {
+        Observable observable = service.postUpdateAvatar(uploadKey)
+                .map(new HttpResultFunc<CodeDataEntity>());
+        toSubscribe(observable, subscriber);
+    }
+    /**
      * 个人----我的观点接口
      *
      * @param subscriber
@@ -140,7 +151,7 @@ public class MineDataHttpRequest extends HttpRequest {
      *
      * @param subscriber
      */
-    public void getMyAskAnswer(Subscriber<BasePageableResponse<AskAnswerEntity>> subscriber, int type, int page) {
+    public void getMyAskAnswer(Subscriber<BasePageableResponse<AskAnswerEntity>> subscriber, int type, int page,int size) {
         if (type == option_type_my) {//关注
             Observable observable = service.getMyAskAnswer(page, DEFAULT_PAGE_SIZE)
                     .map(new HttpResultFunc<BasePageableResponse<AskAnswerEntity>>());

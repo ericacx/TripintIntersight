@@ -21,7 +21,7 @@ public class CommonDataHttpRequest extends HttpRequest {
     public static final int TYPE_INTERVIEW = 3;//访谈
     public static final int TYPE_ARTICLE_COMMENT = 4;//文章（观点）的评论
     public static final int TYPE_DISCUSS_COMMENT = 5;//问答的评论
-
+    public static final int TYPE_INTERVIEW_COMMENT = 6;//访谈的评论
     public static final int FLG_COMMENT = 1;//评论
     public static final int FLG_PRAISE = 2;//点赞
     public static final int FLG_FOCUS = 3;//关注
@@ -95,7 +95,7 @@ public class CommonDataHttpRequest extends HttpRequest {
      * @param toUid
      */
     public void createDiscussComment(Subscriber<CommentResultEntity> subscriber, int itemId, int toUid,String content) {
-        Observable observable = service.postCommon(itemId,TYPE_DISCUSS,ACTION_CREATE,toUid,content,FLG_FOCUS,PID)
+        Observable observable = service.postCommon(itemId,TYPE_DISCUSS,ACTION_CREATE,toUid,content,FLG_COMMENT,PID)
                 .map(new HttpResultFunc<CommentResultEntity>());
         toSubscribe(observable, subscriber);
     }
@@ -107,7 +107,7 @@ public class CommonDataHttpRequest extends HttpRequest {
      * @param toUid
      */
     public void createDiscussSubComment(Subscriber<CommentResultEntity> subscriber, int itemId, int toUid,String content,int pid) {
-        Observable observable = service.postCommon(itemId,TYPE_DISCUSS_COMMENT,ACTION_CREATE,toUid,content,FLG_FOCUS,pid)
+        Observable observable = service.postCommon(itemId,TYPE_DISCUSS_COMMENT,ACTION_CREATE,toUid,content,FLG_COMMENT,pid)
                 .map(new HttpResultFunc<CommentResultEntity>());
         toSubscribe(observable, subscriber);
     }
@@ -163,7 +163,7 @@ public class CommonDataHttpRequest extends HttpRequest {
      * @param toUid
      */
     public void createArticleComment(Subscriber<CommentResultEntity> subscriber, int itemId, int toUid,String content) {
-        Observable observable = service.postCommon(itemId,TYPE_ARTICLE,ACTION_CREATE,toUid,content,FLG_FOCUS,PID)
+        Observable observable = service.postCommon(itemId,TYPE_ARTICLE,ACTION_CREATE,toUid,content,FLG_COMMENT,PID)
                 .map(new HttpResultFunc<CommentResultEntity>());
         toSubscribe(observable, subscriber);
     }
@@ -175,7 +175,32 @@ public class CommonDataHttpRequest extends HttpRequest {
      * @param toUid
      */
     public void createArticleSubComment(Subscriber<CommentResultEntity> subscriber, int itemId, int toUid,String content,int pid) {
-        Observable observable = service.postCommon(itemId,TYPE_ARTICLE_COMMENT,ACTION_CREATE,toUid,content,FLG_FOCUS,pid)
+        Observable observable = service.postCommon(itemId,TYPE_ARTICLE_COMMENT,ACTION_CREATE,toUid,content,FLG_COMMENT,pid)
+                .map(new HttpResultFunc<CommentResultEntity>());
+        toSubscribe(observable, subscriber);
+    }
+
+
+    /**
+     * 创建观点评论
+     * @param subscriber
+     * @param itemId
+     * @param toUid
+     */
+    public void createInterviewComment(Subscriber<CommentResultEntity> subscriber, int itemId, int toUid,String content) {
+        Observable observable = service.postCommon(itemId,TYPE_INTERVIEW,ACTION_CREATE,toUid,content,FLG_COMMENT,PID)
+                .map(new HttpResultFunc<CommentResultEntity>());
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 创建观点子评论
+     * @param subscriber
+     * @param itemId
+     * @param toUid
+     */
+    public void createInterviewSubComment(Subscriber<CommentResultEntity> subscriber, int itemId, int toUid,String content,int pid) {
+        Observable observable = service.postCommon(itemId,TYPE_INTERVIEW_COMMENT,ACTION_CREATE,toUid,content,FLG_COMMENT,pid)
                 .map(new HttpResultFunc<CommentResultEntity>());
         toSubscribe(observable, subscriber);
     }

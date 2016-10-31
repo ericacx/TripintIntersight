@@ -19,7 +19,6 @@
 
         <Button
             android:id="@+id/personal_main_page_button_ask"
-            android:text="￥10.00 向他提问"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_15"
             android:background="@drawable/btn_shape2"

@@ -22,7 +22,6 @@
 
         <Button
             android:id="@+id/his_ask_answer_ask"
-            android:text="10.00向他提问"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_15"
             android:background="@drawable/btn_shape2"

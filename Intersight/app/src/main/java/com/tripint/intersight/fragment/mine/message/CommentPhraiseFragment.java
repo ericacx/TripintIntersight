@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
  */
 public class CommentPhraiseFragment extends BaseBackFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
 
-
+    public static final String ARG_COMMENT_ID = "arg_comment_id";
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.comment_agree_recyclerview)
@@ -57,8 +57,9 @@ public class CommentPhraiseFragment extends BaseBackFragment implements BaseQuic
     private BasePageableResponse<CommentPraiseEntity> data = new BasePageableResponse<CommentPraiseEntity>();
     private PageDataSubscriberOnNext<BasePageableResponse<CommentPraiseEntity>> subscriber;
 
-    public static CommentPhraiseFragment newInstance() {
+    public static CommentPhraiseFragment newInstance(CommentPraiseEntity entity) {
         Bundle args = new Bundle();
+        args.putInt(CommentPhraiseFragment.ARG_COMMENT_ID, entity.getId());
         CommentPhraiseFragment fragment = new CommentPhraiseFragment();
         fragment.setArguments(args);
         return fragment;

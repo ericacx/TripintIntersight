@@ -70,7 +70,8 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
 
     public static final String ARG_USER_ID = "arg_user_id";
     public static final String ARG_USER_NAME = "arg_user_name";
-
+    public static final String ARG_INTERVIEW_PAY_ID = "arg_interview_pay_id";
+    public static final String ARG_DISCUSS_PAY_ID = "arg_discuss_pay_id";
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.his_interview_ask)
@@ -89,7 +90,8 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
     private int TOTAL_COUNTER = 0;
 
     private int mCurrentCounter = 0;
-
+    private String discussPay;
+    private String interviewPay;
     private int uid = 0;
     private String name = null;
 
@@ -114,11 +116,13 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
     protected static final int MSG_START_STREAMING_DISCUSS = 0;
     protected static final int MSG_START_STREAMING_INTERVIEW = 1;
 
-    public static HisInterviewFragment newInstance(int uid, String nickname) {
+    public static HisInterviewFragment newInstance(int uid, String nickname,String discussPay,String interviewPay) {
         // Required empty public constructor
         Bundle args = new Bundle();
         args.putInt(ARG_USER_ID, uid);
         args.putString(ARG_USER_NAME,nickname);
+        args.putString(ARG_DISCUSS_PAY_ID,discussPay);
+        args.putString(ARG_INTERVIEW_PAY_ID,interviewPay);
         HisInterviewFragment fragment = new HisInterviewFragment();
         fragment.setArguments(args);
         return fragment;
@@ -131,6 +135,8 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
         if (bundle != null) {
             uid = bundle.getInt(ARG_USER_ID);
             name = bundle.getString(ARG_USER_NAME);
+            discussPay = bundle.getString(ARG_DISCUSS_PAY_ID);
+            interviewPay = bundle.getString(ARG_INTERVIEW_PAY_ID);
         }
     }
 
@@ -277,10 +283,11 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
         switch (view.getId()) {
             case R.id.his_interview_ask:
 //                initAskDialog();
-                EventBus.getDefault().post(new StartFragmentEvent(CreateDiscussFragment.newInstance(uid)));
+                hisInterviewAsk.setText("￥"+discussPay+" 向他提问");
+                EventBus.getDefault().post(new StartFragmentEvent(CreateDiscussFragment.newInstance(uid,discussPay)));
                 break;
             case R.id.his_interview_interview:
-                EventBus.getDefault().post(new StartFragmentEvent(CreateInterviewFragment.newInstance(uid)));
+                EventBus.getDefault().post(new StartFragmentEvent(CreateInterviewFragment.newInstance(uid,interviewPay)));
 //                initInterviewDialog();
                 break;
         }

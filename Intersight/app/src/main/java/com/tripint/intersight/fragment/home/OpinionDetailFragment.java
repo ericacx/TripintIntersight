@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import com.tripint.intersight.entity.article.ArticleDetailEntity;
 import com.tripint.intersight.entity.article.OpinionDetailEntity;
 import com.tripint.intersight.entity.discuss.CommentEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
+import com.tripint.intersight.event.PersonalEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.service.BaseDataHttpRequest;
@@ -37,6 +39,11 @@ import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 import com.tripint.intersight.widget.tabbar.BottomTabBarItem;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -108,6 +115,7 @@ public class OpinionDetailFragment extends BaseBackFragment {
     BottomTabBarItem item3; // 举报
 
     private int toUid;
+    private int userId;
     private int pid;//评论的id
     private String currentAction = "";
     private ArticleCommentEntity currentSubCommentEntity; //创建子摩评论
@@ -253,6 +261,7 @@ public class OpinionDetailFragment extends BaseBackFragment {
                     currentAction = DiscussDataHttpRequest.TYPE_FOLLOW;
                     CommonDataHttpRequest.getInstance(mActivity).createArticleFocus(new ProgressSubscriber<CommentResultEntity>(putSubscriber, mActivity), articleId, toUid);
                 }
+
             }
         });
 
@@ -289,31 +298,41 @@ public class OpinionDetailFragment extends BaseBackFragment {
 
                     case DiscussDataHttpRequest.TYPE_COMMENT: //行业领域
                         ToastUtil.showToast(mActivity, "提交成功");
+//                        ArticleCommentEntity articleCommentEntity = new ArticleCommentEntity();
+//                        articleCommentEntity.setId(data.getComments().get(0).getId()+1);
+//                        articleCommentEntity.setContent(editUserCommentReplay.getText().toString());
+//                        data.getComments().add(articleCommentEntity);
+//                        mAdapter.notifyDataSetChanged();
                         editUserCommentReplay.setText("");
                         break;
                     case DiscussDataHttpRequest.TYPE_SUB_COMMENT: //行业领域
                         ToastUtil.showToast(mActivity, "提交成功");
                         editUserCommentReplay.setText("");
+                        httpRequestData();
                         break;
                     case DiscussDataHttpRequest.TYPE_FOLLOW: //关注
                         item2.setSelected(true);
                         item2.setTitle(entity.getTotal() + "");
                         ToastUtil.showToast(mActivity, "关注成功");
+                        isFollow = data.getDetail().getIsFavorites() == 1000;
                         break;
                     case DiscussDataHttpRequest.TYPE_UNFOLLOW: //我的
                         item2.setSelected(false);
                         item2.setTitle(entity.getTotal() + "");
                         ToastUtil.showToast(mActivity, "取消关注成功");
+                        isFollow = data.getDetail().getIsFavorites() == 1001;
                         break;
                     case DiscussDataHttpRequest.TYPE_PRAISES: //我的
                         item1.setSelected(true);
                         item1.setTitle(entity.getTotal() + "");
                         ToastUtil.showToast(mActivity, "点赞成功");
+                        isPraises = data.getDetail().getIsPraises() == 1000;
                         break;
                     case DiscussDataHttpRequest.TYPE_UNPRAISES:
                         item1.setSelected(false);
                         item1.setTitle(entity.getTotal() + "");
                         ToastUtil.showToast(mActivity, "取消赞成功");
+                        isPraises = data.getDetail().getIsPraises() == 1001;
                         break;
                     case DiscussDataHttpRequest.TYPE_REPORT:
                         ToastUtil.showToast(mActivity, "举报信息提交成功");
@@ -326,8 +345,6 @@ public class OpinionDetailFragment extends BaseBackFragment {
     }
 
     private void initCommentAdapter() {
-
-
         mAdapter = new AskAnswerPageDetailCommentAdapter(data.getComments());
         final LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
         mAdapter.openLoadAnimation();
@@ -336,7 +353,8 @@ public class OpinionDetailFragment extends BaseBackFragment {
             public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 String content = null;
                 ArticleCommentEntity status = (ArticleCommentEntity) adapter.getItem(position);
-                pid = ((ArticleCommentEntity) adapter.getItem(position)).getUserId();
+                pid = ((ArticleCommentEntity) adapter.getItem(position)).getId();
+                userId = ((ArticleCommentEntity) adapter.getItem(position)).getUserId();
                 switch (view.getId()) {
                     case R.id.image_ask_profile:
                         content = "img:" + status.getContent();
@@ -368,12 +386,13 @@ public class OpinionDetailFragment extends BaseBackFragment {
             CommonUtils.showToast("点评内容不能为空");
         } else {
             if (currentSubCommentEntity == null) {
-                currentAction = DiscussDataHttpRequest.TYPE_SUB_COMMENT;
-                CommonDataHttpRequest.getInstance(mActivity).createDiscussComment(new ProgressSubscriber(putSubscriber, mActivity), articleId, toUid, content);
-            } else {
                 currentAction = DiscussDataHttpRequest.TYPE_COMMENT;
-                CommonDataHttpRequest.getInstance(mActivity).createDiscussSubComment(new ProgressSubscriber(putSubscriber, mActivity),
-                        articleId, toUid, content, pid);
+                CommonDataHttpRequest.getInstance(mActivity).createArticleComment(new ProgressSubscriber(putSubscriber, mActivity), articleId, toUid, content);
+            } else {
+                currentAction = DiscussDataHttpRequest.TYPE_SUB_COMMENT;
+                CommonDataHttpRequest.getInstance(mActivity).createArticleSubComment(new ProgressSubscriber(putSubscriber, mActivity),
+                        articleId, userId, content, pid);
+                Log.e("pid", String.valueOf(pid));
 
             }
         }

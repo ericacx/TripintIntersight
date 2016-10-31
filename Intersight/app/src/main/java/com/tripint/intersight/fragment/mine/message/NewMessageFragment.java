@@ -16,6 +16,7 @@ import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.MineCommonMultipleAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
+import com.tripint.intersight.entity.message.CommentPraiseEntity;
 import com.tripint.intersight.entity.message.MessageContentEntity;
 import com.tripint.intersight.entity.message.MessageEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
@@ -64,6 +65,7 @@ public class NewMessageFragment extends BaseBackFragment implements BaseQuickAda
 
     private PageDataSubscriberOnNext<MessageEntity> subscriber;
     private MessageEntity data = new MessageEntity();
+    private CommentPraiseEntity commentPraiseEntity = new CommentPraiseEntity();
     List<MineMultipleItemModel> models = new ArrayList<>();
 
     private int interview;
@@ -126,7 +128,9 @@ public class NewMessageFragment extends BaseBackFragment implements BaseQuickAda
                 comment = data.getComment();
 //                models = data.getLists();
                 //适配数据
+                initData();
                 initAdapter();
+
             }
         };
         MessageDataHttpRequest.getInstance(mActivity).getNewMessage(new ProgressSubscriber(subscriber, mActivity),1);
@@ -177,7 +181,7 @@ public class NewMessageFragment extends BaseBackFragment implements BaseQuickAda
                 EventBus.getDefault().post(new StartFragmentEvent(AskAnswerMessageFragment.newInstance()));
                 break;
             case R.id.new_message_text_view_comment_agree://评论或赞
-                EventBus.getDefault().post(new StartFragmentEvent(CommentPhraiseFragment.newInstance()));
+                EventBus.getDefault().post(new StartFragmentEvent(CommentPhraiseFragment.newInstance(commentPraiseEntity)));
                 break;
         }
     }

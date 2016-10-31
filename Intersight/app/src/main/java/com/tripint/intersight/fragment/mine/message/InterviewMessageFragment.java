@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemC
 import com.tripint.intersight.entity.message.MessageContentEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
+import com.tripint.intersight.service.HttpRequest;
 import com.tripint.intersight.service.MessageDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
@@ -81,8 +83,19 @@ public class InterviewMessageFragment extends BaseBackFragment implements BaseQu
             @Override
             public void onNext(BasePageableResponse<MessageContentEntity> entity) {
                 data = entity;
+                initData();
                 initView(null);
                 initAdapter();
+                if (mCurrentCounter == 0) {
+//                ToastUtil.showToast(mActivity, entity.getAbilityName().toString() +"");
+                    mAdapter.setNewData(models);
+                } else {
+                    mAdapter.addData(models);
+                }
+                TOTAL_COUNTER = data.getTotal();
+                Log.e("totalCounter", String.valueOf(TOTAL_COUNTER));
+                mCurrentCounter = mAdapter.getData().size();
+                Log.e("mCurrentCounter", String.valueOf(TOTAL_COUNTER));
             }
         };
         MessageDataHttpRequest.getInstance(mActivity).getInterviewMessage(new ProgressSubscriber(subscriber, mActivity),1);
@@ -103,8 +116,6 @@ public class InterviewMessageFragment extends BaseBackFragment implements BaseQu
      * 适配数据
      */
     private void initAdapter() {
-
-        initData();
 
         mAdapter = new MineCommonMultipleAdapter(models);
         mAdapter.openLoadAnimation();
@@ -141,8 +152,9 @@ public class InterviewMessageFragment extends BaseBackFragment implements BaseQu
 
     @Override
     public void onRefresh() {
-        initData();
-        mAdapter.setNewData(models);
+//        mAdapter.setNewData(models);
+        mCurrentCounter = 0;
+        MessageDataHttpRequest.getInstance(mActivity).getInterviewMessage(new ProgressSubscriber(subscriber, mActivity),1);
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.removeAllFooterView();
         mCurrentCounter = PAGE_SIZE;
@@ -158,13 +170,16 @@ public class InterviewMessageFragment extends BaseBackFragment implements BaseQu
                     mAdapter.loadComplete();
 
                 } else {
-                    initData();
-                    mAdapter.addData(models);
-                    mCurrentCounter = mAdapter.getData().size();
+                    MessageDataHttpRequest.getInstance(mActivity).getInterviewMessage(new ProgressSubscriber(subscriber, mActivity),getCurrentPage());
                 }
             }
         }, 200);
     }
+
+    public int getCurrentPage() {
+        return mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE + 1;
+    }
+
     private View getLoadMoreView() {
         final View customLoading = LayoutInflater.from(mActivity).inflate(R.layout.common_loading, (ViewGroup) mRecyclerView.getParent(), false);
         return customLoading;
