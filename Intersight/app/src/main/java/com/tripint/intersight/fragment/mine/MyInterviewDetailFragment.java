@@ -46,7 +46,10 @@ import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.entity.payment.AliPayResponseEntity;
 import com.tripint.intersight.entity.payment.WXPayResponseEntity;
 import com.tripint.intersight.entity.user.PaymentEntity;
+import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.fragment.create.CreateDiscussFragment;
+import com.tripint.intersight.fragment.create.CreateInterviewFragment;
 import com.tripint.intersight.helper.AliPayUtils;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.helper.PayUtils;
@@ -56,6 +59,8 @@ import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.service.PaymentDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +77,8 @@ import butterknife.OnClick;
 public class MyInterviewDetailFragment extends BaseBackFragment {
 
     public static final String ARG_INTERVIEW_Detail_ID = "arg_interview_detail_id";
+    public static final String ARG_INTERVIEW_PAY_ID = "arg_interview_pay_id";
+    public static final String ARG_DISCUSS_PAY_ID = "arg_discuss_pay_id";
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.my_interview_status)
@@ -136,7 +143,8 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
     protected static final int MSG_START_STREAMING_INTERVIEW = 1;
 
     private String currentAction = "";
-
+    private String discucssPay;
+    private String interviewPay;
     private ArticleCommentEntity currentSubCommentEntity; //创建子摩评论
 
     private PageDataSubscriberOnNext<CommentResultEntity> putSubscriber;
@@ -147,6 +155,8 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
         // Required empty public constructor
         Bundle args = new Bundle();
         args.putInt(MyInterviewDetailFragment.ARG_INTERVIEW_Detail_ID, entity.getId());
+//        args.putString(MyInterviewDetailFragment.ARG_DISCUSS_PAY_ID,discucssPay);
+//        args.putString(MyInterviewDetailFragment.ARG_INTERVIEW_PAY_ID,interviewPay);
         MyInterviewDetailFragment fragment = new MyInterviewDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -158,6 +168,8 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             mInterviewId = bundle.getInt(ARG_INTERVIEW_Detail_ID);
+//            discucssPay = bundle.getString(ARG_DISCUSS_PAY_ID);
+//            interviewPay = bundle.getString(ARG_INTERVIEW_PAY_ID);
         }
     }
 
@@ -225,6 +237,8 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
         if (detailEntity.getInterview() != null) {
 
             toUid = detailEntity.getInterview().getUserId();
+            discucssPay = detailEntity.getInterview().getDiscussPay();
+            interviewPay = detailEntity.getInterview().getInterviewPay();
             if (detailEntity.getInterview().getStatus() == 1) {
                 toolbar.setTitle("我的约访");
                 myInterviewPeople.setText("受访者:");
@@ -308,10 +322,11 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
                 initKefuDialog();
                 break;
             case R.id.my_interview_detail_twiceInterview://再次约访
-                initInterviewDialog();
+//                initInterviewDialog();
+                EventBus.getDefault().post(new StartFragmentEvent(CreateInterviewFragment.newInstance(toUid,interviewPay)));
                 break;
             case R.id.my_interview_detail_ask://向他提问
-                initAskDialog();
+                EventBus.getDefault().post(new StartFragmentEvent(CreateDiscussFragment.newInstance(toUid,discucssPay)));
                 break;
         }
     }
@@ -534,10 +549,12 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
                     case DiscussDataHttpRequest.TYPE_COMMENT: //行业领域
                         CommonUtils.showToast("提交成功");
                         editUserCommentReplay.setText("");
+                        httpRequestData();
                         break;
                     case DiscussDataHttpRequest.TYPE_SUB_COMMENT: //行业领域
                         CommonUtils.showToast("提交成功");
                         editUserCommentReplay.setText("");
+                        httpRequestData();
                         break;
                 }
             }

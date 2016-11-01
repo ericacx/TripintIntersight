@@ -45,6 +45,8 @@ public class InterviewEntity implements Serializable {
     private String interviewTime;//详情-时间
     private int customType;//访谈形式
 
+    private String discussPay;
+    private String interviewPay;
     public InterviewEntity() {
     }
 
@@ -178,5 +180,21 @@ public class InterviewEntity implements Serializable {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getDiscussPay() {
+        return discussPay;
+    }
+
+    public void setDiscussPay(String discussPay) {
+        this.discussPay = discussPay;
+    }
+
+    public String getInterviewPay() {
+        return interviewPay;
+    }
+
+    public void setInterviewPay(String interviewPay) {
+        this.interviewPay = interviewPay;
     }
 }

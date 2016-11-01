@@ -26,7 +26,7 @@
             android:layout_weight="1"
             android:background="@drawable/btn_shape2"
             android:gravity="center"
-            android:text="10.00向他提问"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_14" />
 

@@ -18,12 +18,18 @@ import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.message.MessageContentEntity;
+import com.tripint.intersight.entity.mine.InterviewDetailEntity;
+import com.tripint.intersight.entity.mine.InterviewEntity;
+import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.fragment.mine.MyInterviewDetailFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
 import com.tripint.intersight.service.HttpRequest;
 import com.tripint.intersight.service.MessageDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,9 +131,9 @@ public class InterviewMessageFragment extends BaseBackFragment implements BaseQu
 
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String content = null;
-//                DiscussEntiry entity = (DiscussEntiry) adapter.getItem(position);
-//                EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity)));
+                MineMultipleItemModel model = (MineMultipleItemModel) adapter.getItem(position);
+                InterviewEntity result = new InterviewEntity(model.getMessageContentEntity().getId());
+                EventBus.getDefault().post(new StartFragmentEvent(MyInterviewDetailFragment.newInstance(result)));
             }
         });
         mAdapter.setLoadingView(getLoadMoreView());

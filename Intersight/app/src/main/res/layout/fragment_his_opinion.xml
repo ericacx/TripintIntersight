@@ -21,7 +21,7 @@
 
         <Button
             android:id="@+id/his_opinion_ask"
-            android:text="￥10.00 向他提问"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_15"
             android:background="@drawable/btn_shape2"

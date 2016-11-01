@@ -16,13 +16,20 @@ import com.tripint.intersight.adapter.MineCommonMultipleAdapter;
 import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
+import com.tripint.intersight.entity.discuss.DiscussEntiry;
+import com.tripint.intersight.entity.discuss.DiscussEntity;
 import com.tripint.intersight.entity.message.MessageContentEntity;
+import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.fragment.home.AskAnswerDetailFragment;
+import com.tripint.intersight.fragment.home.AskReplayDetailFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
 import com.tripint.intersight.service.HttpRequest;
 import com.tripint.intersight.service.MessageDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +40,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AskAnswerMessageFragment extends BaseBackFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
+public class AskAnswerMessageFragment extends BaseBackFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
 
     @Bind(R.id.toolbar)
@@ -94,7 +101,7 @@ public class AskAnswerMessageFragment extends BaseBackFragment implements BaseQu
                 mCurrentCounter = mAdapter.getData().size();
             }
         };
-        MessageDataHttpRequest.getInstance(mActivity).getAskAnswerMessage(new ProgressSubscriber(subscriber, mActivity),1);
+        MessageDataHttpRequest.getInstance(mActivity).getAskAnswerMessage(new ProgressSubscriber(subscriber, mActivity), 1);
     }
 
     private void initToolbar() {
@@ -116,9 +123,13 @@ public class AskAnswerMessageFragment extends BaseBackFragment implements BaseQu
 
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String content = null;
-//                DiscussEntiry entity = (DiscussEntiry) adapter.getItem(position);
-//                EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity)));
+                MineMultipleItemModel model = (MineMultipleItemModel) adapter.getItem(position);
+                DiscussEntity result = new DiscussEntity(model.getMessageContentEntity().getId());
+                if (model.getMessageContentEntity().getMessageType() == 1) {
+                    EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(result)));
+                } else if (model.getMessageContentEntity().getMessageType() == 2) {
+                    EventBus.getDefault().post(new StartFragmentEvent(AskReplayDetailFragment.newInstance(result)));
+                }
             }
         });
         mAdapter.setLoadingView(getLoadMoreView());
@@ -154,7 +165,7 @@ public class AskAnswerMessageFragment extends BaseBackFragment implements BaseQu
                 if (mCurrentCounter >= TOTAL_COUNTER) {
                     mAdapter.loadComplete();
                 } else {
-                    MessageDataHttpRequest.getInstance(mActivity).getAskAnswerMessage(new ProgressSubscriber(subscriber, mActivity),getCurrentPage());
+                    MessageDataHttpRequest.getInstance(mActivity).getAskAnswerMessage(new ProgressSubscriber(subscriber, mActivity), getCurrentPage());
                 }
             }
         }, 200);
@@ -169,7 +180,7 @@ public class AskAnswerMessageFragment extends BaseBackFragment implements BaseQu
         return customLoading;
     }
 
-    private void initData(){
+    private void initData() {
         int type = MineMultipleItemModel.MY_MESSAGE_ASK_ANSWER;
 
         for (MessageContentEntity entity : data.getLists()) {

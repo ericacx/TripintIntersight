@@ -274,6 +274,7 @@ public class HisAskAnswerFragment extends BaseBackFragment implements BaseQuickA
         swipeRefreshLayout.setOnRefreshListener(this);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        hisAskAnswerAsk.setText("￥"+discussPay+" 向他提问");
     }
 
     @Override
@@ -319,7 +320,7 @@ public class HisAskAnswerFragment extends BaseBackFragment implements BaseQuickA
         switch (view.getId()) {
             case R.id.his_ask_answer_ask:
 //                initAskDialog();
-                hisAskAnswerAsk.setText("￥"+discussPay+" 向他提问");
+
                 EventBus.getDefault().post(new StartFragmentEvent(CreateDiscussFragment.newInstance(uid,discussPay)));
                 break;
             case R.id.his_ask_answer_interview:

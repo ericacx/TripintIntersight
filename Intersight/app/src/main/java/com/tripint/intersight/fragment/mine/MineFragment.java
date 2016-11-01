@@ -7,12 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +23,11 @@ import com.tripint.intersight.R;
 import com.tripint.intersight.activity.LoginActivity;
 import com.tripint.intersight.activity.PermissionsActivity;
 import com.tripint.intersight.app.InterSightApp;
-import com.tripint.intersight.common.utils.DialogPlusUtils;
 import com.tripint.intersight.common.utils.FileUtils;
+import com.tripint.intersight.common.utils.PhotoUtil;
+import com.tripint.intersight.common.utils.TakePhotoUtil;
 import com.tripint.intersight.common.widget.cropiamge.CropImageActivity;
 import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
-import com.tripint.intersight.common.widget.dialogplus.ViewHolder;
 import com.tripint.intersight.common.widget.filter.ItemModel;
 import com.tripint.intersight.common.widget.filter.adapter.SimpleTextAdapter;
 import com.tripint.intersight.common.widget.filter.interfaces.OnFilterItemClickListener;
@@ -41,7 +40,6 @@ import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.event.StartFragmentForResultEvent;
 import com.tripint.intersight.fragment.PersonalInfoFragment;
 import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
-import com.tripint.intersight.fragment.mine.photo.photo.PhotoWallActivity;
 import com.tripint.intersight.fragment.mine.setting.SettingFragment;
 import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.image.CircleImageView;
@@ -51,7 +49,6 @@ import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -192,24 +189,15 @@ public class MineFragment extends BaseLazyMainFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.mineCIVPersonalInfo:
-                if (InterSightApp.getApp().getPermissionsChecker().lacksPermissions(InterSightApp.getApp().FILE_CAMERA)) {
-                    PermissionsActivity.startActivityForResult(mActivity, InterSightApp.getApp().REQUEST_CODE, InterSightApp.getApp().FILE_CAMERA);
-                } else {
-                    List<ItemModel> list = new ArrayList<>();
-                    list.add(new ItemModel(1, "拍照"));
-                    list.add(new ItemModel(2, "从相册选择"));
+//                if (InterSightApp.getApp().getPermissionsChecker().lacksPermissions(InterSightApp.getApp().FILE_CAMERA)) {
+//                    PermissionsActivity.startActivityForResult(mActivity, InterSightApp.getApp().REQUEST_CODE, InterSightApp.getApp().FILE_CAMERA);
+//                } else {
+//
+//                    PhotoUtil.showDialog(mActivity);
+//                    break;
+//                }
 
-                    dialog = DialogPlusUtils.Builder(mActivity)
-                            .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createSingleListView(list)))
-                            .setTitleName("请选择")
-                            .setIsHeader(true)
-                            .setIsFooter(false)
-                            .setIsExpanded(false)
-                            .setGravity(Gravity.CENTER)
-                            .showCompleteDialog();
-                    break;
-                }
-
+                PhotoUtil.showDialog(this);
                 break;
             case R.id.mineIvRewriteInfo://编辑个人资料
                 EventBus.getDefault().post(new StartFragmentEvent(PersonalInfoFragment.newInstance(data)));
@@ -245,6 +233,14 @@ public class MineFragment extends BaseLazyMainFragment {
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Bitmap bitmap = PhotoUtil.dealActivityResult(this, requestCode, resultCode, data, true);
+        Log.e("bitmap", String.valueOf(bitmap));
+        mineCIVPersonalInfo.setImageBitmap(bitmap);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     private View createSingleListView(List<ItemModel> list) {
         SimpleTextAdapter adapter = new SimpleTextAdapter<ItemModel>(null, mActivity) {
             @Override
@@ -263,15 +259,17 @@ public class MineFragment extends BaseLazyMainFragment {
                     @Override
                     public void onItemClick(ItemModel item) {
                         if (item.getKey() == 1) {
-                            cameraMethod();
+//                            cameraMethod();
+                            //打开拍照
                         } else {
                             if (InterSightApp.getApp().getPermissionsChecker().lacksPermissions(InterSightApp.getApp().CONTACTS)) {
                                 PermissionsActivity.startActivityForResult(mActivity, InterSightApp.getApp().REQUEST_CODE, InterSightApp.getApp().CONTACTS);
                             } else {
-                                //跳转至最终的选择图片页面
-                                Intent intent = new Intent(mActivity, PhotoWallActivity.class);
-                                intent.putExtra("maximum", 1);
-                                startActivityForResult(intent, 200);
+//                                //跳转至最终的选择图片页面
+//                                Intent intent = new Intent(mActivity, PhotoWallActivity.class);
+//                                intent.putExtra("maximum", 1);
+//                                startActivityForResult(intent, 200);
+                                // 打开相册
                             }
 
                         }
@@ -301,29 +299,30 @@ public class MineFragment extends BaseLazyMainFragment {
         startActivityForResult(intent, RESULT_CAPTURE_IMAGE);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 200 && resultCode == 400) {
-            ArrayList<String> paths = (ArrayList) data.getExtras().getSerializable("picData");
-            File temp = new File(paths.get(0).toString());
-            strImgPath = paths.get(0).toString();
-            startPhotoZoom(Uri.fromFile(temp));
-        } else if (requestCode == RESULT_CAPTURE_IMAGE && resultCode == mActivity.RESULT_OK) {
-            try {
-                if (null != data && null != data.getData()) {
-                    imgUri = data.getData();
-                }
-                startPhotoZoom(imgUri);
-            } catch (Exception e) {
-                Log.e("-----Exception--|=", e.getMessage());
-            }
-        } else if (requestCode == TAILORING && resultCode == mActivity.RESULT_OK) {
-            if (null != data) {
-                setPicToView(data);
-            }
-        }
-//        mActivity.onActivityResult(requestCode, resultCode, data);
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == 200 && resultCode == 400) {
+//            ArrayList<String> paths = (ArrayList) data.getExtras().getSerializable("picData");
+//            File temp = new File(paths.get(0).toString());
+//            strImgPath = paths.get(0).toString();
+//            startPhotoZoom(Uri.fromFile(temp));
+//        } else if (requestCode == RESULT_CAPTURE_IMAGE && resultCode == mActivity.RESULT_OK) {
+//            try {
+//                if (null != data && null != data.getData()) {
+//                    imgUri = data.getData();
+//                }
+//                startPhotoZoom(imgUri);
+//            } catch (Exception e) {
+//                Log.e("-----Exception--|=", e.getMessage());
+//            }
+//        } else if (requestCode == TAILORING && resultCode == mActivity.RESULT_OK) {
+//            if (null != data) {
+//                setPicToView(data);
+//            }
+//        }
+////        onActivityResult(requestCode, resultCode, data);
+////        mActivity.onActivityResult(requestCode, resultCode, data);
+//    }
 
 
     /**
@@ -368,44 +367,38 @@ public class MineFragment extends BaseLazyMainFragment {
         Bundle extras = picdata.getExtras();
         if (extras != null) {
             String path = extras.getString(CropImageActivity.IMAGE_PATH);
-            Bitmap photo = null;
+            Bitmap bitmap = null;
             // if nothing received
             if (path != null) {
-                photo = BitmapFactory.decodeFile(path);
+                bitmap = BitmapFactory.decodeFile(path);
             } else {
-                photo = BitmapFactory.decodeFile(strImgPath);
+                bitmap = BitmapFactory.decodeFile(strImgPath);
             }
 
-            if (photo == null) {
-                return;
-            } else {
-                mineCIVPersonalInfo.setImageBitmap(photo);
-            }
-            /**
-             * 下面注释的方法是将裁剪之后的图片以Base64Coder的字符方式上
-             * 传到服务器
-             */
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            photo.compress(Bitmap.CompressFormat.JPEG, 60, stream);
-            byte[] b = stream.toByteArray();
-            // 将图片流以字符串形式存储下来
-            String imageBase64Data = Base64.encodeToString(b, Base64.NO_WRAP);
-//            userInfo.setIconUri(strImgPath);
-//            mineCIVPersonalInfo.setImageBitmap(photo);
-//            userInfo.setImgIco(new PicComment(FileUtils.getFileName(strImgPath), imageBase64Data));
-//            modify(userInfo);
+            mineCIVPersonalInfo.setImageBitmap(bitmap);
+//            if (bitmap == null) {
+//                return;
+//            } else {
+//                mineCIVPersonalInfo.setImageBitmap(bitmap);
+//            }
+//            /**
+//             * 下面注释的方法是将裁剪之后的图片以Base64Coder的字符方式上
+//             * 传到服务器
+//             */
+//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, stream);
+//            byte[] b = stream.toByteArray();
+//            // 将图片流以字符串形式存储下来
+//            String imageBase64Data = Base64.encodeToString(b, Base64.NO_WRAP);
+//
+////            userInfo.setIconUri(strImgPath);
+//            mineCIVPersonalInfo.setImageBitmap(bitmap);
+//            mineCIVPersonalInfo.setImageDrawable(bitmap);
+////            userInfo.setImgIco(new PicComment(FileUtils.getFileName(strImgPath), imageBase64Data));
+////            modify(userInfo);
         }
     }
 
-//    /**
-//     * 修改
-//     *
-//     * @param _userInfo
-//     */
-//    private void modify(final MyUserInfo _userInfo) {
-//        HashMap<String, String> requestParams = new HashMap<String, String>();
-//        requestParams.put("data", JSON.toJSONString(_userInfo));
-//        modifyUserInfo = toModifyUserInfo(_userInfo);
-//        userServer.modifyMyBaseInfo(new UserDataRepository(), AndroidSchedulers.mainThread(), modifyUserInfo, requestParams);
-//    }
+
+
 }

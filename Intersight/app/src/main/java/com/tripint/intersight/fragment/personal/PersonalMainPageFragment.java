@@ -147,6 +147,7 @@ public class PersonalMainPageFragment extends BaseBackFragment {
     }
 
     private void initView(View view) {
+
         discucssPay = data.getDiscussPay();
         interviewPay = data.getInterviewPay();
         personalMainPageName.setText(data.getNickname());//名字
@@ -161,7 +162,7 @@ public class PersonalMainPageFragment extends BaseBackFragment {
                 .placeholder(R.mipmap.ic_avatar)
                 .transform(new GlideCircleTransform(mActivity))
                 .into(personalMainPagePersonalInfo);
-
+        personalMainPageButtonAsk.setText("￥"+discucssPay+" 向他提问");
     }
 
     private void initToolbar() {
@@ -181,7 +182,7 @@ public class PersonalMainPageFragment extends BaseBackFragment {
         switch (view.getId()) {
             case R.id.personal_main_page_button_ask://向他提问
 //                initAskDialog();
-                personalMainPageButtonAsk.setText("￥"+discucssPay+" 向他提问");
+
                 EventBus.getDefault().post(new StartFragmentEvent(CreateDiscussFragment.newInstance(uid,discucssPay)));
                 break;
             case R.id.personal_main_page_button_interview://约他访谈

@@ -259,6 +259,7 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
         swipeRefreshLayout.setOnRefreshListener(this);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        hisOpinionAsk.setText("￥"+discussPay+" 向他提问");
     }
 
     @Override
@@ -315,7 +316,7 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
                 break;
             case R.id.his_opinion_ask:
 //                initAskDialog();
-                hisOpinionAsk.setText("￥"+discussPay+" 向他提问");
+
                 EventBus.getDefault().post(new StartFragmentEvent(CreateDiscussFragment.newInstance(uid,discussPay)));
                 break;
             case R.id.his_opinion_interview:

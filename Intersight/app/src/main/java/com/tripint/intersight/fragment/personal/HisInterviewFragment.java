@@ -237,6 +237,7 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
         swipeRefreshLayout.setOnRefreshListener(this);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        hisInterviewAsk.setText("￥"+discussPay+" 向他提问");
     }
 
     @Override
@@ -283,7 +284,6 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
         switch (view.getId()) {
             case R.id.his_interview_ask:
 //                initAskDialog();
-                hisInterviewAsk.setText("￥"+discussPay+" 向他提问");
                 EventBus.getDefault().post(new StartFragmentEvent(CreateDiscussFragment.newInstance(uid,discussPay)));
                 break;
             case R.id.his_interview_interview:

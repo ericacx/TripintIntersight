@@ -13,7 +13,7 @@
             android:id="@+id/image_ask_profile"
             android:layout_width="@dimen/width_12_80"
             android:layout_height="@dimen/height_6_80"
-            android:layout_margin="@dimen/width_3_80"
+            android:layout_margin="@dimen/width_2_80"
             android:layout_centerHorizontal="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
@@ -30,7 +30,7 @@
             android:text=""
             android:background="@mipmap/iconfont_pinglun"
             android:textSize="@dimen/text_size_12"
-            android:layout_margin="@dimen/spacing"/>
+            android:layout_margin="5dp"/>
 
         <TextView
             android:id="@+id/textView_item_ask_title"
@@ -41,7 +41,7 @@
             android:layout_below="@id/textView_item_ask_specialist"
             android:textColor="@color/grey_100"
             android:layout_toRightOf="@id/image_ask_profile"
-            android:text="目前AR技术的整体发展ngukey未来演讲方向????"
+            android:text=""
             android:textSize="@dimen/text_size_14"
             android:layout_margin="@dimen/spacing_pad04"/>
 
@@ -68,7 +68,7 @@
             android:gravity="center_vertical"
             android:layout_toLeftOf="@id/textView_item_ask_action"
             android:layout_toRightOf="@id/image_ask_profile"
-            android:text="目前AR技术的整体发展ngukey未来演讲方向????"
+            android:text=""
             android:textSize="@dimen/text_size_12"
             android:layout_alignTop="@+id/textView_item_ask_action"
             android:layout_alignLeft="@+id/textView_item_ask_title"
@@ -78,7 +78,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="4dp"
 
         android:background="@drawable/line_grey"/>
 </LinearLayout>

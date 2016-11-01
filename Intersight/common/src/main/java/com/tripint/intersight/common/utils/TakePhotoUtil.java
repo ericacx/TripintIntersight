@@ -54,11 +54,11 @@ public class TakePhotoUtil {
      * @param context
      */
     public static final void showDialog(final Fragment context) {
-        final Dialog photoDialog = new Dialog(context.getContext(),
+        final Dialog photoDialog = new Dialog(context.getActivity(),
                 R.style.ProgressHUD);
         photoDialog.setContentView(R.layout.takephoto_dialog);
         Window win = photoDialog.getWindow();
-        win.setGravity(Gravity.BOTTOM);
+        win.setGravity(Gravity.CENTER);
         win.setWindowAnimations(R.style.ProgressHUD); // 设置窗口弹出动画
         win.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         photoDialog.setCanceledOnTouchOutside(true);

@@ -13,21 +13,18 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:layout_alignParentBottom="true"
         android:background="#fff"
         >
-
 
         <Button
             android:id="@+id/btn_take_photo"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="拍照"
             android:textStyle="bold"
-            android:textColor="@color/qqblue"
+            android:textColor="@color/black"
             />
 
         <Button
@@ -38,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="从相册选择"
-            android:textColor="@color/qqblue"
+            android:textColor="@color/black"
             android:textStyle="bold"
             />
 
@@ -51,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="取消"
-            android:textColor="@color/qqblue"
+            android:textColor="@color/black"
             android:textStyle="bold"
 
             />

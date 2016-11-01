@@ -16,11 +16,16 @@ import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.MineCommonMultipleAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
+import com.tripint.intersight.entity.discuss.DiscussEntity;
 import com.tripint.intersight.entity.message.CommentPraiseEntity;
 import com.tripint.intersight.entity.message.MessageContentEntity;
 import com.tripint.intersight.entity.message.MessageEntity;
+import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.fragment.home.AskAnswerDetailFragment;
+import com.tripint.intersight.fragment.home.AskReplayDetailFragment;
+import com.tripint.intersight.fragment.mine.MyInterviewDetailFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
 import com.tripint.intersight.service.MessageDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
@@ -155,9 +160,18 @@ public class NewMessageFragment extends BaseBackFragment implements BaseQuickAda
 
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String content = null;
-//                DiscussEntiry entity = (DiscussEntiry) adapter.getItem(position);
-//                EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity)));
+                MineMultipleItemModel model = (MineMultipleItemModel) adapter.getItem(position);
+                DiscussEntity result = new DiscussEntity(model.getMessageContentEntity().getId());
+                InterviewEntity interviewEntity = new InterviewEntity(model.getMessageContentEntity().getId());
+                if (model.getMessageContentEntity().getType() == 1){
+                    EventBus.getDefault().post(new StartFragmentEvent(MyInterviewDetailFragment.newInstance(interviewEntity)));
+                }else if (model.getMessageContentEntity().getType() == 2){
+                    if (model.getMessageContentEntity().getMessageType() == 1) {
+                        EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(result)));
+                    } else if (model.getMessageContentEntity().getMessageType() == 2) {
+                        EventBus.getDefault().post(new StartFragmentEvent(AskReplayDetailFragment.newInstance(result)));
+                    }
+                }
             }
         });
         mAdapter.setLoadingView(getLoadMoreView());

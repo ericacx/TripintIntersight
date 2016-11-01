@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.EventLog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.tripint.intersight.entity.mine.AskAnswerEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.fragment.home.AskAnswerDetailFragment;
+import com.tripint.intersight.fragment.home.AskReplayDetailFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
 import com.tripint.intersight.service.HttpRequest;
 import com.tripint.intersight.service.MineDataHttpRequest;
@@ -39,6 +41,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.tripint.intersight.model.MineMultipleItemModel.MY_DISCUSS;
 
 /**
  * 我的问答页面
@@ -161,8 +165,13 @@ public class MyAskAnswerFragment extends BaseBackFragment implements BaseQuickAd
 
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
-                DiscussEntity entity = (DiscussEntity) adapter.getItem(position);
-                EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity)));
+                MineMultipleItemModel model = (MineMultipleItemModel) adapter.getItem(position);
+                DiscussEntity result = new DiscussEntity(model.getAskAnswerEntity().getId());
+                if (model.getAskAnswerEntity().getStatus().equals("已回答")){
+                    EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(result)));
+                } else if (model.getAskAnswerEntity().getStatus().equals("待回答")){
+                    EventBus.getDefault().post(new StartFragmentEvent(AskReplayDetailFragment.newInstance(result)));
+                }
             }
         });
 
@@ -217,7 +226,7 @@ public class MyAskAnswerFragment extends BaseBackFragment implements BaseQuickAd
     }
 
     private void initData(){
-        int type = mCurrentTab == 0 ? MineMultipleItemModel.MY_DISCUSS : MineMultipleItemModel.MY_DISCUSS_FOLLOW;
+        int type = mCurrentTab == 0 ? MY_DISCUSS : MineMultipleItemModel.MY_DISCUSS_FOLLOW;
         for (AskAnswerEntity entity : data.getLists()) {
             models.add(new MineMultipleItemModel(type, entity));
         }

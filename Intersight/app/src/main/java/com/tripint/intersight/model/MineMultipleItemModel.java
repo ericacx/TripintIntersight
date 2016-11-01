@@ -1,6 +1,7 @@
 package com.tripint.intersight.model;
 
 import com.tripint.intersight.common.widget.recyclerviewadapter.entity.MultiItemEntity;
+import com.tripint.intersight.entity.discuss.DiscussEntity;
 import com.tripint.intersight.entity.message.CommentPraiseEntity;
 import com.tripint.intersight.entity.message.MessageContentEntity;
 import com.tripint.intersight.entity.message.MessageEntity;
@@ -50,6 +51,12 @@ public class MineMultipleItemModel implements MultiItemEntity {
     private MessageContentEntity messageContentEntity;//新消息,访谈消息,问答消息
     private CommentPraiseEntity commentPraiseEntity;//评论/赞消息
     private AccountDetailEntity accountDetailEntity;//账户明细
+    private DiscussEntity discussEntity;
+
+    public MineMultipleItemModel(int itemType,DiscussEntity discussEntity) {
+        this.itemType = itemType;
+        this.discussEntity = discussEntity;
+    }
 
     public MineMultipleItemModel(int itemType, AskAnswerEntity model) {//问答
         this.itemType = itemType;
@@ -140,6 +147,14 @@ public class MineMultipleItemModel implements MultiItemEntity {
 
     public void setMessageContentEntity(MessageContentEntity messageContentEntity) {
         this.messageContentEntity = messageContentEntity;
+    }
+
+    public DiscussEntity getDiscussEntity() {
+        return discussEntity;
+    }
+
+    public void setDiscussEntity(DiscussEntity discussEntity) {
+        this.discussEntity = discussEntity;
     }
 
     @Override
