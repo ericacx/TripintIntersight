@@ -45,8 +45,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tripint.intersight.common.imagepicker.AndroidImagePicker;
-import com.tripint.intersight.common.imagepicker.GlideImgLoader;
 import com.tripint.intersight.common.imagepicker.ImgLoader;
+import com.tripint.intersight.common.imagepicker.PicassoImgLoader;
 import com.tripint.intersight.common.imagepicker.R;
 import com.tripint.intersight.common.imagepicker.Util;
 import com.tripint.intersight.common.imagepicker.bean.ImageItem;
@@ -68,26 +68,20 @@ import java.util.List;
  */
 public class ImagesGridFragment extends Fragment implements OnImagesLoadedListener,AndroidImagePicker.OnImageSelectedChangeListener,AndroidImagePicker.OnImageCropCompleteListener{
     private static final String TAG = ImagesGridFragment.class.getSimpleName();
-
+    private static final int ITEM_TYPE_CAMERA = 0;//the first Item may be Camera
+    private static final int ITEM_TYPE_NORMAL = 1;
     Activity mContext;
-
     GridView mGridView;
     ImageGridAdapter mAdapter;
     int imageGridSize;
-
     Button btnDir;//button to change ImageSet
+    List<ImageSet> mImageSetList;//data of all ImageSets
+    ImgLoader mImagePresenter;
+    AndroidImagePicker androidImagePicker;
     private View mFooterView;
     private ListPopupWindow mFolderPopupWindow;//ImageSet PopupWindow
     private ImageSetAdapter mImageSetAdapter;
-    List<ImageSet> mImageSetList;//data of all ImageSets
-
-    ImgLoader mImagePresenter;
-    AndroidImagePicker androidImagePicker;
-
     private OnItemClickListener mOnItemClickListener;//Grid Item click Listener
-
-    private static final int ITEM_TYPE_CAMERA = 0;//the first Item may be Camera
-    private static final int ITEM_TYPE_NORMAL = 1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -155,7 +149,7 @@ public class ImagesGridFragment extends Fragment implements OnImagesLoadedListen
             }
         }));//stop loading if fling or scrolling if using UIL*/
 
-        mImagePresenter = new GlideImgLoader();
+        mImagePresenter = new PicassoImgLoader();
 
         DataSource dataSource = new LocalDataSource(mContext);
         dataSource.provideMediaItems(this);//select all images from local database
@@ -205,6 +199,125 @@ public class ImagesGridFragment extends Fragment implements OnImagesLoadedListen
     @Override
     public void onImageCropComplete(Bitmap bmp, float ratio) {
         getActivity().finish();
+    }
+
+    private boolean shouldSelectMulti() {
+        return androidImagePicker.getSelectMode() == AndroidImagePicker.Select_Mode.MODE_MULTI;
+    }
+
+    private boolean shouldShowCamera() {
+        return androidImagePicker.isShouldShowCamera();
+    }
+
+    @Override
+    public void onImagesLoaded(List<ImageSet> imageSetList) {
+
+        mImageSetList = imageSetList;
+
+        btnDir.setText(imageSetList.get(0).name);
+        mAdapter = new ImageGridAdapter(mContext, imageSetList.get(0).imageItems);
+        mGridView.setAdapter(mAdapter);
+
+    }
+
+    /**
+     * 创建弹出的ListView
+     */
+    private void createPopupFolderList(int width, int height) {
+        mFolderPopupWindow = new ListPopupWindow(mContext);
+        //mFolderPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mFolderPopupWindow.setAdapter(mImageSetAdapter);
+        mFolderPopupWindow.setContentWidth(width);
+        mFolderPopupWindow.setWidth(width);
+        mFolderPopupWindow.setHeight(height * 5 / 8);
+        mFolderPopupWindow.setAnchorView(mFooterView);
+        mFolderPopupWindow.setModal(true);
+
+        mFolderPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+            }
+        });
+
+        mFolderPopupWindow.setAnimationStyle(R.style.popupwindow_anim_style);
+
+        mFolderPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                mImageSetAdapter.setSelectIndex(i);
+                androidImagePicker.setCurrentSelectedImageSetPosition(i);
+
+                final int index = i;
+                final AdapterView tempAdapterView = adapterView;
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mFolderPopupWindow.dismiss();
+
+                        ImageSet imageSet = (ImageSet) tempAdapterView.getAdapter().getItem(index);
+                        if (null != imageSet) {
+                            mAdapter.refreshData(imageSet.imageItems);
+                            btnDir.setText(imageSet.name);
+
+                        }
+                        // scroll to the top
+                        mGridView.smoothScrollToPosition(0);
+
+                    }
+                }, 100);
+
+            }
+        });
+
+    }
+
+    // 设置屏幕透明度
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = mContext.getWindow().getAttributes();
+        lp.alpha = bgAlpha; // 0.0~1.0
+        mContext.getWindow().setAttributes(lp);
+    }
+
+    @Override
+    public void onDestroy() {
+        androidImagePicker.removeOnImageItemSelectedChangeListener(this);
+        if (androidImagePicker.cropMode) {
+            androidImagePicker.removeOnImageCropCompleteListener(this);
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == AndroidImagePicker.REQ_CAMERA && resultCode == Activity.RESULT_OK) {
+            if (!TextUtils.isEmpty(androidImagePicker.getCurrentPhotoPath())) {
+                AndroidImagePicker.galleryAddPic(mContext, androidImagePicker.getCurrentPhotoPath());
+                getActivity().finish();
+                //androidImagePicker.notifyPictureTaken();
+
+                if (androidImagePicker.cropMode) {//裁图模式
+                    Intent intent = new Intent();
+                    intent.setClass(mContext, ImageCropActivity.class);
+                    intent.putExtra(AndroidImagePicker.KEY_PIC_PATH, androidImagePicker.getCurrentPhotoPath());
+                    startActivityForResult(intent, AndroidImagePicker.REQ_CAMERA);
+                } else {
+                    ImageItem item = new ImageItem(androidImagePicker.getCurrentPhotoPath(), "", -1);
+                    androidImagePicker.clearSelectedImages();
+                    androidImagePicker.addSelectedImageItem(-1, item);
+                    androidImagePicker.notifyOnImagePickComplete();
+                }
+
+            } else {
+                Log.i(TAG, "didn't save to your path");
+            }
+        }
+
     }
 
     /**
@@ -354,12 +467,6 @@ public class ImagesGridFragment extends Fragment implements OnImagesLoadedListen
 
         }
 
-        class ViewHolder{
-            ImageView ivPic;
-            SuperCheckBox cbSelected;
-            View cbPanel;
-        }
-
         public void refreshData(List<ImageItem> items) {
             if(items != null && items.size()>0){
                 images = items;
@@ -367,101 +474,23 @@ public class ImagesGridFragment extends Fragment implements OnImagesLoadedListen
             notifyDataSetChanged();
         }
 
-    }
+        class ViewHolder {
+            ImageView ivPic;
+            SuperCheckBox cbSelected;
+            View cbPanel;
+        }
 
-    private boolean shouldSelectMulti(){
-        return androidImagePicker.getSelectMode() == AndroidImagePicker.Select_Mode.MODE_MULTI;
-    }
-
-    private boolean shouldShowCamera(){
-        return androidImagePicker.isShouldShowCamera();
-    }
-
-    @Override
-    public void onImagesLoaded(List<ImageSet> imageSetList) {
-
-        mImageSetList = imageSetList;
-
-        btnDir.setText(imageSetList.get(0).name);
-        mAdapter = new ImageGridAdapter(mContext,imageSetList.get(0).imageItems);
-        mGridView.setAdapter(mAdapter);
-
-    }
-
-    /**
-     * 创建弹出的ListView
-     */
-    private void createPopupFolderList(int width, int height) {
-        mFolderPopupWindow = new ListPopupWindow(mContext);
-        //mFolderPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        mFolderPopupWindow.setAdapter(mImageSetAdapter);
-        mFolderPopupWindow.setContentWidth(width);
-        mFolderPopupWindow.setWidth(width);
-        mFolderPopupWindow.setHeight(height * 5 / 8);
-        mFolderPopupWindow.setAnchorView(mFooterView);
-        mFolderPopupWindow.setModal(true);
-
-        mFolderPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-
-            @Override
-            public void onDismiss() {
-                backgroundAlpha(1f);
-            }
-        });
-
-        mFolderPopupWindow.setAnimationStyle(R.style.popupwindow_anim_style);
-
-        mFolderPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                mImageSetAdapter.setSelectIndex(i);
-                androidImagePicker.setCurrentSelectedImageSetPosition(i);
-
-                final int index = i;
-                final AdapterView tempAdapterView = adapterView;
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mFolderPopupWindow.dismiss();
-
-                        ImageSet imageSet = (ImageSet) tempAdapterView.getAdapter().getItem(index);
-                        if (null != imageSet) {
-                            mAdapter.refreshData(imageSet.imageItems);
-                            btnDir.setText(imageSet.name);
-
-                        }
-                        // scroll to the top
-                        mGridView.smoothScrollToPosition(0);
-
-                    }
-                }, 100);
-
-            }
-        });
-
-    }
-
-    // 设置屏幕透明度
-    public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = mContext.getWindow().getAttributes();
-        lp.alpha = bgAlpha; // 0.0~1.0
-        mContext.getWindow().setAttributes(lp);
     }
 
     /**
      * ImageSet adapter
      */
     class ImageSetAdapter extends BaseAdapter {
+        int mImageSize;
+        int lastSelected = 0;
         private Context mContext;
         private LayoutInflater mInflater;
-
         private List<ImageSet> mImageSets = new ArrayList<>();
-
-        int mImageSize;
-
-        int lastSelected = 0;
 
         public ImageSetAdapter(Context context){
             mContext = context;
@@ -514,16 +543,16 @@ public class ImagesGridFragment extends Fragment implements OnImagesLoadedListen
             return view;
         }
 
+        public int getSelectIndex() {
+            return lastSelected;
+        }
+
         public void setSelectIndex(int i) {
             if(lastSelected == i){
                 return;
             }
             lastSelected = i;
             notifyDataSetChanged();
-        }
-
-        public int getSelectIndex(){
-            return lastSelected;
         }
 
         class ViewHolder{
@@ -545,45 +574,6 @@ public class ImagesGridFragment extends Fragment implements OnImagesLoadedListen
                 mImagePresenter.onPresentImage(cover, data.cover.path, imageGridSize);
             }
 
-        }
-
-    }
-
-
-    @Override
-    public void onDestroy() {
-        androidImagePicker.removeOnImageItemSelectedChangeListener(this);
-        if (androidImagePicker.cropMode) {
-            androidImagePicker.removeOnImageCropCompleteListener(this);
-        }
-        super.onDestroy();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == AndroidImagePicker.REQ_CAMERA && resultCode == Activity.RESULT_OK){
-            if(!TextUtils.isEmpty(androidImagePicker.getCurrentPhotoPath())){
-                AndroidImagePicker.galleryAddPic(mContext,androidImagePicker.getCurrentPhotoPath() );
-                getActivity().finish();
-                //androidImagePicker.notifyPictureTaken();
-
-                if(androidImagePicker.cropMode){//裁图模式
-                    Intent intent = new Intent();
-                    intent.setClass(mContext,ImageCropActivity.class);
-                    intent.putExtra(AndroidImagePicker.KEY_PIC_PATH,androidImagePicker.getCurrentPhotoPath());
-                    startActivityForResult(intent, AndroidImagePicker.REQ_CAMERA);
-                }else{
-                    ImageItem item = new ImageItem(androidImagePicker.getCurrentPhotoPath(),"",-1);
-                    androidImagePicker.clearSelectedImages();
-                    androidImagePicker.addSelectedImageItem(-1, item);
-                    androidImagePicker.notifyOnImagePickComplete();
-                }
-
-            }else{
-                Log.i(TAG,"didn't save to your path");
-            }
         }
 
     }
