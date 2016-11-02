@@ -28,19 +28,14 @@ import rx.schedulers.Schedulers;
  */
 public class HttpRequest {
 
-    public static final String BASE_URL = "http://test.www.dongchajia.com/";
-//    public static final String BASE_URL = "http://192.168.5.100/";
-
-    private static final int DEFAULT_TIMEOUT = 300;
-
+    //    public static final String BASE_URL = "http://test.www.dongchajia.com/";
+    public static final String BASE_URL = "http://m.dongchajia.com/";
     public static final int DEFAULT_PAGE_SIZE = 10;
-
+    private static final int DEFAULT_TIMEOUT = 300;
+    protected Retrofit retrofit;
+    protected Context mContext;
     ThreadExecutor threadExecutor = new JobExecutor(); //子线程
     PostExecutionThread postExecutionThread = new UIThread(); //主线程（UI线程）
-
-    protected Retrofit retrofit;
-
-    protected Context mContext;
 
     //构造方法私有
     protected HttpRequest(Context context) {
