@@ -34,10 +34,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.tripint.intersight.common.imagepicker.AndroidImagePicker;
-import com.tripint.intersight.common.imagepicker.GlideImgLoader;
 import com.tripint.intersight.common.imagepicker.ImgLoader;
+import com.tripint.intersight.common.imagepicker.PicassoImgLoader;
 import com.tripint.intersight.common.imagepicker.R;
 import com.tripint.intersight.common.imagepicker.Util;
 import com.tripint.intersight.common.imagepicker.widget.AvatarRectView;
@@ -50,19 +49,14 @@ import com.tripint.intersight.common.imagepicker.widget.SuperImageView;
  */
 public class AvatarCropFragment extends Fragment{
 
+    private final int margin = 30;//the left and right margins of the center circular shape
     Activity mContext;
-
     SuperImageView superImageView;
     AvatarRectView mRectView;
-
-    private int screenWidth;
-    private final int margin = 30;//the left and right margins of the center circular shape
-
-    private FrameLayout rootView;
-
-    private String picPath;//the local image path in sdcard
-
     ImgLoader mImagePresenter;//interface to load image,you can implement it with your own code
+    private int screenWidth;
+    private FrameLayout rootView;
+    private String picPath;//the local image path in sdcard
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,7 +79,7 @@ public class AvatarCropFragment extends Fragment{
         //get the image path from Arguments
         picPath = getArguments().getString(AndroidImagePicker.KEY_PIC_PATH);
 
-        mImagePresenter = new GlideImgLoader();
+        mImagePresenter = new PicassoImgLoader();
 
         if(TextUtils.isEmpty(picPath)){
             throw new RuntimeException("AndroidImagePicker:you have to give me an image path from sdcard");
@@ -120,7 +114,7 @@ public class AvatarCropFragment extends Fragment{
         if(expectSize <= 0){
             return null;
         }
-        Bitmap srcBitmap = ((GlideBitmapDrawable)superImageView.getDrawable()).getBitmap();
+        Bitmap srcBitmap = ((BitmapDrawable) superImageView.getDrawable()).getBitmap();
         double rotation = superImageView.getImageRotation();
         int level = (int) Math.floor((rotation + Math.PI / 4) / (Math.PI / 2));
         if (level != 0){

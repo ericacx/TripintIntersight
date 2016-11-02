@@ -73,6 +73,9 @@ import butterknife.OnClick;
  */
 public class MineFragment extends BaseLazyMainFragment {
 
+    private static final int RESULT_CAPTURE_IMAGE = 1;// 照相的requestCode
+    private static final int TAILORING = 2;// 裁剪
+    private final int REQ_IMAGE = 9000;
     @Bind(R.id.mineCIVPersonalInfo)
     CircleImageView mineCIVPersonalInfo;
     @Bind(R.id.mine_text_view_name)
@@ -97,20 +100,10 @@ public class MineFragment extends BaseLazyMainFragment {
     TextView textViewHelp;
     @Bind(R.id.text_view_setting)
     TextView textViewSetting;
-
     private PageDataSubscriberOnNext<UserHomeEntity> subscriber;
-
     private UserHomeEntity data;
-
     private Uri imgUri;
-
     private DialogPlus dialog;
-
-    private static final int RESULT_CAPTURE_IMAGE = 1;// 照相的requestCode
-    private static final int TAILORING = 2;// 裁剪
-
-    private final int REQ_IMAGE = 9000;
-
     private String strImgPath;
 
     public static MineFragment newInstance() {
@@ -189,9 +182,11 @@ public class MineFragment extends BaseLazyMainFragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
+        AndroidImagePicker.getInstance().onDestroy();
         ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
+        super.onDestroyView();
+
     }
 
     @OnClick({R.id.mineIvRewriteInfo, R.id.text_view_mine_ask_answer, R.id.text_view_mine_interview,
@@ -225,6 +220,7 @@ public class MineFragment extends BaseLazyMainFragment {
                             mineCIVPersonalInfo.setImageBitmap(bmp);
                         }
                     });
+                    return;
 //                    Intent intent = new Intent();
 //
 //                    int requestCode = REQ_IMAGE;

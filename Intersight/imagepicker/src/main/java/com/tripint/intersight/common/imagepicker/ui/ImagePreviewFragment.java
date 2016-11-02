@@ -35,8 +35,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tripint.intersight.common.imagepicker.AndroidImagePicker;
-import com.tripint.intersight.common.imagepicker.GlideImgLoader;
 import com.tripint.intersight.common.imagepicker.ImgLoader;
+import com.tripint.intersight.common.imagepicker.PicassoImgLoader;
 import com.tripint.intersight.common.imagepicker.R;
 import com.tripint.intersight.common.imagepicker.bean.ImageItem;
 import com.tripint.intersight.common.imagepicker.widget.TouchImageView;
@@ -57,12 +57,10 @@ public class ImagePreviewFragment extends Fragment{
     TouchImageAdapter mAdapter ;
 
     List<ImageItem> mImageList;
-    private int mCurrentItemPosition = 0;
-
-    private boolean enableSingleTap = true;//singleTap to do something
-
     ImgLoader mImagePresenter;//interface to load image,you can implements it with your own code
     AndroidImagePicker androidImagePicker;
+    private int mCurrentItemPosition = 0;
+    private boolean enableSingleTap = true;//singleTap to do something
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,7 +77,7 @@ public class ImagePreviewFragment extends Fragment{
         View contentView = inflater.inflate(R.layout.fragment_preview,null);
         mImageList = androidImagePicker.getImageItemsOfCurrentImageSet();
         mCurrentItemPosition = getArguments().getInt(AndroidImagePicker.KEY_PIC_SELECTED_POSITION,0);
-        mImagePresenter = new GlideImgLoader();
+        mImagePresenter = new PicassoImgLoader();
         initView(contentView);
         return contentView;
     }
@@ -133,6 +131,20 @@ public class ImagePreviewFragment extends Fragment{
             }
         }
 
+    }
+
+    /**
+     * Interface for SingleTap Watching
+     */
+    public interface OnImageSingleTapClickListener {
+        void onImageSingleTap(MotionEvent e);
+    }
+
+    /**
+     * Interface for swipe page watching,you can get the current item,item position and whether the item is selected
+     */
+    public interface OnImagePageSelectedListener {
+        void onImagePageSelected(int position, ImageItem item, boolean isSelected);
     }
 
     class TouchImageAdapter extends FragmentStatePagerAdapter {
@@ -197,7 +209,7 @@ public class ImagePreviewFragment extends Fragment{
 
             });
 
-            ((GlideImgLoader)mImagePresenter).onPresentImage(imageView, url, imageView.getWidth());//display the image with your own ImageLoader
+            ((PicassoImgLoader) mImagePresenter).onPresentImage(imageView, url, imageView.getWidth());//display the image with your own ImageLoader
 
         }
 
@@ -206,21 +218,6 @@ public class ImagePreviewFragment extends Fragment{
             return imageView;
         }
 
-    }
-
-
-    /**
-     * Interface for SingleTap Watching
-     */
-    public interface OnImageSingleTapClickListener{
-        void onImageSingleTap(MotionEvent e);
-    }
-
-    /**
-     * Interface for swipe page watching,you can get the current item,item position and whether the item is selected
-     */
-    public interface OnImagePageSelectedListener {
-        void onImagePageSelected(int position, ImageItem item, boolean isSelected);
     }
 
 
