@@ -33,7 +33,6 @@ import butterknife.OnClick;
  */
 public class AccountInfoFragment extends BaseBackFragment {
 
-    ListView listView;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -51,18 +50,6 @@ public class AccountInfoFragment extends BaseBackFragment {
     RelativeLayout accountInfoEmail;
     @Bind(R.id.account_info_password)
     RelativeLayout accountInfoPassword;
-    @Bind(R.id.accountInfoWechat)
-    TextView accountInfoWechat;
-    @Bind(R.id.account_info_wechat_name)
-    TextView accountInfoWechatName;
-    @Bind(R.id.account_info_wechat_switch)
-    Switch accountInfoWechatSwitch;
-    @Bind(R.id.account_info_linkedin)
-    TextView accountInfoLinkedin;
-    @Bind(R.id.account_info_linkedin_name)
-    TextView accountInfoLinkedinName;
-    @Bind(R.id.account_info_linkedin_switch)
-    Switch accountInfoLinkedinSwitch;
 
     private PageDataSubscriberOnNext<UserHomeEntity> subscriber;
 
@@ -115,8 +102,7 @@ public class AccountInfoFragment extends BaseBackFragment {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.account_info_phone, R.id.account_info_email, R.id.account_info_password,
-            R.id.account_info_wechat_switch, R.id.account_info_linkedin_switch})
+    @OnClick({R.id.account_info_phone, R.id.account_info_email, R.id.account_info_password})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.account_info_phone://绑定手机
@@ -128,10 +114,10 @@ public class AccountInfoFragment extends BaseBackFragment {
             case R.id.account_info_password://修改密码
                 EventBus.getDefault().post(new StartFragmentEvent(ModifyPasswordFragment.newInstance()));
                 break;
-            case R.id.account_info_wechat_switch:
-                break;
-            case R.id.account_info_linkedin_switch:
-                break;
+//            case R.id.account_info_wechat_switch:
+//                break;
+//            case R.id.account_info_linkedin_switch:
+//                break;
         }
     }
 
