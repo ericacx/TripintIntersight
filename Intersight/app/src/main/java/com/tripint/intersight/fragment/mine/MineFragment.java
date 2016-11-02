@@ -21,6 +21,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
 import com.tripint.intersight.R;
 import com.tripint.intersight.activity.LoginActivity;
 import com.tripint.intersight.activity.MainActivity;
@@ -41,6 +44,8 @@ import com.tripint.intersight.common.widget.filter.interfaces.OnFilterItemClickL
 import com.tripint.intersight.common.widget.filter.typeview.SingleListView;
 import com.tripint.intersight.common.widget.filter.util.UIUtil;
 import com.tripint.intersight.common.widget.filter.view.FilterCheckedTextView;
+import com.tripint.intersight.entity.CodeDataEntity;
+import com.tripint.intersight.entity.mine.QiniuTokenEntity;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
 import com.tripint.intersight.event.PersonalEvent;
 import com.tripint.intersight.event.StartFragmentEvent;
@@ -56,6 +61,7 @@ import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -63,6 +69,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -101,11 +108,18 @@ public class MineFragment extends BaseLazyMainFragment {
     @Bind(R.id.text_view_setting)
     TextView textViewSetting;
     private PageDataSubscriberOnNext<UserHomeEntity> subscriber;
+    private PageDataSubscriberOnNext<QiniuTokenEntity> tokenSubscriber;
+    private PageDataSubscriberOnNext<CodeDataEntity> updateSubscriber;
+    private CodeDataEntity codeDataEntity;
+    private QiniuTokenEntity tokenEntity;
     private UserHomeEntity data;
+    private String qiniuToken;
     private Uri imgUri;
+    private byte[] b;
     private DialogPlus dialog;
     private String strImgPath;
 
+    private String key;//随机字符串
     public static MineFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -139,6 +153,23 @@ public class MineFragment extends BaseLazyMainFragment {
     }
 
     private void httpRequestData() {
+
+        updateSubscriber = new PageDataSubscriberOnNext<CodeDataEntity>() {
+            @Override
+            public void onNext(CodeDataEntity entity) {
+                codeDataEntity = entity;
+            }
+        };
+
+        tokenSubscriber = new PageDataSubscriberOnNext<QiniuTokenEntity>() {
+            @Override
+            public void onNext(QiniuTokenEntity qiniuTokenEntity) {
+                tokenEntity = qiniuTokenEntity;
+                qiniuToken = tokenEntity.getQiniuToken();
+            }
+        };
+        MineDataHttpRequest.getInstance(mActivity).getQiniuToken(new ProgressSubscriber<QiniuTokenEntity>(tokenSubscriber,mActivity));
+
         subscriber = new PageDataSubscriberOnNext<UserHomeEntity>() {
             @Override
             public void onNext(UserHomeEntity entity) {
@@ -218,8 +249,22 @@ public class MineFragment extends BaseLazyMainFragment {
                             Log.i(Constants.TAG,"=====onImageCropComplete (get bitmap="+bmp.toString());
                             mineCIVPersonalInfo.setVisibility(View.VISIBLE);
                             mineCIVPersonalInfo.setImageBitmap(bmp);
+
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            bmp.compress(Bitmap.CompressFormat.JPEG, 60, stream);
+                            b = stream.toByteArray();
+
                         }
                     });
+
+                    key = getRandomString(20);
+                    final UploadManager uploadManager = new UploadManager();
+                    uploadManager.put(b, key, qiniuToken, new UpCompletionHandler() {
+                        @Override
+                        public void complete(String key, ResponseInfo info, JSONObject response) {
+                            MineDataHttpRequest.getInstance(mActivity).postUpdateAvatar(new ProgressSubscriber<CodeDataEntity>(updateSubscriber,mActivity),key);
+                        }
+                    },null);
                     return;
 //                    Intent intent = new Intent();
 //
@@ -452,4 +497,17 @@ public class MineFragment extends BaseLazyMainFragment {
 //        modifyUserInfo = toModifyUserInfo(_userInfo);
 //        userServer.modifyMyBaseInfo(new UserDataRepository(), AndroidSchedulers.mainThread(), modifyUserInfo, requestParams);
 //    }
+
+
+    //生成随机字符串
+    public static String getRandomString(int length) { //length表示生成字符串的长度
+        String base = "abcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            int number = random.nextInt(base.length());
+            sb.append(base.charAt(number));
+        }
+        return sb.toString();
+    }
 }

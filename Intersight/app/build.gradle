@@ -122,6 +122,7 @@ dependencies {
     compile 'com.tencent.bugly:crashreport:2.2.0'
     compile 'com.qiniu:happy-dns:0.2.+'
     compile 'com.qiniu.pili:pili-android-qos:0.8.+'
+    compile 'com.qiniu:qiniu-android-sdk:7.2.+'
     testCompile 'junit:junit:4.12'
     compile project(path: ':imagepicker')
     compile project(path: ':imagepicker')

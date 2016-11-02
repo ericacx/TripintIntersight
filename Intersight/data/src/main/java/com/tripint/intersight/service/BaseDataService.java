@@ -11,6 +11,7 @@ import com.tripint.intersight.entity.article.ArticleBannerEntity;
 import com.tripint.intersight.entity.article.ArticleDetailEntity;
 import com.tripint.intersight.entity.article.ArticlesEntity;
 import com.tripint.intersight.entity.article.CreateOpinionResponseEntity;
+import com.tripint.intersight.entity.article.NewsEntity;
 import com.tripint.intersight.entity.common.CommonResponEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.user.ChooseEntity;
@@ -96,6 +97,13 @@ public interface BaseDataService {
     //观点列表
     @GET("articles")
     Observable<BaseResponse<BasePageableResponse<ArticlesEntity>>> getArticles(
+            @Query("page") int page,
+            @Query("size") int size
+    );
+
+    //资讯列表
+    @GET("consultation")
+    Observable<BaseResponse<BasePageableResponse<NewsEntity>>> getNews(
             @Query("page") int page,
             @Query("size") int size
     );

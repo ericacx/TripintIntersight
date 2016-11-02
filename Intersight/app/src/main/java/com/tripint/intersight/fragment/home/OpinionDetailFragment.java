@@ -139,6 +139,7 @@ public class OpinionDetailFragment extends BaseBackFragment {
         if (bundle != null) {
             type = bundle.getInt(ARG_TYPE);
             articleId = bundle.getInt(ARG_ARTICLE_ID);
+            Log.e("articleId", String.valueOf(articleId));
         }
     }
 

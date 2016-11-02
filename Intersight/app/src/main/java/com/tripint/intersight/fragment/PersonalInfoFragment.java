@@ -424,7 +424,6 @@ public class PersonalInfoFragment extends BaseBackFragment {
                         currentAbility = item.getId();
                         personalInfoPosition.setText(item.getName());
                         dialogPlus.dismiss();
-//                        onFilterDone(type, item.getKey(), item.getName());
                     }
                 });
 

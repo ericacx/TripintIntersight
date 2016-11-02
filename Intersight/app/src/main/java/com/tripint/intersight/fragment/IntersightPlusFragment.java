@@ -15,6 +15,7 @@ import com.tripint.intersight.adapter.InterSightPagerFragmentAdapter;
 import com.tripint.intersight.adapter.MyTabPagerAdapter;
 import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
 import com.tripint.intersight.fragment.home.AskAnswerFragment;
+import com.tripint.intersight.fragment.home.NewsFragment;
 import com.tripint.intersight.fragment.home.OpinionFragment;
 
 import java.util.List;

@@ -9,9 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.tripint.intersight.R;
+import com.tripint.intersight.entity.mine.HelpAndProtocolEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.service.MineDataHttpRequest;
+import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
+import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,7 +35,11 @@ public class UserProtocolFragment extends BaseBackFragment {
     Button userProtocolAgree;//同意按钮
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.use_help_text)
+    TextView useHelpText;
 
+    private PageDataSubscriberOnNext<HelpAndProtocolEntity> subscriber;
+    private HelpAndProtocolEntity data = new HelpAndProtocolEntity();
     public static UserProtocolFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -48,7 +57,19 @@ public class UserProtocolFragment extends BaseBackFragment {
         ButterKnife.bind(this, view);
         initToolbarNav(toolbar);
         toolbar.setTitle("用户协议");
+        httpRequestData();
         return view;
+    }
+
+    private void httpRequestData() {
+        subscriber = new PageDataSubscriberOnNext<HelpAndProtocolEntity>() {
+            @Override
+            public void onNext(HelpAndProtocolEntity helpAndProtocolEntity) {
+                data = helpAndProtocolEntity;
+                useHelpText.setText(data.getUseAgree().getValue());
+            }
+        };
+        MineDataHttpRequest.getInstance(mActivity).getHelpAndProtocol(new ProgressSubscriber<HelpAndProtocolEntity>(subscriber,mActivity));
     }
 
     @Override

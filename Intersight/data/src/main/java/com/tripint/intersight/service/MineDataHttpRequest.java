@@ -9,10 +9,12 @@ import com.tripint.intersight.entity.discuss.CreateInterviewResponseEntity;
 import com.tripint.intersight.entity.mine.AccountDetailEntity;
 import com.tripint.intersight.entity.mine.AskAnswerEntity;
 import com.tripint.intersight.entity.mine.FocusEntity;
+import com.tripint.intersight.entity.mine.HelpAndProtocolEntity;
 import com.tripint.intersight.entity.mine.InterviewDetailEntity;
 import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
 import com.tripint.intersight.entity.mine.PersonalUserHomeEntity;
+import com.tripint.intersight.entity.mine.QiniuTokenEntity;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
 import com.tripint.intersight.entity.mine.worker.AllResoucesEntity;
 import com.tripint.intersight.entity.mine.worker.EditUserEntity;
@@ -276,6 +278,33 @@ public class MineDataHttpRequest extends HttpRequest {
 
         Observable observable = service.getAllResources(type)
                 .map(new HttpResultFunc<AllResoucesEntity>());
+        toSubscribe(observable, subscriber);
+    }
+
+
+    /**
+     * 获得七牛token。
+     *
+     * @param subscriber 由调用者传过来的观察者对象
+     * @param
+     */
+    public void getQiniuToken(Subscriber<QiniuTokenEntity> subscriber) {
+
+        Observable observable = service.getQiniuToken()
+                .map(new HttpResultFunc<QiniuTokenEntity>());
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 使用帮助。
+     *
+     * @param subscriber 由调用者传过来的观察者对象
+     * @param
+     */
+    public void getHelpAndProtocol(Subscriber<HelpAndProtocolEntity> subscriber) {
+
+        Observable observable = service.getUserHelpAndProtocol()
+                .map(new HttpResultFunc<HelpAndProtocolEntity>());
         toSubscribe(observable, subscriber);
     }
 }

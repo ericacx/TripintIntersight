@@ -236,21 +236,21 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
             containerChatReply.setVisibility(View.VISIBLE);
             Glide.with(mActivity).load(entity.getAuthorUserAvatar())
                     .crossFade()
-//                    .placeholder(R.mipmap.ic_avatar)
+                    .placeholder(R.mipmap.ic_avatar)
                     .transform(new GlideCircleTransform(mActivity))
                     .into(imageAskProfile);
-            String special = entity.getAuthorUserNickname();
-            special += entity.getAuthorUserAbility();
+            String special = entity.getAuthorUserNickname() + "  ";
+            special += entity.getAuthorUserAbility() + "  ";
             special += entity.getAuthorUserCompany();
 
             textViewItemAskSpecialist.setText(special);
             containerChatAuthor.setVisibility(View.VISIBLE);
             textViewItemAskTitle.setText(entity.getContent());
             textViewItemAskDateTime.setText(entity.getAuthorCreateAt());
-            String specialAnswer = entity.getAnswerUserNickname();
+            String specialAnswer = entity.getAnswerUserNickname() + "  ";
+            specialAnswer += entity.getAnswerUserCompany() + "  ";
             specialAnswer += entity.getAnswerUserAbility();
-            specialAnswer += entity.getAnswerUserCompany();
-                textViewItemAnswerSpecialist.setText(special);
+            textViewItemAnswerSpecialist.setText(special);
 
 
             textViewItemAnswerTitle.setText(entity.getAudioTime() + "s");
@@ -282,7 +282,6 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
                         @Override
                         public void run() {
                             // disable the shutter button before startStreaming
-
                             boolean res = mMediaStreamingManager.startStreaming();
                             mShutterButtonPressed = true;
                             setShutterButtonEnabled(true);

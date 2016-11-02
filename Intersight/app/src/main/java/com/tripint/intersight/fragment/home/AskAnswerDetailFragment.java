@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.tripint.intersight.R;
@@ -37,17 +35,17 @@ import com.tripint.intersight.common.widget.filter.view.FilterCheckedTextView;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
 import com.tripint.intersight.entity.article.ArticleCommentEntity;
-import com.tripint.intersight.entity.discuss.CommentEntity;
 import com.tripint.intersight.entity.discuss.CommentResultEntity;
 import com.tripint.intersight.entity.discuss.DiscussAskDetailEntity;
 import com.tripint.intersight.entity.discuss.DiscussDetailResponseEntity;
-import com.tripint.intersight.entity.discuss.DiscussEntiry;
 import com.tripint.intersight.entity.discuss.DiscussEntity;
 import com.tripint.intersight.entity.payment.AliPayResponseEntity;
 import com.tripint.intersight.entity.payment.WXPayResponseEntity;
 import com.tripint.intersight.entity.user.PaymentEntity;
 import com.tripint.intersight.event.PayEvent;
+import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.fragment.personal.PersonalMainPageFragment;
 import com.tripint.intersight.helper.AliPayUtils;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.helper.PayUtils;
@@ -135,12 +133,15 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
     private PageDataSubscriberOnNext<AliPayResponseEntity> aliPaySubscriber;
 
     private DiscussDetailResponseEntity data;
-
+    private DialogPlus dialogPlus;
     private int mDiscussId;
     private int toUid;
     private int pid;//评论的id
+    private int askUserId;
+    private int answerUserId;
     private String currentAction = "";
-
+    private int isPayment;
+    private String listenPayment;
     private ArticleCommentEntity currentSubCommentEntity; //创建子摩评论
 
     public static AskAnswerDetailFragment newInstance(DiscussEntity entiry) {
@@ -191,9 +192,12 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                     .placeholder(R.mipmap.ic_avatar)
                     .transform(new GlideCircleTransform(mActivity))
                     .into(imageAskProfile);
-            String special = entity.getAuthorUserNickname()+ "  ";
+            String special = entity.getAuthorUserNickname() + "  ";
             special += entity.getAuthorUserCompany() + "  ";
             special += entity.getAuthorUserAbility();
+
+            isPayment = entity.getIsPayment();
+            listenPayment = entity.getListenPayment();
 
             toUid = entity.getAuthorUserId();
             textViewItemAskSpecialist.setText(special);
@@ -206,6 +210,8 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             specialAnswer += entity.getAnswerUserCompany() + "  ";
             specialAnswer += entity.getAnswerUserAbility();
 
+            askUserId = entity.getAuthorUserId();
+            answerUserId = entity.getAnswerUserId();
             textViewItemAnswerSpecialist.setText(specialAnswer);
 
             textViewItemAnswerTitle.setText(entity.getAudioTime() + "s");
@@ -306,7 +312,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             public void onNext(WXPayResponseEntity entity) {
                 //接口请求成功后处理,调起微信支付。
                 PayUtils.getInstant().requestWXpay(entity);
-//
+                dialogPlus.dismiss();
             }
         };
 
@@ -315,7 +321,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             public void onNext(AliPayResponseEntity entity) {
                 //接口请求成功后处理,调起微信支付。
                 AliPayUtils.getInstant(mActivity).pay(entity);
-//
+                dialogPlus.dismiss();
             }
         };
 
@@ -330,41 +336,41 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                 switch (currentAction) {
 
                     case DiscussDataHttpRequest.TYPE_COMMENT: //行业领域
-                        ToastUtil.showToast(mActivity,"提交成功");
+                        ToastUtil.showToast(mActivity, "提交成功");
                         editUserCommentReplay.setText("");
                         initCommentAdapter();
                         break;
                     case DiscussDataHttpRequest.TYPE_SUB_COMMENT: //行业领域
-                        ToastUtil.showToast(mActivity,"提交成功");
+                        ToastUtil.showToast(mActivity, "提交成功");
                         editUserCommentReplay.setText("");
                         initCommentAdapter();
                         break;
                     case DiscussDataHttpRequest.TYPE_FOLLOW: //我的
                         item2.setSelected(true);
                         item2.setTitle(entity.getTotal() + "");
-                        ToastUtil.showToast(mActivity,"关注成功");
+                        ToastUtil.showToast(mActivity, "关注成功");
                         isFollow = data.getDetail().getIsFavorites() == 1000;
                         break;
                     case DiscussDataHttpRequest.TYPE_UNFOLLOW: //我的
                         item2.setSelected(false);
                         item2.setTitle(entity.getTotal() + "");
-                        ToastUtil.showToast(mActivity,"取消关注成功");
+                        ToastUtil.showToast(mActivity, "取消关注成功");
                         isFollow = data.getDetail().getIsFavorites() == 1001;
                         break;
                     case DiscussDataHttpRequest.TYPE_PRAISES: //我的
                         item1.setSelected(true);
                         item1.setTitle(entity.getTotal() + "");
-                        ToastUtil.showToast(mActivity,"点赞成功");
+                        ToastUtil.showToast(mActivity, "点赞成功");
                         isPraises = data.getDetail().getIsPraises() == 1000;
                         break;
                     case DiscussDataHttpRequest.TYPE_UNPRAISES:
                         item1.setSelected(false);
                         item1.setTitle(entity.getTotal() + "");
-                        ToastUtil.showToast(mActivity,"取消赞成功");
+                        ToastUtil.showToast(mActivity, "取消赞成功");
                         isPraises = data.getDetail().getIsPraises() == 1001;
                         break;
                     case DiscussDataHttpRequest.TYPE_REPORT:
-                        ToastUtil.showToast(mActivity,"举报信息提交成功");
+                        ToastUtil.showToast(mActivity, "举报信息提交成功");
                         break;
                 }
             }
@@ -373,7 +379,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
     }
 
-    @OnClick({R.id.text_view_comment_submit, R.id.container_voice_message})
+    @OnClick({R.id.text_view_comment_submit, R.id.container_voice_message,R.id.image_ask_profile, R.id.image_answer_profile})
     public void onClick(View view) {
         switch (view.getId()) {
 
@@ -385,52 +391,64 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                 } else {
                     if (currentSubCommentEntity == null) {
                         currentAction = DiscussDataHttpRequest.TYPE_COMMENT;
-                        CommonDataHttpRequest.getInstance(mActivity).createDiscussComment(new ProgressSubscriber(putSubscriber, mActivity), mDiscussId, toUid,content);
+                        CommonDataHttpRequest.getInstance(mActivity).createDiscussComment(new ProgressSubscriber(putSubscriber, mActivity), mDiscussId, toUid, content);
                     } else {
                         currentAction = DiscussDataHttpRequest.TYPE_SUB_COMMENT;
                         CommonDataHttpRequest.getInstance(mActivity).createDiscussSubComment(new ProgressSubscriber(putSubscriber, mActivity),
-                                mDiscussId,toUid, content,pid);
+                                mDiscussId, toUid, content, pid);
 
                     }
                 }
 
                 break;
-            case R.id.container_voice_message: //我的关注
-                final List<PaymentEntity> paymentEntities = new ArrayList<>();
+            case R.id.container_voice_message: //
+                if (isPayment == 1000) {//未付钱
+                    final List<PaymentEntity> paymentEntities = new ArrayList<>();
 
-                paymentEntities.add(new PaymentEntity(1, "支付宝", PaymentDataHttpRequest.TYPE_ALIPAY));
-                paymentEntities.add(new PaymentEntity(2, "微信支付", PaymentDataHttpRequest.TYPE_WXPAY));
-                PaymentSelectAdapter paymentDialogAdapter = new PaymentSelectAdapter(mActivity, paymentEntities);
-                final DialogPlus dialogPlus = DialogPlusUtils.Builder(mActivity)
-                        .setHolder(DialogPlusUtils.LIST, new ListHolder())
-                        .setAdapter(paymentDialogAdapter)
-                        .setTitleName("请选择支付方式")
-                        .setIsHeader(true)
-                        .setIsFooter(false)
-                        .setIsExpanded(false)
-                        .setGravity(Gravity.CENTER)
-                        .showCompleteDialog();
-                paymentDialogAdapter.setOnRecyclerViewItemOnClick(new RecyclerViewItemOnClick() {
-                    @Override
-                    public void ItemOnClick(int position, Object itemdata) {
-                        PaymentEntity select = (PaymentEntity) itemdata;
+                    paymentEntities.add(new PaymentEntity(1, "支付宝", PaymentDataHttpRequest.TYPE_ALIPAY));
+                    paymentEntities.add(new PaymentEntity(2, "微信支付", PaymentDataHttpRequest.TYPE_WXPAY));
+                    PaymentSelectAdapter paymentDialogAdapter = new PaymentSelectAdapter(mActivity, paymentEntities);
+                    dialogPlus = DialogPlusUtils.Builder(mActivity)
+                            .setHolder(DialogPlusUtils.LIST, new ListHolder())
+                            .setAdapter(paymentDialogAdapter)
+                            .setTitleName("请选择支付方式")
+                            .setIsHeader(true)
+                            .setIsFooter(false)
+                            .setIsExpanded(false)
+                            .setGravity(Gravity.CENTER)
+                            .showCompleteDialog();
+                    paymentDialogAdapter.setOnRecyclerViewItemOnClick(new RecyclerViewItemOnClick() {
+                        @Override
+                        public void ItemOnClick(int position, Object itemdata) {
+                            PaymentEntity select = (PaymentEntity) itemdata;
 
-                        if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
+                            if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
+                                PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity),
+                                        data.getDetail().getId(), data.getDetail().getAnswerUserId(), data.getDetail().getContent());
+                            } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
+                                PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity),
+                                        data.getDetail().getId(), data.getDetail().getAnswerUserId(), data.getDetail().getContent());
 
-                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), data.getDetail().getId(), data.getDetail().getAnswerUserId(), data.getDetail().getContent());
-                        } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
-                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), data.getDetail().getId(), data.getDetail().getAnswerUserId(), data.getDetail().getContent());
+                            }
 
                         }
 
-                    }
+                        @Override
+                        public void ItemOnClick(int position, Object data, boolean isSelect) {
 
-                    @Override
-                    public void ItemOnClick(int position, Object data, boolean isSelect) {
+                        }
+                    });
+                } else if (isPayment == 1001) {
 
-                    }
-                });
+                }
+
 //                dialogPlus.show();
+                break;
+            case R.id.image_ask_profile:
+                EventBus.getDefault().post(new StartFragmentEvent(PersonalMainPageFragment.newInstance(askUserId)));
+                break;
+            case R.id.image_answer_profile:
+                EventBus.getDefault().post(new StartFragmentEvent(PersonalMainPageFragment.newInstance(answerUserId)));
                 break;
 
         }
@@ -514,6 +532,5 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
         ButterKnife.unbind(this);
     }
-
 
 }

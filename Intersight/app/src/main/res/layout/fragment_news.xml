@@ -2,8 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/background_default"
     xmlns:flipview="http://schemas.android.com/apk/res-auto"
-    tools:context="com.tripint.intersight.fragment.NewsFragment">
+    tools:context="com.tripint.intersight.fragment.home.NewsFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <com.tripint.intersight.common.widget.flipview.FlipView

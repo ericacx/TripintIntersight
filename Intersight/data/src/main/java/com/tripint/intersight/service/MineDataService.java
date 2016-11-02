@@ -9,10 +9,12 @@ import com.tripint.intersight.entity.discuss.CreateInterviewResponseEntity;
 import com.tripint.intersight.entity.mine.AccountDetailEntity;
 import com.tripint.intersight.entity.mine.AskAnswerEntity;
 import com.tripint.intersight.entity.mine.FocusEntity;
+import com.tripint.intersight.entity.mine.HelpAndProtocolEntity;
 import com.tripint.intersight.entity.mine.InterviewDetailEntity;
 import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
 import com.tripint.intersight.entity.mine.PersonalUserHomeEntity;
+import com.tripint.intersight.entity.mine.QiniuTokenEntity;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
 import com.tripint.intersight.entity.mine.worker.AllResoucesEntity;
 import com.tripint.intersight.entity.mine.worker.EditUserEntity;
@@ -141,4 +143,12 @@ public interface MineDataService {
     Observable<BaseResponse<CodeDataEntity>> postUpdateAvatar(
             @Field("uploadKey") String uploadKey
     );
+
+    //七牛云token
+    @GET("token/qiniu")
+    Observable<BaseResponse<QiniuTokenEntity>> getQiniuToken();
+
+    //使用帮助,用户协议
+    @GET("sys/config")
+    Observable<BaseResponse<HelpAndProtocolEntity>> getUserHelpAndProtocol();
 }

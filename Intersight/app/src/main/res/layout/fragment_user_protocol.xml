@@ -53,17 +53,13 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/use_help_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:lineSpacingMultiplier="1.2"
                 android:textSize="@dimen/text_size_14"
                 android:textColor="@color/line"
-                android:text="       请仔细阅读本协议,洞察+App平台将依据以下条件和条款为您提供服务。\n
-        欢迎阅读洞察+App平台用户协议（下称“本协议” ）。本协议阐述之条款和条件适用于您使用洞察+App平台所提供的各种工具和服务。\n
-    1. 服务条款的确认\n
-        洞察+App平台根据本服务条款及对该条款的修改向用户提供服务。本服务条款具有合同法上的法律效力。\n
-        如果您对协议的任何条款表示异议,您可以选择不注册,一旦您点选“注册”并通过注册程序,即表示您自愿接收本协议之所有条款,并已成为洞察+App平台的注册会员。用户在使用App平台的同时,同意接受洞察+App平台会员服务提供的各类信息服务。\n
-    2. 服务内容及修改、中断、终止"
+                android:text=""
                 />
 
         </ScrollView>

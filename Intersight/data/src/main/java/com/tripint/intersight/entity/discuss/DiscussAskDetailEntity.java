@@ -31,7 +31,8 @@ public class DiscussAskDetailEntity implements Serializable {
     private int favoritesCount;
     private int isPraises;
     private int isFavorites;
-
+    private int isPayment;
+    private String listenPayment;
 
     public DiscussAskDetailEntity() {
 
@@ -216,6 +217,22 @@ public class DiscussAskDetailEntity implements Serializable {
 
     public void setIsFavorites(int isFavorites) {
         this.isFavorites = isFavorites;
+    }
+
+    public int getIsPayment() {
+        return isPayment;
+    }
+
+    public void setIsPayment(int isPayment) {
+        this.isPayment = isPayment;
+    }
+
+    public String getListenPayment() {
+        return listenPayment;
+    }
+
+    public void setListenPayment(String listenPayment) {
+        this.listenPayment = listenPayment;
     }
 }
 
