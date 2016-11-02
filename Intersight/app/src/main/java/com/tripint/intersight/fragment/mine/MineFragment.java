@@ -1,6 +1,7 @@
 package com.tripint.intersight.fragment.mine;
 
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,8 +23,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.tripint.intersight.R;
 import com.tripint.intersight.activity.LoginActivity;
+import com.tripint.intersight.activity.MainActivity;
 import com.tripint.intersight.activity.PermissionsActivity;
 import com.tripint.intersight.app.InterSightApp;
+import com.tripint.intersight.common.Constants;
+import com.tripint.intersight.common.imagepicker.AndroidImagePicker;
+import com.tripint.intersight.common.imagepicker.bean.ImageItem;
+import com.tripint.intersight.common.imagepicker.ui.activity.ImagesGridActivity;
 import com.tripint.intersight.common.utils.DialogPlusUtils;
 import com.tripint.intersight.common.utils.FileUtils;
 import com.tripint.intersight.common.widget.cropiamge.CropImageActivity;
@@ -102,6 +108,9 @@ public class MineFragment extends BaseLazyMainFragment {
 
     private static final int RESULT_CAPTURE_IMAGE = 1;// 照相的requestCode
     private static final int TAILORING = 2;// 裁剪
+
+    private final int REQ_IMAGE = 9000;
+
     private String strImgPath;
 
     public static MineFragment newInstance() {
@@ -192,23 +201,39 @@ public class MineFragment extends BaseLazyMainFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.mineCIVPersonalInfo:
+
                 if (InterSightApp.getApp().getPermissionsChecker().lacksPermissions(InterSightApp.getApp().FILE_CAMERA)) {
                     PermissionsActivity.startActivityForResult(mActivity, InterSightApp.getApp().REQUEST_CODE, InterSightApp.getApp().FILE_CAMERA);
                 } else {
-                    List<ItemModel> list = new ArrayList<>();
-                    list.add(new ItemModel(1, "拍照"));
-                    list.add(new ItemModel(2, "从相册选择"));
-
-                    dialog = DialogPlusUtils.Builder(mActivity)
-                            .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createSingleListView(list)))
-                            .setTitleName("请选择")
-                            .setIsHeader(true)
-                            .setIsFooter(false)
-                            .setIsExpanded(false)
-                            .setGravity(Gravity.CENTER)
-                            .showCompleteDialog();
-                    break;
+//                    List<ItemModel> list = new ArrayList<>();
+//                    list.add(new ItemModel(1, "拍照"));
+//                    list.add(new ItemModel(2, "从相册选择"));
+//
+//                    dialog = DialogPlusUtils.Builder(mActivity)
+//                            .setHolder(DialogPlusUtils.VIEW, new ViewHolder(createSingleListView(list)))
+//                            .setTitleName("请选择")
+//                            .setIsHeader(true)
+//                            .setIsFooter(false)
+//                            .setIsExpanded(false)
+//                            .setGravity(Gravity.CENTER)
+//                            .showCompleteDialog();
+                    AndroidImagePicker.getInstance().pickAndCrop(mActivity, true, 120, new AndroidImagePicker.OnImageCropCompleteListener() {
+                        @Override
+                        public void onImageCropComplete(Bitmap bmp, float ratio) {
+                            Log.i(Constants.TAG,"=====onImageCropComplete (get bitmap="+bmp.toString());
+                            mineCIVPersonalInfo.setVisibility(View.VISIBLE);
+                            mineCIVPersonalInfo.setImageBitmap(bmp);
+                        }
+                    });
+//                    Intent intent = new Intent();
+//
+//                    int requestCode = REQ_IMAGE;
+//
+//                    intent.setClass(mActivity, ImagesGridActivity.class);
+//                    startActivityForResult(intent, requestCode);
                 }
+
+
 
                 break;
             case R.id.mineIvRewriteInfo://编辑个人资料
@@ -301,29 +326,52 @@ public class MineFragment extends BaseLazyMainFragment {
         startActivityForResult(intent, RESULT_CAPTURE_IMAGE);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 200 && resultCode == 400) {
-            ArrayList<String> paths = (ArrayList) data.getExtras().getSerializable("picData");
-            File temp = new File(paths.get(0).toString());
-            strImgPath = paths.get(0).toString();
-            startPhotoZoom(Uri.fromFile(temp));
-        } else if (requestCode == RESULT_CAPTURE_IMAGE && resultCode == mActivity.RESULT_OK) {
-            try {
-                if (null != data && null != data.getData()) {
-                    imgUri = data.getData();
-                }
-                startPhotoZoom(imgUri);
-            } catch (Exception e) {
-                Log.e("-----Exception--|=", e.getMessage());
-            }
-        } else if (requestCode == TAILORING && resultCode == mActivity.RESULT_OK) {
-            if (null != data) {
-                setPicToView(data);
-            }
-        }
-//        mActivity.onActivityResult(requestCode, resultCode, data);
-    }
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//        if(resultCode == Activity.RESULT_OK){
+//            if (requestCode == REQ_IMAGE) {
+//                mineCIVPersonalInfo.setVisibility(View.GONE);
+//
+//                List<ImageItem> imageList = AndroidImagePicker.getInstance().getSelectedImages();
+////                mAdapter.clear();
+////                mAdapter.addAll(imageList);
+//            }/*else if(requestCode == REQ_IMAGE_CROP){
+//                Bitmap bmp = (Bitmap)data.getExtras().get("bitmap");
+//                Log.i(TAG,"-----"+bmp.getRowBytes());
+//            }*/
+//        }
+//
+//    }
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == 200 && resultCode == 400) {
+//            ArrayList<String> paths = (ArrayList) data.getExtras().getSerializable("picData");
+//            File temp = new File(paths.get(0).toString());
+//            strImgPath = paths.get(0).toString();
+////            startPhotoZoom(Uri.fromFile(temp));
+//            mineCIVPersonalInfo.setImageBitmap(BitmapFactory.decodeFile(strImgPath));
+//        } else if (requestCode == RESULT_CAPTURE_IMAGE && resultCode == mActivity.RESULT_OK) {
+//            try {
+//                if (null != data && null != data.getData()) {
+//                    imgUri = data.getData();
+//                }
+//                strImgPath = FileUtils.getImageAbsolutePath(mActivity, imgUri);
+//                mineCIVPersonalInfo.setImageBitmap(BitmapFactory.decodeFile(strImgPath));
+//
+////                startPhotoZoom(imgUri);
+//            } catch (Exception e) {
+//                Log.e("-----Exception--|=", e.getMessage());
+//            }
+//        } else if (requestCode == TAILORING && resultCode == mActivity.RESULT_OK) {
+//            if (null != data) {
+//                setPicToView(data);
+//            }
+//        }
+////        mActivity.onActivityResult(requestCode, resultCode, data);
+//    }
 
 
     /**
@@ -346,8 +394,8 @@ public class MineFragment extends BaseLazyMainFragment {
             // if the aspect ratio is fixed to ratio 3/2
             intent.putExtra(CropImageActivity.ASPECT_X, 1);
             intent.putExtra(CropImageActivity.ASPECT_Y, 1);
-            intent.putExtra(CropImageActivity.OUTPUT_X, 120);
-            intent.putExtra(CropImageActivity.OUTPUT_Y, 120);
+            intent.putExtra(CropImageActivity.OUTPUT_X, 360);
+            intent.putExtra(CropImageActivity.OUTPUT_Y, 360);
 
             // start activity CropImageActivity with certain request code and listen
             // for result
