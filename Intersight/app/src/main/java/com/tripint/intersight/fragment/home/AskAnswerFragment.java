@@ -51,12 +51,12 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
     private final int PAGE_SIZE = 10;
     @Bind(R.id.recycler_view_ask_answer)
     RecyclerView mRecyclerView;
-    @Bind(R.id.btn_qa_profession)
-    TextView mQAPrefessionButton;
-    @Bind(R.id.btn_qa_interest)
-    TextView mQAInterestrButton;
-    @Bind(R.id.btn_qa_recommend)
-    TextView mQARecommendButton;
+//    @Bind(R.id.btn_qa_profession)
+//    TextView mQAPrefessionButton;
+//    @Bind(R.id.btn_qa_interest)
+//    TextView mQAInterestrButton;
+//    @Bind(R.id.btn_qa_recommend)
+//    TextView mQARecommendButton;
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
     private int TOTAL_COUNTER = 0;
@@ -179,27 +179,27 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
         return customLoading;
     }
 
-    @OnClick({R.id.btn_qa_recommend, R.id.btn_qa_interest, R.id.btn_qa_profession})
-    public void onTabBarClick(View view) {
-        switch (view.getId()) {
-
-            case R.id.btn_qa_profession: //行业领域
-                if (!mQAPrefessionButton.isSelected()) {
-                    setTab(0);
-                }
-                break;
-            case R.id.btn_qa_interest: //我的关注
-                if (!mQAInterestrButton.isSelected()) {
-                    setTab(1);
-                }
-                break;
-            case R.id.btn_qa_recommend: //精选推荐
-                if (!mQARecommendButton.isSelected()) {
-                    setTab(2);
-                }
-                break;
-        }
-    }
+//    @OnClick({R.id.btn_qa_recommend, R.id.btn_qa_interest, R.id.btn_qa_profession})
+//    public void onTabBarClick(View view) {
+//        switch (view.getId()) {
+//
+//            case R.id.btn_qa_profession: //行业领域
+//                if (!mQAPrefessionButton.isSelected()) {
+//                    setTab(0);
+//                }
+//                break;
+//            case R.id.btn_qa_interest: //我的关注
+//                if (!mQAInterestrButton.isSelected()) {
+//                    setTab(1);
+//                }
+//                break;
+//            case R.id.btn_qa_recommend: //精选推荐
+//                if (!mQARecommendButton.isSelected()) {
+//                    setTab(2);
+//                }
+//                break;
+//        }
+//    }
 
     /**
      * 请求不同的
@@ -207,9 +207,9 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
      * @param tab
      */
     private void setTab(int tab) {
-        mQAPrefessionButton.setSelected(tab == 0);
-        mQAInterestrButton.setSelected(tab == 1);
-        mQARecommendButton.setSelected(tab == 2);
+//        mQAPrefessionButton.setSelected(tab == 0);
+//        mQAInterestrButton.setSelected(tab == 1);
+//        mQARecommendButton.setSelected(tab == 2);
         httpRequestData(tab);
         this.mCurrentTab = tab;
     }
