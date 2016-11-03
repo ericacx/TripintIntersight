@@ -28,12 +28,14 @@ public class BannerViewHolder implements Holder<String> {
 
     @Override
     public void UpdateUI(Context context, int position, String data) {
-        Glide.with(context).load(data)
+        Glide.with(imageView.getContext())
+                .load(data)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.loading_normal_icon)
-                .error(R.drawable.loading_normal_icon)
-                .crossFade()
+                .centerCrop()
                 .dontAnimate()
+                .thumbnail(0.5f)
+                .placeholder(R.drawable.default_img)
+                .error(R.drawable.default_img)
                 .into(imageView);
     }
 }
