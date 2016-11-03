@@ -21,7 +21,7 @@
             android:layout_marginLeft="@dimen/spacing"
             android:layout_marginRight="@dimen/spacing"
             android:lineSpacingMultiplier="1.5"
-            android:maxLines="4"
+            android:maxLines="6"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_12" />
 
@@ -150,7 +150,7 @@
             android:layout_height="@dimen/height_18_80"
             android:layout_marginTop="@dimen/spacing_02"
             android:lineSpacingMultiplier="1.5"
-            android:maxLines="4"
+            android:maxLines="6"
             android:layout_marginLeft="@dimen/spacing"
             android:textColor="@color/white"
             android:layout_marginRight="@dimen/spacing"

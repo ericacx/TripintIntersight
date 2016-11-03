@@ -18,7 +18,6 @@
         android:imeOptions="actionDone"
         android:inputType="textMultiLine"
         android:padding="@dimen/spacing"
-        android:maxLength="200"
         android:hint="点击输入文字"
         android:textColorHint="@color/line"
         android:textColor="@color/line"

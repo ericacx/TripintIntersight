@@ -159,6 +159,7 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
                     viewHolderThree.opinionFlipviewThreePositionTwo = ((TextView) convertView.findViewById(R.id.opinion_flipview_three_position_two));
                     viewHolderThree.opinionFlipviewThreeAgreeNumTwo = ((TextView) convertView.findViewById(R.id.opinion_flipview_three_agreeNum_two));
                     viewHolderThree.opinionFlipviewThreeTalkNumTwo = ((TextView) convertView.findViewById(R.id.opinion_flipview_three_talkNum_two));
+                    viewHolderThree.opinionFlipviewThreeReportTwo = ((TextView) convertView.findViewById(R.id.opinion_flipview_three_report_two));
 
 
                     convertView.setTag(viewHolderThree);
@@ -298,43 +299,70 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
                 break;
             case VIEWTYPE_THREE:
                 if (position > 0 && resList.get(position).getTextDetail() != null) {
-                    viewHolderThree.opioionFlipviewThreeContent.setText(resList.get(position).getTextDetail().get(0).getContent());
-                    viewHolderThree.opinionFlipviewThreeTime.setText(resList.get(position).getTextDetail().get(0).getCreateAt());
-                    viewHolderThree.opinionFlipviewThreeName.setText(resList.get(position).getTextDetail().get(0).getUserNickname());
-                    viewHolderThree.opinionFlipviewThreeTrade.setText(resList.get(position).getTextDetail().get(0).getUserCompany());
-                    viewHolderThree.opinionFlipviewThreeTitle.setText(resList.get(position).getTextDetail().get(0).getUserAbility());
-                    viewHolderThree.opinionFlipviewThreeAgreeNum.setText(resList.get(position).getTextDetail().get(0).getPraisesCount() + "");
-                    viewHolderThree.opinionFlipviewThreeTalkNum.setText(resList.get(position).getTextDetail().get(0).getCommentsCount() + "");
+                    if (resList.get(position).getTextDetail().size() == 1){
+
+                        viewHolderThree.opioionFlipviewThreeContent.setText(resList.get(position).getTextDetail().get(0).getContent());
+                        viewHolderThree.opinionFlipviewThreeTime.setText(resList.get(position).getTextDetail().get(0).getCreateAt());
+                        viewHolderThree.opinionFlipviewThreeName.setText(resList.get(position).getTextDetail().get(0).getUserNickname());
+                        viewHolderThree.opinionFlipviewThreeTrade.setText(resList.get(position).getTextDetail().get(0).getUserCompany());
+                        viewHolderThree.opinionFlipviewThreeTitle.setText(resList.get(position).getTextDetail().get(0).getUserAbility());
+                        viewHolderThree.opinionFlipviewThreeAgreeNum.setText(resList.get(position).getTextDetail().get(0).getPraisesCount() + "");
+                        viewHolderThree.opinionFlipviewThreeTalkNum.setText(resList.get(position).getTextDetail().get(0).getCommentsCount() + "");
+
+                        viewHolderThree.opinionFlipviewThreeAgreeNumTwo.setVisibility(View.GONE);
+                        viewHolderThree.opinionFlipviewThreeTalkNumTwo.setVisibility(View.GONE);
+                        viewHolderThree.opinionFlipviewThreeReportTwo.setVisibility(View.GONE);
+
+                        typeTwo = resList.get(position).getTextDetail().get(0).getType();
+                        articleIdTwo = resList.get(position).getTextDetail().get(0).getId();
+                        viewHolderThree.opinionFlipviewThreeLlOne.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance(typeTwo, articleIdTwo)));
+
+                            }
+                        });
+                    } else {
+                        viewHolderThree.opioionFlipviewThreeContent.setText(resList.get(position).getTextDetail().get(0).getContent());
+                        viewHolderThree.opinionFlipviewThreeTime.setText(resList.get(position).getTextDetail().get(0).getCreateAt());
+                        viewHolderThree.opinionFlipviewThreeName.setText(resList.get(position).getTextDetail().get(0).getUserNickname());
+                        viewHolderThree.opinionFlipviewThreeTrade.setText(resList.get(position).getTextDetail().get(0).getUserCompany());
+                        viewHolderThree.opinionFlipviewThreeTitle.setText(resList.get(position).getTextDetail().get(0).getUserAbility());
+                        viewHolderThree.opinionFlipviewThreeAgreeNum.setText(resList.get(position).getTextDetail().get(0).getPraisesCount() + "");
+                        viewHolderThree.opinionFlipviewThreeTalkNum.setText(resList.get(position).getTextDetail().get(0).getCommentsCount() + "");
+
+                        viewHolderThree.opioionFlipviewThreeContentTwo.setText(resList.get(position).getTextDetail().get(1).getContent());
+                        viewHolderThree.opinionFlipviewThreeTimeTwo.setText(resList.get(position).getTextDetail().get(1).getCreateAt());
+                        viewHolderThree.opinionFlipviewThreeNameTwo.setText(resList.get(position).getTextDetail().get(1).getUserNickname());
+                        viewHolderThree.opinionFlipviewThreeTradeTwo.setText(resList.get(position).getTextDetail().get(1).getUserCompany());
+                        viewHolderThree.opinionFlipviewThreePositionTwo.setText(resList.get(position).getTextDetail().get(1).getUserAbility());
+                        viewHolderThree.opinionFlipviewThreeAgreeNumTwo.setText(resList.get(position).getTextDetail().get(1).getPraisesCount() + "");
+                        viewHolderThree.opinionFlipviewThreeTalkNumTwo.setText(resList.get(position).getTextDetail().get(1).getCommentsCount() + "");
+
+                        typeTwo = resList.get(position).getTextDetail().get(0).getType();
+                        articleIdTwo = resList.get(position).getTextDetail().get(0).getId();
+                        typeThree = resList.get(position).getTextDetail().get(1).getType();
+                        articleIdThree = resList.get(position).getTextDetail().get(1).getId();
+                        viewHolderThree.opinionFlipviewThreeLlOne.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance(typeTwo, articleIdTwo)));
+
+                            }
+                        });
+
+                        viewHolderThree.opinionFlipviewThreeLlTwo.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance(typeThree, articleIdThree)));
+                            }
+                        });
+                    }
 
 
-                    viewHolderThree.opioionFlipviewThreeContentTwo.setText(resList.get(position).getTextDetail().get(1).getContent());
-                    viewHolderThree.opinionFlipviewThreeTimeTwo.setText(resList.get(position).getTextDetail().get(1).getCreateAt());
-                    viewHolderThree.opinionFlipviewThreeNameTwo.setText(resList.get(position).getTextDetail().get(1).getUserNickname());
-                    viewHolderThree.opinionFlipviewThreeTradeTwo.setText(resList.get(position).getTextDetail().get(1).getUserCompany());
-                    viewHolderThree.opinionFlipviewThreePositionTwo.setText(resList.get(position).getTextDetail().get(1).getUserAbility());
-                    viewHolderThree.opinionFlipviewThreeAgreeNumTwo.setText(resList.get(position).getTextDetail().get(1).getPraisesCount() + "");
-                    viewHolderThree.opinionFlipviewThreeTalkNumTwo.setText(resList.get(position).getTextDetail().get(1).getCommentsCount() + "");
 
 
-                    typeTwo = resList.get(position).getTextDetail().get(0).getType();
-                    articleIdTwo = resList.get(position).getTextDetail().get(0).getId();
-                    typeThree = resList.get(position).getTextDetail().get(1).getType();
-                    articleIdThree = resList.get(position).getTextDetail().get(1).getId();
 
-                    viewHolderThree.opinionFlipviewThreeLlOne.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance(typeTwo, articleIdTwo)));
-
-                        }
-                    });
-
-                    viewHolderThree.opinionFlipviewThreeLlTwo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance(typeThree, articleIdThree)));
-                        }
-                    });
                 }
 
 //                convertView.setOnClickListener(new View.OnClickListener() {
