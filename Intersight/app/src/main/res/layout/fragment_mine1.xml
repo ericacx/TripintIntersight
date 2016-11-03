@@ -8,6 +8,7 @@
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+    <include layout="@layout/toolbar" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -27,10 +28,10 @@
                     android:id="@+id/mineCIVPersonalInfo"
                     android:layout_width="@dimen/height_16_80"
                     android:layout_height="@dimen/height_16_80"
-                    android:minHeight="@dimen/height_16_80"
-                    android:maxHeight="@dimen/height_16_80"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/actionbar_height" />
+                    android:layout_marginTop="@dimen/actionbar_height"
+                    android:maxHeight="@dimen/height_16_80"
+                    android:minHeight="@dimen/height_16_80" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -115,9 +116,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/bg_corners_grey"
                     android:orientation="vertical"
-                    android:padding="@dimen/spacing_pad04"
-                    android:background="@drawable/bg_corners_grey">
+                    android:padding="@dimen/spacing_pad04">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -138,8 +139,8 @@
                             android:id="@+id/text_view_my_money"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/height_5_80"
-                            android:layout_centerVertical="true"
                             android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
                             android:layout_marginRight="@dimen/spacing"
                             android:drawablePadding="@dimen/spacing"
                             android:gravity="left|center_vertical"

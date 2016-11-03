@@ -2,7 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_hierarchy"
-        android:title="设置"
-        app:showAsAction="collapseActionView" />
+        android:id="@+id/action_message"
+        android:icon="@mipmap/iconfont_email"
+        android:title="消息"
+        app:showAsAction="always" />
 </menu>

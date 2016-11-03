@@ -24,19 +24,19 @@ public class BaseCloseFragment extends BaseFragment {
 
     }
 
-    protected void initToolbarMenu(Toolbar toolbar) {
-        toolbar.inflateMenu(R.menu.home);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_hierarchy:
-                        mActivity.showFragmentStackHierarchyView();
-                        mActivity.logFragmentStackHierarchy(TAG);
-                        break;
-                }
-                return true;
-            }
-        });
-    }
+//    protected void initToolbarMenu(Toolbar toolbar) {
+//        toolbar.inflateMenu(R.menu.home);
+//        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                switch (item.getItemId()) {
+//                    case R.id.action_hierarchy:
+//                        mActivity.showFragmentStackHierarchyView();
+//                        mActivity.logFragmentStackHierarchy(TAG);
+//                        break;
+//                }
+//                return true;
+//            }
+//        });
+//    }
 }

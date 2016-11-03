@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
@@ -107,6 +108,11 @@ public class MineFragment extends BaseLazyMainFragment {
     TextView textViewHelp;
     @Bind(R.id.text_view_setting)
     TextView textViewSetting;
+
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+
+
     private PageDataSubscriberOnNext<UserHomeEntity> subscriber;
     private PageDataSubscriberOnNext<QiniuTokenEntity> tokenSubscriber;
     private PageDataSubscriberOnNext<CodeDataEntity> updateSubscriber;
@@ -129,6 +135,17 @@ public class MineFragment extends BaseLazyMainFragment {
         return fragment;
     }
 
+    //生成随机字符串
+    public static String getRandomString(int length) { //length表示生成字符串的长度
+        String base = "abcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            int number = random.nextInt(base.length());
+            sb.append(base.charAt(number));
+        }
+        return sb.toString();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -137,9 +154,9 @@ public class MineFragment extends BaseLazyMainFragment {
         View view = inflater.inflate(R.layout.fragment_mine1, container, false);
         ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
+        initToolbarMenu(toolbar);
         return view;
     }
-
 
     @Subscribe
     private void initView(View view) {
@@ -350,23 +367,6 @@ public class MineFragment extends BaseLazyMainFragment {
         return singleListView;
     }
 
-    /**
-     * 照相功能
-     */
-    private void cameraMethod() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        SimpleDateFormat timeStampFormat = new SimpleDateFormat(
-                "yyyy_MM_dd_HH_mm_ss");
-        String filename = timeStampFormat.format(new Date());
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Video.Media.TITLE, filename);
-
-        imgUri = mActivity.getContentResolver().insert(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
-        startActivityForResult(intent, RESULT_CAPTURE_IMAGE);
-    }
-
 
 //    @Override
 //    public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -414,6 +414,22 @@ public class MineFragment extends BaseLazyMainFragment {
 ////        mActivity.onActivityResult(requestCode, resultCode, data);
 //    }
 
+    /**
+     * 照相功能
+     */
+    private void cameraMethod() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        SimpleDateFormat timeStampFormat = new SimpleDateFormat(
+                "yyyy_MM_dd_HH_mm_ss");
+        String filename = timeStampFormat.format(new Date());
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Video.Media.TITLE, filename);
+
+        imgUri = mActivity.getContentResolver().insert(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
+        startActivityForResult(intent, RESULT_CAPTURE_IMAGE);
+    }
 
     /**
      * 裁剪图片方法实现
@@ -447,6 +463,18 @@ public class MineFragment extends BaseLazyMainFragment {
 
         }
     }
+
+//    /**
+//     * 修改
+//     *
+//     * @param _userInfo
+//     */
+//    private void modify(final MyUserInfo _userInfo) {
+//        HashMap<String, String> requestParams = new HashMap<String, String>();
+//        requestParams.put("data", JSON.toJSONString(_userInfo));
+//        modifyUserInfo = toModifyUserInfo(_userInfo);
+//        userServer.modifyMyBaseInfo(new UserDataRepository(), AndroidSchedulers.mainThread(), modifyUserInfo, requestParams);
+//    }
 
     /**
      * 保存裁剪之后的图片数据
@@ -484,30 +512,5 @@ public class MineFragment extends BaseLazyMainFragment {
 //            userInfo.setImgIco(new PicComment(FileUtils.getFileName(strImgPath), imageBase64Data));
 //            modify(userInfo);
         }
-    }
-
-//    /**
-//     * 修改
-//     *
-//     * @param _userInfo
-//     */
-//    private void modify(final MyUserInfo _userInfo) {
-//        HashMap<String, String> requestParams = new HashMap<String, String>();
-//        requestParams.put("data", JSON.toJSONString(_userInfo));
-//        modifyUserInfo = toModifyUserInfo(_userInfo);
-//        userServer.modifyMyBaseInfo(new UserDataRepository(), AndroidSchedulers.mainThread(), modifyUserInfo, requestParams);
-//    }
-
-
-    //生成随机字符串
-    public static String getRandomString(int length) { //length表示生成字符串的长度
-        String base = "abcdefghijklmnopqrstuvwxyz0123456789";
-        Random random = new Random();
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < length; i++) {
-            int number = random.nextInt(base.length());
-            sb.append(base.charAt(number));
-        }
-        return sb.toString();
     }
 }

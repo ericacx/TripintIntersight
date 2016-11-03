@@ -6,7 +6,11 @@ import android.view.View;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.common.fragmentation.SupportFragment;
+import com.tripint.intersight.event.StartFragmentEvent;
+import com.tripint.intersight.fragment.mine.message.NewMessageFragment;
 import com.tripint.intersight.helper.ProgressDialogUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 /**
@@ -21,9 +25,8 @@ public class BaseFragment extends SupportFragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_hierarchy:
-                        mActivity.showFragmentStackHierarchyView();
-                        mActivity.logFragmentStackHierarchy(TAG);
+                    case R.id.action_message:
+                        EventBus.getDefault().post(new StartFragmentEvent(NewMessageFragment.newInstance()));
                         break;
                 }
                 return true;
