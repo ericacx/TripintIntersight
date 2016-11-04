@@ -53,7 +53,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_margin="@dimen/spacing_pad04"
                     android:gravity="center_vertical"
-                    android:text="目前AR技术的整体发展ngukey未来演讲方向????"
+                    android:text=""
                     android:textColor="@color/grey_500"
                     android:textSize="@dimen/text_size_12" />
 
@@ -65,7 +65,7 @@
                     android:layout_margin="@dimen/spacing_pad04"
                     android:background="@drawable/img_yuyin_gary"
                     android:lines="2"
-                    android:text="目前AR技术的整体发展ngukey未来演讲方向????"
+                    android:text=""
                     android:textColor="@color/grey_100"
                     android:textSize="@dimen/text_size_14" />
 
@@ -117,9 +117,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/height_4_80"
                     android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
                     android:layout_margin="@dimen/spacing_pad04"
-                    android:text="目前AR技术的整体发展ngukey未来演讲方向????"
+                    android:gravity="center_vertical"
+                    android:text=""
                     android:textColor="@color/grey_500"
                     android:textSize="@dimen/text_size_12" />
 
@@ -128,8 +128,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_4_80"
                     android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
                     android:background="@drawable/img_voice_message_blue"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
@@ -139,9 +139,9 @@
                         android:layout_alignParentLeft="true"
                         android:layout_gravity="center_vertical|left"
                         android:layout_margin="@dimen/spacing_pad04"
+                        android:gravity="center_vertical|left"
                         android:lines="1"
                         android:text="90??"
-                        android:gravity="center_vertical|left"
                         android:textColor="@color/grey_100"
                         android:textSize="@dimen/text_size_14" />
 
@@ -151,8 +151,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_gravity="center_vertical|right"
-                        android:gravity="center_vertical|right"
                         android:layout_margin="@dimen/spacing_pad04"
+                        android:gravity="center_vertical|right"
                         android:text="10????"
                         android:textColor="@color/grey_100"
                         android:textSize="@dimen/text_size_14" />
@@ -232,11 +232,11 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/spacing"
             android:background="@drawable/selector_btn_checkbox_gray"
+            android:checked="true"
             android:paddingBottom="@dimen/spacing_pad"
             android:paddingLeft="@dimen/spacing_02"
             android:paddingRight="@dimen/spacing_02"
             android:paddingTop="@dimen/spacing_pad"
-            android:checked="true"
             android:textOff=""
             android:textOn="" />
 
@@ -305,9 +305,9 @@
             android:layout_below="@id/text_qa_info"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/width_4_80"
             android:layout_toRightOf="@id/btn_qa_record_voice_main"
             android:background="@drawable/btn_shape1"
-            android:layout_marginLeft="@dimen/width_4_80"
             android:drawableLeft="@mipmap/iconfont_yuyin"
             android:drawablePadding="@dimen/width_2_80"
             android:gravity="center"

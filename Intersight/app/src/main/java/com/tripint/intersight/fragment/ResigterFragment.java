@@ -26,6 +26,7 @@ import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.fragment.mine.setting.UserProtocolFragment;
 import com.tripint.intersight.service.BaseDataHttpRequest;
+import com.tripint.intersight.service.RegisterDeviceTokenService;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
@@ -126,6 +127,7 @@ public class ResigterFragment extends BaseBackFragment {
                 //接口请求成功后处理
                 registerEntity = entity;
                 ACache.get(mActivity).put(EnumKey.User.USER_TOKEN, entity.getToken());
+                registerUserDeviceToken();
                 int status = entity.getStatus();
                 if (status == 100) {
                     Intent intent = new Intent();
@@ -197,6 +199,9 @@ public class ResigterFragment extends BaseBackFragment {
         }
     }
 
+    private void registerUserDeviceToken() {
+        mActivity.startService(new Intent(mActivity, RegisterDeviceTokenService.class));
+    }
 
     /**
      * 发送手机短信验证码

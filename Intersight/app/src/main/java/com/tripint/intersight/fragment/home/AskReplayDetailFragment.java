@@ -99,14 +99,21 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
         StreamingStateChangedListener {
 
     public static final String ARG_DISCUSS_ID = "arg_discuss_id";
-
+    protected static final int MSG_START_STREAMING = 0;
+    protected static final int MSG_STOP_STREAMING = 1;
+    // Stream Player
+    private static final int MESSAGE_ID_RECONNECTING = 0x01;
+    protected MediaStreamingManager mMediaStreamingManager;
+    protected CameraStreamingSetting mCameraStreamingSetting;
+    protected MicrophoneStreamingSetting mMicrophoneStreamingSetting;
+    protected StreamingProfile mProfile;
+    protected boolean mShutterButtonPressed = false;
     @Bind(R.id.text_qa_info)
     TextView textQaInfo;
     @Bind(R.id.btn_qa_record_voice_main)
     Button btnQaRecordVoice;
     @Bind(R.id.speaker_container)
     RelativeLayout layoutSpeakerContainer;
-
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.image_ask_profile)
@@ -143,50 +150,185 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
     Button btnQaRecordVoiceRestart;
     @Bind(R.id.btn_qa_record_voice_play)
     Button btnQaRecordVoicePlay;
+    protected Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_START_STREAMING:
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // disable the shutter button before startStreaming
+                            boolean res = mMediaStreamingManager.startStreaming();
+                            mShutterButtonPressed = true;
+                            setShutterButtonEnabled(true);
+                            Log.i(TAG, "res:" + res);
+                            if (!res) {
+                                mShutterButtonPressed = false;
+                                setShutterButtonEnabled(true);
+                            }
+                            setShutterButtonPressed(mShutterButtonPressed);
+                        }
+                    }).start();
+                    break;
+                case MSG_STOP_STREAMING:
+                    if (mShutterButtonPressed) {
+                        // disable the shutter button before stopStreaming
+                        setShutterButtonEnabled(false);
+                        boolean res = mMediaStreamingManager.stopStreaming();
+                        if (!res) {
+                            mShutterButtonPressed = true;
+                            setShutterButtonEnabled(true);
+                        }
+                        setShutterButtonPressed(mShutterButtonPressed);
+                    }
+                    break;
 
-
-    private AskAnswerPageDetailCommentAdapter mAdapter;
-
-    //取得问答详情
-    private PageDataSubscriberOnNext<DiscussDetailResponseEntity> subscriber;
-
-    //取得推送流URL
-    private PageDataSubscriberOnNext<StreamResponseEntity> streamSubscriber;
-
-    //取得推送流URL
-    private PageDataSubscriberOnNext<SaveStreamResponseEntity> streamSaveSubscriber;
-
-    private PageDataSubscriberOnNext<WXPayResponseEntity> paymentSubscriber;
-
-    private DiscussDetailResponseEntity data;
-
-    private int mDiscussId;
-
-
-    private StreamResponseEntity streamResponseEntity; //
-
-    private SaveStreamResponseEntity saveStreamResponseEntity;
+                default:
+                    Log.e(TAG, "Invalid message");
+                    break;
+            }
+        }
+    };
 
     ///Stream Publish
-
-    protected MediaStreamingManager mMediaStreamingManager;
-    protected CameraStreamingSetting mCameraStreamingSetting;
-    protected MicrophoneStreamingSetting mMicrophoneStreamingSetting;
-    protected StreamingProfile mProfile;
-    protected static final int MSG_START_STREAMING = 0;
-    protected static final int MSG_STOP_STREAMING = 1;
-
-    // Stream Player
-    private static final int MESSAGE_ID_RECONNECTING = 0x01;
-
+    private AskAnswerPageDetailCommentAdapter mAdapter;
+    //取得问答详情
+    private PageDataSubscriberOnNext<DiscussDetailResponseEntity> subscriber;
+    //取得推送流URL
+    private PageDataSubscriberOnNext<StreamResponseEntity> streamSubscriber;
+    //取得推送流URL
+    private PageDataSubscriberOnNext<SaveStreamResponseEntity> streamSaveSubscriber;
+    private PageDataSubscriberOnNext<WXPayResponseEntity> paymentSubscriber;
+    private DiscussDetailResponseEntity data;
+    private int mDiscussId;
+    private StreamResponseEntity streamResponseEntity; //
+    private SaveStreamResponseEntity saveStreamResponseEntity;
     private PLMediaPlayer mMediaPlayer;
     private AVOptions mAVOptions;
-    private boolean mIsStopped = false;
-    private boolean mIsActivityPaused = true;
 
     // Stream End
+    private boolean mIsStopped = false;
+    private boolean mIsActivityPaused = true;
+    private PLMediaPlayer.OnPreparedListener mOnPreparedListener = new PLMediaPlayer.OnPreparedListener() {
+        @Override
+        public void onPrepared(PLMediaPlayer mp) {
+            Log.i(TAG, "On Prepared !");
+            btnQaRecordVoicePlay.setEnabled(true);
+        }
+    };
+    private PLMediaPlayer.OnInfoListener mOnInfoListener = new PLMediaPlayer.OnInfoListener() {
+        @Override
+        public boolean onInfo(PLMediaPlayer mp, int what, int extra) {
+            Log.i(TAG, "OnInfo, what = " + what + ", extra = " + extra);
+            switch (what) {
+                case PLMediaPlayer.MEDIA_INFO_BUFFERING_START:
+                    ProgressDialogUtils.getInstants(mActivity).show();
+                    break;
+                case PLMediaPlayer.MEDIA_INFO_BUFFERING_END:
+                case PLMediaPlayer.MEDIA_INFO_AUDIO_RENDERING_START:
+                    ProgressDialogUtils.getInstants(mActivity).dismiss();
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        }
+    };
+    private PLMediaPlayer.OnBufferingUpdateListener mOnBufferingUpdateListener = new PLMediaPlayer.OnBufferingUpdateListener() {
+        @Override
+        public void onBufferingUpdate(PLMediaPlayer mp, int percent) {
+            Log.d(TAG, "onBufferingUpdate: " + percent + "%");
+        }
+    };
+    /**
+     * Listen the event of playing complete
+     * For playing local file, it's called when reading the file EOF
+     * For playing network stream, it's called when the buffered bytes played over
+     * <p>
+     * If setLooping(true) is called, the player will restart automatically
+     * And ｀onCompletion｀ will not be called
+     */
+    private PLMediaPlayer.OnCompletionListener mOnCompletionListener = new PLMediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(PLMediaPlayer mp) {
+            Log.d(TAG, "Play Completed !");
+        }
+    };
+    private PLMediaPlayer.OnErrorListener mOnErrorListener = new PLMediaPlayer.OnErrorListener() {
+        @Override
+        public boolean onError(PLMediaPlayer mp, int errorCode) {
+            boolean isNeedReconnect = false;
+            Log.e(TAG, "Error happened, errorCode = " + errorCode);
+            switch (errorCode) {
+                case PLMediaPlayer.ERROR_CODE_INVALID_URI:
+                    showToastTips("Invalid URL !");
+                    break;
+                case PLMediaPlayer.ERROR_CODE_404_NOT_FOUND:
+                    showToastTips("404 resource not found !");
+                    break;
+                case PLMediaPlayer.ERROR_CODE_CONNECTION_REFUSED:
+                    showToastTips("Connection refused !");
+                    break;
+                case PLMediaPlayer.ERROR_CODE_CONNECTION_TIMEOUT:
+                    showToastTips("Connection timeout !");
+                    isNeedReconnect = true;
+                    break;
+                case PLMediaPlayer.ERROR_CODE_EMPTY_PLAYLIST:
+                    showToastTips("Empty playlist !");
+                    break;
+                case PLMediaPlayer.ERROR_CODE_STREAM_DISCONNECTED:
+                    showToastTips("Stream disconnected !");
+                    isNeedReconnect = true;
+                    break;
+                case PLMediaPlayer.ERROR_CODE_IO_ERROR:
+                    showToastTips("Network IO Error !");
+                    isNeedReconnect = true;
+                    break;
+                case PLMediaPlayer.ERROR_CODE_UNAUTHORIZED:
+                    showToastTips("Unauthorized Error !");
+                    break;
+                case PLMediaPlayer.ERROR_CODE_PREPARE_TIMEOUT:
+                    showToastTips("Prepare timeout !");
+                    isNeedReconnect = true;
+                    break;
+                case PLMediaPlayer.ERROR_CODE_READ_FRAME_TIMEOUT:
+                    showToastTips("Read frame timeout !");
+                    isNeedReconnect = true;
+                    break;
+                case PLMediaPlayer.MEDIA_ERROR_UNKNOWN:
+                    break;
+                default:
+                    showToastTips("unknown error !");
+                    break;
+            }
+            // Todo pls handle the error status here, reconnect or call finish()
+            releaseAudioPlayer();
+            if (isNeedReconnect) {
+                sendReconnectMessage();
+            } else {
 
-    protected boolean mShutterButtonPressed = false;
+            }
+            // Return true means the error has been handled
+            // If return false, then `onCompletion` will be called
+            return true;
+        }
+    };
+    protected Handler mAudioHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what != MESSAGE_ID_RECONNECTING) {
+                return;
+            }
+
+            if (!NetworkUtils.isAvailable(mActivity)) {
+                sendReconnectMessage();
+                return;
+            }
+            // The PLMediaPlayer has moved to the Error state, if you want to retry, must reset first !
+            prepareAudioPlayer(saveStreamResponseEntity.getAudioUrl());
+        }
+    };
 
     public static AskReplayDetailFragment newInstance(DiscussEntity entiry) {
 
@@ -195,6 +337,18 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
         AskReplayDetailFragment fragment = new AskReplayDetailFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    private static DnsManager getMyDnsManager() {
+        IResolver r0 = new DnspodFree();
+        IResolver r1 = AndroidDnsServer.defaultResolver();
+        IResolver r2 = null;
+        try {
+            r2 = new Resolver(InetAddress.getByName("119.29.29.29"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return new DnsManager(NetworkInfo.normal, new IResolver[]{r0, r1, r2});
     }
 
     @Override
@@ -272,64 +426,6 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
 
     }
 
-
-    protected Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_START_STREAMING:
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            // disable the shutter button before startStreaming
-                            boolean res = mMediaStreamingManager.startStreaming();
-                            mShutterButtonPressed = true;
-                            setShutterButtonEnabled(true);
-                            Log.i(TAG, "res:" + res);
-                            if (!res) {
-                                mShutterButtonPressed = false;
-                                setShutterButtonEnabled(true);
-                            }
-                            setShutterButtonPressed(mShutterButtonPressed);
-                        }
-                    }).start();
-                    break;
-                case MSG_STOP_STREAMING:
-                    if (mShutterButtonPressed) {
-                        // disable the shutter button before stopStreaming
-                        setShutterButtonEnabled(false);
-                        boolean res = mMediaStreamingManager.stopStreaming();
-                        if (!res) {
-                            mShutterButtonPressed = true;
-                            setShutterButtonEnabled(true);
-                        }
-                        setShutterButtonPressed(mShutterButtonPressed);
-                    }
-                    break;
-
-                default:
-                    Log.e(TAG, "Invalid message");
-                    break;
-            }
-        }
-    };
-
-    protected Handler mAudioHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what != MESSAGE_ID_RECONNECTING) {
-                return;
-            }
-
-            if (!NetworkUtils.isAvailable(mActivity)) {
-                sendReconnectMessage();
-                return;
-            }
-            // The PLMediaPlayer has moved to the Error state, if you want to retry, must reset first !
-            prepareAudioPlayer(saveStreamResponseEntity.getAudioUrl());
-        }
-    };
-
     protected void setShutterButtonPressed(final boolean pressed) {
         mActivity.runOnUiThread(new Runnable() {
             @Override
@@ -361,7 +457,6 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
             }
         });
     }
-
 
     private void httpRequestData() {
         subscriber = new PageDataSubscriberOnNext<DiscussDetailResponseEntity>() {
@@ -499,14 +594,13 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
     }
 
     private void saveStreamHttpRequest() {
-        long timeLeft = 90 - countdownview.getCurrentMillis();
+        long timeLeft = 90 - countdownview.getCurrentMillis() / 1000;
         PiliStreamDataHttpRequest.getInstance(mActivity).postSavePublishStream(
                 new ProgressSubscriber<SaveStreamResponseEntity>(streamSaveSubscriber, mActivity),
                 streamResponseEntity.getStreamId(),
                 data.getDetail().getId(),
                 (int) timeLeft);
     }
-
 
     @Override
     public void timerElapsed() {
@@ -639,18 +733,6 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
         mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_STOP_STREAMING), 100);
     }
 
-    private static DnsManager getMyDnsManager() {
-        IResolver r0 = new DnspodFree();
-        IResolver r1 = AndroidDnsServer.defaultResolver();
-        IResolver r2 = null;
-        try {
-            r2 = new Resolver(InetAddress.getByName("119.29.29.29"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return new DnsManager(NetworkInfo.normal, new IResolver[]{r0, r1, r2});
-    }
-
     @Override
     protected void initToolbarNav(Toolbar toolbar) {
         super.initToolbarNav(toolbar);
@@ -695,115 +777,6 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
     public void onStateChanged(StreamingState streamingState, Object o) {
 
     }
-
-    private PLMediaPlayer.OnPreparedListener mOnPreparedListener = new PLMediaPlayer.OnPreparedListener() {
-        @Override
-        public void onPrepared(PLMediaPlayer mp) {
-            Log.i(TAG, "On Prepared !");
-            btnQaRecordVoicePlay.setEnabled(true);
-        }
-    };
-
-    private PLMediaPlayer.OnInfoListener mOnInfoListener = new PLMediaPlayer.OnInfoListener() {
-        @Override
-        public boolean onInfo(PLMediaPlayer mp, int what, int extra) {
-            Log.i(TAG, "OnInfo, what = " + what + ", extra = " + extra);
-            switch (what) {
-                case PLMediaPlayer.MEDIA_INFO_BUFFERING_START:
-                    ProgressDialogUtils.getInstants(mActivity).show();
-                    break;
-                case PLMediaPlayer.MEDIA_INFO_BUFFERING_END:
-                case PLMediaPlayer.MEDIA_INFO_AUDIO_RENDERING_START:
-                    ProgressDialogUtils.getInstants(mActivity).dismiss();
-                    break;
-                default:
-                    break;
-            }
-            return true;
-        }
-    };
-
-    private PLMediaPlayer.OnBufferingUpdateListener mOnBufferingUpdateListener = new PLMediaPlayer.OnBufferingUpdateListener() {
-        @Override
-        public void onBufferingUpdate(PLMediaPlayer mp, int percent) {
-            Log.d(TAG, "onBufferingUpdate: " + percent + "%");
-        }
-    };
-
-    /**
-     * Listen the event of playing complete
-     * For playing local file, it's called when reading the file EOF
-     * For playing network stream, it's called when the buffered bytes played over
-     * <p>
-     * If setLooping(true) is called, the player will restart automatically
-     * And ｀onCompletion｀ will not be called
-     */
-    private PLMediaPlayer.OnCompletionListener mOnCompletionListener = new PLMediaPlayer.OnCompletionListener() {
-        @Override
-        public void onCompletion(PLMediaPlayer mp) {
-            Log.d(TAG, "Play Completed !");
-        }
-    };
-
-    private PLMediaPlayer.OnErrorListener mOnErrorListener = new PLMediaPlayer.OnErrorListener() {
-        @Override
-        public boolean onError(PLMediaPlayer mp, int errorCode) {
-            boolean isNeedReconnect = false;
-            Log.e(TAG, "Error happened, errorCode = " + errorCode);
-            switch (errorCode) {
-                case PLMediaPlayer.ERROR_CODE_INVALID_URI:
-                    showToastTips("Invalid URL !");
-                    break;
-                case PLMediaPlayer.ERROR_CODE_404_NOT_FOUND:
-                    showToastTips("404 resource not found !");
-                    break;
-                case PLMediaPlayer.ERROR_CODE_CONNECTION_REFUSED:
-                    showToastTips("Connection refused !");
-                    break;
-                case PLMediaPlayer.ERROR_CODE_CONNECTION_TIMEOUT:
-                    showToastTips("Connection timeout !");
-                    isNeedReconnect = true;
-                    break;
-                case PLMediaPlayer.ERROR_CODE_EMPTY_PLAYLIST:
-                    showToastTips("Empty playlist !");
-                    break;
-                case PLMediaPlayer.ERROR_CODE_STREAM_DISCONNECTED:
-                    showToastTips("Stream disconnected !");
-                    isNeedReconnect = true;
-                    break;
-                case PLMediaPlayer.ERROR_CODE_IO_ERROR:
-                    showToastTips("Network IO Error !");
-                    isNeedReconnect = true;
-                    break;
-                case PLMediaPlayer.ERROR_CODE_UNAUTHORIZED:
-                    showToastTips("Unauthorized Error !");
-                    break;
-                case PLMediaPlayer.ERROR_CODE_PREPARE_TIMEOUT:
-                    showToastTips("Prepare timeout !");
-                    isNeedReconnect = true;
-                    break;
-                case PLMediaPlayer.ERROR_CODE_READ_FRAME_TIMEOUT:
-                    showToastTips("Read frame timeout !");
-                    isNeedReconnect = true;
-                    break;
-                case PLMediaPlayer.MEDIA_ERROR_UNKNOWN:
-                    break;
-                default:
-                    showToastTips("unknown error !");
-                    break;
-            }
-            // Todo pls handle the error status here, reconnect or call finish()
-            releaseAudioPlayer();
-            if (isNeedReconnect) {
-                sendReconnectMessage();
-            } else {
-
-            }
-            // Return true means the error has been handled
-            // If return false, then `onCompletion` will be called
-            return true;
-        }
-    };
 
     private void sendReconnectMessage() {
         showToastTips("正在重连...");

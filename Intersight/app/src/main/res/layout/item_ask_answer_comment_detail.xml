@@ -70,7 +70,7 @@
                 android:layout_margin="@dimen/spacing_pad04"
                 android:background="@mipmap/bg_voice"
                 android:lines="2"
-                android:text="目前AR技术的整体发展ngukey未来演讲方向????"
+                android:text=""
                 android:textColor="@color/grey_500"
                 android:textSize="@dimen/text_size_14" />
 
@@ -81,7 +81,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="@dimen/spacing_pad04"
                 android:lines="1"
-                android:text="目前AR技术的整体发展ngukey未来演讲方向????"
+                android:text=""
                 android:textColor="@color/grey_100"
                 android:textSize="@dimen/text_size_20" />
 
