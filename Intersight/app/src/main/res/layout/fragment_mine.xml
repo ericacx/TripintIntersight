@@ -31,11 +31,11 @@
 
             <ImageView
                 android:id="@+id/mine_iv_message"
-                android:layout_marginRight="@dimen/spacing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/spacing"
                 android:src="@mipmap/iconfont_email" />
         </RelativeLayout>
 
@@ -48,7 +48,7 @@
             <com.tripint.intersight.widget.image.CircleImageView
                 android:layout_width="500dp"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/p1" />
+                android:src="@mipmap/ic_avatar" />
 
         </RelativeLayout>
 
@@ -61,18 +61,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="Susan"
                 android:layout_centerVertical="true"
+                android:text="Susan"
                 android:textColor="@color/line"
                 android:textSize="@dimen/text_size_15" />
 
             <ImageView
-                android:layout_toRightOf="@id/mineTvName"
-                android:src="@mipmap/iconfont_email"
-                android:layout_marginLeft="@dimen/spacing"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/spacing"
+                android:layout_toRightOf="@id/mineTvName"
+                android:src="@mipmap/iconfont_email" />
         </RelativeLayout>
 
         <LinearLayout

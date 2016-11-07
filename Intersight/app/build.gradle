@@ -125,5 +125,4 @@ dependencies {
     compile 'com.qiniu:qiniu-android-sdk:7.2.+'
     testCompile 'junit:junit:4.12'
     compile project(path: ':imagepicker')
-    compile project(path: ':imagepicker')
 }

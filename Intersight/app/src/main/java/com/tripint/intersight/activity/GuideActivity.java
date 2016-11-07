@@ -9,6 +9,9 @@ import android.widget.RadioGroup;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.GuideAdapter;
+import com.tripint.intersight.common.cache.ACache;
+import com.tripint.intersight.common.enumkey.EnumKey;
+import com.tripint.intersight.common.widget.CirclePageIndicator;
 import com.tripint.intersight.fragment.GuideFragment;
 import com.tripint.intersight.common.utils.PackageUtils;
 
@@ -17,6 +20,8 @@ import java.util.ArrayList;
 public class GuideActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
+    private CirclePageIndicator mIndicator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +45,8 @@ public class GuideActivity extends AppCompatActivity {
          * 获取RadioGroup
          */
 
-        final RadioGroup guide_tabBar = ((RadioGroup) findViewById(R.id.guide_tabBar));
+        mIndicator = (CirclePageIndicator) findViewById(R.id.circle_indicator);
 
-        guide_tabBar.check(R.id.guide_buttonOne);
-
-        guide_tabBar.setClickable(false);
 
         viewPager = ((ViewPager) findViewById(R.id.guide_viewPager));
 
@@ -63,6 +65,7 @@ public class GuideActivity extends AppCompatActivity {
             guideFragment.add(fragment);
         }
 
+
         viewPager.setAdapter(new GuideAdapter(getSupportFragmentManager(), guideFragment));
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -74,20 +77,7 @@ public class GuideActivity extends AppCompatActivity {
             //设置ViewPager的滑动监听
             @Override
             public void onPageSelected(int i) {
-                int checkedId = R.id.guide_buttonOne;
-                switch (i) {
-                    case 0:
-                        checkedId = R.id.guide_buttonOne;
-                        break;
-                    case 1:
-                        checkedId = R.id.guide_buttonTwo;
-                        break;
-                    case 2:
-                        checkedId = R.id.guide_buttonThree;
-                        break;
 
-                }
-                guide_tabBar.check(checkedId);
 
             }
 
@@ -96,5 +86,8 @@ public class GuideActivity extends AppCompatActivity {
 
             }
         });
+        mIndicator.setViewPager(viewPager);
+
+        ACache.get(this).put(EnumKey.ACacheKey.KEYWORD_APP_LAUNCHED, true);
     }
 }

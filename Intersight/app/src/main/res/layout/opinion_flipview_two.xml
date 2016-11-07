@@ -8,7 +8,7 @@
         android:id="@+id/opinion_flipview_two_pic"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_25_80"
-        android:src="@mipmap/p1" />
+        android:src="@mipmap/ic_avatar" />
 
 
     <Button
@@ -16,9 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_5_80"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/spacing"
         android:layout_marginLeft="@dimen/width_10_80"
         android:layout_marginRight="@dimen/width_10_80"
-        android:layout_marginBottom="@dimen/spacing"
         android:background="@drawable/btn_shape"
         android:text="发表观点"
         android:textColor="@color/white"
@@ -77,46 +77,46 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/spacing"
             android:layout_marginTop="@dimen/spacing"
-            android:layout_gravity="center_vertical"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal">
                 <TextView
                     android:id="@+id/opinion_flipview_two_agreeNum"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/height_4_80"
-                    android:gravity="center_vertical"
                     android:drawableLeft="@mipmap/iconfont_zan01"
                     android:drawablePadding="@dimen/spacing"
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/line" />
+                    android:gravity="center_vertical"
+                    android:textColor="@color/line"
+                    android:textSize="@dimen/text_size_12" />
 
                 <TextView
                     android:id="@+id/opinion_flipview_two_talkNum"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/height_4_80"
-                    android:gravity="center_vertical"
-                    android:drawablePadding="@dimen/spacing"
                     android:layout_marginLeft="@dimen/spacing"
-                    android:textSize="@dimen/text_size_12"
                     android:drawableLeft="@mipmap/iconfont_heartbig01"
-                    android:textColor="@color/line" />
+                    android:drawablePadding="@dimen/spacing"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/line"
+                    android:textSize="@dimen/text_size_12" />
 
                 <TextView
                     android:id="@+id/opinion_flipview_two_report"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/height_4_80"
-                    android:gravity="center_vertical"
                     android:layout_marginLeft="@dimen/spacing"
-                    android:drawablePadding="@dimen/spacing"
-                    android:textSize="@dimen/text_size_12"
                     android:drawableLeft="@mipmap/iconfont_jubao"
+                    android:drawablePadding="@dimen/spacing"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/text_size_12"
                     />
             </LinearLayout>
 
@@ -124,12 +124,12 @@
             <TextView
                 android:id="@+id/opinion_flipview_two_time"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="@dimen/height_4_80"
-                android:gravity="center_vertical"
                 android:layout_gravity="end"
-                android:textColor="@color/line"
                 android:layout_marginLeft="30dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:textColor="@color/line"
                 android:textSize="@dimen/text_size_12"
                 />
         </LinearLayout>

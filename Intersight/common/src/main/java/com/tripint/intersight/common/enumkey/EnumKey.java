@@ -37,5 +37,7 @@ public class EnumKey {
         public static final String SCREENSHOTS_NO = "screenshots_no"; //截屏 上部分
         public static final String HISTORY_CACHE_CITY = "history_cache_city"; //搜索条件缓存
         public static final String KEYWORD_CACHE = "keyword_cache"; //搜索关键词缓存
+        public static final String KEYWORD_APP_LAUNCHED = "keyword_app_launched"; //APP打开过
+
     }
 }

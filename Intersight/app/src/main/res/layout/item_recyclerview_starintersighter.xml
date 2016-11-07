@@ -6,79 +6,79 @@
 
     <RelativeLayout
         android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_margin="@dimen/spacing"
-        android:layout_weight="1"
-        android:layout_height="match_parent">
+        android:layout_weight="1">
 
         <com.tripint.intersight.widget.image.CircleImageView
-            android:src="@mipmap/p1"
-            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
-            android:layout_height="50dp" />
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/ic_avatar" />
 
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_weight="5"
         android:layout_width="0dp"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:text="门门"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="门门" />
             <TextView
-                android:text="发表了观点"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="发表了观点" />
 
             <TextView
-                android:text="2016.09.06"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="2016.09.06" />
             <TextView
-                android:text="15:30"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="15:30" />
         </LinearLayout>
 
         <TextView
-            android:layout_marginTop="@dimen/spacing"
-            android:text="盛大游戏之后的交互设计会更侧重于营销吗?"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing"
+            android:text="盛大游戏之后的交互设计会更侧重于营销吗?" />
 
         <TextView
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/spacing"
-            android:text="我觉得最为深刻的体会就是,这里的交互设计发噶来电管家了讲啦关卡就睡了该哭就哭"
-            android:singleLine="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing"
+            android:singleLine="true"
+            android:text="我觉得最为深刻的体会就是,这里的交互设计发噶来电管家了讲啦关卡就睡了该哭就哭"
+            android:visibility="gone" />
 
         <Button
-            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing"
             android:text="10元即听"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:visibility="gone" />
 
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
         <ImageView
-            android:src="@mipmap/iconfont_nextarticle"
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/iconfont_nextarticle" />
     </RelativeLayout>
 </LinearLayout>
