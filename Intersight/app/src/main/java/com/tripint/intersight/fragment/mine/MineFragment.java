@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
@@ -158,10 +159,14 @@ public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLa
     private void initView(View view) {
         mineTextViewName.setText(data.getNickname());
         textViewMyMoney.setText(data.getBalance());
-        Glide.with(mActivity).load(data.getAvatar())
-                .crossFade()
-                .fitCenter()
+        Glide.with(mActivity)
+                .load(data.getAvatar())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .dontAnimate()
+                .thumbnail(0.5f)
                 .placeholder(R.mipmap.ic_avatar)
+                .error(R.mipmap.ic_avatar)
                 .into(mineCIVPersonalInfo);
     }
 

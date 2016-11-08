@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tripint.intersight.R;
 import com.tripint.intersight.common.utils.DialogPlusUtils;
 import com.tripint.intersight.common.utils.TakePhotoUtil;
@@ -67,94 +68,75 @@ import butterknife.OnClick;
 public class PersonalInfoFragment extends BaseBackFragment {
 
 
+    public static final String ARG_DATA = "arg_user_data";
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.personal_info_submit)
-    Button personalInfoSubmit;//提交
 
     //    @Bind(R.id.personal_info_next_one)
 //    ImageView personalInfoNextOne;
-
+    @Bind(R.id.personal_info_submit)
+    Button personalInfoSubmit;//提交
     @Bind(R.id.personal_info_rl_avatar)
     RelativeLayout personalInfoRlAvatar;//头像
-
     @Bind(R.id.personal_info_text_view_phone)
     TextView personalInfoTextViewPhone;
     @Bind(R.id.personal_info_phone)
     EditText personalInfoPhone;//手机
-
     @Bind(R.id.personal_info_textview_email)
     TextView personalInfoTextviewEmail;
     @Bind(R.id.personal_info_email)
     EditText personalInfoEmail;//邮箱
-
     @Bind(R.id.personal_info_textview_nickname)
     TextView personalInfoTextviewNickname;
     @Bind(R.id.personal_info_nickname)
     EditText personalInfoNickname;//昵称
-
     @Bind(R.id.personal_info_textview_companyname)
     TextView personalInfoTextviewCompanyname;//公司名称,大学名称
-
-    @Bind(R.id.personal_info_company)
-    EditText personalInfoCompany;//公司名称
 
 //    @Bind(R.id.personal_info_next)
 //    ImageView personalInfoNext;
 //    @Bind(R.id.personal_info_company_logo)
 //    CircleImageView personalInfoCompanyLogo;//公司logo
-
+@Bind(R.id.personal_info_company)
+EditText personalInfoCompany;//公司名称
     @Bind(R.id.personal_info_trade_down)
     ImageView personalInfoTradeDown;
     @Bind(R.id.personal_info_trade)
     TextView personalInfoTrade;//行业
-
     @Bind(R.id.personal_info_title_down)
     ImageView personalInfoTitleDown;
     @Bind(R.id.personal_info_position)
     TextView personalInfoPosition;
     @Bind(R.id.personal_info_rl_position)
     RelativeLayout personalInfoRlPosition;//职能
-
     @Bind(R.id.personal_info_textview_title)
     TextView personalInfoTextviewTitle;
     @Bind(R.id.personal_info_title)
     EditText personalInfoTitle;//职位
-
     @Bind(R.id.personal_info_experience_down)
     ImageView personalInfoExperienceDown;
-
     @Bind(R.id.personal_info_experience)
     TextView personalInfoExperience;
     @Bind(R.id.personal_info_rl_experience)
     RelativeLayout personalInfoRlExperience;//工作年限
-
     @Bind(R.id.personal_info_personalInfo)
     EditText personalInfoPersonalInfo;//个人简介
-
     @Bind(R.id.personal_info_avatar)
     CircleImageView personalInfoAvatar;
-
 //    @Bind(R.id.personal_info_textview_company_logo)
 //    TextView personalInfoTextviewCompanyLogo;//公司logo   大学logo
     @Bind(R.id.personal_info_textview_trade)
     TextView personalInfoTextviewTrade;//所在行业、专业名称
     @Bind(R.id.personal_info_textview_position)
     TextView personalInfoTextviewPosition;//所属职能、学历
-
     @Bind(R.id.personal_info_ll)
     LinearLayout personalInfoLl;
     @Bind(R.id.personal_info_rl_trade)
     RelativeLayout personalInfoRlTrade;
-
     private CodeDataEntity responseEntity;
     private UserHomeEntity userEntity;
     private PageDataSubscriberOnNext<CodeDataEntity> subscriber;
-
     private AllResoucesEntity allResoucesEntity; //搜索过滤条件数据
-
-    public static final String ARG_DATA = "arg_user_data";
-
     private List<SchoolNameEntity> schools = new ArrayList<>();//学校
     private List<SpecialitiesNameEntity> specialities = new ArrayList<>();//专业
     private List<QualificationsNameEntity> qualificationst = new ArrayList<>();//学历
@@ -244,10 +226,14 @@ public class PersonalInfoFragment extends BaseBackFragment {
     private void initView() {
 
         if (role == 1) {//职员
-            Glide.with(mActivity).load(userEntity.getAvatar())
-                    .crossFade()
-                    .fitCenter()
+            Glide.with(mActivity)
+                    .load(userEntity.getAvatar())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop()
+                    .dontAnimate()
+                    .thumbnail(0.5f)
                     .placeholder(R.mipmap.ic_avatar)
+                    .error(R.mipmap.ic_avatar)
                     .into(personalInfoAvatar);
             personalInfoPhone.setText(userEntity.getMobile());
             personalInfoEmail.setText(userEntity.getEmail());
@@ -275,10 +261,14 @@ public class PersonalInfoFragment extends BaseBackFragment {
 //                    .into(personalInfoCompanyLogo);
 
         } else if (role == 2) {//学生
-            Glide.with(mActivity).load(userEntity.getAvatar())
-                    .crossFade()
-                    .fitCenter()
+            Glide.with(mActivity)
+                    .load(userEntity.getAvatar())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop()
+                    .dontAnimate()
+                    .thumbnail(0.5f)
                     .placeholder(R.mipmap.ic_avatar)
+                    .error(R.mipmap.ic_avatar)
                     .into(personalInfoAvatar);
             personalInfoPhone.setText(userEntity.getMobile());
             personalInfoEmail.setText(userEntity.getEmail());

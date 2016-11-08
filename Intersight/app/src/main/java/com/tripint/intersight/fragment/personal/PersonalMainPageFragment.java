@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.PaymentSelectAdapter;
 import com.tripint.intersight.adapter.listener.RecyclerViewItemOnClick;
@@ -156,11 +157,15 @@ public class PersonalMainPageFragment extends BaseBackFragment {
         personalMainPageTrade.setText(data.getIndustryName());//行业
         personalMainPageExperience.setText(data.getExperience());//工作年限
         personalMainPageIntroduction.setText(data.getDesc());
-        Glide.with(mActivity).load(data.getAvatar())//头像
-                .crossFade()
-                .fitCenter()
-                .placeholder(R.mipmap.ic_avatar)
+        Glide.with(mActivity)
+                .load(data.getAvatar())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
                 .transform(new GlideCircleTransform(mActivity))
+                .dontAnimate()
+                .thumbnail(0.5f)
+                .placeholder(R.mipmap.ic_avatar)
+                .error(R.mipmap.ic_avatar)
                 .into(personalMainPagePersonalInfo);
         personalMainPageButtonAsk.setText("￥"+discucssPay+" 向他提问");
     }

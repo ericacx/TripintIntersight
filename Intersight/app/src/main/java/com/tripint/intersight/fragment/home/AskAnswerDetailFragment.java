@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
 import com.tripint.intersight.R;
@@ -162,16 +163,6 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
     private boolean mIsActivityPaused = true;
 
     private ArticleCommentEntity currentSubCommentEntity; //创建子摩评论
-
-    public static AskAnswerDetailFragment newInstance(DiscussEntity entiry) {
-
-        Bundle args = new Bundle();
-        args.putInt(AskAnswerDetailFragment.ARG_DISCUSS_ID, entiry.getId());
-        AskAnswerDetailFragment fragment = new AskAnswerDetailFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     private PLMediaPlayer.OnPreparedListener mOnPreparedListener = new PLMediaPlayer.OnPreparedListener() {
         @Override
         public void onPrepared(PLMediaPlayer mp) {
@@ -277,6 +268,14 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
         }
     };
 
+    public static AskAnswerDetailFragment newInstance(DiscussEntity entiry) {
+
+        Bundle args = new Bundle();
+        args.putInt(AskAnswerDetailFragment.ARG_DISCUSS_ID, entiry.getId());
+        AskAnswerDetailFragment fragment = new AskAnswerDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -321,9 +320,14 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             Log.e("audioUrl", audioUrl);
 
             containerChatReply.setVisibility(View.VISIBLE);
-            Glide.with(mActivity).load(entity.getAuthorUserAvatar())
-                    .crossFade()
+            Glide.with(mActivity)
+                    .load(entity.getAuthorUserAvatar())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop()
+                    .dontAnimate()
+                    .thumbnail(0.5f)
                     .placeholder(R.mipmap.ic_avatar)
+                    .error(R.mipmap.ic_avatar)
                     .transform(new GlideCircleTransform(mActivity))
                     .into(imageAskProfile);
             String special = entity.getAuthorUserNickname() + "  ";
@@ -348,12 +352,16 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
             textViewItemAnswerDateTime.setText(entity.getAnswerCreateAt());
 
-            Glide.with(mActivity).load(entity.getAnswerUserAvatar())
-                    .crossFade()
+            Glide.with(mActivity)
+                    .load(entity.getAnswerUserAvatar())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop()
+                    .dontAnimate()
+                    .thumbnail(0.5f)
                     .placeholder(R.mipmap.ic_avatar)
+                    .error(R.mipmap.ic_avatar)
                     .transform(new GlideCircleTransform(mActivity))
-                    .into(imageAnswerProfile);
-
+                    .into(imageAskProfile);
             //点赞 点关注 点
             LinearLayout.LayoutParams mTabParams;
 

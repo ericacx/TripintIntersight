@@ -103,17 +103,15 @@ public class OpinionDetailFragment extends BaseBackFragment {
     EditText editUserCommentReplay;
     @Bind(R.id.user_replay_container)
     RelativeLayout userReplayContainer;
-
+    BottomTabBarItem item1; // zan
+    BottomTabBarItem item2; // 关注
+    BottomTabBarItem item3; // 举报
     private int type;
     private int articleId;
     private PageDataSubscriberOnNext<CommentResultEntity> putSubscriber;
     private PageDataSubscriberOnNext<ArticleDetailEntity> subscriber;
     private ArticleDetailEntity data;
     private AskAnswerPageDetailCommentAdapter mAdapter;
-    BottomTabBarItem item1; // zan
-    BottomTabBarItem item2; // 关注
-    BottomTabBarItem item3; // 举报
-
     private int toUid;
     private int userId;
     private int pid;//评论的id
@@ -188,6 +186,7 @@ public class OpinionDetailFragment extends BaseBackFragment {
                         .crossFade()
                         .placeholder(R.drawable.loading_normal_icon)
                         .into(opinionFlipviewTwoPic);
+
 
                 opinionFlipviewTwoHeader.setText(entity.getTitle());//标题
                 opinionFlipviewTwoName.setText(entity.getUserNickname());
