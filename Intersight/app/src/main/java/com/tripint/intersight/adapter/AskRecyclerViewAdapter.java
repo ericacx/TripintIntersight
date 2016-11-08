@@ -35,7 +35,7 @@ public class AskRecyclerViewAdapter extends BaseQuickAdapter<InterviewEntity> {
 
         Glide.with(mContext).load(item.getAvatar())
                 .crossFade()
-                .placeholder(R.drawable.loading_normal_icon)
+                .placeholder(R.mipmap.ic_avatar)
                 .transform(new GlideCircleTransform(mContext))
                 .into((ImageView) helper.getView(R.id.image_ask_profile));
     }

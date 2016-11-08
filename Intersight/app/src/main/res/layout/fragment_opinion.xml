@@ -5,12 +5,14 @@
     android:layout_height="match_parent"
     android:background="@mipmap/background_default">
 
+
     <com.tripint.intersight.common.widget.flipview.FlipView
         android:id="@+id/opinionFlipView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         flipview:orientation="vertical"
         flipview:overFlipMode="glow" />
+
 
 </FrameLayout>
 

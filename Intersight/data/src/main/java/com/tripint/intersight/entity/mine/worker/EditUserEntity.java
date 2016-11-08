@@ -21,13 +21,12 @@ public class EditUserEntity implements Serializable {
     private String logo;//（公司,学校）logo
     private String desc;//个人简介
 
-    private String company;//公司
+    private String organization;//公司、学校
     private String job;//职位
-    private int industry_id;//行业
-    private int ability_id;//职能
+    private int industryId;//行业
+    private int abilityId;//职能
     private String experience;//工作年限
 
-    private String school;//学校
     private int specialities;//专业
     private int qualifications;//学历
 
@@ -37,7 +36,7 @@ public class EditUserEntity implements Serializable {
     }
 
     public EditUserEntity(int type, String nickname, String mobile, String email, String avatar,
-                          String logo, String desc, String company, String job, int industry_id, int ability_id,
+                          String logo, String desc, String organization, String job, int industryId, int abilityId,
                           String experience) {
         this.type = type;
         this.nickname = nickname;
@@ -46,15 +45,15 @@ public class EditUserEntity implements Serializable {
         this.avatar = avatar;
         this.logo = logo;
         this.desc = desc;
-        this.company = company;
+        this.organization = organization;
         this.job = job;
-        this.industry_id = industry_id;
-        this.ability_id = ability_id;
+        this.industryId = industryId;
+        this.abilityId = abilityId;
         this.experience = experience;
     }
 
     public EditUserEntity(int type, String nickname, String mobile, String email, String avatar, String logo,
-                          String desc, String school, int specialities, int qualifications) {
+                          String desc, String organization, int specialities, int qualifications) {
         this.type = type;
         this.nickname = nickname;
         this.mobile = mobile;
@@ -62,7 +61,7 @@ public class EditUserEntity implements Serializable {
         this.avatar = avatar;
         this.logo = logo;
         this.desc = desc;
-        this.school = school;
+        this.organization = organization;
         this.specialities = specialities;
         this.qualifications = qualifications;
     }
@@ -123,13 +122,6 @@ public class EditUserEntity implements Serializable {
         this.desc = desc;
     }
 
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
 
     public String getJob() {
         return job;
@@ -139,21 +131,6 @@ public class EditUserEntity implements Serializable {
         this.job = job;
     }
 
-    public int getIndustry_id() {
-        return industry_id;
-    }
-
-    public void setIndustry_id(int industry_id) {
-        this.industry_id = industry_id;
-    }
-
-    public int getAbility_id() {
-        return ability_id;
-    }
-
-    public void setAbility_id(int ability_id) {
-        this.ability_id = ability_id;
-    }
 
     public String getExperience() {
         return experience;
@@ -161,14 +138,6 @@ public class EditUserEntity implements Serializable {
 
     public void setExperience(String experience) {
         this.experience = experience;
-    }
-
-    public String getSchool() {
-        return school;
-    }
-
-    public void setSchool(String school) {
-        this.school = school;
     }
 
     public int getSpecialities() {
@@ -185,5 +154,29 @@ public class EditUserEntity implements Serializable {
 
     public void setQualifications(int qualifications) {
         this.qualifications = qualifications;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    public int getIndustryId() {
+        return industryId;
+    }
+
+    public void setIndustryId(int industryId) {
+        this.industryId = industryId;
+    }
+
+    public int getAbilityId() {
+        return abilityId;
+    }
+
+    public void setAbilityId(int abilityId) {
+        this.abilityId = abilityId;
     }
 }

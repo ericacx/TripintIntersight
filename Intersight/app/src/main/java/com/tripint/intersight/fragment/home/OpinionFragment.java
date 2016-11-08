@@ -3,15 +3,15 @@ package com.tripint.intersight.fragment.home;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.common.BasePageableResponse;
-import com.tripint.intersight.common.widget.dialogplus.OnItemClickListener;
+import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.flipview.FlipView;
 import com.tripint.intersight.common.widget.flipview.OverFlipMode;
 import com.tripint.intersight.entity.article.ArticlesEntity;
@@ -19,11 +19,15 @@ import com.tripint.intersight.event.PersonalEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.fragment.flipview.OpinionFlipViewAdapter;
 import com.tripint.intersight.service.BaseDataHttpRequest;
+import com.tripint.intersight.service.HttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,14 +36,15 @@ import butterknife.ButterKnife;
  * 观点(文章)画面
  * A simple {@link Fragment} subclass.
  */
-public class OpinionFragment extends BaseBackFragment{
+public class OpinionFragment extends BaseBackFragment implements OpinionFlipViewAdapter.RequestLoadMoreListener {
 
     @Bind(R.id.opinionFlipView)
     FlipView opinionFlipView;
-//    @Bind(R.id.swipe_refresh_layout)
-//    SwipeRefreshLayout swipeRefreshLayout;
+    private int TOTAL_COUNTER = 0;//总数
+    private int mCurrentCounter = 0;//当前条目的位置
 
     private OpinionFlipViewAdapter mAdapter;
+    private List<ArticlesEntity> resList = new ArrayList<ArticlesEntity>();
     private BasePageableResponse<ArticlesEntity> data = new BasePageableResponse<ArticlesEntity>();
     private PageDataSubscriberOnNext<BasePageableResponse<ArticlesEntity>> subscriber;
 
@@ -70,8 +75,14 @@ public class OpinionFragment extends BaseBackFragment{
             @Override
             public void onNext(BasePageableResponse<ArticlesEntity> entity) {
                 data = entity;
-                Log.e("sss", String.valueOf(entity.getLists()));
                 initAdapter();
+                if (mCurrentCounter > 0) {
+                    mAdapter.addResList(data.getLists());
+                }
+                TOTAL_COUNTER = data.getTotal();
+
+                mCurrentCounter = mAdapter.getResList().size();
+
             }
         };
         BaseDataHttpRequest.getInstance(mActivity).getArticles(
@@ -79,7 +90,9 @@ public class OpinionFragment extends BaseBackFragment{
     }
 
     private void initAdapter() {
+
         mAdapter = new OpinionFlipViewAdapter(mActivity, data.getLists());
+        mAdapter.setOnLoadMoreListener(this);
         opinionFlipView.setAdapter(mAdapter);
         opinionFlipView.setOnFlipListener(new FlipView.OnFlipListener() {
             @Override
@@ -104,7 +117,30 @@ public class OpinionFragment extends BaseBackFragment{
     }
 
     @Subscribe
-    public void onEvent(PersonalEvent event){
+    public void onEvent(PersonalEvent event) {
         httpRequestData();
+    }
+
+
+    @Override
+    public void onLoadMoreRequested() {
+        opinionFlipView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mCurrentCounter >= TOTAL_COUNTER) {
+                    Log.e("mCurrentCounter", String.valueOf(mCurrentCounter));
+                    Log.e("total", String.valueOf(TOTAL_COUNTER));
+                    ToastUtil.showToast(mActivity,"加载完成");
+                } else {
+                    BaseDataHttpRequest.getInstance(mActivity).getArticles(
+                            new ProgressSubscriber(subscriber, mActivity), getCurrentPage());
+                }
+            }
+        }, 200);
+
+    }
+
+    public int getCurrentPage() {
+        return mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE+ 1;
     }
 }

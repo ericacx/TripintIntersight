@@ -168,6 +168,8 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
                 return new BannerViewHolder();
             }
         }, networkImages)
+                //轮播时间
+                .startTurning(3000)
                 //小圆点
                 .setPageIndicator(new int[]{R.mipmap.ic_page_indicator, R.mipmap.ic_page_indicator_focused});
         mainBanner.setOnClickListener(clickListener);

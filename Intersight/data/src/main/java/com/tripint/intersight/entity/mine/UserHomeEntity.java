@@ -33,10 +33,9 @@ public class UserHomeEntity implements Serializable {
     private String mobile;
     private String industryName;
     private String abilityName;
-    private String companyName;
+    private String organization;
     private String companyLogo;
     private String jobName;
-    private String schoolName;
     private String specialitiesName;
     private String qualificationsName;
 
@@ -225,13 +224,6 @@ public class UserHomeEntity implements Serializable {
         this.abilityName = abilityName;
     }
 
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
 
     public String getCompanyLogo() {
         return companyLogo;
@@ -249,13 +241,6 @@ public class UserHomeEntity implements Serializable {
         this.jobName = jobName;
     }
 
-    public String getSchoolName() {
-        return schoolName;
-    }
-
-    public void setSchoolName(String schoolName) {
-        this.schoolName = schoolName;
-    }
 
     public String getSpecialitiesName() {
         return specialitiesName;
@@ -271,5 +256,13 @@ public class UserHomeEntity implements Serializable {
 
     public void setQualificationsName(String qualificationsName) {
         this.qualificationsName = qualificationsName;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
 }

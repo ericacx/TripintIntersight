@@ -37,7 +37,7 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
     private Context context;
     private List<TextView> textViews;
     private List<ArticlesEntity> resList;//数据源
-
+    private RequestLoadMoreListener mRequestLoadMoreListener;
     private final int VIEWTYPE_ONE = 0;//首页,带有banner
     private final int VIEWTYPE_TWO = 1;//图文
     private final int VIEWTYPE_THREE = 2;//只有文字
@@ -56,6 +56,10 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
         this.resList = list;
     }
 
+    public void setOnLoadMoreListener(OpinionFlipViewAdapter.RequestLoadMoreListener requestLoadMoreListener) {
+        this.mRequestLoadMoreListener = requestLoadMoreListener;
+    }
+
     @Override
     public int getItemViewType(int position) {
         if (resList.get(position).getType() == 0) {
@@ -70,6 +74,18 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
 //        else {
 //            return position;
 //        }
+    }
+
+
+    public List<ArticlesEntity> getResList() {
+        return resList;
+    }
+
+    public void addResList(List<ArticlesEntity> resList) {
+        if(this.resList != null) {
+            this.resList.addAll(resList);
+            notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -250,13 +266,13 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
                     }
                 });
                 if (resList.get(position).getArticle() != null) {
-                    viewHolderOne.opinionFlipviewOneHeader.setText(resList.get(position).getArticle().get(position).getTitle());
-                    viewHolderOne.opinionFlipviewOneContent.setText(resList.get(position).getArticle().get(position).getContent());
+                    viewHolderOne.opinionFlipviewOneHeader.setText(resList.get(position).getArticle().get(0).getTitle());
+                    viewHolderOne.opinionFlipviewOneContent.setText(resList.get(position).getArticle().get(0).getContent());
 
-                    viewHolderOne.opinionFlipviewOneTrade.setText(resList.get(position).getArticle().get(position).getUserCompany());
-                    viewHolderOne.opinionFlipviewOneTitle.setText(resList.get(position).getArticle().get(position).getUserAbility());
-                    viewHolderOne.opinionFlipviewOneTime.setText(resList.get(position).getArticle().get(position).getCreateAt());
-                    viewHolderOne.opinionFlipviewOneName.setText(resList.get(position).getArticle().get(position).getUserNickname());
+                    viewHolderOne.opinionFlipviewOneTrade.setText(resList.get(position).getArticle().get(0).getUserCompany());
+                    viewHolderOne.opinionFlipviewOneTitle.setText(resList.get(position).getArticle().get(0).getUserAbility());
+                    viewHolderOne.opinionFlipviewOneTime.setText(resList.get(position).getArticle().get(0).getCreateAt());
+                    viewHolderOne.opinionFlipviewOneName.setText(resList.get(position).getArticle().get(0).getUserNickname());
 
                 }
                 break;
@@ -377,6 +393,7 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
         return convertView;
     }
 
+
     /**
      * 第1种布局的控件
      */
@@ -478,4 +495,11 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
         TextView opinionFlipviewThreeReportTwo;
     }
 
+
+
+    public interface RequestLoadMoreListener {
+
+        void onLoadMoreRequested();
+
+    }
 }

@@ -142,10 +142,10 @@ public class MyAskAnswerFragment extends BaseBackFragment implements BaseQuickAd
      * @param tab
      */
     private void setTab(int tab) {
+        this.mCurrentTab = tab;
         btnMyCommonHeaderLeft.setSelected(tab == 0);
         btnMyCommonHeaderRight.setSelected(tab == 1);
         httpRequestData(tab);
-        this.mCurrentTab = tab;
     }
 
     private void initToolbar() {

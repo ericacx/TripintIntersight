@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_message"
-        android:icon="@mipmap/iconfont_email"
+        android:icon="@mipmap/iconfont_wodexx"
         android:title="消息"
         app:showAsAction="always" />
 </menu>

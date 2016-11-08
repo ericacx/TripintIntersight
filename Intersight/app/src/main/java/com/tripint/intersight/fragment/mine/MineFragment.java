@@ -1,7 +1,6 @@
 package com.tripint.intersight.fragment.mine;
 
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,10 +10,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,18 +26,13 @@ import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
 import com.tripint.intersight.R;
 import com.tripint.intersight.activity.LoginActivity;
-import com.tripint.intersight.activity.MainActivity;
 import com.tripint.intersight.activity.PermissionsActivity;
 import com.tripint.intersight.app.InterSightApp;
 import com.tripint.intersight.common.Constants;
 import com.tripint.intersight.common.imagepicker.AndroidImagePicker;
-import com.tripint.intersight.common.imagepicker.bean.ImageItem;
-import com.tripint.intersight.common.imagepicker.ui.activity.ImagesGridActivity;
-import com.tripint.intersight.common.utils.DialogPlusUtils;
 import com.tripint.intersight.common.utils.FileUtils;
 import com.tripint.intersight.common.widget.cropiamge.CropImageActivity;
 import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
-import com.tripint.intersight.common.widget.dialogplus.ViewHolder;
 import com.tripint.intersight.common.widget.filter.ItemModel;
 import com.tripint.intersight.common.widget.filter.adapter.SimpleTextAdapter;
 import com.tripint.intersight.common.widget.filter.interfaces.OnFilterItemClickListener;
@@ -65,9 +59,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -79,7 +71,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MineFragment extends BaseLazyMainFragment {
+public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLayout.OnRefreshListener{
 
     private static final int RESULT_CAPTURE_IMAGE = 1;// 照相的requestCode
     private static final int TAILORING = 2;// 裁剪
@@ -111,6 +103,8 @@ public class MineFragment extends BaseLazyMainFragment {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
 
     private PageDataSubscriberOnNext<UserHomeEntity> subscriber;
@@ -126,6 +120,7 @@ public class MineFragment extends BaseLazyMainFragment {
     private String strImgPath;
 
     private String key;//随机字符串
+
     public static MineFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -155,6 +150,7 @@ public class MineFragment extends BaseLazyMainFragment {
         ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         initToolbarMenu(toolbar);
+        swipeRefreshLayout.setOnRefreshListener(this);
         return view;
     }
 
@@ -185,7 +181,7 @@ public class MineFragment extends BaseLazyMainFragment {
                 qiniuToken = tokenEntity.getQiniuToken();
             }
         };
-        MineDataHttpRequest.getInstance(mActivity).getQiniuToken(new ProgressSubscriber<QiniuTokenEntity>(tokenSubscriber,mActivity));
+        MineDataHttpRequest.getInstance(mActivity).getQiniuToken(new ProgressSubscriber<QiniuTokenEntity>(tokenSubscriber, mActivity));
 
         subscriber = new PageDataSubscriberOnNext<UserHomeEntity>() {
             @Override
@@ -263,7 +259,7 @@ public class MineFragment extends BaseLazyMainFragment {
                     AndroidImagePicker.getInstance().pickAndCrop(mActivity, true, 120, new AndroidImagePicker.OnImageCropCompleteListener() {
                         @Override
                         public void onImageCropComplete(Bitmap bmp, float ratio) {
-                            Log.i(Constants.TAG,"=====onImageCropComplete (get bitmap="+bmp.toString());
+                            Log.i(Constants.TAG, "=====onImageCropComplete (get bitmap=" + bmp.toString());
                             mineCIVPersonalInfo.setVisibility(View.VISIBLE);
                             mineCIVPersonalInfo.setImageBitmap(bmp);
 
@@ -279,9 +275,9 @@ public class MineFragment extends BaseLazyMainFragment {
                     uploadManager.put(b, key, qiniuToken, new UpCompletionHandler() {
                         @Override
                         public void complete(String key, ResponseInfo info, JSONObject response) {
-                            MineDataHttpRequest.getInstance(mActivity).postUpdateAvatar(new ProgressSubscriber<CodeDataEntity>(updateSubscriber,mActivity),key);
+                            MineDataHttpRequest.getInstance(mActivity).postUpdateAvatar(new ProgressSubscriber<CodeDataEntity>(updateSubscriber, mActivity), key);
                         }
-                    },null);
+                    }, null);
                     return;
 //                    Intent intent = new Intent();
 //
@@ -290,7 +286,6 @@ public class MineFragment extends BaseLazyMainFragment {
 //                    intent.setClass(mActivity, ImagesGridActivity.class);
 //                    startActivityForResult(intent, requestCode);
                 }
-
 
 
                 break;
@@ -512,5 +507,11 @@ public class MineFragment extends BaseLazyMainFragment {
 //            userInfo.setImgIco(new PicComment(FileUtils.getFileName(strImgPath), imageBase64Data));
 //            modify(userInfo);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        MineDataHttpRequest.getInstance(mActivity).getUserHome(new ProgressSubscriber(subscriber, mActivity));
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

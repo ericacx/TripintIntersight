@@ -28,15 +28,15 @@
                     android:layout_height="wrap_content"
                     android:text="我的提问"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_12" />
                 <TextView
                     android:id="@+id/ask_textView_mine_title_main_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="（已回答）"
                     android:layout_marginLeft="5dp"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_15"/>
+                    android:textColor="@color/line"
+                    android:textSize="@dimen/text_size_12"/>
             </LinearLayout>
 
 
@@ -47,8 +47,8 @@
                 android:layout_marginTop="@dimen/spacing"
                 android:singleLine="true"
                 android:text="目前AR技术的整体发展情况以及未来演讲方向?"
-                android:textColor="@color/line"
-                android:textSize="@dimen/text_size_12" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_14" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"

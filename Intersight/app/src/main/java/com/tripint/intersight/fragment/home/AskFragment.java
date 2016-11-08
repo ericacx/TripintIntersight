@@ -132,7 +132,9 @@ public class AskFragment extends BaseLazyMainFragment implements BaseQuickAdapte
                     mAdapter.addData(data.getLists());
                 }
                 TOTAL_COUNTER = data.getTotal();
+                Log.e("total",String.valueOf(entity.getTotal()));
                 mCurrentCounter = mAdapter.getData().size();
+                Log.e("counter",String.valueOf(mAdapter.getData().size()));
             }
         };
 
@@ -176,6 +178,7 @@ public class AskFragment extends BaseLazyMainFragment implements BaseQuickAdapte
                 return new BannerViewHolder();
             }
         }, networkImages)
+                .startTurning(3000)
                 //小圆点
                 .setPageIndicator(new int[]{R.mipmap.ic_page_indicator, R.mipmap.ic_page_indicator_focused});
         mainBanner.setOnClickListener(clickListener);

@@ -27,6 +27,7 @@ import com.tripint.intersight.entity.SearchFilterEntity;
 import com.tripint.intersight.entity.discuss.InterviewEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.fragment.home.OpinionDetailFragment;
 import com.tripint.intersight.fragment.personal.PersonalMainPageFragment;
 import com.tripint.intersight.model.MultipleSearchItemModel;
 import com.tripint.intersight.service.BaseDataHttpRequest;
@@ -75,6 +76,9 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
     SwipeRefreshLayout mSwipeRefreshLayout;
 //    @Bind(R.id.mFilterContentView)
 //    FrameLayout mFilterContentView;
+
+    private int type;
+    private int articleId;
 
     private SearchFilterEntity searchFilterEntity; //搜索过滤条件数据
 
@@ -242,7 +246,9 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
                 MultipleSearchItemModel entity = (MultipleSearchItemModel) adapter.getItem(position);
                 //TODO
                 if (entity.getItemType() == MultipleSearchItemModel.ARTICLE) {
-
+                    type = mAdapter.getData().get(position).getContent().getType();
+                    articleId = mAdapter.getData().get(position).getContent().getId();
+                    EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance(type,articleId)));
                 } else if (entity.getItemType() == MultipleSearchItemModel.INTERVIEW) {
 
                     EventBus.getDefault().post(new StartFragmentEvent(PersonalMainPageFragment.newInstance(entity.getInterview().getUid())));

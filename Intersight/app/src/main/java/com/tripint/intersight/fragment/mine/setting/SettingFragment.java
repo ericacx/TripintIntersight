@@ -108,7 +108,6 @@ public class SettingFragment extends BaseBackFragment {
                 settingTvCacheSize.setText("缓存清除成功");
                 break;
             case R.id.setting_update://检查更新
-                EventBus.getDefault().post(new StartFragmentEvent(NewMessageFragment.newInstance()));
                 break;
             case R.id.setting_service://洞察+平台服务协议
                 EventBus.getDefault().post(new StartFragmentEvent(UserProtocolFragment.newInstance()));

@@ -11,7 +11,7 @@
         android:orientation="horizontal"
         android:padding="@dimen/spacing">
 
-        <ImageView
+        <com.tripint.intersight.widget.image.CircleImageView
             android:id="@+id/image_search_person_profile"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -106,5 +106,14 @@
             android:src="@mipmap/iconfont_nextarticle" />
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spacing"
+            android:background="@drawable/line_grey" />
+    </LinearLayout>
 </LinearLayout>

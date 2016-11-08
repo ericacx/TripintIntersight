@@ -99,10 +99,10 @@ public class PersonalInfoFragment extends BaseBackFragment {
     @Bind(R.id.personal_info_company)
     EditText personalInfoCompany;//公司名称
 
-    @Bind(R.id.personal_info_next)
-    ImageView personalInfoNext;
-    @Bind(R.id.personal_info_company_logo)
-    CircleImageView personalInfoCompanyLogo;//公司logo
+//    @Bind(R.id.personal_info_next)
+//    ImageView personalInfoNext;
+//    @Bind(R.id.personal_info_company_logo)
+//    CircleImageView personalInfoCompanyLogo;//公司logo
 
     @Bind(R.id.personal_info_trade_down)
     ImageView personalInfoTradeDown;
@@ -135,8 +135,8 @@ public class PersonalInfoFragment extends BaseBackFragment {
     @Bind(R.id.personal_info_avatar)
     CircleImageView personalInfoAvatar;
 
-    @Bind(R.id.personal_info_textview_company_logo)
-    TextView personalInfoTextviewCompanyLogo;//公司logo   大学logo
+//    @Bind(R.id.personal_info_textview_company_logo)
+//    TextView personalInfoTextviewCompanyLogo;//公司logo   大学logo
     @Bind(R.id.personal_info_textview_trade)
     TextView personalInfoTextviewTrade;//所在行业、专业名称
     @Bind(R.id.personal_info_textview_position)
@@ -254,7 +254,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
             personalInfoNickname.setText(userEntity.getNickname());
             personalInfoPersonalInfo.setText(userEntity.getDesc());
             personalInfoTextviewCompanyname.setText("公司名称");
-            personalInfoTextviewCompanyLogo.setText("公司Logo");
+//            personalInfoTextviewCompanyLogo.setText("公司Logo");
             personalInfoTextviewTrade.setText("所在行业");
             personalInfoTextviewPosition.setText("所属职能");
             personalInfoLl.setVisibility(View.VISIBLE);
@@ -262,17 +262,17 @@ public class PersonalInfoFragment extends BaseBackFragment {
             currentAbility = userEntity.getAbilityId();
             currentIndestry = userEntity.getIndustryId();
 
-            personalInfoCompany.setText(userEntity.getCompanyName());
+            personalInfoCompany.setText(userEntity.getOrganization());
             personalInfoTrade.setText(userEntity.getIndustryName());
             personalInfoPosition.setText(userEntity.getAbilityName());
             personalInfoTitle.setText(userEntity.getJobName());
             personalInfoExperience.setText(userEntity.getExperience());
 
-            Glide.with(mActivity).load(userEntity.getCompanyLogo())
-                    .crossFade()
-                    .fitCenter()
-                    .placeholder(R.mipmap.ic_avatar)
-                    .into(personalInfoCompanyLogo);
+//            Glide.with(mActivity).load(userEntity.getCompanyLogo())
+//                    .crossFade()
+//                    .fitCenter()
+//                    .placeholder(R.mipmap.ic_avatar)
+//                    .into(personalInfoCompanyLogo);
 
         } else if (role == 2) {//学生
             Glide.with(mActivity).load(userEntity.getAvatar())
@@ -285,7 +285,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
             personalInfoNickname.setText(userEntity.getNickname());
             personalInfoPersonalInfo.setText(userEntity.getDesc());
             personalInfoTextviewCompanyname.setText("大学名称");
-            personalInfoTextviewCompanyLogo.setText("大学Logo");
+//            personalInfoTextviewCompanyLogo.setText("大学Logo");
             personalInfoTextviewTrade.setText("专业");
             personalInfoTextviewPosition.setText("学历");
             personalInfoLl.setVisibility(View.GONE);
@@ -293,15 +293,15 @@ public class PersonalInfoFragment extends BaseBackFragment {
             currentQualifications = userEntity.getQualifications();
             currentSpecialities = userEntity.getSpecialitiesId();
 
-            personalInfoCompany.setText(userEntity.getSchoolName());
+            personalInfoCompany.setText(userEntity.getOrganization());
             personalInfoTrade.setText(userEntity.getSpecialitiesName());
             personalInfoPosition.setText(userEntity.getQualificationsName());
 
-            Glide.with(mActivity).load(userEntity.getCompanyLogo())
-                    .crossFade()
-                    .fitCenter()
-                    .placeholder(R.mipmap.ic_avatar)
-                    .into(personalInfoCompanyLogo);
+//            Glide.with(mActivity).load(userEntity.getCompanyLogo())
+//                    .crossFade()
+//                    .fitCenter()
+//                    .placeholder(R.mipmap.ic_avatar)
+//                    .into(personalInfoCompanyLogo);
         }
 
 
@@ -611,11 +611,11 @@ public class PersonalInfoFragment extends BaseBackFragment {
             editUserEntity.setMobile(personalInfoPhone.getText().toString());//手机
             editUserEntity.setEmail(personalInfoEmail.getText().toString());//邮箱
             editUserEntity.setNickname(personalInfoNickname.getText().toString());//昵称
-            editUserEntity.setCompany(personalInfoCompany.getText().toString());//公司名称
+            editUserEntity.setOrganization(personalInfoCompany.getText().toString());//公司名称
             editUserEntity.setLogo("");
             editUserEntity.setJob(personalInfoTitle.getText().toString());//职位
-            editUserEntity.setIndustry_id(currentIndestry);//行业
-            editUserEntity.setAbility_id(currentAbility);//职能
+            editUserEntity.setIndustryId(currentIndestry);//行业
+            editUserEntity.setAbilityId(currentAbility);//职能
             editUserEntity.setExperience(personalInfoExperience.getText().toString());//工作年限
             editUserEntity.setDesc(personalInfoPersonalInfo.getText().toString());//个人简介
             return editUserEntity;
@@ -625,7 +625,7 @@ public class PersonalInfoFragment extends BaseBackFragment {
             editUserEntity.setMobile(personalInfoPhone.getText().toString());//手机
             editUserEntity.setEmail(personalInfoEmail.getText().toString());//邮箱
             editUserEntity.setNickname(personalInfoNickname.getText().toString());//昵称
-            editUserEntity.setSchool(personalInfoCompany.getText().toString());//学校
+            editUserEntity.setOrganization(personalInfoCompany.getText().toString());//学校
             editUserEntity.setLogo("");
             editUserEntity.setSpecialities(currentSpecialities);
             editUserEntity.setQualifications(currentQualifications);

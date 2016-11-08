@@ -30,6 +30,7 @@
                 android:text="目前AR技术的整体发展情况以及未来演讲方向?"
                 android:textColor="@color/line"
                 android:layout_marginTop="@dimen/spacing"
+                android:maxLines="3"
                 android:textSize="@dimen/text_size_12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -74,5 +75,14 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spacing"
+            android:background="@drawable/line_grey" />
+    </LinearLayout>
 </LinearLayout>

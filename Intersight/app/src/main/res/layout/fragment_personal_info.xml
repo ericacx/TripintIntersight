@@ -231,47 +231,47 @@
 
                 </RelativeLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/spacing_pad04"
-                    android:layout_marginBottom="@dimen/spacing_pad04"
-                    android:background="@color/line" />
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:layout_marginTop="@dimen/spacing_pad04"-->
+                    <!--android:layout_marginBottom="@dimen/spacing_pad04"-->
+                    <!--android:background="@color/line" />-->
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_5_80"
-                    >
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="@dimen/height_5_80"-->
+                    <!--&gt;-->
 
-                    <TextView
-                        android:id="@+id/personal_info_textview_company_logo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:text="公司logo"
-                        android:textSize="@dimen/text_size_14"
-                        android:textColor="@color/white" />
+                    <!--<TextView-->
+                        <!--android:id="@+id/personal_info_textview_company_logo"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentLeft="true"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:text="公司logo"-->
+                        <!--android:textSize="@dimen/text_size_14"-->
+                        <!--android:textColor="@color/white" />-->
 
 
-                    <ImageView
-                        android:id="@+id/personal_info_next"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@mipmap/iconfont_nextarticle" />
+                    <!--<ImageView-->
+                        <!--android:id="@+id/personal_info_next"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:src="@mipmap/iconfont_nextarticle" />-->
 
-                    <com.tripint.intersight.widget.image.CircleImageView
-                        android:id="@+id/personal_info_company_logo"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/spacing"
-                        android:layout_toLeftOf="@id/personal_info_next"
-                        android:src="@mipmap/iconfont_mima" />
+                    <!--<com.tripint.intersight.widget.image.CircleImageView-->
+                        <!--android:id="@+id/personal_info_company_logo"-->
+                        <!--android:layout_width="30dp"-->
+                        <!--android:layout_height="30dp"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:layout_marginRight="@dimen/spacing"-->
+                        <!--android:layout_toLeftOf="@id/personal_info_next"-->
+                        <!--android:src="@mipmap/iconfont_mima" />-->
 
-                </RelativeLayout>
+                <!--</RelativeLayout>-->
 
                 <View
                     android:layout_width="match_parent"
@@ -308,7 +308,6 @@
 
                     <TextView
                         android:id="@+id/personal_info_trade"
-                        android:text="电子通讯硬件"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_14"
                         android:layout_width="wrap_content"
@@ -355,7 +354,6 @@
 
                     <TextView
                         android:id="@+id/personal_info_position"
-                        android:text="市场管理"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_14"
                         android:layout_width="wrap_content"
@@ -409,7 +407,6 @@
                             android:singleLine="true"
                             android:textColor="@color/white"
                             android:hint="请填写"
-                            android:text="市场总监"
                             android:textColorHint="@color/line" />
 
                     </RelativeLayout>
@@ -448,7 +445,6 @@
 
                         <TextView
                             android:id="@+id/personal_info_experience"
-                            android:text="3-5年"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_size_14"
                             android:layout_width="wrap_content"

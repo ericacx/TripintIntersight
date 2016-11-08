@@ -36,6 +36,7 @@ import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.discuss.CreateDiscussResponseEntity;
 import com.tripint.intersight.entity.discuss.CreateInterviewResponseEntity;
+import com.tripint.intersight.entity.discuss.DiscussEntity;
 import com.tripint.intersight.entity.mine.AskAnswerEntity;
 import com.tripint.intersight.entity.payment.AliPayResponseEntity;
 import com.tripint.intersight.entity.payment.WXPayResponseEntity;
@@ -44,6 +45,8 @@ import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.fragment.create.CreateDiscussFragment;
 import com.tripint.intersight.fragment.create.CreateInterviewFragment;
+import com.tripint.intersight.fragment.home.AskAnswerDetailFragment;
+import com.tripint.intersight.fragment.home.AskReplayDetailFragment;
 import com.tripint.intersight.helper.AliPayUtils;
 import com.tripint.intersight.helper.PayUtils;
 import com.tripint.intersight.model.MineMultipleItemModel;
@@ -254,9 +257,13 @@ public class HisAskAnswerFragment extends BaseBackFragment implements BaseQuickA
 
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String content = null;
-//                DiscussEntiry entity = (DiscussEntiry) adapter.getItem(position);
-//                EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity)));
+                MineMultipleItemModel model = (MineMultipleItemModel) adapter.getItem(position);
+                DiscussEntity result = new DiscussEntity(model.getAskAnswerEntity().getId());
+                if (model.getAskAnswerEntity().getStatus().equals("已回答")){
+                    EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(result)));
+                } else if (model.getAskAnswerEntity().getStatus().equals("待回答")){
+                    EventBus.getDefault().post(new StartFragmentEvent(AskReplayDetailFragment.newInstance(result)));
+                }
             }
         });
         mAdapter.setLoadingView(getLoadMoreView());

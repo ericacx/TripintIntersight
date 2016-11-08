@@ -1,7 +1,9 @@
 package com.tripint.intersight.fragment.mine;
 
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -33,6 +35,7 @@ import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
 import com.tripint.intersight.common.widget.dialogplus.ListHolder;
+import com.tripint.intersight.common.widget.dialogplus.OnClickListener;
 import com.tripint.intersight.common.widget.dialogplus.ViewHolder;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemChildClickListener;
@@ -145,6 +148,8 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
     private String currentAction = "";
     private String discucssPay;
     private String interviewPay;
+    private TextView email;
+    private EditText input;
     private ArticleCommentEntity currentSubCommentEntity; //创建子摩评论
 
     private PageDataSubscriberOnNext<CommentResultEntity> putSubscriber;
@@ -179,8 +184,14 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_interview_detail, container, false);
         ButterKnife.bind(this, view);
+        initToolbar();
         httpRequestData();
         return view;
+    }
+
+    private void initToolbar() {
+        initToolbarNav(toolbar);
+        initToolbarMenu(toolbar);
     }
 
     private void httpRequestData() {
@@ -272,8 +283,6 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
             myInterviewTitle.setText(detailEntity.getInterview().getUserAbility());//职位
 
         }
-        initToolbarNav(toolbar);
-        initToolbarMenu(toolbar);
 
         inithttpPutRequestData();
     }
@@ -323,10 +332,10 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
                 break;
             case R.id.my_interview_detail_twiceInterview://再次约访
 //                initInterviewDialog();
-                EventBus.getDefault().post(new StartFragmentEvent(CreateInterviewFragment.newInstance(toUid,interviewPay)));
+                EventBus.getDefault().post(new StartFragmentEvent(CreateInterviewFragment.newInstance(toUid, interviewPay)));
                 break;
             case R.id.my_interview_detail_ask://向他提问
-                EventBus.getDefault().post(new StartFragmentEvent(CreateDiscussFragment.newInstance(toUid,discucssPay)));
+                EventBus.getDefault().post(new StartFragmentEvent(CreateDiscussFragment.newInstance(toUid, discucssPay)));
                 break;
         }
     }
@@ -335,10 +344,35 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
      * 联系客服
      */
     private void initKefuDialog() {
-//        dialogPlus = DialogPlusUtils.Builder(mActivity)
-//                .setHolder()
-//                .setTitleName("联系客服")
-//                .
+        dialogPlus = DialogPlusUtils.Builder(mActivity)
+                .setHolder(DialogPlusUtils.VIEW, new ViewHolder(R.layout.kefu_layout))
+                .setTitleName("联系客服")
+                .setIsHeader(true)
+                .setIsFooter(true)
+                .setCloseName("取消")
+                .setOnCloseListener(new DialogPlusUtils.OnCloseListener() {
+                    @Override
+                    public void closeListener(DialogPlus dialog, View view) {
+                        dialogPlus.dismiss();
+                    }
+                })
+                .setConfirmName("确定")
+                .setOnConfirmListener(new DialogPlusUtils.OnConfirmListener() {
+                    @Override
+                    public void confirmListener(DialogPlus dialog, View view) {
+
+//                        email = ((TextView) view.findViewById(R.id.kefu_email));
+//                        input = ((EditText) view.findViewById(R.id.kefu_question_edit));
+//
+//                        Uri uri = Uri.parse("332045512@qq.com");
+//                        Intent intent = new Intent(Intent.ACTION_SENDTO,uri);
+//                        startActivity(Intent.createChooser(intent,"选择邮箱客户端"));
+
+                        dialogPlus.dismiss();
+                    }
+                })
+                .setGravity(Gravity.CENTER)
+                .showCompleteDialog();
     }
 
     /**
@@ -537,7 +571,6 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
             }
         }
     };
-
 
 
     private void inithttpPutRequestData() {

@@ -10,6 +10,8 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DiscussAskDetailEntity implements Serializable {
     private int id;
+    private int actionCode;//1我的回答,2我的提问
+    private int statusCode;//1待回答 2:已回答
     private int answerUserId;
     private String answerUserAvatar;
     private String answerUserNickname;
@@ -48,6 +50,22 @@ public class DiscussAskDetailEntity implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getActionCode() {
+        return actionCode;
+    }
+
+    public void setActionCode(int actionCode) {
+        this.actionCode = actionCode;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
     }
 
     public int getAnswerUserId() {

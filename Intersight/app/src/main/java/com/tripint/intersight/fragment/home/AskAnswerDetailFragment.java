@@ -1,11 +1,19 @@
 package com.tripint.intersight.fragment.home;
 
 
+import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +24,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.pili.pldroid.player.AVOptions;
+import com.pili.pldroid.player.PLMediaPlayer;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.AskAnswerPageDetailCommentAdapter;
 import com.tripint.intersight.adapter.PaymentSelectAdapter;
 import com.tripint.intersight.adapter.listener.RecyclerViewItemOnClick;
+import com.tripint.intersight.app.InterSightApp;
 import com.tripint.intersight.common.utils.DialogPlusUtils;
 import com.tripint.intersight.common.utils.KeyboardUtils;
+import com.tripint.intersight.common.utils.NetworkUtils;
 import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
@@ -49,6 +61,7 @@ import com.tripint.intersight.fragment.personal.PersonalMainPageFragment;
 import com.tripint.intersight.helper.AliPayUtils;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.helper.PayUtils;
+import com.tripint.intersight.helper.ProgressDialogUtils;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.service.CommonDataHttpRequest;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
@@ -62,6 +75,7 @@ import com.tripint.intersight.widget.tabbar.BottomTabBarItem;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +88,7 @@ import butterknife.OnClick;
 public class AskAnswerDetailFragment extends BaseBackFragment {
 
     public static final String ARG_DISCUSS_ID = "arg_discuss_id";
-
+    private static final int MESSAGE_ID_RECONNECTING = 0x01;
     @Bind(R.id.user_comment_bar)
     LinearLayout userCommentBar;
     @Bind(R.id.recycler_view_ask_answer_comment)
@@ -142,6 +156,11 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
     private String currentAction = "";
     private int isPayment;
     private String listenPayment;
+    private String audioUrl;
+    private PLMediaPlayer mMediaPlayer;
+    private AVOptions mAVOptions;
+    private boolean mIsActivityPaused = true;
+
     private ArticleCommentEntity currentSubCommentEntity; //创建子摩评论
 
     public static AskAnswerDetailFragment newInstance(DiscussEntity entiry) {
@@ -152,6 +171,112 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+    private PLMediaPlayer.OnPreparedListener mOnPreparedListener = new PLMediaPlayer.OnPreparedListener() {
+        @Override
+        public void onPrepared(PLMediaPlayer mp) {
+            Log.i(TAG, "On Prepared !");
+//            btnQaRecordVoicePlay.setEnabled(true);
+        }
+    };
+    private PLMediaPlayer.OnInfoListener mOnInfoListener = new PLMediaPlayer.OnInfoListener() {
+        @Override
+        public boolean onInfo(PLMediaPlayer mp, int what, int extra) {
+            Log.i(TAG, "OnInfo, what = " + what + ", extra = " + extra);
+            switch (what) {
+                case PLMediaPlayer.MEDIA_INFO_BUFFERING_START:
+                    ProgressDialogUtils.getInstants(mActivity).show();
+                    break;
+                case PLMediaPlayer.MEDIA_INFO_BUFFERING_END:
+                case PLMediaPlayer.MEDIA_INFO_AUDIO_RENDERING_START:
+                    ProgressDialogUtils.getInstants(mActivity).dismiss();
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        }
+    };
+    private PLMediaPlayer.OnBufferingUpdateListener mOnBufferingUpdateListener = new PLMediaPlayer.OnBufferingUpdateListener() {
+        @Override
+        public void onBufferingUpdate(PLMediaPlayer mp, int percent) {
+            Log.d(TAG, "onBufferingUpdate: " + percent + "%");
+        }
+    };
+    /**
+     * Listen the event of playing complete
+     * For playing local file, it's called when reading the file EOF
+     * For playing network stream, it's called when the buffered bytes played over
+     * <p>
+     * If setLooping(true) is called, the player will restart automatically
+     * And ｀onCompletion｀ will not be called
+     */
+    private PLMediaPlayer.OnCompletionListener mOnCompletionListener = new PLMediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(PLMediaPlayer mp) {
+            Log.d(TAG, "Play Completed !");
+        }
+    };
+    private PLMediaPlayer.OnErrorListener mOnErrorListener = new PLMediaPlayer.OnErrorListener() {
+        @Override
+        public boolean onError(PLMediaPlayer mp, int errorCode) {
+            boolean isNeedReconnect = false;
+            Log.e(TAG, "Error happened, errorCode = " + errorCode);
+            switch (errorCode) {
+                case PLMediaPlayer.ERROR_CODE_INVALID_URI:
+                    showToastTips("Invalid URL !");
+                    break;
+                case PLMediaPlayer.ERROR_CODE_404_NOT_FOUND:
+                    showToastTips("404 resource not found !");
+                    break;
+                case PLMediaPlayer.ERROR_CODE_CONNECTION_REFUSED:
+                    showToastTips("Connection refused !");
+                    break;
+                case PLMediaPlayer.ERROR_CODE_CONNECTION_TIMEOUT:
+                    showToastTips("Connection timeout !");
+                    isNeedReconnect = true;
+                    break;
+                case PLMediaPlayer.ERROR_CODE_EMPTY_PLAYLIST:
+                    showToastTips("Empty playlist !");
+                    break;
+                case PLMediaPlayer.ERROR_CODE_STREAM_DISCONNECTED:
+                    showToastTips("Stream disconnected !");
+                    isNeedReconnect = true;
+                    break;
+                case PLMediaPlayer.ERROR_CODE_IO_ERROR:
+                    showToastTips("Network IO Error !");
+                    isNeedReconnect = true;
+                    break;
+                case PLMediaPlayer.ERROR_CODE_UNAUTHORIZED:
+                    showToastTips("Unauthorized Error !");
+                    break;
+                case PLMediaPlayer.ERROR_CODE_PREPARE_TIMEOUT:
+                    showToastTips("Prepare timeout !");
+                    isNeedReconnect = true;
+                    break;
+                case PLMediaPlayer.ERROR_CODE_READ_FRAME_TIMEOUT:
+                    showToastTips("Read frame timeout !");
+                    isNeedReconnect = true;
+                    break;
+                case PLMediaPlayer.MEDIA_ERROR_UNKNOWN:
+                    break;
+                default:
+                    showToastTips("unknown error !");
+                    break;
+            }
+            // Todo pls handle the error status here, reconnect or call finish()
+            releaseAudioPlayer();
+            if (isNeedReconnect) {
+                sendReconnectMessage();
+            } else {
+
+            }
+            // Return true means the error has been handled
+            // If return false, then `onCompletion` will be called
+            return true;
+        }
+    };
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -186,6 +311,15 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
         //问答标题与作者
         if (data.getDetail() != null) {
             DiscussAskDetailEntity entity = data.getDetail();
+
+            askUserId = entity.getAuthorUserId();
+            answerUserId = entity.getAnswerUserId();
+            toUid = entity.getAuthorUserId();
+            audioUrl = entity.getAudioUrl();
+            isPayment = entity.getIsPayment();
+            listenPayment = entity.getListenPayment();
+            Log.e("audioUrl", audioUrl);
+
             containerChatReply.setVisibility(View.VISIBLE);
             Glide.with(mActivity).load(entity.getAuthorUserAvatar())
                     .crossFade()
@@ -196,10 +330,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             special += entity.getAuthorUserCompany() + "  ";
             special += entity.getAuthorUserAbility();
 
-            isPayment = entity.getIsPayment();
-            listenPayment = entity.getListenPayment();
 
-            toUid = entity.getAuthorUserId();
             textViewItemAskSpecialist.setText(special);
             containerChatAuthor.setVisibility(View.VISIBLE);
             textViewItemAskTitle.setText(entity.getContent());
@@ -210,8 +341,6 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             specialAnswer += entity.getAnswerUserCompany() + "  ";
             specialAnswer += entity.getAnswerUserAbility();
 
-            askUserId = entity.getAuthorUserId();
-            answerUserId = entity.getAnswerUserId();
             textViewItemAnswerSpecialist.setText(specialAnswer);
 
             textViewItemAnswerTitle.setText(entity.getAudioTime() + "s");
@@ -379,7 +508,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
     }
 
-    @OnClick({R.id.text_view_comment_submit, R.id.container_voice_message,R.id.image_ask_profile, R.id.image_answer_profile})
+    @OnClick({R.id.text_view_comment_submit, R.id.container_voice_message, R.id.image_ask_profile, R.id.image_answer_profile})
     public void onClick(View view) {
         switch (view.getId()) {
 
@@ -439,7 +568,10 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                         }
                     });
                 } else if (isPayment == 1001) {
-
+                    if (audioUrl != null) {
+                        prepareAudioPlayer(audioUrl);
+                        mMediaPlayer.start();
+                    }
                 }
 
 //                dialogPlus.show();
@@ -516,6 +648,12 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
         /* Do something */
         if (event.isResult()) {
             CommonUtils.showToast("开始听吧");
+
+            httpRequestData();
+
+            prepareAudioPlayer(audioUrl);
+            mMediaPlayer.start();
+
         }
     }
 
@@ -529,8 +667,56 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
         ButterKnife.unbind(this);
+        releaseAudioPlayer();
     }
 
+    private void prepareAudioPlayer(String audioPath) {
+        if (mMediaPlayer == null) {
+            mAVOptions = new AVOptions();
+            mMediaPlayer = new PLMediaPlayer(InterSightApp.getApp(), mAVOptions);
+            mMediaPlayer.setOnPreparedListener(mOnPreparedListener);
+            mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
+            mMediaPlayer.setOnErrorListener(mOnErrorListener);
+            mMediaPlayer.setOnInfoListener(mOnInfoListener);
+            mMediaPlayer.setOnBufferingUpdateListener(mOnBufferingUpdateListener);
+            mMediaPlayer.setWakeMode(InterSightApp.getApp(), PowerManager.PARTIAL_WAKE_LOCK);
+        }
+        try {
+            mMediaPlayer.setDataSource(audioPath);
+            mMediaPlayer.prepareAsync();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void releaseAudioPlayer() {
+        prepareAudioPlayer(audioUrl);
+        mMediaPlayer.stop();
+        mMediaPlayer.release();
+        mMediaPlayer = null;
+    }
+
+
+    private void sendReconnectMessage() {
+        showToastTips("正在重连...");
+        ProgressDialogUtils.getInstants(mActivity).show();
+    }
+
+
+    private void showToastTips(final String tips) {
+        if (mIsActivityPaused) {
+            return;
+        }
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                CommonUtils.showToast(tips);
+            }
+        });
+    }
 }

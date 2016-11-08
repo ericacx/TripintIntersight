@@ -13,7 +13,6 @@
 
         <com.tripint.intersight.widget.image.CircleImageView
             android:id="@+id/ask_focus_iv_avatar"
-            android:src="@mipmap/iconfont_mima"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/height_5_80"
             />
@@ -60,16 +59,17 @@
             </LinearLayout>
             <TextView
                 android:id="@+id/ask_focus_tv_header"
-                android:textColor="@color/line"
+                android:textColor="@color/white"
                 android:singleLine="true"
-                android:layout_marginTop="@dimen/spacing"
                 android:layout_marginLeft="@dimen/spacing"
-                android:textSize="@dimen/text_size_12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/text_size_15"
+                android:text=""
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_4_80" />
 
             <RelativeLayout
-                android:layout_marginTop="@dimen/spacing_02"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 

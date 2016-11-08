@@ -10,6 +10,7 @@ import com.tripint.intersight.common.widget.recyclerviewadapter.BaseViewHolder;
 import com.tripint.intersight.entity.SearchArticleEntity;
 import com.tripint.intersight.entity.discuss.InterviewEntity;
 import com.tripint.intersight.model.MultipleSearchItemModel;
+import com.tripint.intersight.widget.image.CircleImageView;
 import com.tripint.intersight.widget.image.transform.GlideCircleTransform;
 
 import java.util.List;
@@ -52,7 +53,7 @@ public class SearchResultMultipleAdapter extends BaseMultiItemQuickAdapter<Multi
                         .crossFade()
                         .placeholder(R.mipmap.ic_avatar)
                         .transform(new GlideCircleTransform(mContext))
-                        .into((ImageView) helper.getView(R.id.image_search_person_profile));
+                        .into((CircleImageView) helper.getView(R.id.image_search_person_profile));
 
                 break;
             case MultipleSearchItemModel.ARTICLE:
