@@ -255,7 +255,8 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
 
     @Override
     public void onRefresh() {
-        mAdapter.setNewData(data.getLists());
+        mCurrentCounter = 0;
+        DiscussDataHttpRequest.getInstance(mActivity).getDiscusses(new ProgressSubscriber(subscriber, mActivity), mCurrentTab, 1, PAGE_SIZE);
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.removeAllFooterView();
         mCurrentCounter = PAGE_SIZE;

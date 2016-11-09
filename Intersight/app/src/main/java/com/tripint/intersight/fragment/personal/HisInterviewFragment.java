@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -49,6 +50,7 @@ import com.tripint.intersight.helper.PayUtils;
 import com.tripint.intersight.model.MineMultipleItemModel;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.service.ExpertDataHttpRequest;
+import com.tripint.intersight.service.HttpRequest;
 import com.tripint.intersight.service.PaymentDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
@@ -86,16 +88,13 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
     SwipeRefreshLayout swipeRefreshLayout;
 
     private final int PAGE_SIZE = 10;
-
     private int TOTAL_COUNTER = 0;
-
     private int mCurrentCounter = 0;
     private String discussPay;
     private String interviewPay;
     private int uid = 0;
     private String name = null;
 
-    List<MineMultipleItemModel> models = new ArrayList<>();
     private MineCommonMultipleAdapter mAdapter;
 
     private PageDataSubscriberOnNext<BasePageableResponse<InterviewEntity>> subscriber;
@@ -147,6 +146,8 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
         View view = inflater.inflate(R.layout.fragment_his_interview, container, false);
         ButterKnife.bind(this, view);
         initToolbar();
+        initView(null);
+        initAdapter();
         httpRequestData();
         return view;
     }
@@ -199,8 +200,14 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
             public void onNext(BasePageableResponse<InterviewEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
-                initView(null);
-                initAdapter();
+                List<MineMultipleItemModel> models = getMineMultipleItemModel(data.getLists());
+                if (mCurrentCounter == 0) {
+                    mAdapter.setNewData(models);
+                } else {
+                    mAdapter.addData(models);
+                }
+                TOTAL_COUNTER = data.getTotal();
+                mCurrentCounter = mAdapter.getData().size();
             }
         };
 
@@ -210,8 +217,7 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
 
     private void initAdapter() {
 
-        initData();
-        mAdapter = new MineCommonMultipleAdapter(models);
+        mAdapter = new MineCommonMultipleAdapter(getMineMultipleItemModel(data.getLists()));
         mAdapter.openLoadAnimation();
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.setOnLoadMoreListener(this);
@@ -225,6 +231,19 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
         });
         mAdapter.setLoadingView(getLoadMoreView());
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+
+    @NonNull
+    private List<MineMultipleItemModel> getMineMultipleItemModel(List<InterviewEntity> entiries) {
+        List<MineMultipleItemModel> models = new ArrayList<>();
+        int type = MineMultipleItemModel.HIS_INTERVIEW;
+        if (entiries == null) return models;
+
+        for (InterviewEntity entiry : entiries) {
+            models.add(new MineMultipleItemModel(type, entiry));
+        }
+        return models;
     }
 
     @Override
@@ -242,8 +261,8 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
 
     @Override
     public void onRefresh() {
-        initData();
-        mAdapter.setNewData(models);
+        mCurrentCounter = 0;
+        ExpertDataHttpRequest.getInstance(mActivity).getHisInterview(new ProgressSubscriber(subscriber, mActivity),uid,1);
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.removeAllFooterView();
         mCurrentCounter = PAGE_SIZE;
@@ -258,26 +277,20 @@ public class HisInterviewFragment extends BaseBackFragment implements BaseQuickA
                 if (mCurrentCounter >= TOTAL_COUNTER) {
                     mAdapter.loadComplete();
                 } else {
-                    initData();
-                    mAdapter.addData(models);
-                    mCurrentCounter = mAdapter.getData().size();
+                    ExpertDataHttpRequest.getInstance(mActivity).getHisInterview(new ProgressSubscriber(subscriber, mActivity),uid,getCurrentPage());
                 }
             }
         }, 200);
+    }
+
+    public int getCurrentPage() {
+        return mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE + 1;
     }
 
     private View getLoadMoreView() {
         final View customLoading = LayoutInflater.from(mActivity).inflate(R.layout.common_loading, (ViewGroup) mRecyclerView.getParent(), false);
         return customLoading;
     }
-
-    private void initData(){
-        int type = MineMultipleItemModel.HIS_INTERVIEW;
-        for (InterviewEntity entiry : data.getLists()) {
-            models.add(new MineMultipleItemModel(type, entiry));
-        }
-    }
-
 
     @OnClick({R.id.his_interview_ask, R.id.his_interview_interview})
     public void onClick(View view) {

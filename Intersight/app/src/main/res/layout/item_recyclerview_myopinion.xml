@@ -26,7 +26,6 @@
                 <ImageView
                     android:id="@+id/opinion_imageView_owner_profile"
                     android:layout_gravity="center_vertical"
-                    android:src="@mipmap/iconfont_mingxi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <RelativeLayout
@@ -35,21 +34,18 @@
                     android:layout_height="wrap_content">
                     <TextView
                         android:id="@+id/opinion_textView_owner_name"
-                        android:text="高高"
                         android:textColor="@color/line"
                         android:layout_marginBottom="@dimen/spacing"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
                         android:id="@+id/opinion_textView_owner_job_title"
-                        android:text="销售总监"
                         android:textColor="@color/line"
                         android:layout_below="@id/opinion_textView_owner_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
                         android:id="@+id/opinion_textView_owner_job_company"
-                        android:text="巨人网络"
                         android:textColor="@color/line"
                         android:layout_marginLeft="@dimen/spacing"
                         android:layout_below="@id/opinion_textView_owner_name"
@@ -61,7 +57,6 @@
 
             <TextView
                 android:id="@+id/opinion_textView_mine_title_main"
-                android:text="市场一片顶礼膜拜,锂电池是否是跨越新能源的关键?"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_15"
                 android:layout_width="wrap_content"
@@ -69,7 +64,6 @@
 
             <TextView
                 android:id="@+id/opinion_textView_mine_sub_title"
-                android:text="近段时间,国家对二新能源车的扶持政策日益增多,主要包括"
                 android:textColor="@color/line"
                 android:singleLine="true"
                 android:layout_marginTop="@dimen/spacing"
@@ -94,7 +88,6 @@
                 <TextView
                     android:id="@+id/opinion_textView_item_focusnum"
                     android:layout_toLeftOf="@id/opinion_textView_item_focus"
-                    android:text="5"
                     android:textSize="@dimen/text_size_12"
                     android:textColor="@color/line"
                     android:layout_width="wrap_content"
@@ -113,7 +106,6 @@
                 <TextView
                     android:id="@+id/opinion_textView_item_talknum"
                     android:layout_toLeftOf="@id/opinion_textView_item_talk"
-                    android:text="5"
                     android:textSize="@dimen/text_size_12"
                     android:textColor="@color/line"
                     android:layout_width="wrap_content"
@@ -132,14 +124,12 @@
                 <TextView
                     android:id="@+id/opinion_textView_item_agreenum"
                     android:layout_toLeftOf="@id/opinion_textView_item_agree"
-                    android:text="22"
                     android:textSize="@dimen/text_size_12"
                     android:textColor="@color/line"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/opinion_textView_item_trade"
-                    android:text="电子 | 通信 | 硬件"
                     android:textColor="@color/line"
                     android:textSize="@dimen/text_size_12"
                     android:layout_toLeftOf="@id/opinion_textView_item_agreenum"
@@ -158,5 +148,9 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
-
+    <View
+        android:layout_below="@id/accountDetailItemTvStatus"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/line_grey"/>
 </LinearLayout>

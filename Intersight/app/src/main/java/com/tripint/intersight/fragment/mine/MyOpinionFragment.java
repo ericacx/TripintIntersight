@@ -2,6 +2,7 @@ package com.tripint.intersight.fragment.mine;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -53,19 +54,11 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
     SwipeRefreshLayout swipeRefreshLayout;
 
     private final int PAGE_SIZE = 10;
-
     private int TOTAL_COUNTER = 0;
-
     private int mCurrentCounter = 0;
-
-    List<MineMultipleItemModel> models = new ArrayList<>();
-
     private MineCommonMultipleAdapter mAdapter;
-
     private PageDataSubscriberOnNext<BasePageableResponse<MineFollowPointEntity>> subscriber;
-
     private BasePageableResponse<MineFollowPointEntity> data = new BasePageableResponse<MineFollowPointEntity>();
-
     private int mCurrentTab;
 
     public static MyOpinionFragment newInstance() {
@@ -84,8 +77,10 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_opinion, container, false);
         ButterKnife.bind(this, view);
-        setTab(0);
         initToolbar();
+        initView(null);
+        initAdapter();
+        setTab(0);
         return view;
     }
 
@@ -94,11 +89,6 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
         toolbar.setTitle("我的观点");
     }
 
-    private void init(){
-        initData();
-        initView(null);
-        initAdapter();
-    }
 
     private void httpRequestData(int type) {
         subscriber = new PageDataSubscriberOnNext<BasePageableResponse<MineFollowPointEntity>>() {
@@ -106,7 +96,7 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
             public void onNext(BasePageableResponse<MineFollowPointEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
-                init();
+                List<MineMultipleItemModel> models = getMineMultipleItemModel(data.getLists());
                 if (mCurrentCounter == 0) {
                     mAdapter.setNewData(models);
                 } else {
@@ -122,6 +112,17 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
     }
 
 
+    @NonNull
+    private List<MineMultipleItemModel> getMineMultipleItemModel(List<MineFollowPointEntity> entiries) {
+        List<MineMultipleItemModel> models = new ArrayList<>();
+        int type = mCurrentTab == 0 ? MineMultipleItemModel.MY_OPTION : MineMultipleItemModel.MY_OPTION_FOLLOW;
+        if (entiries == null) return models;
+
+        for (MineFollowPointEntity entiry : entiries) {
+            models.add(new MineMultipleItemModel(type, entiry));
+        }
+        return models;
+    }
     @OnClick({R.id.btn_my_common_header_left, R.id.btn_my_common_header_right})
     public void onTabBarClick(View view) {
         switch (view.getId()) {
@@ -152,7 +153,7 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
     }
 
     private void initAdapter() {
-        mAdapter = new MineCommonMultipleAdapter(models);
+        mAdapter = new MineCommonMultipleAdapter(getMineMultipleItemModel(data.getLists()));
         mAdapter.openLoadAnimation();
         mAdapter.setOnLoadMoreListener(this);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
@@ -186,12 +187,10 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
     public void onRefresh() {
         mCurrentCounter = 0;
         MineDataHttpRequest.getInstance(mActivity).getMyFollowPoint(new ProgressSubscriber(subscriber, mActivity), mCurrentTab, 1);
-
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.removeAllFooterView();
-
+        mCurrentCounter = PAGE_SIZE;
         swipeRefreshLayout.setRefreshing(false);
-
     }
 
     @Override
@@ -215,12 +214,5 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
     private View getLoadMoreView() {
         final View customLoading = LayoutInflater.from(mActivity).inflate(R.layout.common_loading, (ViewGroup) mRecyclerView.getParent(), false);
         return customLoading;
-    }
-
-    private void initData() {
-        int type = mCurrentTab == 0 ? MineMultipleItemModel.MY_OPTION : MineMultipleItemModel.MY_OPTION_FOLLOW;
-        for (MineFollowPointEntity entiry : data.getLists()) {
-            models.add(new MineMultipleItemModel(type, entiry));
-        }
     }
 }

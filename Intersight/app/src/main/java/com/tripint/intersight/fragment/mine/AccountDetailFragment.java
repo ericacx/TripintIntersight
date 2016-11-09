@@ -77,6 +77,8 @@ public class AccountDetailFragment extends BaseBackFragment implements BaseQuick
         View view = inflater.inflate(R.layout.fragment_account_detail, container, false);
         ButterKnife.bind(this, view);
         initToolbar();
+        initView(null);
+        initAdapter();
         httpRequestData();//请求数据
         return view;
     }
@@ -91,18 +93,14 @@ public class AccountDetailFragment extends BaseBackFragment implements BaseQuick
                 //接口请求成功后处理
                 data = entity;
                 List<MineMultipleItemModel> models = getMultipleItemModels(data.getLists());
-                initView(null);
-                initAdapter();
+
                 if (mCurrentCounter == 0) {
                     mAdapter.setNewData(models);
                 } else {
                     mAdapter.addData(models);
-                    Log.e("models", String.valueOf(models.size()));
                 }
                 TOTAL_COUNTER = data.getTotal();
-                Log.e("total",String.valueOf(TOTAL_COUNTER));
                 mCurrentCounter = mAdapter.getData().size();
-                Log.e("counter",String.valueOf(mCurrentCounter));
             }
         };
 
@@ -189,8 +187,6 @@ public class AccountDetailFragment extends BaseBackFragment implements BaseQuick
         for (AccountDetailEntity entiry : entiries) {
             models.add(new MineMultipleItemModel(type, entiry));
         }
-        Log.e("models",String.valueOf(models.size()));
-
         return models;
 
     }

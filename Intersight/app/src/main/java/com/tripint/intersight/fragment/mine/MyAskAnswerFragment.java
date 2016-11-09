@@ -2,6 +2,7 @@ package com.tripint.intersight.fragment.mine;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -67,7 +68,6 @@ public class MyAskAnswerFragment extends BaseBackFragment implements BaseQuickAd
 
     private int mCurrentCounter = 0;
 
-    List<MineMultipleItemModel> models = new ArrayList<>();
     private MineCommonMultipleAdapter mAdapter;
 
     private PageDataSubscriberOnNext<BasePageableResponse<AskAnswerEntity>> subscriber;
@@ -92,6 +92,8 @@ public class MyAskAnswerFragment extends BaseBackFragment implements BaseQuickAd
         View view = inflater.inflate(R.layout.fragment_my_ask_answer, container, false);
         ButterKnife.bind(this, view);
         initToolbar();
+        initView(null);
+        initAdapter();
         setTab(0);
         return view;
     }
@@ -102,11 +104,8 @@ public class MyAskAnswerFragment extends BaseBackFragment implements BaseQuickAd
             public void onNext(BasePageableResponse<AskAnswerEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
-                initData();
-                initView(null);
-                initAdapter();
+                List<MineMultipleItemModel> models = getMultipleItemModels(data.getLists());
                 if (mCurrentCounter == 0) {
-//                ToastUtil.showToast(mActivity, entity.getAbilityName().toString() +"");
                     mAdapter.setNewData(models);
                 } else {
                     mAdapter.addData(models);
@@ -155,9 +154,8 @@ public class MyAskAnswerFragment extends BaseBackFragment implements BaseQuickAd
 
     private void initAdapter() {
 
-        mAdapter = new MineCommonMultipleAdapter(models);
+        mAdapter = new MineCommonMultipleAdapter(getMultipleItemModels(data.getLists()));
         mAdapter.openLoadAnimation();
-
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.setOnLoadMoreListener(this);
 
@@ -194,7 +192,8 @@ public class MyAskAnswerFragment extends BaseBackFragment implements BaseQuickAd
 
     @Override
     public void onRefresh() {
-        mAdapter.setNewData(models);
+        mCurrentCounter = 0;
+        MineDataHttpRequest.getInstance(mActivity).getMyAskAnswer(new ProgressSubscriber(subscriber, mActivity), mCurrentTab, 1,PAGE_SIZE);
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.removeAllFooterView();
         mCurrentCounter = PAGE_SIZE;
@@ -225,10 +224,16 @@ public class MyAskAnswerFragment extends BaseBackFragment implements BaseQuickAd
         return customLoading;
     }
 
-    private void initData(){
+
+    @NonNull
+    private List<MineMultipleItemModel> getMultipleItemModels(List<AskAnswerEntity> entiries) {
+        List<MineMultipleItemModel> models = new ArrayList<>();
         int type = mCurrentTab == 0 ? MY_DISCUSS : MineMultipleItemModel.MY_DISCUSS_FOLLOW;
-        for (AskAnswerEntity entity : data.getLists()) {
-            models.add(new MineMultipleItemModel(type, entity));
+        if (entiries == null) return models;
+
+        for (AskAnswerEntity entiry : entiries) {
+            models.add(new MineMultipleItemModel(type, entiry));
         }
+        return models;
     }
 }

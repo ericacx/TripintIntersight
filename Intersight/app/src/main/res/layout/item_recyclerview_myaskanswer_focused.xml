@@ -13,7 +13,7 @@
 
         <com.tripint.intersight.widget.image.CircleImageView
             android:id="@+id/ask_focus_iv_avatar"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/height_5_80"
             android:layout_height="@dimen/height_5_80"
             />
 
@@ -111,5 +111,9 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
-
+    <View
+        android:layout_below="@id/accountDetailItemTvStatus"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/line_grey"/>
 </LinearLayout>

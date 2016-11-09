@@ -2,6 +2,7 @@ package com.tripint.intersight.fragment.mine.message;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +28,7 @@ import com.tripint.intersight.fragment.home.AskAnswerDetailFragment;
 import com.tripint.intersight.fragment.home.AskReplayDetailFragment;
 import com.tripint.intersight.fragment.mine.MyInterviewDetailFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
+import com.tripint.intersight.service.HttpRequest;
 import com.tripint.intersight.service.MessageDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
@@ -61,9 +63,7 @@ public class NewMessageFragment extends BaseBackFragment implements BaseQuickAda
     SwipeRefreshLayout swipeRefreshLayout;
 
     private final int PAGE_SIZE = 10;
-
     private int TOTAL_COUNTER = 0;
-
     private int mCurrentCounter = 0;
 
     private MineCommonMultipleAdapter mAdapter;
@@ -71,7 +71,6 @@ public class NewMessageFragment extends BaseBackFragment implements BaseQuickAda
     private PageDataSubscriberOnNext<MessageEntity> subscriber;
     private MessageEntity data = new MessageEntity();
     private CommentPraiseEntity commentPraiseEntity = new CommentPraiseEntity();
-    List<MineMultipleItemModel> models = new ArrayList<>();
 
     private int interview;
     private int discuss;
@@ -91,6 +90,8 @@ public class NewMessageFragment extends BaseBackFragment implements BaseQuickAda
         View view = inflater.inflate(R.layout.fragment_new_message, container, false);
         ButterKnife.bind(this, view);
         initToolbar();
+        initAdapter();
+        initView(null);
         httpRequestData();
         initLayout();
         return view;
@@ -127,14 +128,17 @@ public class NewMessageFragment extends BaseBackFragment implements BaseQuickAda
             @Override
             public void onNext(MessageEntity entity) {
                 data = entity;
-                initView(null);
+                List<MineMultipleItemModel> models = getMineMultipleItemModel(data.getLists());
+                if (mCurrentCounter == 0) {
+                    mAdapter.setNewData(models);
+                } else {
+                    mAdapter.addData(models);
+                }
+                TOTAL_COUNTER = models.size();
+                mCurrentCounter = mAdapter.getData().size();
                 interview = data.getInterview();
                 discuss = data.getDiscuss();
                 comment = data.getComment();
-//                models = data.getLists();
-                //适配数据
-                initData();
-                initAdapter();
 
             }
         };
@@ -151,8 +155,7 @@ public class NewMessageFragment extends BaseBackFragment implements BaseQuickAda
      */
     private void initAdapter() {
 
-        initData();
-        mAdapter = new MineCommonMultipleAdapter(models);
+        mAdapter = new MineCommonMultipleAdapter(getMineMultipleItemModel(data.getLists()));
         mAdapter.openLoadAnimation();
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.setOnLoadMoreListener(this);
@@ -209,8 +212,8 @@ public class NewMessageFragment extends BaseBackFragment implements BaseQuickAda
 
     @Override
     public void onRefresh() {
-        initData();
-        mAdapter.setNewData(models);
+        mCurrentCounter = 0 ;
+        MessageDataHttpRequest.getInstance(mActivity).getNewMessage(new ProgressSubscriber(subscriber, mActivity),1);
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.removeAllFooterView();
         mCurrentCounter = PAGE_SIZE;
@@ -225,12 +228,14 @@ public class NewMessageFragment extends BaseBackFragment implements BaseQuickAda
                 if (mCurrentCounter >= TOTAL_COUNTER) {
                     mAdapter.loadComplete();
                 } else {
-                    initData();
-                    mAdapter.addData(models);
-                    mCurrentCounter = mAdapter.getData().size();
+                    MessageDataHttpRequest.getInstance(mActivity).getNewMessage(new ProgressSubscriber(subscriber, mActivity),getCurrentPage());
                 }
             }
         }, 200);
+    }
+
+    public int getCurrentPage() {
+        return mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE + 1;
     }
 
     private View getLoadMoreView() {
@@ -238,11 +243,17 @@ public class NewMessageFragment extends BaseBackFragment implements BaseQuickAda
         return customLoading;
     }
 
-    private void initData(){
-        int type = MineMultipleItemModel.MY_MESSAGE_NEW;
 
-        for (MessageContentEntity entity : data.getLists()) {
-            models.add(new MineMultipleItemModel(type, entity));
+    @NonNull
+    private List<MineMultipleItemModel> getMineMultipleItemModel(List<MessageContentEntity> entiries) {
+        List<MineMultipleItemModel> models = new ArrayList<>();
+        int type = MineMultipleItemModel.MY_MESSAGE_NEW;
+        if (entiries == null) return models;
+
+        for (MessageContentEntity entiry : entiries) {
+            models.add(new MineMultipleItemModel(type, entiry));
         }
+        return models;
     }
+
 }

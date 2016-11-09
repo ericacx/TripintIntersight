@@ -2,6 +2,7 @@ package com.tripint.intersight.fragment.mine.message;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,8 +19,10 @@ import com.tripint.intersight.common.BasePageableResponse;
 import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter;
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.message.CommentPraiseEntity;
+import com.tripint.intersight.entity.message.MessageContentEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
+import com.tripint.intersight.service.HttpRequest;
 import com.tripint.intersight.service.MessageDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
@@ -45,13 +48,8 @@ public class CommentPhraiseFragment extends BaseBackFragment implements BaseQuic
     SwipeRefreshLayout swipeRefreshLayout;
 
     private final int PAGE_SIZE = 10;
-
     private int TOTAL_COUNTER = 0;
-
     private int mCurrentCounter = 0;
-
-    List<MineMultipleItemModel> models = new ArrayList<>();
-
     private MineCommonMultipleAdapter mAdapter;
 
     private BasePageableResponse<CommentPraiseEntity> data = new BasePageableResponse<CommentPraiseEntity>();
@@ -73,6 +71,8 @@ public class CommentPhraiseFragment extends BaseBackFragment implements BaseQuic
         View view = inflater.inflate(R.layout.fragment_comment_agree, container, false);
         ButterKnife.bind(this, view);
         initToolbar();
+        initView(null);
+        initAdapter();
         httpResquestData();
         return view;
     }
@@ -82,8 +82,16 @@ public class CommentPhraiseFragment extends BaseBackFragment implements BaseQuic
             @Override
             public void onNext(BasePageableResponse<CommentPraiseEntity> entity) {
                 data = entity;
-                initView(null);
-                initAdapter();
+                List<MineMultipleItemModel> models = getMineMultipleItemModel(data.getLists());
+                if (mCurrentCounter == 0) {
+//                ToastUtil.showToast(mActivity, entity.getAbilityName().toString() +"");
+                    mAdapter.setNewData(models);
+                } else {
+                    mAdapter.addData(models);
+                }
+                TOTAL_COUNTER = data.getTotal();
+                mCurrentCounter = mAdapter.getData().size();
+
             }
         };
         MessageDataHttpRequest.getInstance(mActivity).getCommentPraiseMessage(new ProgressSubscriber(subscriber, mActivity),1);
@@ -91,9 +99,7 @@ public class CommentPhraiseFragment extends BaseBackFragment implements BaseQuic
 
     private void initAdapter() {
 
-        initData();
-
-        mAdapter = new MineCommonMultipleAdapter(models);
+        mAdapter = new MineCommonMultipleAdapter(getMineMultipleItemModel(data.getLists()));
         mAdapter.openLoadAnimation();
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.setOnLoadMoreListener(this);
@@ -130,8 +136,8 @@ public class CommentPhraiseFragment extends BaseBackFragment implements BaseQuic
 
     @Override
     public void onRefresh() {
-        initData();
-        mAdapter.setNewData(models);
+        mCurrentCounter = 0 ;
+        MessageDataHttpRequest.getInstance(mActivity).getCommentPraiseMessage(new ProgressSubscriber(subscriber, mActivity),1);
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.removeAllFooterView();
         mCurrentCounter = PAGE_SIZE;
@@ -146,9 +152,7 @@ public class CommentPhraiseFragment extends BaseBackFragment implements BaseQuic
                 if (mCurrentCounter >= TOTAL_COUNTER) {
                     mAdapter.loadComplete();
                 } else {
-                    initData();
-                    mAdapter.addData(models);
-                    mCurrentCounter = mAdapter.getData().size();
+                    MessageDataHttpRequest.getInstance(mActivity).getCommentPraiseMessage(new ProgressSubscriber(subscriber, mActivity),getCurrentPage());
                 }
             }
         }, 200);
@@ -158,12 +162,32 @@ public class CommentPhraiseFragment extends BaseBackFragment implements BaseQuic
         final View customLoading = LayoutInflater.from(mActivity).inflate(R.layout.common_loading, (ViewGroup) mRecyclerView.getParent(), false);
         return customLoading;
     }
+    public int getCurrentPage() {
+        return mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE + 1;
+    }
 
-    private void initData(){
+
+//    @NonNull
+//    private List<MineMultipleItemModel> getMineMultipleItemModel(List<CommentPraiseEntity> entities) {
+//        int type = MineMultipleItemModel.MY_MESSAGE_COMMENT_PRAISE;
+//        List<MineMultipleItemModel> models = new ArrayList<>();
+//        if (models == null) return models;
+//        for (CommentPraiseEntity entity : entities) {
+//            models.add(new MineMultipleItemModel(type, entity));
+//        }
+//        return models;
+//    }
+
+
+    @NonNull
+    private List<MineMultipleItemModel> getMineMultipleItemModel(List<CommentPraiseEntity> entiries) {
+        List<MineMultipleItemModel> models = new ArrayList<>();
         int type = MineMultipleItemModel.MY_MESSAGE_COMMENT_PRAISE;
+        if (entiries == null) return models;
 
-        for (CommentPraiseEntity entity : data.getLists()) {
-            models.add(new MineMultipleItemModel(type, entity));
+        for (CommentPraiseEntity entiry : entiries) {
+            models.add(new MineMultipleItemModel(type, entiry));
         }
+        return models;
     }
 }

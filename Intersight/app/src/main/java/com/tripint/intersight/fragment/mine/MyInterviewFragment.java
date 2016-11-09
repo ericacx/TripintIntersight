@@ -1,6 +1,7 @@
 package com.tripint.intersight.fragment.mine;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.model.MineMultipleItemModel;
+import com.tripint.intersight.service.HttpRequest;
 import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
@@ -45,12 +47,8 @@ public class MyInterviewFragment extends BaseBackFragment implements BaseQuickAd
     SwipeRefreshLayout swipeRefreshLayout;
 
     private final int PAGE_SIZE = 10;
-
     private int TOTAL_COUNTER = 0;
-
     private int mCurrentCounter = 0;
-
-    List<MineMultipleItemModel> models = new ArrayList<>();
     private MineCommonMultipleAdapter mAdapter;
 
     private PageDataSubscriberOnNext<BasePageableResponse<InterviewEntity>> subscriber;
@@ -73,6 +71,8 @@ public class MyInterviewFragment extends BaseBackFragment implements BaseQuickAd
         View view = inflater.inflate(R.layout.fragment_my_interview, container, false);
         ButterKnife.bind(this, view);
         initToolbar();
+        initView(null);
+        initAdapter();
         httpRequestData();
         return view;
     }
@@ -83,8 +83,14 @@ public class MyInterviewFragment extends BaseBackFragment implements BaseQuickAd
             public void onNext(BasePageableResponse<InterviewEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
-                initView(null);
-                initAdapter();
+                List<MineMultipleItemModel> models = getMineMultipleItemModel(data.getLists());
+                if (mCurrentCounter == 0){
+                    mAdapter.setNewData(models);
+                } else {
+                    mAdapter.addData(models);
+                }
+                mCurrentCounter = mAdapter.getData().size();
+                TOTAL_COUNTER = data.getTotal();
             }
         };
 
@@ -98,8 +104,7 @@ public class MyInterviewFragment extends BaseBackFragment implements BaseQuickAd
 
     private void initAdapter() {
 
-        initData();
-        mAdapter = new MineCommonMultipleAdapter(models);
+        mAdapter = new MineCommonMultipleAdapter(getMineMultipleItemModel(data.getLists()));
         mAdapter.openLoadAnimation();
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.setOnLoadMoreListener(this);
@@ -107,7 +112,6 @@ public class MyInterviewFragment extends BaseBackFragment implements BaseQuickAd
 
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String content = null;
                 MineMultipleItemModel entity = (MineMultipleItemModel) adapter.getItem(position);
                 EventBus.getDefault().post(new StartFragmentEvent(MyInterviewDetailFragment.newInstance(entity.getInterviewEntity())));
             }
@@ -130,8 +134,8 @@ public class MyInterviewFragment extends BaseBackFragment implements BaseQuickAd
 
     @Override
     public void onRefresh() {
-        initData();
-        mAdapter.setNewData(models);
+        mCurrentCounter = 0 ;
+        MineDataHttpRequest.getInstance(mActivity).getMyInterview(new ProgressSubscriber(subscriber, mActivity), 1);
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.removeAllFooterView();
         mCurrentCounter = PAGE_SIZE;
@@ -146,9 +150,7 @@ public class MyInterviewFragment extends BaseBackFragment implements BaseQuickAd
                 if (mCurrentCounter >= TOTAL_COUNTER) {
                     mAdapter.loadComplete();
                 } else {
-                    initData();
-                    mAdapter.addData(models);
-                    mCurrentCounter = mAdapter.getData().size();
+                    MineDataHttpRequest.getInstance(mActivity).getMyInterview(new ProgressSubscriber(subscriber, mActivity), getCurrentPage());
                 }
             }
         }, 200);
@@ -159,13 +161,20 @@ public class MyInterviewFragment extends BaseBackFragment implements BaseQuickAd
         return customLoading;
     }
 
-    private void initData(){
+
+
+    @NonNull
+    private List<MineMultipleItemModel> getMineMultipleItemModel(List<InterviewEntity> entiries) {
+        List<MineMultipleItemModel> models = new ArrayList<>();
         int type = MineMultipleItemModel.MY_INTERVIEW;
+        if (entiries == null) return models;
 
-
-        for (InterviewEntity entiry : data.getLists()) {
+        for (InterviewEntity entiry : entiries) {
             models.add(new MineMultipleItemModel(type, entiry));
         }
-
+        return models;
+    }
+    private int getCurrentPage(){
+        return mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE + 1;
     }
 }

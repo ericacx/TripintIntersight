@@ -2,6 +2,7 @@ package com.tripint.intersight.fragment.mine.message;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,12 +52,8 @@ public class InterviewMessageFragment extends BaseBackFragment implements BaseQu
     SwipeRefreshLayout swipeRefreshLayout;
 
     private final int PAGE_SIZE = 10;
-
     private int TOTAL_COUNTER = 0;
-
     private int mCurrentCounter = 0;
-
-    List<MineMultipleItemModel> models = new ArrayList<>();
 
     private MineCommonMultipleAdapter mAdapter;
     private PageDataSubscriberOnNext<BasePageableResponse<MessageContentEntity>> subscriber;
@@ -77,6 +74,8 @@ public class InterviewMessageFragment extends BaseBackFragment implements BaseQu
         View view = inflater.inflate(R.layout.fragment_interview_message, container, false);
         ButterKnife.bind(this, view);
         initToolbar();
+        initView(null);
+        initAdapter();
         httpRequestData();
         return view;
     }
@@ -89,19 +88,14 @@ public class InterviewMessageFragment extends BaseBackFragment implements BaseQu
             @Override
             public void onNext(BasePageableResponse<MessageContentEntity> entity) {
                 data = entity;
-                initData();
-                initView(null);
-                initAdapter();
+                List<MineMultipleItemModel> models = getMineMultipleItemModel(data.getLists());
                 if (mCurrentCounter == 0) {
-//                ToastUtil.showToast(mActivity, entity.getAbilityName().toString() +"");
                     mAdapter.setNewData(models);
                 } else {
                     mAdapter.addData(models);
                 }
                 TOTAL_COUNTER = data.getTotal();
-                Log.e("totalCounter", String.valueOf(TOTAL_COUNTER));
                 mCurrentCounter = mAdapter.getData().size();
-                Log.e("mCurrentCounter", String.valueOf(TOTAL_COUNTER));
             }
         };
         MessageDataHttpRequest.getInstance(mActivity).getInterviewMessage(new ProgressSubscriber(subscriber, mActivity),1);
@@ -123,7 +117,7 @@ public class InterviewMessageFragment extends BaseBackFragment implements BaseQu
      */
     private void initAdapter() {
 
-        mAdapter = new MineCommonMultipleAdapter(models);
+        mAdapter = new MineCommonMultipleAdapter(getMineMultipleItemModel(data.getLists()));
         mAdapter.openLoadAnimation();
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.setOnLoadMoreListener(this);
@@ -140,14 +134,17 @@ public class InterviewMessageFragment extends BaseBackFragment implements BaseQu
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void initData() {
 
+    @NonNull
+    private List<MineMultipleItemModel> getMineMultipleItemModel(List<MessageContentEntity> entiries) {
+        List<MineMultipleItemModel> models = new ArrayList<>();
         int type = MineMultipleItemModel.MY_MESSAGE_INTERVIEW;
+        if (entiries == null) return models;
 
-        for (MessageContentEntity entity : data.getLists()) {
-            models.add(new MineMultipleItemModel(type, entity));
+        for (MessageContentEntity entiry : entiries) {
+            models.add(new MineMultipleItemModel(type, entiry));
         }
-
+        return models;
     }
 
     @Override

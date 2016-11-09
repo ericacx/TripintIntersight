@@ -2,6 +2,7 @@ package com.tripint.intersight.fragment.mine;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -53,17 +54,11 @@ public class MyFocusedFragment extends BaseBackFragment implements BaseQuickAdap
     SwipeRefreshLayout swipeRefreshLayout;
 
     private final int PAGE_SIZE = 10;
-
     private int TOTAL_COUNTER = 0;
-
     private int mCurrentCounter = 0;
-
-    List<MineMultipleItemModel> models = new ArrayList<>();
-
     private MineCommonMultipleAdapter mAdapter;
     private PageDataSubscriberOnNext<BasePageableResponse<FocusEntity>> subscriber;
     private BasePageableResponse<FocusEntity> data = new BasePageableResponse<FocusEntity>();
-
     private int tab;
 
     public static MyFocusedFragment newInstance() {
@@ -84,6 +79,8 @@ public class MyFocusedFragment extends BaseBackFragment implements BaseQuickAdap
         ButterKnife.bind(this, view);
         initToolbarNav(toolbar);
         toolbar.setTitle("我的关注");
+        initView(null);
+        initAdapter();
         setTab(0);
         return view;
     }
@@ -94,30 +91,18 @@ public class MyFocusedFragment extends BaseBackFragment implements BaseQuickAdap
             public void onNext(BasePageableResponse<FocusEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
-                init();
+                List<MineMultipleItemModel> models = getMineMultipleItemModel(data.getLists());
+                if (mCurrentCounter == 0){
+                    mAdapter.setNewData(models);
+                } else {
+                    mAdapter.addData(models);
+                }
+                TOTAL_COUNTER = data.getTotal();
+                mCurrentCounter = mAdapter.getData().size();
             }
         };
         MineDataHttpRequest.getInstance(mActivity).getMyFocus(new ProgressSubscriber(subscriber, mActivity), type, 1);
     }
-
-    private void init(){
-        initData();
-        initView(null);
-        initAdapter();
-        initPage();
-    }
-    //分页
-    private void initPage() {
-        if (mCurrentCounter == 0){
-            mAdapter.setNewData(models);
-        } else {
-            mAdapter.addData(models);
-        }
-
-        TOTAL_COUNTER = data.getTotal();
-        mCurrentCounter = mAdapter.getData().size();
-    }
-
 
     @OnClick({R.id.btn_my_common_header_left, R.id.btn_my_common_header_right})
     public void onTabBarClick(View view) {
@@ -151,7 +136,7 @@ public class MyFocusedFragment extends BaseBackFragment implements BaseQuickAdap
 
     private void initAdapter() {
 
-        mAdapter = new MineCommonMultipleAdapter(models);
+        mAdapter = new MineCommonMultipleAdapter(getMineMultipleItemModel(data.getLists()));
         mAdapter.openLoadAnimation();
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.setOnLoadMoreListener(this);
@@ -169,10 +154,7 @@ public class MyFocusedFragment extends BaseBackFragment implements BaseQuickAdap
     }
 
     private void initData() {
-        int type = tab == 0 ? MineMultipleItemModel.MY_FOCUSE : MineMultipleItemModel.MY_FOCUSE_FOLLOW;
-        for (FocusEntity entity : data.getLists()) {
-            models.add(new MineMultipleItemModel(type, entity));
-        }
+
     }
 
 
@@ -190,7 +172,8 @@ public class MyFocusedFragment extends BaseBackFragment implements BaseQuickAdap
 
     @Override
     public void onRefresh() {
-        mAdapter.setNewData(models);
+        mCurrentCounter = 0 ;
+        MineDataHttpRequest.getInstance(mActivity).getMyFocus(new ProgressSubscriber(subscriber, mActivity), tab, 1);
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.removeAllFooterView();
         mCurrentCounter = PAGE_SIZE;
@@ -215,8 +198,23 @@ public class MyFocusedFragment extends BaseBackFragment implements BaseQuickAdap
     public int getCurrentPage() {
         return mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE + 1;
     }
+
     private View getLoadMoreView() {
         final View customLoading = LayoutInflater.from(mActivity).inflate(R.layout.common_loading, (ViewGroup) mRecyclerView.getParent(), false);
         return customLoading;
     }
+
+
+    @NonNull
+    private List<MineMultipleItemModel> getMineMultipleItemModel(List<FocusEntity> entiries) {
+        List<MineMultipleItemModel> models = new ArrayList<>();
+        int type = tab == 0 ? MineMultipleItemModel.MY_FOCUSE : MineMultipleItemModel.MY_FOCUSE_FOLLOW;
+        if (entiries == null) return models;
+
+        for (FocusEntity entiry : entiries) {
+            models.add(new MineMultipleItemModel(type, entiry));
+        }
+        return models;
+    }
+
 }

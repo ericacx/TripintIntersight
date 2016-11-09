@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -36,6 +37,7 @@ import com.tripint.intersight.common.widget.recyclerviewadapter.BaseQuickAdapter
 import com.tripint.intersight.common.widget.recyclerviewadapter.listener.OnItemClickListener;
 import com.tripint.intersight.entity.discuss.CreateDiscussResponseEntity;
 import com.tripint.intersight.entity.discuss.CreateInterviewResponseEntity;
+import com.tripint.intersight.entity.mine.InterviewEntity;
 import com.tripint.intersight.entity.mine.MineFollowPointEntity;
 import com.tripint.intersight.entity.payment.AliPayResponseEntity;
 import com.tripint.intersight.entity.payment.WXPayResponseEntity;
@@ -49,6 +51,7 @@ import com.tripint.intersight.helper.PayUtils;
 import com.tripint.intersight.model.MineMultipleItemModel;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
 import com.tripint.intersight.service.ExpertDataHttpRequest;
+import com.tripint.intersight.service.HttpRequest;
 import com.tripint.intersight.service.PaymentDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
@@ -92,38 +95,20 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
     SwipeRefreshLayout swipeRefreshLayout;
 
     private final int PAGE_SIZE = 10;
-
     private int TOTAL_COUNTER = 0;
-
     private int mCurrentCounter = 0;
     private String discussPay;
     private String interviewPay;
-    List<MineMultipleItemModel> models = new ArrayList<>();
 
     private MineCommonMultipleAdapter mAdapter;
 
     private PageDataSubscriberOnNext<BasePageableResponse<MineFollowPointEntity>> subscriber;
 
-    private BasePageableResponse<MineFollowPointEntity> data;
+    private BasePageableResponse<MineFollowPointEntity> data = new BasePageableResponse<MineFollowPointEntity>();
 
     private int tab;
     private int uid = 0;
     private String name = null;
-
-    private CreateDiscussResponseEntity createDiscussResponseEntity;
-    private CreateInterviewResponseEntity createInterviewResponseEntity;
-
-    private PageDataSubscriberOnNext<CreateDiscussResponseEntity> subscriberDiscussCode;
-    private PageDataSubscriberOnNext<CreateInterviewResponseEntity> subscriberInterviewCode;
-
-    private PageDataSubscriberOnNext<WXPayResponseEntity> wxPaySubscriber;
-    private PageDataSubscriberOnNext<AliPayResponseEntity> aliPaySubscriber;
-
-    private String discussContent;
-    private String interviewContent = null;
-    private DialogPlus dialogPlus;
-    protected static final int MSG_START_STREAMING_DISCUSS = 0;
-    protected static final int MSG_START_STREAMING_INTERVIEW = 1;
 
     public static HisOpinionFragment newInstance(int uid,String nickname,String discussPay,String interviewPay) {
         // Required empty public constructor
@@ -156,6 +141,8 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
         View view = inflater.inflate(R.layout.fragment_his_opinion, container, false);
         ButterKnife.bind(this, view);
         initToolbar();
+        initView(null);
+        initAdapter();
         setTab(0);
         return view;
     }
@@ -180,48 +167,20 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
 
     private void httpRequestData(int type) {
 
-        wxPaySubscriber = new PageDataSubscriberOnNext<WXPayResponseEntity>() {
-            @Override
-            public void onNext(WXPayResponseEntity entity) {
-                //接口请求成功后处理,调起微信支付。
-                PayUtils.getInstant().requestWXpay(entity);
-//
-            }
-        };
-
-        aliPaySubscriber = new PageDataSubscriberOnNext<AliPayResponseEntity>() {
-            @Override
-            public void onNext(AliPayResponseEntity entity) {
-                //接口请求成功后处理,调起微信支付。
-                AliPayUtils.getInstant(mActivity).pay(entity);
-//
-            }
-        };
-        subscriberDiscussCode = new PageDataSubscriberOnNext<CreateDiscussResponseEntity>() {
-            @Override
-            public void onNext(CreateDiscussResponseEntity entity) {
-                Log.d(TAG, entity.getFlg());
-                createDiscussResponseEntity = entity;
-                mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_START_STREAMING_DISCUSS), 500);
-            }
-        };
-
-        subscriberInterviewCode = new PageDataSubscriberOnNext<CreateInterviewResponseEntity>() {
-            @Override
-            public void onNext(CreateInterviewResponseEntity entity) {
-                Log.d(TAG, entity.getFlg());
-                createInterviewResponseEntity = entity;
-                mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_START_STREAMING_INTERVIEW), 500);
-            }
-        };
-
         subscriber = new PageDataSubscriberOnNext<BasePageableResponse<MineFollowPointEntity>>() {
             @Override
             public void onNext(BasePageableResponse<MineFollowPointEntity> entity) {
                 //接口请求成功后处理
                 data = entity;
-                initView(null);
-                initAdapter(tab);
+                List<MineMultipleItemModel> models = getMineMultipleItemModel(data.getLists());
+                if (mCurrentCounter == 0) {
+                    mAdapter.setNewData(models);
+                } else {
+                    mAdapter.addData(models);
+                }
+                TOTAL_COUNTER = data.getTotal();
+                mCurrentCounter = mAdapter.getData().size();
+
             }
         };
 
@@ -229,10 +188,9 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
     }
 
 
-    private void initAdapter(int tab) {
+    private void initAdapter() {
 
-        initData();
-        mAdapter = new MineCommonMultipleAdapter(models);
+        mAdapter = new MineCommonMultipleAdapter(getMineMultipleItemModel(data.getLists()));
         mAdapter.openLoadAnimation();
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.setOnLoadMoreListener(this);
@@ -264,8 +222,8 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
 
     @Override
     public void onRefresh() {
-        initData();
-        mAdapter.setNewData(models);
+        mCurrentCounter = 0 ;
+        ExpertDataHttpRequest.getInstance(mActivity).getHisFollowPoint(new ProgressSubscriber(subscriber, mActivity), tab, uid,1);
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.removeAllFooterView();
         mCurrentCounter = PAGE_SIZE;
@@ -280,9 +238,7 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
                 if (mCurrentCounter >= TOTAL_COUNTER) {
                     mAdapter.loadComplete();
                 } else {
-                    initData();
-                    mAdapter.addData(models);
-                    mCurrentCounter = mAdapter.getData().size();
+                    ExpertDataHttpRequest.getInstance(mActivity).getHisFollowPoint(new ProgressSubscriber(subscriber, mActivity), tab, uid,getCurrentPage());
                 }
             }
         }, 200);
@@ -293,13 +249,29 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
         return customLoading;
     }
 
-    private void initData(){
-        int type = tab == 0 ? MineMultipleItemModel.HIS_OPTION : MineMultipleItemModel.HIS_OPTION_FOLLOW;
-        for (MineFollowPointEntity entiry : data.getLists()) {
 
+    @NonNull
+    private List<MineMultipleItemModel> getMineMultipleItemModel(List<MineFollowPointEntity> entiries) {
+        List<MineMultipleItemModel> models = new ArrayList<>();
+        int type = tab == 0 ? MineMultipleItemModel.HIS_OPTION : MineMultipleItemModel.HIS_OPTION_FOLLOW;
+        if (entiries == null) return models;
+
+        for (MineFollowPointEntity entiry : entiries) {
             models.add(new MineMultipleItemModel(type, entiry));
         }
+        return models;
     }
+
+//    @NonNull
+//    private List<MineMultipleItemModel> getMineMultipleItemModel(List<MineFollowPointEntity> lists) {
+//        List<MineMultipleItemModel> models = new ArrayList<>();
+//        int type = tab == 0 ? MineMultipleItemModel.HIS_OPTION : MineMultipleItemModel.HIS_OPTION_FOLLOW;
+//        if (models == null) return models;
+//        for (MineFollowPointEntity entiry : lists) {
+//            models.add(new MineMultipleItemModel(type, entiry));
+//        }
+//        return models;
+//    }
 
     @OnClick({R.id.his_opinion_ask, R.id.his_opinion_interview, R.id.btn_my_common_header_left, R.id.btn_my_common_header_right})
     public void onClick(View view) {
@@ -326,199 +298,201 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
         }
     }
 
-
+    public int getCurrentPage() {
+        return mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE + 1;
+    }
     /**
      * 向他提问
      */
-    private void initAskDialog(){
-        dialogPlus = DialogPlusUtils.Builder(mActivity)
-                .setHolder(DialogPlusUtils.VIEW, new ViewHolder(R.layout.question_layout))
-                .setTitleName("请输入您的问题")
-                .setIsHeader(true)
-                .setIsFooter(true)
-                .setIsExpanded(false)
-                .setCloseName("取消")
-                .setOnCloseListener(new DialogPlusUtils.OnCloseListener() {
-                    @Override
-                    public void closeListener(DialogPlus dialog, View view) {
-                        dialog.dismiss();
-                    }
-                })
-                .setConfirmName("确认")
-                .setOnConfirmListener(new DialogPlusUtils.OnConfirmListener() {
-                    @Override
-                    public void confirmListener(DialogPlus dialog, View view) {
-
-                        EditText editText = ((EditText) dialog.findViewById(R.id.dialog_question_edit));
-                        discussContent = editText.getText().toString().trim();
-                        if (TextUtils.isEmpty(editText.getText().toString().trim())){
-                            ToastUtil.showToast(mActivity,"输入的内容不能为空");
-                        } else {
-                            DiscussDataHttpRequest.getInstance(mActivity).createDiscusses(
-                                    new ProgressSubscriber(subscriberDiscussCode, mActivity)
-                                    , discussContent, uid, uid
-                            );
-                            dialog.dismiss();
-                        }
-                    }
-                })
-                .setGravity(Gravity.BOTTOM)
-                .showCompleteDialog();
-    }
-    /**
-     * 约他访谈
-     */
-    private void initInterviewDialog() {
-        dialogPlus = DialogPlusUtils.Builder(mActivity)
-                .setHolder(DialogPlusUtils.VIEW, new ViewHolder(R.layout.interview_layout))
-                .setIsHeader(false)
-                .setIsFooter(true)
-                .setIsExpanded(false)
-                .setCloseName("取消")
-                .setOnCloseListener(new DialogPlusUtils.OnCloseListener() {
-                    @Override
-                    public void closeListener(DialogPlus dialog, View view) {
-                        dialog.dismiss();
-                    }
-                })
-                .setConfirmName("确认")
-                .setOnConfirmListener(new DialogPlusUtils.OnConfirmListener() {
-                    @Override
-                    public void confirmListener(DialogPlus dialog, View view) {
-
-                        EditText nickname = ((EditText) dialog.findViewById(R.id.dialog_interview_nickname));
-                        EditText email = ((EditText) dialog.findViewById(R.id.dialog_interview_email));
-                        EditText phone = ((EditText) dialog.findViewById(R.id.dialog_interview_phone));
-                        EditText company = ((EditText) dialog.findViewById(R.id.dialog_interview_company));
-                        EditText theme = ((EditText) dialog.findViewById(R.id.dialog_interview_theme));
-                        EditText editor = ((EditText) dialog.findViewById(R.id.dialog_interview_edit));
-                        if (TextUtils.isEmpty(nickname.getText().toString().trim())){
-                            ToastUtil.showToast(mActivity,"输入的姓名不能为空");
-                        } else if (TextUtils.isEmpty(email.getText().toString().trim())){
-                            ToastUtil.showToast(mActivity,"输入的邮箱不能为空");
-                        }else if (phone.getText().toString().trim().length() != 11){
-                            ToastUtil.showToast(mActivity,"输入的手机不正确");
-                        }else if (TextUtils.isEmpty(company.getText().toString().trim())){
-                            ToastUtil.showToast(mActivity,"输入的公司不能为空");
-                        }else if (TextUtils.isEmpty(theme.getText().toString().trim())){
-                            ToastUtil.showToast(mActivity,"输入的主题不能为空");
-                        }else if (TextUtils.isEmpty(editor.getText().toString().trim())){
-                            ToastUtil.showToast(mActivity,"输入的提纲不能为空");
-                        }else {
-                        }
-                    }
-                })
-                .setGravity(Gravity.BOTTOM)
-                .showCompleteDialog();
-    }
+//    private void initAskDialog(){
+//        dialogPlus = DialogPlusUtils.Builder(mActivity)
+//                .setHolder(DialogPlusUtils.VIEW, new ViewHolder(R.layout.question_layout))
+//                .setTitleName("请输入您的问题")
+//                .setIsHeader(true)
+//                .setIsFooter(true)
+//                .setIsExpanded(false)
+//                .setCloseName("取消")
+//                .setOnCloseListener(new DialogPlusUtils.OnCloseListener() {
+//                    @Override
+//                    public void closeListener(DialogPlus dialog, View view) {
+//                        dialog.dismiss();
+//                    }
+//                })
+//                .setConfirmName("确认")
+//                .setOnConfirmListener(new DialogPlusUtils.OnConfirmListener() {
+//                    @Override
+//                    public void confirmListener(DialogPlus dialog, View view) {
+//
+//                        EditText editText = ((EditText) dialog.findViewById(R.id.dialog_question_edit));
+//                        discussContent = editText.getText().toString().trim();
+//                        if (TextUtils.isEmpty(editText.getText().toString().trim())){
+//                            ToastUtil.showToast(mActivity,"输入的内容不能为空");
+//                        } else {
+//                            DiscussDataHttpRequest.getInstance(mActivity).createDiscusses(
+//                                    new ProgressSubscriber(subscriberDiscussCode, mActivity)
+//                                    , discussContent, uid, uid
+//                            );
+//                            dialog.dismiss();
+//                        }
+//                    }
+//                })
+//                .setGravity(Gravity.BOTTOM)
+//                .showCompleteDialog();
+//    }
+//    /**
+//     * 约他访谈
+//     */
+//    private void initInterviewDialog() {
+//        dialogPlus = DialogPlusUtils.Builder(mActivity)
+//                .setHolder(DialogPlusUtils.VIEW, new ViewHolder(R.layout.interview_layout))
+//                .setIsHeader(false)
+//                .setIsFooter(true)
+//                .setIsExpanded(false)
+//                .setCloseName("取消")
+//                .setOnCloseListener(new DialogPlusUtils.OnCloseListener() {
+//                    @Override
+//                    public void closeListener(DialogPlus dialog, View view) {
+//                        dialog.dismiss();
+//                    }
+//                })
+//                .setConfirmName("确认")
+//                .setOnConfirmListener(new DialogPlusUtils.OnConfirmListener() {
+//                    @Override
+//                    public void confirmListener(DialogPlus dialog, View view) {
+//
+//                        EditText nickname = ((EditText) dialog.findViewById(R.id.dialog_interview_nickname));
+//                        EditText email = ((EditText) dialog.findViewById(R.id.dialog_interview_email));
+//                        EditText phone = ((EditText) dialog.findViewById(R.id.dialog_interview_phone));
+//                        EditText company = ((EditText) dialog.findViewById(R.id.dialog_interview_company));
+//                        EditText theme = ((EditText) dialog.findViewById(R.id.dialog_interview_theme));
+//                        EditText editor = ((EditText) dialog.findViewById(R.id.dialog_interview_edit));
+//                        if (TextUtils.isEmpty(nickname.getText().toString().trim())){
+//                            ToastUtil.showToast(mActivity,"输入的姓名不能为空");
+//                        } else if (TextUtils.isEmpty(email.getText().toString().trim())){
+//                            ToastUtil.showToast(mActivity,"输入的邮箱不能为空");
+//                        }else if (phone.getText().toString().trim().length() != 11){
+//                            ToastUtil.showToast(mActivity,"输入的手机不正确");
+//                        }else if (TextUtils.isEmpty(company.getText().toString().trim())){
+//                            ToastUtil.showToast(mActivity,"输入的公司不能为空");
+//                        }else if (TextUtils.isEmpty(theme.getText().toString().trim())){
+//                            ToastUtil.showToast(mActivity,"输入的主题不能为空");
+//                        }else if (TextUtils.isEmpty(editor.getText().toString().trim())){
+//                            ToastUtil.showToast(mActivity,"输入的提纲不能为空");
+//                        }else {
+//                        }
+//                    }
+//                })
+//                .setGravity(Gravity.BOTTOM)
+//                .showCompleteDialog();
+//    }
 
     /***
      * 提问支付对话框
      */
-    private void requestPaymentDiscussDialog() {
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(TAG, "Begin Payment Dialog");
-                List<PaymentEntity> paymentEntities = new ArrayList<>();
-
-                paymentEntities.add(new PaymentEntity(1, "支付宝", PaymentDataHttpRequest.TYPE_ALIPAY));
-                paymentEntities.add(new PaymentEntity(2, "微信支付", PaymentDataHttpRequest.TYPE_WXPAY));
-                PaymentSelectAdapter paymentDialogAdapter = new PaymentSelectAdapter(mActivity, paymentEntities);
-                dialogPlus = DialogPlusUtils.Builder(mActivity)
-                        .setHolder(DialogPlusUtils.LIST, new ListHolder())
-                        .setAdapter(paymentDialogAdapter)
-                        .setTitleName("请选择支付方式")
-                        .setIsHeader(true)
-                        .setIsFooter(false)
-                        .setIsExpanded(false)
-                        .setGravity(Gravity.CENTER)
-                        .showCompleteDialog();
-                paymentDialogAdapter.setOnRecyclerViewItemOnClick(new RecyclerViewItemOnClick() {
-                    @Override
-                    public void ItemOnClick(int position, Object data) {
-                        PaymentEntity select = (PaymentEntity) data;
-
-                        if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
-
-                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), createDiscussResponseEntity.getDiscussId(), uid, discussContent);
-                        } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
-                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), createDiscussResponseEntity.getDiscussId(), uid, discussContent);
-
-                        }
-
-                    }
-
-                    @Override
-                    public void ItemOnClick(int position, Object data, boolean isSelect) {
-
-                    }
-                });
-                dialogPlus.show();
-            }
-        });
-    }
+//    private void requestPaymentDiscussDialog() {
+//        mActivity.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Log.d(TAG, "Begin Payment Dialog");
+//                List<PaymentEntity> paymentEntities = new ArrayList<>();
+//
+//                paymentEntities.add(new PaymentEntity(1, "支付宝", PaymentDataHttpRequest.TYPE_ALIPAY));
+//                paymentEntities.add(new PaymentEntity(2, "微信支付", PaymentDataHttpRequest.TYPE_WXPAY));
+//                PaymentSelectAdapter paymentDialogAdapter = new PaymentSelectAdapter(mActivity, paymentEntities);
+//                dialogPlus = DialogPlusUtils.Builder(mActivity)
+//                        .setHolder(DialogPlusUtils.LIST, new ListHolder())
+//                        .setAdapter(paymentDialogAdapter)
+//                        .setTitleName("请选择支付方式")
+//                        .setIsHeader(true)
+//                        .setIsFooter(false)
+//                        .setIsExpanded(false)
+//                        .setGravity(Gravity.CENTER)
+//                        .showCompleteDialog();
+//                paymentDialogAdapter.setOnRecyclerViewItemOnClick(new RecyclerViewItemOnClick() {
+//                    @Override
+//                    public void ItemOnClick(int position, Object data) {
+//                        PaymentEntity select = (PaymentEntity) data;
+//
+//                        if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
+//
+//                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), createDiscussResponseEntity.getDiscussId(), uid, discussContent);
+//                        } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
+//                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), createDiscussResponseEntity.getDiscussId(), uid, discussContent);
+//
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void ItemOnClick(int position, Object data, boolean isSelect) {
+//
+//                    }
+//                });
+//                dialogPlus.show();
+//            }
+//        });
+//    }
 
     /***
      * 访谈支付对话框
      */
-    private void requestPaymentInterviewDialog() {
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(TAG, "Begin Payment Dialog");
-                List<PaymentEntity> paymentEntities = new ArrayList<>();
-
-                paymentEntities.add(new PaymentEntity(1, "支付宝", PaymentDataHttpRequest.TYPE_ALIPAY));
-                paymentEntities.add(new PaymentEntity(2, "微信支付", PaymentDataHttpRequest.TYPE_WXPAY));
-                PaymentSelectAdapter paymentDialogAdapter = new PaymentSelectAdapter(mActivity, paymentEntities);
-                dialogPlus = DialogPlusUtils.Builder(mActivity)
-                        .setHolder(DialogPlusUtils.LIST, new ListHolder())
-                        .setAdapter(paymentDialogAdapter)
-                        .setTitleName("请选择支付方式")
-                        .setIsHeader(true)
-                        .setIsFooter(false)
-                        .setIsExpanded(false)
-                        .setGravity(Gravity.CENTER)
-                        .showCompleteDialog();
-                paymentDialogAdapter.setOnRecyclerViewItemOnClick(new RecyclerViewItemOnClick() {
-                    @Override
-                    public void ItemOnClick(int position, Object data) {
-                        PaymentEntity select = (PaymentEntity) data;
-
-                        if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
-
-                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), createInterviewResponseEntity.getInterviewId(), uid, interviewContent);
-                        } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
-                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), createInterviewResponseEntity.getInterviewId(), uid, interviewContent);
-
-                        }
-
-                    }
-
-                    @Override
-                    public void ItemOnClick(int position, Object data, boolean isSelect) {
-
-                    }
-                });
-                dialogPlus.show();
-            }
-        });
-    }
-
-    protected Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_START_STREAMING_DISCUSS:
-                    requestPaymentDiscussDialog();
-                    break;
-                case MSG_START_STREAMING_INTERVIEW:
-                    requestPaymentInterviewDialog();
-                default:
-                    Log.e(TAG, "Invalid message");
-                    break;
-            }
-        }
-    };
+//    private void requestPaymentInterviewDialog() {
+//        mActivity.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Log.d(TAG, "Begin Payment Dialog");
+//                List<PaymentEntity> paymentEntities = new ArrayList<>();
+//
+//                paymentEntities.add(new PaymentEntity(1, "支付宝", PaymentDataHttpRequest.TYPE_ALIPAY));
+//                paymentEntities.add(new PaymentEntity(2, "微信支付", PaymentDataHttpRequest.TYPE_WXPAY));
+//                PaymentSelectAdapter paymentDialogAdapter = new PaymentSelectAdapter(mActivity, paymentEntities);
+//                dialogPlus = DialogPlusUtils.Builder(mActivity)
+//                        .setHolder(DialogPlusUtils.LIST, new ListHolder())
+//                        .setAdapter(paymentDialogAdapter)
+//                        .setTitleName("请选择支付方式")
+//                        .setIsHeader(true)
+//                        .setIsFooter(false)
+//                        .setIsExpanded(false)
+//                        .setGravity(Gravity.CENTER)
+//                        .showCompleteDialog();
+//                paymentDialogAdapter.setOnRecyclerViewItemOnClick(new RecyclerViewItemOnClick() {
+//                    @Override
+//                    public void ItemOnClick(int position, Object data) {
+//                        PaymentEntity select = (PaymentEntity) data;
+//
+//                        if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_WXPAY)) {
+//
+//                            PaymentDataHttpRequest.getInstance(mActivity).requestWxPayForDiscuss(new ProgressSubscriber(wxPaySubscriber, mActivity), createInterviewResponseEntity.getInterviewId(), uid, interviewContent);
+//                        } else if (select.getChannelPartentId().equals(PaymentDataHttpRequest.TYPE_ALIPAY)) {
+//                            PaymentDataHttpRequest.getInstance(mActivity).requestAliPayForDiscuss(new ProgressSubscriber(aliPaySubscriber, mActivity), createInterviewResponseEntity.getInterviewId(), uid, interviewContent);
+//
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void ItemOnClick(int position, Object data, boolean isSelect) {
+//
+//                    }
+//                });
+//                dialogPlus.show();
+//            }
+//        });
+//    }
+//
+//    protected Handler mHandler = new Handler(Looper.getMainLooper()) {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            switch (msg.what) {
+//                case MSG_START_STREAMING_DISCUSS:
+//                    requestPaymentDiscussDialog();
+//                    break;
+//                case MSG_START_STREAMING_INTERVIEW:
+//                    requestPaymentInterviewDialog();
+//                default:
+//                    Log.e(TAG, "Invalid message");
+//                    break;
+//            }
+//        }
+//    };
 }

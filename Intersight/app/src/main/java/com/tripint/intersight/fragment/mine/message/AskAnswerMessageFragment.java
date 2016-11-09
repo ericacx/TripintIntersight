@@ -2,6 +2,7 @@ package com.tripint.intersight.fragment.mine.message;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,16 +52,13 @@ public class AskAnswerMessageFragment extends BaseBackFragment implements BaseQu
     SwipeRefreshLayout swipeRefreshLayout;
 
     private final int PAGE_SIZE = 10;
-
     private int TOTAL_COUNTER = 0;
-
     private int mCurrentCounter = 0;
 
-    List<MineMultipleItemModel> models = new ArrayList<>();
     private MineCommonMultipleAdapter mAdapter;
 
     private PageDataSubscriberOnNext<BasePageableResponse<MessageContentEntity>> subscriber;
-    private BasePageableResponse<MessageContentEntity> data = new BasePageableResponse<>();
+    private BasePageableResponse<MessageContentEntity> data = new BasePageableResponse<MessageContentEntity>();
 
     public static AskAnswerMessageFragment newInstance() {
         Bundle args = new Bundle();
@@ -76,6 +74,8 @@ public class AskAnswerMessageFragment extends BaseBackFragment implements BaseQu
         View view = inflater.inflate(R.layout.fragment_ask_answer_message, container, false);
         ButterKnife.bind(this, view);
         initToolbar();
+        initView(null);
+        initAdapter();
         httpRequestData();
         return view;
     }
@@ -88,9 +88,7 @@ public class AskAnswerMessageFragment extends BaseBackFragment implements BaseQu
             @Override
             public void onNext(BasePageableResponse<MessageContentEntity> messageDataEntities) {
                 data = messageDataEntities;
-                initData();
-                initView(null);
-                initAdapter();
+                List<MineMultipleItemModel> models = getMineMultipleItemModel(data.getLists());
                 if (mCurrentCounter == 0) {
 //                ToastUtil.showToast(mActivity, entity.getAbilityName().toString() +"");
                     mAdapter.setNewData(models);
@@ -114,7 +112,7 @@ public class AskAnswerMessageFragment extends BaseBackFragment implements BaseQu
      */
     private void initAdapter() {
 
-        mAdapter = new MineCommonMultipleAdapter(models);
+        mAdapter = new MineCommonMultipleAdapter(getMineMultipleItemModel(data.getLists()));
         mAdapter.openLoadAnimation();
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.setOnLoadMoreListener(this);
@@ -150,7 +148,8 @@ public class AskAnswerMessageFragment extends BaseBackFragment implements BaseQu
 
     @Override
     public void onRefresh() {
-        mAdapter.setNewData(models);
+        mCurrentCounter = 0;
+        MessageDataHttpRequest.getInstance(mActivity).getAskAnswerMessage(new ProgressSubscriber(subscriber, mActivity), 1);
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.removeAllFooterView();
         mCurrentCounter = PAGE_SIZE;
@@ -180,11 +179,27 @@ public class AskAnswerMessageFragment extends BaseBackFragment implements BaseQu
         return customLoading;
     }
 
-    private void initData() {
-        int type = MineMultipleItemModel.MY_MESSAGE_ASK_ANSWER;
 
-        for (MessageContentEntity entity : data.getLists()) {
-            models.add(new MineMultipleItemModel(type, entity));
+    @NonNull
+    private List<MineMultipleItemModel> getMineMultipleItemModel(List<MessageContentEntity> entiries) {
+        List<MineMultipleItemModel> models = new ArrayList<>();
+        int type = MineMultipleItemModel.MY_MESSAGE_ASK_ANSWER;
+        if (entiries == null) return models;
+
+        for (MessageContentEntity entiry : entiries) {
+            models.add(new MineMultipleItemModel(type, entiry));
         }
+        return models;
     }
+
+//    @NonNull
+//    private List<MineMultipleItemModel> getMineMultipleItemModel(List<MessageContentEntity> entities) {
+//        int type = MineMultipleItemModel.MY_MESSAGE_ASK_ANSWER;
+//        List<MineMultipleItemModel> models = new ArrayList<>();
+//        if (models == null) return models;
+//        for (MessageContentEntity entity : entities) {
+//            models.add(new MineMultipleItemModel(type, entity));
+//        }
+//        return models;
+//    }
 }

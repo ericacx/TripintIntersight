@@ -8,7 +8,7 @@
         android:id="@+id/accountDetailItemIvIcon"
         android:layout_marginLeft="@dimen/spacing"
         android:src="@mipmap/iconfont_mima"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/spacing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
@@ -17,23 +17,24 @@
         android:layout_marginLeft="@dimen/spacing"
         android:layout_alignBaseline="@id/accountDetailItemIvIcon"
         android:text="提问:"
-        android:layout_marginTop="@dimen/spacing"
+        android:layout_marginTop="5dp"
         android:textSize="@dimen/text_size_15"
         android:textColor="@color/white"
+        android:gravity="center_vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="@dimen/height_5_80" />
     <TextView
         android:id="@+id/accountDetailItemTvMoney"
         android:text="-10.00"
         android:textSize="@dimen/text_size_15"
         android:textColor="@color/line"
         android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
         android:layout_marginRight="@dimen/spacing"
         android:layout_marginLeft="@dimen/spacing"
-        android:layout_marginTop="@dimen/spacing"
         android:layout_alignBaseline="@id/accountDetailItemIvIcon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="@dimen/height_5_80" />
     <TextView
         android:id="@+id/accountDetailItemTvQuestion"
         android:layout_toLeftOf="@id/accountDetailItemTvMoney"
@@ -41,11 +42,12 @@
         android:layout_marginLeft="@dimen/spacing"
         android:layout_alignBaseline="@id/accountDetailItemIvIcon"
         android:text="上海的房子真的很贵吗?"
-        android:layout_marginTop="@dimen/spacing"
+        android:gravity="center_vertical"
         android:textSize="@dimen/text_size_15"
+        android:layout_marginTop="5dp"
         android:textColor="@color/white"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="@dimen/height_5_80" />
 
 
     <TextView
@@ -54,18 +56,26 @@
         android:layout_below="@id/accountDetailItemTvQuestion"
         android:textColor="@color/line"
         android:text="2016.09.20    16:30"
+        android:gravity="center_vertical"
         android:textSize="@dimen/text_size_12"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="@dimen/height_5_80" />
 
     <TextView
         android:id="@+id/accountDetailItemTvStatus"
         android:text="等待对方回答"
         android:textColor="@color/line"
+        android:gravity="center_vertical"
         android:textSize="@dimen/text_size_15"
         android:layout_alignBaseline="@id/accountDetailItemTvDate"
         android:layout_alignRight="@id/accountDetailItemTvMoney"
         android:layout_below="@id/accountDetailItemTvQuestion"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="@dimen/height_5_80" />
+
+    <View
+        android:layout_below="@id/accountDetailItemTvStatus"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/line_grey"/>
 </RelativeLayout>

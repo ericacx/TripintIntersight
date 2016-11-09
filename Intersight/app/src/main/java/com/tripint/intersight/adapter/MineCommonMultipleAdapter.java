@@ -87,6 +87,10 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                 if (item.getMineFollowPointEntity() != null) {
 
                     helper
+                            .setVisible(R.id.opinion_textView_owner_name,false)
+                            .setVisible(R.id.opinion_textView_owner_job_title,false)
+                            .setVisible(R.id.opinion_textView_owner_job_company,false)
+                            .setVisible(R.id.opinion_textView_item_trade,false)
                             .setText(R.id.opinion_textView_mine_title_main, StringUtils.null2Length0(item.getMineFollowPointEntity().getTitle()))
                             .setText(R.id.opinion_textView_mine_sub_title, StringUtils.null2Length0(item.getMineFollowPointEntity().getContent()))
                             .setText(R.id.opinion_textView_item_focusnum, item.getMineFollowPointEntity().getFollows() + "")
@@ -480,6 +484,10 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                 if (item.getMineFollowPointEntity() != null) {
 
                     helper
+                            .setVisible(R.id.opinion_textView_owner_name,false)
+                            .setVisible(R.id.opinion_textView_owner_job_title,false)
+                            .setVisible(R.id.opinion_textView_owner_job_company,false)
+                            .setVisible(R.id.opinion_textView_item_trade,false)
                             .setText(R.id.opinion_textView_mine_title_main, StringUtils.null2Length0(item.getMineFollowPointEntity().getTitle()))
                             .setText(R.id.opinion_textView_mine_sub_title, StringUtils.null2Length0(item.getMineFollowPointEntity().getContent()))
                             .setText(R.id.opinion_textView_item_focusnum, item.getMineFollowPointEntity().getFollows() + "")

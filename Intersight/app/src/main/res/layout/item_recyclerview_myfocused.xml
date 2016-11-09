@@ -102,5 +102,9 @@
             android:text="关注" />
 
     </LinearLayout>
-
+    <View
+        android:layout_below="@id/accountDetailItemTvStatus"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/line_grey"/>
 </LinearLayout>
