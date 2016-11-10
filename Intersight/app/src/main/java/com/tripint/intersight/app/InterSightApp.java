@@ -15,6 +15,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
 import com.bumptech.glide.load.model.GlideUrl;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.qiniu.android.common.Zone;
 import com.qiniu.android.storage.Configuration;
 import com.qiniu.android.storage.UploadManager;
@@ -28,6 +32,7 @@ import com.tripint.intersight.activity.MainActivity;
 import com.tripint.intersight.common.Constants;
 import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.common.enumkey.EnumKey;
+import com.tripint.intersight.common.imagepicker.BuildConfig;
 import com.tripint.intersight.common.utils.StringUtils;
 import com.tripint.intersight.helper.CommonUtils;
 import com.tripint.intersight.helper.PermissionsChecker;
@@ -53,11 +58,7 @@ import okhttp3.OkHttpClient;
  */
 public class InterSightApp extends Application {
 
-    private boolean isUserLogin = false; //登陆为 true 未登陆为 false
-    private boolean isBinding = false; //是否绑定第三方账号（第一次）
-
-
-    public PermissionsChecker mPermissionsChecker; // 权限检测器
+    private static InterSightApp app;
     public final int REQUEST_CODE = 911; // 请求码
     // 文件权限
     public final String[] PERMISSIONS = new String[]{
@@ -71,49 +72,34 @@ public class InterSightApp extends Application {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION
     };
-
     //获取联系人权限
     public final String[] CONTACTS = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,  //允许程序写入外部存储
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.READ_CONTACTS //允许应用访问联系人通讯录信息
     };
-
     //获取联系人权限
     public final String[] FILE_CAMERA = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,  //允许程序写入外部存储
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA //允许应用访问联系人通讯录信息
     };
-
     //获取摄像头权限
     public final String[] CAMERA = new String[]{
             Manifest.permission.CAMERA //允许访问摄像头进行拍照
     };
-
     //获取摄像头权限
     public final String[] RECORD_AUDIO = new String[]{
             Manifest.permission.RECORD_AUDIO //允许访问mic
     };
-
     //获取拨打电话权限
     public final String[] PHONE = new String[]{
             Manifest.permission.CALL_PHONE, //允许程序从非系统拨号器里输入电话号码
             Manifest.permission.READ_PHONE_STATE //访问电话状态
     };
-
-    private static InterSightApp app;
-
-    public static InterSightApp getApp() {
-        return app;
-    }
-
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
+    public PermissionsChecker mPermissionsChecker; // 权限检测器
+    private boolean isUserLogin = false; //登陆为 true 未登陆为 false
+    private boolean isBinding = false; //是否绑定第三方账号（第一次）
 
     //各个平台的配置，建议放在全局Application或者程序入口
     {
@@ -128,6 +114,52 @@ public class InterSightApp extends Application {
         PlatformConfig.setQQZone("100998019", "9a77e1afb11032783b02767ed4583874");
     }
 
+    public static InterSightApp getApp() {
+        return app;
+    }
+
+    public static void initImageLoader(Context context) {
+        if (!ImageLoader.getInstance().isInited()) {
+            ImageLoaderConfiguration config = null;
+            if (BuildConfig.DEBUG) {
+                config = new ImageLoaderConfiguration.Builder(context)
+                        /*.threadPriority(Thread.NORM_PRIORITY - 2)
+						.memoryCacheSize((int) (Runtime.getRuntime().maxMemory() / 4))
+						.diskCacheSize(500 * 1024 * 1024)
+						.writeDebugLogs()
+						.diskCacheFileNameGenerator(new Md5FileNameGenerator())
+						.tasksProcessingOrder(QueueProcessingType.LIFO).build();*/
+
+                        //.memoryCacheExtraOptions(200, 200)
+                        //.diskCacheExtraOptions(200, 200, null).threadPoolSize(3)
+                        .threadPriority(Thread.NORM_PRIORITY - 1)
+                        .tasksProcessingOrder(QueueProcessingType.LIFO)
+                        //.denyCacheImageMultipleSizesInMemory().memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+						/*.memoryCacheSize(20 * 1024 * 1024)*/
+                        .memoryCacheSizePercentage(13)
+                        .diskCacheSize(500 * 1024 * 1024)
+                        //.imageDownloader(new BaseImageDownloader(A3App.getInstance().getApplicationContext()))
+                        //.imageDecoder(new BaseImageDecoder(true))
+                        //.defaultDisplayImageOptions(DisplayImageOptions.createSimple())
+                        //.writeDebugLogs()
+                        .build();
+            } else {
+                config = new ImageLoaderConfiguration.Builder(context)
+                        .threadPriority(Thread.NORM_PRIORITY - 2)
+                        .diskCacheSize(500 * 1024 * 1024)
+                        .diskCacheFileNameGenerator(new Md5FileNameGenerator())
+                        .tasksProcessingOrder(QueueProcessingType.LIFO).build();
+            }
+            ImageLoader.getInstance().init(config);
+        }
+
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
     @Override
     public void onCreate() {
@@ -151,6 +183,7 @@ public class InterSightApp extends Application {
         Glide.get(this)
                 .register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(new OkHttpClient()));
         initQiniuConfig();
+        initImageLoader(this);
 
     }
 
@@ -279,7 +312,6 @@ public class InterSightApp extends Application {
         });
     }
 
-
     private void handleUmengMessageClicked(UMessage msg) {
         //当前画面没有登录
         if (StringUtils.isEmpty(ACache.get(InterSightApp.this).getAsString(EnumKey.User.USER_TOKEN))) {
@@ -358,7 +390,6 @@ public class InterSightApp extends Application {
     private void initQiniuStream() {
         StreamingEnv.init(getApplicationContext());
     }
-
 
     /**
      * @return true 已登录  false 未登录

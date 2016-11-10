@@ -38,6 +38,7 @@ import com.tripint.intersight.common.imagepicker.AndroidImagePicker;
 import com.tripint.intersight.common.imagepicker.ImgLoader;
 import com.tripint.intersight.common.imagepicker.PicassoImgLoader;
 import com.tripint.intersight.common.imagepicker.R;
+import com.tripint.intersight.common.imagepicker.UilImgLoader;
 import com.tripint.intersight.common.imagepicker.Util;
 import com.tripint.intersight.common.imagepicker.widget.AvatarRectView;
 import com.tripint.intersight.common.imagepicker.widget.SuperImageView;
@@ -79,7 +80,7 @@ public class AvatarCropFragment extends Fragment{
         //get the image path from Arguments
         picPath = getArguments().getString(AndroidImagePicker.KEY_PIC_PATH);
 
-        mImagePresenter = new PicassoImgLoader();
+        mImagePresenter = new UilImgLoader();
 
         if(TextUtils.isEmpty(picPath)){
             throw new RuntimeException("AndroidImagePicker:you have to give me an image path from sdcard");

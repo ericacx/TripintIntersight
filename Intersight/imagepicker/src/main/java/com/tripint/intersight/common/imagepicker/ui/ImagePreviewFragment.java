@@ -38,6 +38,7 @@ import com.tripint.intersight.common.imagepicker.AndroidImagePicker;
 import com.tripint.intersight.common.imagepicker.ImgLoader;
 import com.tripint.intersight.common.imagepicker.PicassoImgLoader;
 import com.tripint.intersight.common.imagepicker.R;
+import com.tripint.intersight.common.imagepicker.UilImgLoader;
 import com.tripint.intersight.common.imagepicker.bean.ImageItem;
 import com.tripint.intersight.common.imagepicker.widget.TouchImageView;
 
@@ -77,7 +78,7 @@ public class ImagePreviewFragment extends Fragment{
         View contentView = inflater.inflate(R.layout.fragment_preview,null);
         mImageList = androidImagePicker.getImageItemsOfCurrentImageSet();
         mCurrentItemPosition = getArguments().getInt(AndroidImagePicker.KEY_PIC_SELECTED_POSITION,0);
-        mImagePresenter = new PicassoImgLoader();
+        mImagePresenter = new UilImgLoader();
         initView(contentView);
         return contentView;
     }
@@ -209,7 +210,7 @@ public class ImagePreviewFragment extends Fragment{
 
             });
 
-            ((PicassoImgLoader) mImagePresenter).onPresentImage(imageView, url, imageView.getWidth());//display the image with your own ImageLoader
+            ((UilImgLoader) mImagePresenter).onPresentImage2(imageView, url, imageView.getWidth());//display the image with your own ImageLoader
 
         }
 

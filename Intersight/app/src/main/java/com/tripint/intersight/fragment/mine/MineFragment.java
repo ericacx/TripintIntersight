@@ -22,6 +22,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
@@ -32,6 +34,7 @@ import com.tripint.intersight.app.InterSightApp;
 import com.tripint.intersight.common.Constants;
 import com.tripint.intersight.common.imagepicker.AndroidImagePicker;
 import com.tripint.intersight.common.utils.FileUtils;
+import com.tripint.intersight.common.utils.ImageUtils;
 import com.tripint.intersight.common.widget.cropiamge.CropImageActivity;
 import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
 import com.tripint.intersight.common.widget.filter.ItemModel;
@@ -270,10 +273,18 @@ public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLa
                     AndroidImagePicker.getInstance().pickAndCrop(mActivity, true, 120, new AndroidImagePicker.OnImageCropCompleteListener() {
                         @Override
                         public void onImageCropComplete(Bitmap bmp, float ratio) {
-                            Log.i(Constants.TAG, "=====onImageCropComplete (get bitmap=" + bmp.toString());
-                            mineCIVPersonalInfo.setVisibility(View.VISIBLE);
-                            mineCIVPersonalInfo.setImageBitmap(bmp);
-
+//                            Log.i(Constants.TAG, "=====onImageCropComplete (get bitmap=" + bmp.toString());
+//                            mineCIVPersonalInfo.setVisibility(View.VISIBLE);
+//                            mineCIVPersonalInfo.setImageBitmap(bmp);
+                            Glide.with(mActivity)
+                                    .load(ImageUtils.bitmap2Bytes(bmp, Bitmap.CompressFormat.JPEG))
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .centerCrop()
+                                    .dontAnimate()
+                                    .thumbnail(0.5f)
+                                    .placeholder(R.mipmap.ic_avatar)
+                                    .error(R.mipmap.ic_avatar)
+                                    .into(mineCIVPersonalInfo);
                             ByteArrayOutputStream stream = new ByteArrayOutputStream();
                             bmp.compress(Bitmap.CompressFormat.JPEG, 60, stream);
                             b = stream.toByteArray();
@@ -337,191 +348,6 @@ public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLa
         }
     }
 
-    private View createSingleListView(List<ItemModel> list) {
-        SimpleTextAdapter adapter = new SimpleTextAdapter<ItemModel>(null, mActivity) {
-            @Override
-            public String provideText(ItemModel item) {
-                return item.getName();
-            }
-
-            @Override
-            protected void initCheckedTextView(FilterCheckedTextView checkedTextView) {
-                checkedTextView.setPadding(UIUtil.dp(mActivity, 12), UIUtil.dp(mActivity, 12), 0, UIUtil.dp(mActivity, 12));
-            }
-        };
-        SingleListView<ItemModel> singleListView = new SingleListView<>(mActivity)
-                .adapter(adapter)
-                .onItemClick(new OnFilterItemClickListener<ItemModel>() {
-                    @Override
-                    public void onItemClick(ItemModel item) {
-                        if (item.getKey() == 1) {
-                            cameraMethod();
-                        } else {
-                            if (InterSightApp.getApp().getPermissionsChecker().lacksPermissions(InterSightApp.getApp().CONTACTS)) {
-                                PermissionsActivity.startActivityForResult(mActivity, InterSightApp.getApp().REQUEST_CODE, InterSightApp.getApp().CONTACTS);
-                            } else {
-                                //跳转至最终的选择图片页面
-                                Intent intent = new Intent(mActivity, PhotoWallActivity.class);
-                                intent.putExtra("maximum", 1);
-                                startActivityForResult(intent, 200);
-                            }
-
-                        }
-                        dialog.dismiss();
-                    }
-                });
-
-        singleListView.setList(list, -1);
-
-        return singleListView;
-    }
-
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//
-//        if(resultCode == Activity.RESULT_OK){
-//            if (requestCode == REQ_IMAGE) {
-//                mineCIVPersonalInfo.setVisibility(View.GONE);
-//
-//                List<ImageItem> imageList = AndroidImagePicker.getInstance().getSelectedImages();
-////                mAdapter.clear();
-////                mAdapter.addAll(imageList);
-//            }/*else if(requestCode == REQ_IMAGE_CROP){
-//                Bitmap bmp = (Bitmap)data.getExtras().get("bitmap");
-//                Log.i(TAG,"-----"+bmp.getRowBytes());
-//            }*/
-//        }
-//
-//    }
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == 200 && resultCode == 400) {
-//            ArrayList<String> paths = (ArrayList) data.getExtras().getSerializable("picData");
-//            File temp = new File(paths.get(0).toString());
-//            strImgPath = paths.get(0).toString();
-////            startPhotoZoom(Uri.fromFile(temp));
-//            mineCIVPersonalInfo.setImageBitmap(BitmapFactory.decodeFile(strImgPath));
-//        } else if (requestCode == RESULT_CAPTURE_IMAGE && resultCode == mActivity.RESULT_OK) {
-//            try {
-//                if (null != data && null != data.getData()) {
-//                    imgUri = data.getData();
-//                }
-//                strImgPath = FileUtils.getImageAbsolutePath(mActivity, imgUri);
-//                mineCIVPersonalInfo.setImageBitmap(BitmapFactory.decodeFile(strImgPath));
-//
-////                startPhotoZoom(imgUri);
-//            } catch (Exception e) {
-//                Log.e("-----Exception--|=", e.getMessage());
-//            }
-//        } else if (requestCode == TAILORING && resultCode == mActivity.RESULT_OK) {
-//            if (null != data) {
-//                setPicToView(data);
-//            }
-//        }
-////        mActivity.onActivityResult(requestCode, resultCode, data);
-//    }
-
-    /**
-     * 照相功能
-     */
-    private void cameraMethod() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        SimpleDateFormat timeStampFormat = new SimpleDateFormat(
-                "yyyy_MM_dd_HH_mm_ss");
-        String filename = timeStampFormat.format(new Date());
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Video.Media.TITLE, filename);
-
-        imgUri = mActivity.getContentResolver().insert(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
-        startActivityForResult(intent, RESULT_CAPTURE_IMAGE);
-    }
-
-    /**
-     * 裁剪图片方法实现
-     *
-     * @param uri
-     */
-    public void startPhotoZoom(Uri uri) {
-        try {
-            strImgPath = FileUtils.getImageAbsolutePath(mActivity, uri);
-            // create explicit intent
-            Intent intent = new Intent(mActivity, CropImageActivity.class);
-
-            // tell CropImageActivity activity to look for image to crop
-            intent.putExtra(CropImageActivity.IMAGE_PATH, strImgPath);
-
-            // allow CropImageActivity activity to rescale image
-            intent.putExtra(CropImageActivity.SCALE, true);
-
-            // if the aspect ratio is fixed to ratio 3/2
-            intent.putExtra(CropImageActivity.ASPECT_X, 1);
-            intent.putExtra(CropImageActivity.ASPECT_Y, 1);
-            intent.putExtra(CropImageActivity.OUTPUT_X, 360);
-            intent.putExtra(CropImageActivity.OUTPUT_Y, 360);
-
-            // start activity CropImageActivity with certain request code and listen
-            // for result
-            startActivityForResult(intent, TAILORING);
-
-
-        } catch (Exception e) {
-
-        }
-    }
-
-//    /**
-//     * 修改
-//     *
-//     * @param _userInfo
-//     */
-//    private void modify(final MyUserInfo _userInfo) {
-//        HashMap<String, String> requestParams = new HashMap<String, String>();
-//        requestParams.put("data", JSON.toJSONString(_userInfo));
-//        modifyUserInfo = toModifyUserInfo(_userInfo);
-//        userServer.modifyMyBaseInfo(new UserDataRepository(), AndroidSchedulers.mainThread(), modifyUserInfo, requestParams);
-//    }
-
-    /**
-     * 保存裁剪之后的图片数据
-     *
-     * @param picdata
-     */
-    private void setPicToView(Intent picdata) {
-        Bundle extras = picdata.getExtras();
-        if (extras != null) {
-            String path = extras.getString(CropImageActivity.IMAGE_PATH);
-            Bitmap photo = null;
-            // if nothing received
-            if (path != null) {
-                photo = BitmapFactory.decodeFile(path);
-            } else {
-                photo = BitmapFactory.decodeFile(strImgPath);
-            }
-
-            if (photo == null) {
-                return;
-            } else {
-                mineCIVPersonalInfo.setImageBitmap(photo);
-            }
-            /**
-             * 下面注释的方法是将裁剪之后的图片以Base64Coder的字符方式上
-             * 传到服务器
-             */
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            photo.compress(Bitmap.CompressFormat.JPEG, 60, stream);
-            byte[] b = stream.toByteArray();
-            // 将图片流以字符串形式存储下来
-            String imageBase64Data = Base64.encodeToString(b, Base64.NO_WRAP);
-//            userInfo.setIconUri(strImgPath);
-//            mineCIVPersonalInfo.setImageBitmap(photo);
-//            userInfo.setImgIco(new PicComment(FileUtils.getFileName(strImgPath), imageBase64Data));
-//            modify(userInfo);
-        }
-    }
 
     @Override
     public void onRefresh() {

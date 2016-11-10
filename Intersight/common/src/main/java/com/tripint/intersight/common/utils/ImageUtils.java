@@ -66,7 +66,7 @@ public class ImageUtils {
         ByteArrayOutputStream baos = null;
         try {
             baos = new ByteArrayOutputStream();
-            bitmap.compress(format, 100, baos);
+            bitmap.compress(format, 80, baos);
             return baos.toByteArray();
         } finally {
             FileUtils.closeIO(baos);
@@ -696,29 +696,6 @@ public class ImageUtils {
     }
 
     /**
-     * 压缩图片
-     *
-     * @param src      源图片
-     * @param format   格式
-     * @param topLimit 允许最大值
-     * @param unit     最大值单位
-     * @return 压缩过的图片
-     */
-    private Bitmap compress(Bitmap src, CompressFormat format, long topLimit, ConstUtils.MemoryUnit unit, boolean
-            recycle) {
-        if (format == CompressFormat.PNG) return src;
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        src.compress(format, 100, os);
-        long upperSize = FileUtils.size2Byte(topLimit, unit);
-        while (os.toByteArray().length > upperSize) {
-            os.reset();
-            src.compress(format, 50, os);
-        }
-        if (recycle && !src.isRecycled()) src.recycle();
-        return BitmapFactory.decodeStream(new ByteArrayInputStream(os.toByteArray()));
-    }
-
-    /**
      * 转为灰度图像
      *
      * @param src 源图片
@@ -928,5 +905,28 @@ public class ImageUtils {
      */
     private static boolean isEmptyBitmap(Bitmap src) {
         return src == null || src.getWidth() == 0 || src.getHeight() == 0;
+    }
+
+    /**
+     * 压缩图片
+     *
+     * @param src      源图片
+     * @param format   格式
+     * @param topLimit 允许最大值
+     * @param unit     最大值单位
+     * @return 压缩过的图片
+     */
+    private Bitmap compress(Bitmap src, CompressFormat format, long topLimit, ConstUtils.MemoryUnit unit, boolean
+            recycle) {
+        if (format == CompressFormat.PNG) return src;
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        src.compress(format, 100, os);
+        long upperSize = FileUtils.size2Byte(topLimit, unit);
+        while (os.toByteArray().length > upperSize) {
+            os.reset();
+            src.compress(format, 50, os);
+        }
+        if (recycle && !src.isRecycled()) src.recycle();
+        return BitmapFactory.decodeStream(new ByteArrayInputStream(os.toByteArray()));
     }
 }
