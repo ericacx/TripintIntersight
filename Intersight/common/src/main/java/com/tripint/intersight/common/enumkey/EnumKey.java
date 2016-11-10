@@ -39,5 +39,10 @@ public class EnumKey {
         public static final String KEYWORD_CACHE = "keyword_cache"; //搜索关键词缓存
         public static final String KEYWORD_APP_LAUNCHED = "keyword_app_launched"; //APP打开过
 
+        public static final String USER_NAME = "user_name";
+        public static final String USER_COMPANY = "user_company";
+        public static final String USER_PHONE = "user_phone";
+        public static final String USER_EMAIL = "user_email";
+
     }
 }

@@ -197,7 +197,7 @@ public class BaseDataHttpRequest extends HttpRequest {
      * @param page
      */
     public void getArticles(Subscriber<BasePageableResponse<ArticlesEntity>> subscriber, int page){
-        Observable observable = baseDataService.getArticles(page,DEFAULT_PAGE_SIZE)
+        Observable observable = baseDataService.getArticles(page,30)
                 .map(new HttpResultFunc<BasePageableResponse<ArticlesEntity>>());
         toSubscribe(observable,subscriber);
     }

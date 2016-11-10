@@ -168,8 +168,15 @@ public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLa
 
     @Subscribe
     private void initView(View view) {
-
-//        ACache.get(mActivity).put(EnumKey.User.USER_TOKEN, data.getToken());
+        if (data.getNickname() != null){
+            ACache.get(mActivity).put(EnumKey.ACacheKey.USER_NAME, data.getNickname());
+        }
+        if (data.getMobile()!= null){
+            ACache.get(mActivity).put(EnumKey.ACacheKey.USER_PHONE, data.getMobile());
+        }
+        if (data.getEmail()!= null){
+            ACache.get(mActivity).put(EnumKey.ACacheKey.USER_EMAIL, data.getEmail());
+        }
 
         mineTextViewName.setText(data.getNickname());
         textViewMyMoney.setText(data.getBalance());

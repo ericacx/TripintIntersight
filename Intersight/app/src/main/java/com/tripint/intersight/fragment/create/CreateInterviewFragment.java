@@ -19,6 +19,8 @@ import android.widget.TextView;
 import com.tripint.intersight.R;
 import com.tripint.intersight.adapter.PaymentSelectAdapter;
 import com.tripint.intersight.adapter.listener.RecyclerViewItemOnClick;
+import com.tripint.intersight.common.cache.ACache;
+import com.tripint.intersight.common.enumkey.EnumKey;
 import com.tripint.intersight.common.utils.DialogPlusUtils;
 import com.tripint.intersight.common.utils.ToastUtil;
 import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
@@ -132,6 +134,12 @@ public class CreateInterviewFragment extends BaseBackFragment {
 
     private void initView() {
         dialogInterviewMoney.setText(interviewPay + "/小时");
+        String nickname = ACache.get(mActivity).getAsString(EnumKey.ACacheKey.USER_NAME);
+        String email = ACache.get(mActivity).getAsString(EnumKey.ACacheKey.USER_EMAIL);
+        String phone = ACache.get(mActivity).getAsString(EnumKey.ACacheKey.USER_PHONE);
+        dialogInterviewNickname.setText(nickname);
+        dialogInterviewEmail.setText(email);
+        dialogInterviewPhone.setText(phone);
     }
 
     private void httpRequestData() {
@@ -140,7 +148,8 @@ public class CreateInterviewFragment extends BaseBackFragment {
             public void onNext(WXPayResponseEntity entity) {
                 //接口请求成功后处理,调起微信支付。
                 PayUtils.getInstant().requestWXpay(entity);
-//
+                dialogPlus.dismiss();
+                pop();
             }
         };
 
@@ -149,7 +158,8 @@ public class CreateInterviewFragment extends BaseBackFragment {
             public void onNext(AliPayResponseEntity entity) {
                 //接口请求成功后处理,调起微信支付。
                 AliPayUtils.getInstant(mActivity).pay(entity);
-//
+                dialogPlus.dismiss();
+                pop();
             }
         };
 
@@ -158,7 +168,12 @@ public class CreateInterviewFragment extends BaseBackFragment {
             public void onNext(CreateInterviewResponseEntity entity) {
                 createInterviewResponseEntity = entity;
                 interviewId = entity.getInterviewId();
-                requestPaymentInterviewDialog();
+                if (interviewPay.equals("0")){
+                    pop();
+                } else {
+                    requestPaymentInterviewDialog();
+                }
+
             }
         };
 
@@ -278,8 +293,8 @@ public class CreateInterviewFragment extends BaseBackFragment {
 
 
         //初始化选中.
-        comTypeDoubleListView.setLeftList(industies, 1);
-        comTypeDoubleListView.setRightList(industies.get(1).getIndustrySub(), -1);
+        comTypeDoubleListView.setLeftList(industies, 0);
+        comTypeDoubleListView.setRightList(industies.get(0).getIndustrySub(), -1);
         comTypeDoubleListView.getLeftListView().setBackgroundColor(mActivity.getResources().getColor(R.color.b_c_fafafa));
 
         return comTypeDoubleListView;
