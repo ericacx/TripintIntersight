@@ -143,7 +143,6 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
                     viewHolderTwo.opinionFlipviewTwoTime = ((TextView) convertView.findViewById(R.id.opinion_flipview_two_time));
                     viewHolderTwo.opinionFlipviewTwoAgreeNum = ((TextView) convertView.findViewById(R.id.opinion_flipview_two_agreeNum));
                     viewHolderTwo.opinionFlipviewTwoTalkNum = ((TextView) convertView.findViewById(R.id.opinion_flipview_two_talkNum));
-                    viewHolderTwo.opioionFlipviewTwoSubmit = ((Button) convertView.findViewById(R.id.opioion_flipview_two_submit));
 
                     convertView.setTag(viewHolderTwo);
                     break;
@@ -287,12 +286,6 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
                     viewHolderTwo.opinionFlipviewTwoTitle.setText(resList.get(position).getImgTextDetail().get(0).getUserAbility());
                     viewHolderTwo.opinionFlipviewTwoTime.setText(resList.get(position).getImgTextDetail().get(0).getCreateAt());
 
-                    viewHolderTwo.opioionFlipviewTwoSubmit.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            EventBus.getDefault().post(new StartFragmentEvent(CreateOpinionFragment.newInstance()));
-                        }
-                    });
                     convertView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -390,8 +383,6 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
     class ViewHolderTwo {
         @Bind(R.id.opinion_flipview_two_pic)
         ImageView opinionFlipviewTwoPic;//图片
-        @Bind(R.id.opioion_flipview_two_submit)
-        Button opioionFlipviewTwoSubmit;//发表观点按钮
         @Bind(R.id.opinion_flipview_two_header)
         TextView opinionFlipviewTwoHeader;//标题
         @Bind(R.id.opinion_flipview_two_name)

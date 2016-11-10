@@ -46,7 +46,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
                         android:layout_margin="@dimen/width_3_80"
-                        android:src="@mipmap/dongcha" />
+                        />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -195,7 +195,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
                         android:layout_margin="@dimen/width_3_80"
-                        android:src="@mipmap/dongcha" />
+                        />
                 </RelativeLayout>
             </LinearLayout>
 

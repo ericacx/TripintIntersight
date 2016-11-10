@@ -43,7 +43,6 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
                     android:gravity="center_vertical"
-                    android:text="￥1000/小时"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_14" />
             </LinearLayout>

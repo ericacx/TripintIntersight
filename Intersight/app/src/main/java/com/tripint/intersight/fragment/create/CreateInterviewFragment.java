@@ -133,7 +133,7 @@ public class CreateInterviewFragment extends BaseBackFragment {
     }
 
     private void initView() {
-        dialogInterviewMoney.setText(interviewPay + "/小时");
+//        dialogInterviewMoney.setText(interviewPay + "/小时");
         String nickname = ACache.get(mActivity).getAsString(EnumKey.ACacheKey.USER_NAME);
         String email = ACache.get(mActivity).getAsString(EnumKey.ACacheKey.USER_EMAIL);
         String phone = ACache.get(mActivity).getAsString(EnumKey.ACacheKey.USER_PHONE);

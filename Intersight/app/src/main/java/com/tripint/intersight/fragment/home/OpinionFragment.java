@@ -18,7 +18,9 @@ import com.tripint.intersight.common.widget.flipview.FlipView;
 import com.tripint.intersight.common.widget.flipview.OverFlipMode;
 import com.tripint.intersight.entity.article.ArticlesEntity;
 import com.tripint.intersight.event.PersonalEvent;
+import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.fragment.create.CreateOpinionFragment;
 import com.tripint.intersight.fragment.flipview.OpinionFlipViewAdapter;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.service.HttpRequest;
@@ -33,6 +35,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 观点(文章)画面
@@ -74,7 +77,7 @@ public class OpinionFragment extends BaseBackFragment implements OpinionFlipView
         ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         toolbarTitle.setText("观点");
-        toolbarSearchButton.setVisibility(View.GONE);
+        toolbarSearchButton.setImageResource(R.mipmap.icon_guandian);
         httpRequestData();
         return view;
     }
@@ -152,5 +155,10 @@ public class OpinionFragment extends BaseBackFragment implements OpinionFlipView
 
     public int getCurrentPage() {
         return mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE + 1;
+    }
+
+    @OnClick(R.id.toolbar_search_button)
+    public void onClick() {
+        EventBus.getDefault().post(new StartFragmentEvent(CreateOpinionFragment.newInstance()));
     }
 }

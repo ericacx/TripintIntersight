@@ -167,7 +167,8 @@ public class PersonalMainPageFragment extends BaseBackFragment {
                 .placeholder(R.mipmap.ic_avatar)
                 .error(R.mipmap.ic_avatar)
                 .into(personalMainPagePersonalInfo);
-        personalMainPageButtonAsk.setText("￥"+discucssPay+" 向他提问");
+//        personalMainPageButtonAsk.setText("￥"+discucssPay+" 向他提问");
+        personalMainPageButtonAsk.setText("向他提问");
     }
 
     private void initToolbar() {

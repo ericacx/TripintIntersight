@@ -347,7 +347,8 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             textViewItemAnswerSpecialist.setText(specialAnswer);
 
             textViewItemAnswerTitle.setText(entity.getAudioTime() + "s");
-            textViewItemAnswerPayment.setText(entity.getPayment() + "元即听");
+//            textViewItemAnswerPayment.setText(entity.getPayment() + "元即听");
+            textViewItemAnswerPayment.setText("点击即听");
 
             textViewItemAnswerDateTime.setText(entity.getAnswerCreateAt());
 
@@ -449,6 +450,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                 //接口请求成功后处理,调起微信支付。
                 PayUtils.getInstant().requestWXpay(entity);
                 dialogPlus.dismiss();
+                pop();
             }
         };
 
@@ -458,6 +460,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
                 //接口请求成功后处理,调起微信支付。
                 AliPayUtils.getInstant(mActivity).pay(entity);
                 dialogPlus.dismiss();
+                pop();
             }
         };
 

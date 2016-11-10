@@ -23,7 +23,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="@dimen/spacing"
-                android:src="@mipmap/dongcha" />
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
