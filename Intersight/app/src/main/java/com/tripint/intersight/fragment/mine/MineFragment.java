@@ -30,6 +30,8 @@ import com.tripint.intersight.activity.LoginActivity;
 import com.tripint.intersight.activity.PermissionsActivity;
 import com.tripint.intersight.app.InterSightApp;
 import com.tripint.intersight.common.Constants;
+import com.tripint.intersight.common.cache.ACache;
+import com.tripint.intersight.common.enumkey.EnumKey;
 import com.tripint.intersight.common.imagepicker.AndroidImagePicker;
 import com.tripint.intersight.common.utils.FileUtils;
 import com.tripint.intersight.common.widget.cropiamge.CropImageActivity;
@@ -155,7 +157,7 @@ public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLa
         View view = inflater.inflate(R.layout.fragment_mine1, container, false);
         ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
-        toolbarTitle.setText("我的");
+        toolbarTitle.setText("个人");
         toolbarSearchButton.setImageResource(R.mipmap.iconfont_wodexx);
         swipeRefreshLayout.setOnRefreshListener(this);
         return view;
@@ -163,6 +165,9 @@ public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLa
 
     @Subscribe
     private void initView(View view) {
+
+//        ACache.get(mActivity).put(EnumKey.User.USER_TOKEN, data.getToken());
+
         mineTextViewName.setText(data.getNickname());
         textViewMyMoney.setText(data.getBalance());
         Glide.with(mActivity)

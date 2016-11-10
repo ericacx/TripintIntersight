@@ -305,7 +305,6 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
         initToolbarNav(toolbar);
         inithttpPutRequestData();
 
-
         //问答标题与作者
         if (data.getDetail() != null) {
             DiscussAskDetailEntity entity = data.getDetail();
@@ -315,6 +314,7 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
             toUid = entity.getAuthorUserId();
             audioUrl = entity.getAudioUrl();
             isPayment = entity.getIsPayment();
+
             listenPayment = entity.getListenPayment();
             Log.e("audioUrl", audioUrl);
 

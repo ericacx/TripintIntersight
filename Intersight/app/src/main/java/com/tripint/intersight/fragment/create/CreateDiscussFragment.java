@@ -142,7 +142,8 @@ public class CreateDiscussFragment extends BaseBackFragment {
             public void onNext(WXPayResponseEntity entity) {
                 //接口请求成功后处理,调起微信支付。
                 PayUtils.getInstant().requestWXpay(entity);
-//
+                dialogPlus.dismiss();
+                pop();
             }
         };
 
@@ -151,7 +152,8 @@ public class CreateDiscussFragment extends BaseBackFragment {
             public void onNext(AliPayResponseEntity entity) {
                 //接口请求成功后处理,调起微信支付。
                 AliPayUtils.getInstant(mActivity).pay(entity);
-//
+                dialogPlus.dismiss();
+                pop();
             }
         };
 
@@ -161,7 +163,11 @@ public class CreateDiscussFragment extends BaseBackFragment {
                 createDiscussResponseEntity = entity;
                 discussId = entity.getDiscussId();
 //                mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_START_STREAMING_DISCUSS), 500);
-                requestPaymentDiscussDialog();
+                if (discussPay.equals("0")){
+                    pop();
+                } else {
+                    requestPaymentDiscussDialog();
+                }
             }
         };
 
@@ -271,8 +277,8 @@ public class CreateDiscussFragment extends BaseBackFragment {
 
 
         //初始化选中.
-        comTypeDoubleListView.setLeftList(industies, 1);
-        comTypeDoubleListView.setRightList(industies.get(1).getIndustrySub(), -1);
+        comTypeDoubleListView.setLeftList(industies, 0);
+        comTypeDoubleListView.setRightList(industies.get(0).getIndustrySub(), -1);
         comTypeDoubleListView.getLeftListView().setBackgroundColor(mActivity.getResources().getColor(R.color.b_c_fafafa));
 
         return comTypeDoubleListView;

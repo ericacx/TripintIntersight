@@ -3,11 +3,13 @@ package com.tripint.intersight.fragment.home;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.common.BasePageableResponse;
@@ -40,6 +42,12 @@ public class OpinionFragment extends BaseBackFragment implements OpinionFlipView
 
     @Bind(R.id.opinionFlipView)
     FlipView opinionFlipView;
+    @Bind(R.id.toolbar_title)
+    TextView toolbarTitle;
+    @Bind(R.id.toolbar_search_button)
+    ImageView toolbarSearchButton;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
     private int TOTAL_COUNTER = 0;//总数
     private int mCurrentCounter = 0;//当前条目的位置
 
@@ -65,6 +73,8 @@ public class OpinionFragment extends BaseBackFragment implements OpinionFlipView
         View view = inflater.inflate(R.layout.fragment_opinion, container, false);
         ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
+        toolbarTitle.setText("观点");
+        toolbarSearchButton.setVisibility(View.GONE);
         httpRequestData();
         return view;
     }
@@ -130,7 +140,7 @@ public class OpinionFragment extends BaseBackFragment implements OpinionFlipView
                 if (mCurrentCounter >= TOTAL_COUNTER) {
                     Log.e("mCurrentCounter", String.valueOf(mCurrentCounter));
                     Log.e("total", String.valueOf(TOTAL_COUNTER));
-                    ToastUtil.showToast(mActivity,"加载完成");
+                    ToastUtil.showToast(mActivity, "加载完成");
                 } else {
                     BaseDataHttpRequest.getInstance(mActivity).getArticles(
                             new ProgressSubscriber(subscriber, mActivity), getCurrentPage());
@@ -141,6 +151,6 @@ public class OpinionFragment extends BaseBackFragment implements OpinionFlipView
     }
 
     public int getCurrentPage() {
-        return mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE+ 1;
+        return mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE + 1;
     }
 }
