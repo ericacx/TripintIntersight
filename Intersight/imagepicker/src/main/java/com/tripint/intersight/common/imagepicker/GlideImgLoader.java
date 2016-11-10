@@ -24,24 +24,30 @@ package com.tripint.intersight.common.imagepicker;
 
 //import java.io.File;
 
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+
+import java.io.File;
+
 /**
  * <b>desc your class</b><br/>
  * Created by Eason.Lai on 2015/11/1 10:42 <br/>
  // * contact：easonline7@gmail.com <br/>
  // */
-//public class GlideImgLoader implements ImgLoader {
-//    @Override
-//    public void onPresentImage(ImageView imageView, String imageUri, int size) {
-//        Glide.with(imageView.getContext())
-//                .load(new File(imageUri))
-//                .centerCrop()
-//                .dontAnimate()
-//                .thumbnail(0.5f)
-//                .override(size/4*3, size/4*3)
-//                .placeholder(R.drawable.default_img)
-//                .error(R.drawable.default_img)
-//                .into(imageView);
-//
-//    }
-//
-//}
+public class GlideImgLoader implements ImgLoader {
+    @Override
+    public void onPresentImage(ImageView imageView, String imageUri, int size) {
+        Glide.with(imageView.getContext())
+                .load(new File(imageUri))
+                .centerCrop()
+                .dontAnimate()
+                .thumbnail(0.5f)
+                .override(size / 4 * 3, size / 4 * 3)
+                .placeholder(R.drawable.default_img)
+                .error(R.drawable.default_img)
+                .into(imageView);
+
+    }
+
+}

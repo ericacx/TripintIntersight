@@ -48,6 +48,7 @@ import com.tripint.intersight.common.imagepicker.AndroidImagePicker;
 import com.tripint.intersight.common.imagepicker.ImgLoader;
 import com.tripint.intersight.common.imagepicker.PicassoImgLoader;
 import com.tripint.intersight.common.imagepicker.R;
+import com.tripint.intersight.common.imagepicker.UilImgLoader;
 import com.tripint.intersight.common.imagepicker.Util;
 import com.tripint.intersight.common.imagepicker.bean.ImageItem;
 import com.tripint.intersight.common.imagepicker.bean.ImageSet;
@@ -149,7 +150,7 @@ public class ImagesGridFragment extends Fragment implements OnImagesLoadedListen
             }
         }));//stop loading if fling or scrolling if using UIL*/
 
-        mImagePresenter = new PicassoImgLoader();
+        mImagePresenter = new UilImgLoader();
 
         DataSource dataSource = new LocalDataSource(mContext);
         dataSource.provideMediaItems(this);//select all images from local database
