@@ -48,6 +48,7 @@ import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.event.StartFragmentForResultEvent;
 import com.tripint.intersight.fragment.PersonalInfoFragment;
 import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
+import com.tripint.intersight.fragment.mine.message.NewMessageFragment;
 import com.tripint.intersight.fragment.mine.photo.photo.PhotoWallActivity;
 import com.tripint.intersight.fragment.mine.setting.SettingFragment;
 import com.tripint.intersight.service.MineDataHttpRequest;
@@ -72,7 +73,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final int RESULT_CAPTURE_IMAGE = 1;// 照相的requestCode
     private static final int TAILORING = 2;// 裁剪
@@ -97,8 +98,6 @@ public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLa
     TextView textViewMyFocus;
     //    @Bind(R.id.text_view_my_star)
 //    TextView textViewMyStar;
-    @Bind(R.id.text_view_help)
-    TextView textViewHelp;
     @Bind(R.id.text_view_setting)
     TextView textViewSetting;
 
@@ -106,6 +105,12 @@ public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLa
     Toolbar toolbar;
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
+    @Bind(R.id.toolbar_title)
+    TextView toolbarTitle;
+    @Bind(R.id.toolbar_search_button)
+    ImageView toolbarSearchButton;
+    @Bind(R.id.text_view_help)
+    TextView textViewHelp;
 
 
     private PageDataSubscriberOnNext<UserHomeEntity> subscriber;
@@ -150,7 +155,8 @@ public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLa
         View view = inflater.inflate(R.layout.fragment_mine1, container, false);
         ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
-        initToolbarMenu(toolbar);
+        toolbarTitle.setText("我的");
+        toolbarSearchButton.setImageResource(R.mipmap.iconfont_wodexx);
         swipeRefreshLayout.setOnRefreshListener(this);
         return view;
     }
@@ -241,7 +247,7 @@ public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLa
     @OnClick({R.id.mineIvRewriteInfo, R.id.text_view_mine_ask_answer, R.id.text_view_mine_interview,
             R.id.text_view_my_option, R.id.text_view_my_money, R.id.text_view_my_account_detail,
             R.id.textView_my_focus, R.id.text_view_help, R.id.text_view_setting
-            , R.id.mineCIVPersonalInfo})
+            , R.id.mineCIVPersonalInfo,R.id.toolbar_search_button})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.mineCIVPersonalInfo:
@@ -324,6 +330,9 @@ public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLa
                 break;
             case R.id.text_view_setting://设置
                 EventBus.getDefault().post(new StartFragmentEvent(SettingFragment.newInstance()));
+                break;
+            case R.id.toolbar_search_button://消息
+                EventBus.getDefault().post(new StartFragmentEvent(NewMessageFragment.newInstance()));
                 break;
         }
     }

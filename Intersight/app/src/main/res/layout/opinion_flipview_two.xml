@@ -8,7 +8,7 @@
         android:id="@+id/opinion_flipview_two_pic"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_25_80"
-        android:src="@mipmap/ic_avatar" />
+         />
 
 
     <Button
@@ -79,42 +79,58 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/spacing"
-            android:layout_marginTop="@dimen/spacing"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
+
+                <ImageView
+                    android:src="@mipmap/iconfont_zan01"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+
                 <TextView
                     android:id="@+id/opinion_flipview_two_agreeNum"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/height_4_80"
-                    android:drawableLeft="@mipmap/iconfont_zan01"
-                    android:drawablePadding="@dimen/spacing"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/spacing"
                     android:textColor="@color/line"
                     android:textSize="@dimen/text_size_12" />
+
+                <ImageView
+                    android:src="@mipmap/iconfont_heartbig01"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
 
                 <TextView
                     android:id="@+id/opinion_flipview_two_talkNum"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/height_4_80"
-                    android:layout_marginLeft="@dimen/spacing"
-                    android:drawableLeft="@mipmap/iconfont_heartbig01"
-                    android:drawablePadding="@dimen/spacing"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/spacing"
                     android:textColor="@color/line"
                     android:textSize="@dimen/text_size_12" />
 
+                <ImageView
+                    android:src="@mipmap/iconfont_jubao"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
                 <TextView
                     android:id="@+id/opinion_flipview_two_report"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/height_4_80"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/spacing"
-                    android:drawableLeft="@mipmap/iconfont_jubao"
-                    android:drawablePadding="@dimen/spacing"
                     android:gravity="center_vertical"
                     android:textSize="@dimen/text_size_12"
                     />

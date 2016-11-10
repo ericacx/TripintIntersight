@@ -171,7 +171,6 @@ public class OpinionDetailFragment extends BaseBackFragment {
 
         toolbar.setTitle("观点详情");
         initToolbarNav(toolbar);
-        initToolbarMenu(toolbar);
         inithttpPutRequestData();
 
         if (data.getDetail() != null) {

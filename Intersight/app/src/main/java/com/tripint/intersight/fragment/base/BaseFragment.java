@@ -19,20 +19,20 @@ import org.greenrobot.eventbus.EventBus;
 public class BaseFragment extends SupportFragment {
     private static final String TAG = "Fragmentation";
 
-    protected void initToolbarMenu(Toolbar toolbar) {
-        toolbar.inflateMenu(R.menu.home);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_message:
-                        EventBus.getDefault().post(new StartFragmentEvent(NewMessageFragment.newInstance()));
-                        break;
-                }
-                return true;
-            }
-        });
-    }
+//    protected void initToolbarMenu(Toolbar toolbar) {
+//        toolbar.inflateMenu(R.menu.home);
+//        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                switch (item.getItemId()) {
+//                    case R.id.action_message:
+//                        EventBus.getDefault().post(new StartFragmentEvent(NewMessageFragment.newInstance()));
+//                        break;
+//                }
+//                return true;
+//            }
+//        });
+//    }
 
     protected void showProgressDialog(){
         ProgressDialogUtils.getInstants(mActivity).show();

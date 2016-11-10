@@ -39,7 +39,7 @@
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/spacing"
-                    android:src="@mipmap/iconfont_heartbig01" />
+                    android:src="@mipmap/iconfont_heartbig02" />
 
                 <TextView
                     android:id="@+id/textView_item_liked_number"

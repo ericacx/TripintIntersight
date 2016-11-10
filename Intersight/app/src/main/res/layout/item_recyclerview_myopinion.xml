@@ -26,8 +26,9 @@
                 <ImageView
                     android:id="@+id/opinion_imageView_owner_profile"
                     android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:src="@mipmap/ic_avatar"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
                 <RelativeLayout
                     android:layout_margin="@dimen/spacing"
                     android:layout_width="match_parent"
@@ -35,6 +36,7 @@
                     <TextView
                         android:id="@+id/opinion_textView_owner_name"
                         android:textColor="@color/line"
+                        android:text="111"
                         android:layout_marginBottom="@dimen/spacing"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />

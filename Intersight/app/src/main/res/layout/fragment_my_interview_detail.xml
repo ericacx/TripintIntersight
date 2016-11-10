@@ -200,16 +200,7 @@
                     android:layout_marginTop="@dimen/spacing_02"
                     android:gravity="center_vertical">
 
-                    <TextView
-                        android:id="@+id/my_interview_detail_look"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:gravity="center_vertical"
-                        android:text="查看评论"
-                        android:textColor="@color/blue"
-                        android:textSize="@dimen/text_size_14" />
+
 
                     <Button
                         android:id="@+id/my_interview_detail_kefu"

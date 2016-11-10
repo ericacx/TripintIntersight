@@ -379,7 +379,6 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
 
         toolbar.setTitle("问答详情");
         initToolbarNav(toolbar);
-        initToolbarMenu(toolbar);
         inithttpPutRequestData();
 
 
@@ -588,6 +587,7 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
                 }
                 break;
             case R.id.btn_qa_record_voice_play: //播放
+//                prepareAudioPlayer();
                 mMediaPlayer.start();
                 mIsStopped = false;
                 break;

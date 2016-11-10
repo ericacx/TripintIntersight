@@ -105,8 +105,6 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
     @Bind(R.id.my_interview_title)
     TextView myInterviewTitle;//职位
 
-    @Bind(R.id.my_interview_detail_look)
-    TextView myInterviewDetailLook;
     @Bind(R.id.my_interview_detail_kefu)
     Button myInterviewDetailKefu;
     @Bind(R.id.my_interview_detail_twiceInterview)
@@ -191,7 +189,6 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
 
     private void initToolbar() {
         initToolbarNav(toolbar);
-        initToolbarMenu(toolbar);
     }
 
     private void httpRequestData() {
@@ -322,11 +319,9 @@ public class MyInterviewDetailFragment extends BaseBackFragment {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.my_interview_detail_look, R.id.my_interview_detail_kefu, R.id.my_interview_detail_twiceInterview, R.id.my_interview_detail_ask})
+    @OnClick({ R.id.my_interview_detail_kefu, R.id.my_interview_detail_twiceInterview, R.id.my_interview_detail_ask})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.my_interview_detail_look:
-                break;
             case R.id.my_interview_detail_kefu://客服
                 initKefuDialog();
                 break;

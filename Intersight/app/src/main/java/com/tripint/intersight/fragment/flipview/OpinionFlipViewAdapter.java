@@ -1,7 +1,6 @@
 package com.tripint.intersight.fragment.flipview;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -27,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by Eric on 16/9/20.
@@ -56,7 +54,7 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
         this.resList = list;
     }
 
-    public void setOnLoadMoreListener(OpinionFlipViewAdapter.RequestLoadMoreListener requestLoadMoreListener) {
+    public void setOnLoadMoreListener(RequestLoadMoreListener requestLoadMoreListener) {
         this.mRequestLoadMoreListener = requestLoadMoreListener;
     }
 
@@ -82,7 +80,7 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
     }
 
     public void addResList(List<ArticlesEntity> resList) {
-        if(this.resList != null) {
+        if (this.resList != null) {
             this.resList.addAll(resList);
             notifyDataSetChanged();
         }
@@ -177,7 +175,9 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
                     viewHolderThree.opinionFlipviewThreeTalkNumTwo = ((TextView) convertView.findViewById(R.id.opinion_flipview_three_talkNum_two));
                     viewHolderThree.opinionFlipviewThreeReportTwo = ((TextView) convertView.findViewById(R.id.opinion_flipview_three_report_two));
 
-
+                    viewHolderThree.opinionFlipviewThreeImageZanTwo = ((ImageView) convertView.findViewById(R.id.opinion_flipview_three_image_zan_two));
+                    viewHolderThree.opinionFlipviewThreeImageGuanzhuTwo = ((ImageView) convertView.findViewById(R.id.opinion_flipview_three_image_guanzhu_two));
+                    viewHolderThree.opinionFlipviewThreeImageJubaoTwo = ((ImageView) convertView.findViewById(R.id.opinion_flipview_three_image_jubao_two));
                     convertView.setTag(viewHolderThree);
                     break;
                 default:
@@ -302,7 +302,7 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
                     convertView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (position == 1){
+                            if (position == 1) {
                                 resList.get(position).getImgTextDetail().get(0).getId();
                                 typeOne = resList.get(position).getImgTextDetail().get(0).getType();
                                 EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance(typeOne, articleIdOne)));
@@ -315,7 +315,7 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
                 break;
             case VIEWTYPE_THREE:
                 if (position > 0 && resList.get(position).getTextDetail() != null) {
-                    if (resList.get(position).getTextDetail().size() == 1){
+                    if (resList.get(position).getTextDetail().size() == 1) {
 
                         viewHolderThree.opioionFlipviewThreeContent.setText(resList.get(position).getTextDetail().get(0).getContent());
                         viewHolderThree.opinionFlipviewThreeTime.setText(resList.get(position).getTextDetail().get(0).getCreateAt());
@@ -325,9 +325,9 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
                         viewHolderThree.opinionFlipviewThreeAgreeNum.setText(resList.get(position).getTextDetail().get(0).getPraisesCount() + "");
                         viewHolderThree.opinionFlipviewThreeTalkNum.setText(resList.get(position).getTextDetail().get(0).getCommentsCount() + "");
 
-                        viewHolderThree.opinionFlipviewThreeAgreeNumTwo.setVisibility(View.GONE);
-                        viewHolderThree.opinionFlipviewThreeTalkNumTwo.setVisibility(View.GONE);
-                        viewHolderThree.opinionFlipviewThreeReportTwo.setVisibility(View.GONE);
+                        viewHolderThree.opinionFlipviewThreeImageZanTwo.setVisibility(View.GONE);
+                        viewHolderThree.opinionFlipviewThreeImageJubaoTwo.setVisibility(View.GONE);
+                        viewHolderThree.opinionFlipviewThreeImageGuanzhuTwo.setVisibility(View.GONE);
 
                         typeTwo = resList.get(position).getTextDetail().get(0).getType();
                         articleIdTwo = resList.get(position).getTextDetail().get(0).getId();
@@ -374,9 +374,6 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
                             }
                         });
                     }
-
-
-
 
 
                 }
@@ -493,8 +490,13 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
         TextView opinionFlipviewThreeTalkNumTwo;
         @Bind(R.id.opinion_flipview_three_report_two)
         TextView opinionFlipviewThreeReportTwo;
+        @Bind(R.id.opinion_flipview_three_image_zan_two)
+        ImageView opinionFlipviewThreeImageZanTwo;
+        @Bind(R.id.opinion_flipview_three_image_guanzhu_two)
+        ImageView opinionFlipviewThreeImageGuanzhuTwo;
+        @Bind(R.id.opinion_flipview_three_image_jubao_two)
+        ImageView opinionFlipviewThreeImageJubaoTwo;
     }
-
 
 
     public interface RequestLoadMoreListener {

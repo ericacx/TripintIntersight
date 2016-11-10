@@ -79,39 +79,56 @@
                 android:orientation="horizontal"
                 android:layout_width="0dp"
                 android:layout_weight="4"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
                 android:layout_height="match_parent">
+
+                <ImageView
+                    android:src="@mipmap/iconfont_zan01"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+
                 <TextView
                     android:id="@+id/opinion_flipview_three_agreeNum"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/height_4_80"
-                    android:drawableLeft="@mipmap/iconfont_zan01"
-                    android:drawablePadding="@dimen/spacing"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text=""
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/line" />
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:textColor="@color/line"
+                    android:textSize="@dimen/text_size_12" />
+
+                <ImageView
+                    android:src="@mipmap/iconfont_heartbig01"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
 
                 <TextView
                     android:id="@+id/opinion_flipview_three_talkNum"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/height_4_80"
-                    android:layout_marginLeft="@dimen/spacing"
-                    android:drawableLeft="@mipmap/iconfont_heartbig01"
-                    android:drawablePadding="@dimen/spacing"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text=""
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/line" />
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:textColor="@color/line"
+                    android:textSize="@dimen/text_size_12" />
 
+                <ImageView
+                    android:src="@mipmap/iconfont_jubao"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
                 <TextView
                     android:id="@+id/opinion_flipview_three_report"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/height_4_80"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/spacing"
+                    android:gravity="center_vertical"
                     android:textSize="@dimen/text_size_12"
-                    android:drawableLeft="@mipmap/iconfont_jubao"
-                    android:drawablePadding="@dimen/spacing"
-                    android:gravity="center_vertical" />
+                    />
+
             </LinearLayout>
 
             <TextView
@@ -214,38 +231,56 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/opinion_flipview_three_image_zan_two"
+                    android:src="@mipmap/iconfont_zan01"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+
                 <TextView
                     android:id="@+id/opinion_flipview_three_agreeNum_two"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/height_4_80"
-                    android:drawableLeft="@mipmap/iconfont_zan01"
-                    android:drawablePadding="@dimen/spacing"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text=""
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/line" />
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:textColor="@color/line"
+                    android:textSize="@dimen/text_size_12" />
+
+                <ImageView
+                    android:id="@+id/opinion_flipview_three_image_guanzhu_two"
+                    android:src="@mipmap/iconfont_heartbig01"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
 
                 <TextView
                     android:id="@+id/opinion_flipview_three_talkNum_two"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/height_4_80"
-                    android:layout_marginLeft="@dimen/spacing"
-                    android:drawableLeft="@mipmap/iconfont_heartbig01"
-                    android:drawablePadding="@dimen/spacing"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text=""
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/line" />
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:textColor="@color/line"
+                    android:textSize="@dimen/text_size_12" />
 
+                <ImageView
+                    android:id="@+id/opinion_flipview_three_image_jubao_two"
+                    android:src="@mipmap/iconfont_jubao"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
                 <TextView
                     android:id="@+id/opinion_flipview_three_report_two"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/height_4_80"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/spacing"
-                    android:drawableLeft="@mipmap/iconfont_jubao"
-                    android:drawablePadding="@dimen/spacing"
+                    android:gravity="center_vertical"
                     android:textSize="@dimen/text_size_12"
-                    android:gravity="center_vertical" />
+                    />
+
             </LinearLayout>
             <TextView
                 android:id="@+id/opinion_flipview_three_time_two"

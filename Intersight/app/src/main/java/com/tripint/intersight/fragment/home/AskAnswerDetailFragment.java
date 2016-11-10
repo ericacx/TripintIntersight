@@ -303,7 +303,6 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
         toolbar.setTitle("问答详情");
         initToolbarNav(toolbar);
-        initToolbarMenu(toolbar);
         inithttpPutRequestData();
 
 

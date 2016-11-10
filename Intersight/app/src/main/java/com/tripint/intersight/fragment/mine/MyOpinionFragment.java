@@ -109,6 +109,7 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
         };
 
         MineDataHttpRequest.getInstance(mActivity).getMyFollowPoint(new ProgressSubscriber(subscriber, mActivity), type, 1);
+        Log.e("type",String.valueOf(type));
     }
 
 
@@ -116,6 +117,7 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
     private List<MineMultipleItemModel> getMineMultipleItemModel(List<MineFollowPointEntity> entiries) {
         List<MineMultipleItemModel> models = new ArrayList<>();
         int type = mCurrentTab == 0 ? MineMultipleItemModel.MY_OPTION : MineMultipleItemModel.MY_OPTION_FOLLOW;
+        Log.e("currenttab",String.valueOf(mCurrentTab));
         if (entiries == null) return models;
 
         for (MineFollowPointEntity entiry : entiries) {
@@ -186,7 +188,7 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
     @Override
     public void onRefresh() {
         mCurrentCounter = 0;
-        MineDataHttpRequest.getInstance(mActivity).getMyFollowPoint(new ProgressSubscriber(subscriber, mActivity), mCurrentTab, 1);
+        MineDataHttpRequest.getInstance(mActivity).getMyFollowPoint(new ProgressSubscriber(subscriber, mActivity), getCurrentPage(), 1);
         mAdapter.openLoadMore(PAGE_SIZE);
         mAdapter.removeAllFooterView();
         mCurrentCounter = PAGE_SIZE;

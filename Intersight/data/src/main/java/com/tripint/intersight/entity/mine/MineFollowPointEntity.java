@@ -29,15 +29,16 @@ public class MineFollowPointEntity implements Serializable{
 
 
     private int id;
+    private int userId;
     private String title;//标题
     private String content;//内容
-    private int comments;//评论数
-    private int follows;//关注数
-    private int praises;//点赞数
-    private String nickname;//名字
-    private String avatar;//头像
-    private String jobName;//职位
-    private String companyName;//公司名
+    private int commentsCount;//评论数
+    private int favoritesCount;//关注数
+    private int praisesCount;//点赞数
+    private String userNickname;//名字
+    private String userAvatar;//头像
+    private String userAbility;//职位
+    private String userOrganization;//公司名
     private String industryName;//行业
     /**
      * id : 2
@@ -49,13 +50,20 @@ public class MineFollowPointEntity implements Serializable{
      */
 
 
-
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getTitle() {
@@ -74,60 +82,60 @@ public class MineFollowPointEntity implements Serializable{
         this.content = content;
     }
 
-    public int getComments() {
-        return comments;
+    public int getCommentsCount() {
+        return commentsCount;
     }
 
-    public void setComments(int comments) {
-        this.comments = comments;
+    public void setCommentsCount(int commentsCount) {
+        this.commentsCount = commentsCount;
     }
 
-    public int getFollows() {
-        return follows;
+    public int getFavoritesCount() {
+        return favoritesCount;
     }
 
-    public void setFollows(int follows) {
-        this.follows = follows;
+    public void setFavoritesCount(int favoritesCount) {
+        this.favoritesCount = favoritesCount;
     }
 
-    public int getPraises() {
-        return praises;
+    public int getPraisesCount() {
+        return praisesCount;
     }
 
-    public void setPraises(int praises) {
-        this.praises = praises;
+    public void setPraisesCount(int praisesCount) {
+        this.praisesCount = praisesCount;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getUserNickname() {
+        return userNickname;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getUserAvatar() {
+        return userAvatar;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
     }
 
-    public String getJobName() {
-        return jobName;
+    public String getUserAbility() {
+        return userAbility;
     }
 
-    public void setJobName(String jobName) {
-        this.jobName = jobName;
+    public void setUserAbility(String userAbility) {
+        this.userAbility = userAbility;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public String getUserOrganization() {
+        return userOrganization;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setUserOrganization(String userOrganization) {
+        this.userOrganization = userOrganization;
     }
 
     public String getIndustryName() {
@@ -136,73 +144,5 @@ public class MineFollowPointEntity implements Serializable{
 
     public void setIndustryName(String industryName) {
         this.industryName = industryName;
-    }
-
-
-    private List<PointBean> point;
-    public List<PointBean> getPoint() {
-        return point;
-    }
-
-    public void setPoint(List<PointBean> point) {
-        this.point = point;
-    }
-
-
-    public static class PointBean {
-        private int id;
-        private String title;
-        private String content;
-        private int status;
-        private int createAt;
-        private String name;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
-        }
-
-        public int getStatus() {
-            return status;
-        }
-
-        public void setStatus(int status) {
-            this.status = status;
-        }
-
-        public int getCreateAt() {
-            return createAt;
-        }
-
-        public void setCreateAt(int createAt) {
-            this.createAt = createAt;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
     }
 }

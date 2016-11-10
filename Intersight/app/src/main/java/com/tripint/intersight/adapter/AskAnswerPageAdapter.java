@@ -29,7 +29,7 @@ public class AskAnswerPageAdapter extends BaseQuickAdapter<DiscussEntity> {
                     .setText(R.id.textView_item_listened_number, item.getListenCount() + "")
                     .setText(R.id.textView_item_ask_voice_payment, item.getPayment() + "元即听")
                     .setText(R.id.textView_item_ask_voice_time, item.getTimeLong() + "s")
-                    .setImageResource(R.id.image_item_like, R.mipmap.iconfont_heartbig01)
+                    .setImageResource(R.id.image_item_like, R.mipmap.iconfont_heartbig02)
                     .setImageResource(R.id.image_item_listened, R.mipmap.iconfont_ear)
                     .addOnClickListener(R.id.textView_item_liked_number)
                     .addOnClickListener(R.id.textView_item_ask_title)

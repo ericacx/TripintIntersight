@@ -87,15 +87,13 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                 if (item.getMineFollowPointEntity() != null) {
 
                     helper
-                            .setVisible(R.id.opinion_textView_owner_name,false)
-                            .setVisible(R.id.opinion_textView_owner_job_title,false)
-                            .setVisible(R.id.opinion_textView_owner_job_company,false)
-                            .setVisible(R.id.opinion_textView_item_trade,false)
+
+                            .setVisible(R.id.llHeader,false)
                             .setText(R.id.opinion_textView_mine_title_main, StringUtils.null2Length0(item.getMineFollowPointEntity().getTitle()))
                             .setText(R.id.opinion_textView_mine_sub_title, StringUtils.null2Length0(item.getMineFollowPointEntity().getContent()))
-                            .setText(R.id.opinion_textView_item_focusnum, item.getMineFollowPointEntity().getFollows() + "")
-                            .setText(R.id.opinion_textView_item_talknum, item.getMineFollowPointEntity().getComments() + "")
-                            .setText(R.id.opinion_textView_item_agreenum, item.getMineFollowPointEntity().getPraises() + "")
+                            .setText(R.id.opinion_textView_item_focusnum, item.getMineFollowPointEntity().getFavoritesCount() + "")
+                            .setText(R.id.opinion_textView_item_talknum, item.getMineFollowPointEntity().getCommentsCount() + "")
+                            .setText(R.id.opinion_textView_item_agreenum, item.getMineFollowPointEntity().getPraisesCount() + "")
                             .setText(R.id.opinion_textView_item_trade, StringUtils.null2Length0(item.getMineFollowPointEntity().getIndustryName()))
                     ;
                 }
@@ -105,18 +103,19 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
             case MineMultipleItemModel.MY_OPTION_FOLLOW://我关注的观点
                 if (item.getMineFollowPointEntity() != null) {
                     helper
-                            .setText(R.id.opinion_textView_owner_name, StringUtils.null2Length0(item.getMineFollowPointEntity().getNickname()))
-                            .setText(R.id.opinion_textView_owner_job_title, StringUtils.null2Length0(item.getMineFollowPointEntity().getJobName()))
-                            .setText(R.id.opinion_textView_owner_job_company, StringUtils.null2Length0(item.getMineFollowPointEntity().getCompanyName()))
+                            .setVisible(R.id.llHeader,true)
+                            .setText(R.id.opinion_textView_owner_name, StringUtils.null2Length0(item.getMineFollowPointEntity().getUserNickname()))
+                            .setText(R.id.opinion_textView_owner_job_title, StringUtils.null2Length0(item.getMineFollowPointEntity().getUserAbility()))
+                            .setText(R.id.opinion_textView_owner_job_company, StringUtils.null2Length0(item.getMineFollowPointEntity().getUserOrganization()))
                             .setText(R.id.opinion_textView_mine_title_main, StringUtils.null2Length0(item.getMineFollowPointEntity().getTitle()))
                             .setText(R.id.opinion_textView_mine_sub_title, StringUtils.null2Length0(item.getMineFollowPointEntity().getContent()))
-                            .setText(R.id.opinion_textView_item_focusnum, item.getMineFollowPointEntity().getFollows() + "")
-                            .setText(R.id.opinion_textView_item_talknum, item.getMineFollowPointEntity().getComments() + "")
-                            .setText(R.id.opinion_textView_item_agreenum, item.getMineFollowPointEntity().getPraises() + "")
+                            .setText(R.id.opinion_textView_item_focusnum, item.getMineFollowPointEntity().getFavoritesCount() + "")
+                            .setText(R.id.opinion_textView_item_talknum, item.getMineFollowPointEntity().getCommentsCount() + "")
+                            .setText(R.id.opinion_textView_item_agreenum, item.getMineFollowPointEntity().getPraisesCount() + "")
                             .setText(R.id.opinion_textView_item_trade, StringUtils.null2Length0(item.getMineFollowPointEntity().getIndustryName()))
                     ;
 
-                    Glide.with(mContext).load(item.getMineFollowPointEntity().getAvatar())
+                    Glide.with(mContext).load(item.getMineFollowPointEntity().getUserAvatar())
                             .crossFade()
                             .placeholder(R.mipmap.ic_avatar)
                             .transform(new GlideCircleTransform(mContext))
@@ -490,9 +489,9 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
                             .setVisible(R.id.opinion_textView_item_trade,false)
                             .setText(R.id.opinion_textView_mine_title_main, StringUtils.null2Length0(item.getMineFollowPointEntity().getTitle()))
                             .setText(R.id.opinion_textView_mine_sub_title, StringUtils.null2Length0(item.getMineFollowPointEntity().getContent()))
-                            .setText(R.id.opinion_textView_item_focusnum, item.getMineFollowPointEntity().getFollows() + "")
-                            .setText(R.id.opinion_textView_item_talknum, item.getMineFollowPointEntity().getComments() + "")
-                            .setText(R.id.opinion_textView_item_agreenum, item.getMineFollowPointEntity().getPraises() + "")
+                            .setText(R.id.opinion_textView_item_focusnum, item.getMineFollowPointEntity().getFavoritesCount() + "")
+                            .setText(R.id.opinion_textView_item_talknum, item.getMineFollowPointEntity().getCommentsCount() + "")
+                            .setText(R.id.opinion_textView_item_agreenum, item.getMineFollowPointEntity().getPraisesCount() + "")
                             .setText(R.id.opinion_textView_item_trade, StringUtils.null2Length0(item.getMineFollowPointEntity().getIndustryName()))
                     ;
                 }
@@ -501,18 +500,18 @@ public class MineCommonMultipleAdapter extends BaseMultiItemQuickAdapter<MineMul
             case MineMultipleItemModel.HIS_OPTION_FOLLOW://他关注的观点
                 if (item.getMineFollowPointEntity() != null) {
                     helper
-                            .setText(R.id.opinion_textView_owner_name, StringUtils.null2Length0(item.getMineFollowPointEntity().getNickname()))
-                            .setText(R.id.opinion_textView_owner_job_title, StringUtils.null2Length0(item.getMineFollowPointEntity().getJobName()))
-                            .setText(R.id.opinion_textView_owner_job_company, StringUtils.null2Length0(item.getMineFollowPointEntity().getCompanyName()))
+                            .setText(R.id.opinion_textView_owner_name, StringUtils.null2Length0(item.getMineFollowPointEntity().getUserNickname()))
+                            .setText(R.id.opinion_textView_owner_job_title, StringUtils.null2Length0(item.getMineFollowPointEntity().getUserAbility()))
+                            .setText(R.id.opinion_textView_owner_job_company, StringUtils.null2Length0(item.getMineFollowPointEntity().getUserOrganization()))
                             .setText(R.id.opinion_textView_mine_title_main, StringUtils.null2Length0(item.getMineFollowPointEntity().getTitle()))
                             .setText(R.id.opinion_textView_mine_sub_title, StringUtils.null2Length0(item.getMineFollowPointEntity().getContent()))
-                            .setText(R.id.opinion_textView_item_focusnum, item.getMineFollowPointEntity().getFollows() + "")
-                            .setText(R.id.opinion_textView_item_talknum, item.getMineFollowPointEntity().getComments() + "")
-                            .setText(R.id.opinion_textView_item_agreenum, item.getMineFollowPointEntity().getPraises() + "")
+                            .setText(R.id.opinion_textView_item_focusnum, item.getMineFollowPointEntity().getFavoritesCount() + "")
+                            .setText(R.id.opinion_textView_item_talknum, item.getMineFollowPointEntity().getCommentsCount() + "")
+                            .setText(R.id.opinion_textView_item_agreenum, item.getMineFollowPointEntity().getPraisesCount() + "")
                             .setText(R.id.opinion_textView_item_trade, StringUtils.null2Length0(item.getMineFollowPointEntity().getIndustryName()))
                     ;
 
-                    Glide.with(mContext).load(item.getMineFollowPointEntity().getAvatar())
+                    Glide.with(mContext).load(item.getMineFollowPointEntity().getUserAvatar())
                             .crossFade()
                             .placeholder(R.mipmap.ic_avatar)
                             .transform(new GlideCircleTransform(mContext))

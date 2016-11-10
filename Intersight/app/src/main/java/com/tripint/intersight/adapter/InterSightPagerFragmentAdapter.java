@@ -13,7 +13,7 @@ import com.tripint.intersight.fragment.home.AskAnswerFragment;
  * Created by YoKeyword on 16/6/5.
  */
 public class InterSightPagerFragmentAdapter extends FragmentStatePagerAdapter {
-    private String[] mTab = new String[]{"问答", "观点", "资讯"};
+    private String[] mTab = new String[]{"问答"};
 
     public InterSightPagerFragmentAdapter(FragmentManager fm) {
         super(fm);
@@ -23,11 +23,13 @@ public class InterSightPagerFragmentAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         if (position == 0) {
             return AskAnswerFragment.newInstance();
-        } else if (position == 1) {
-            return OpinionFragment.newInstance();
-        } else {
-            return NewsFragment.newInstance();
         }
+        return AskAnswerFragment.newInstance();
+//        else if (position == 1) {
+//            return OpinionFragment.newInstance();
+//        } else {
+//            return NewsFragment.newInstance();
+//        }
     }
 
     @Override

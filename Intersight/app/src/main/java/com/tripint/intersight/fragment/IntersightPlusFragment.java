@@ -65,10 +65,8 @@ public class IntersightPlusFragment extends BaseLazyMainFragment {
         mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
 
         mTab.addTab(mTab.newTab());
-        mTab.addTab(mTab.newTab());
-        mTab.addTab(mTab.newTab());
-
-
+//        mTab.addTab(mTab.newTab());
+//        mTab.addTab(mTab.newTab());
     }
 
     @Override

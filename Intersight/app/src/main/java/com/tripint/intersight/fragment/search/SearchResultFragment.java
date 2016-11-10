@@ -349,7 +349,6 @@ public class SearchResultFragment extends BaseBackFragment implements OnFilterDo
     private void initView(View view) {
 
         initToolbarNav(toolbar);
-        initToolbarMenu(toolbar);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
 

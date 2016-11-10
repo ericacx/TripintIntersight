@@ -8,10 +8,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
@@ -26,6 +28,7 @@ import com.tripint.intersight.entity.article.ArticleBannerEntity;
 import com.tripint.intersight.entity.discuss.DiscussEntity;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseFragment;
+import com.tripint.intersight.fragment.search.SearchMainFragment;
 import com.tripint.intersight.model.PaginationModel;
 import com.tripint.intersight.service.BaseDataHttpRequest;
 import com.tripint.intersight.service.DiscussDataHttpRequest;
@@ -51,7 +54,7 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
     private final int PAGE_SIZE = 10;
     @Bind(R.id.recycler_view_ask_answer)
     RecyclerView mRecyclerView;
-//    @Bind(R.id.btn_qa_profession)
+    //    @Bind(R.id.btn_qa_profession)
 //    TextView mQAPrefessionButton;
 //    @Bind(R.id.btn_qa_interest)
 //    TextView mQAInterestrButton;
@@ -59,6 +62,13 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
 //    TextView mQARecommendButton;
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
+    @Bind(R.id.toolbar_title)
+    TextView toolbarTitle;
+    @Bind(R.id.toolbar_search_button)
+    ImageView toolbarSearchButton;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+
     private int TOTAL_COUNTER = 0;
 
     private int mCurrentCounter = 0;
@@ -96,9 +106,8 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
         View view = inflater.inflate(R.layout.fragment_ask_answer, container, false);
         ButterKnife.bind(this, view);
 
+        toolbarTitle.setText("问答");
         initView(null);
-
-
         return view;
     }
 
@@ -109,17 +118,17 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
         httpRequestBannerData();
     }
 
-    private void httpRequestBannerData(){
+    private void httpRequestBannerData() {
 
 
-        bannerSubscriber = new PageDataSubscriberOnNext<ArticleBannerEntity>(){
+        bannerSubscriber = new PageDataSubscriberOnNext<ArticleBannerEntity>() {
             @Override
             public void onNext(ArticleBannerEntity entity) {
 
                 networkImages = new ArrayList<String>();
-                for (int i = 0; i <entity.getBanner().size(); i++) {
+                for (int i = 0; i < entity.getBanner().size(); i++) {
                     networkImages.add(entity.getBanner().get(i).getUrl());
-                    Log.e("opinion",networkImages.get(i));
+                    Log.e("opinion", networkImages.get(i));
                 }
                 initAdapter();
                 setTab(0);
@@ -291,5 +300,10 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @OnClick(R.id.toolbar_search_button)
+    public void onClick() {
+        EventBus.getDefault().post(new StartFragmentEvent(SearchMainFragment.newInstance()));
     }
 }
