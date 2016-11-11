@@ -244,7 +244,7 @@ public class InterSightApp extends Application {
                             //自定义消息的忽略统计
                             UTrack.getInstance(getApplicationContext()).trackMsgDismissed(msg);
                         }
-                        Toast.makeText(context, msg.custom, Toast.LENGTH_LONG).show();
+//                        Toast.makeText(context, msg.custom, Toast.LENGTH_LONG).show();
                     }
                 });
             }

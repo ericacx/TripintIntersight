@@ -66,7 +66,7 @@ public class ServiceProgressSubscriber<T> extends Subscriber<T> implements Progr
             CommonUtils.showToast(e.getMessage());
             Log.e(TAG, e.getMessage());
         } else {
-            CommonUtils.showToast("未知错误,请查看日志异常");
+            CommonUtils.showToast("抱歉，当前服务不可用，请稍后重试");
             Log.e(TAG, e.getMessage());
         }
 

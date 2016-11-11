@@ -295,14 +295,14 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
 
         EventBus.getDefault().register(this);
 
+        toolbar.setTitle("问答详情");
+        initToolbarNav(toolbar);
         httpRequestData();
         return view;
     }
 
     private void initView(View view) {
 
-        toolbar.setTitle("问答详情");
-        initToolbarNav(toolbar);
         inithttpPutRequestData();
 
         //问答标题与作者

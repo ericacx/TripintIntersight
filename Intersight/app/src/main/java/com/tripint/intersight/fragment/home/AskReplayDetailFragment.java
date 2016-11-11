@@ -178,7 +178,7 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
                         boolean res = mMediaStreamingManager.stopStreaming();
                         if (!res) {
                             mShutterButtonPressed = true;
-                            setShutterButtonEnabled(true);
+                            setShutterButtonEnabled(false);
                         }
                         setShutterButtonPressed(mShutterButtonPressed);
                     }
@@ -367,6 +367,8 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
         View view = inflater.inflate(R.layout.fragment_ask_replay_detail, container, false);
         ButterKnife.bind(this, view);
 
+        toolbar.setTitle("问答详情");
+        initToolbarNav(toolbar);
         if (InterSightApp.getApp().getPermissionsChecker().lacksPermissions(InterSightApp.getApp().RECORD_AUDIO)) {
             PermissionsActivity.startActivityForResult(mActivity, InterSightApp.getApp().REQUEST_CODE, InterSightApp.getApp().RECORD_AUDIO);
         } else {
@@ -377,8 +379,6 @@ public class AskReplayDetailFragment extends BaseBackFragment implements TimerLi
 
     private void initView(View view) {
 
-        toolbar.setTitle("问答详情");
-        initToolbarNav(toolbar);
         inithttpPutRequestData();
 
 
