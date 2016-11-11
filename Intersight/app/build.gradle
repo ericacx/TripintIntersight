@@ -78,8 +78,8 @@ android {
         App {
             manifestPlaceholders = [CHANNEL_NAME: "App", APP_ROOT_URL: "http://www.intersight.com", APP_HOST_URL: "http://www.intersight.com"]
         }
-        taobaoApp {
-            manifestPlaceholders = [CHANNEL_NAME: "taobaoApp", APP_ROOT_URL: "http://www.intersight.com", APP_HOST_URL: "http://www.intersight.com"]
+        huaweiApp {
+            manifestPlaceholders = [CHANNEL_NAME: "huaweiApp", APP_ROOT_URL: "http://www.intersight.com", APP_HOST_URL: "http://www.intersight.com"]
         }
         yingyongbaoApp {
             manifestPlaceholders = [CHANNEL_NAME: "yingyongbaoApp", APP_ROOT_URL: "http://www.intersight.com", APP_HOST_URL: "http://www.intersight.com"]
