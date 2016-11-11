@@ -28,14 +28,9 @@ public class GuideActivity extends AppCompatActivity {
         setContentView(R.layout.activity_guide);
 
         //记录是否使用过
-        SharedPreferences sharedPreferences = getSharedPreferences("version",MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
         //专门获取版本的工具类
         String packageVersion = PackageUtils.getPackageVersion(this);
-        editor.putString("version",packageVersion);
-
-        //commit
-        editor.commit();
+        ACache.get(this).put(EnumKey.ACacheKey.APP_VERSION_CODE, packageVersion);
 
         initView();
     }

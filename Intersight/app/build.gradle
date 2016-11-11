@@ -33,6 +33,8 @@ android {
         minSdkVersion MIN_SDK_VERSION as int
         targetSdkVersion TARGET_SDK_VERSION as int
         versionName VERSION_NAME
+        versionCode VERSION_CODE as int
+
         //bugly ndk
         //ndk {
         // 设置支持的SO库架构

@@ -9,7 +9,7 @@ import android.content.pm.PackageManager;
  */
 public class PackageUtils {
     public static String getPackageVersion(Context context){
-        String version = "1.0";
+        String version = "1";
         //获取PackageManager
         PackageManager packageManager = context.getPackageManager();
 
@@ -18,7 +18,7 @@ public class PackageUtils {
             PackageInfo packageInfo =
                     packageManager.getPackageInfo(context.getPackageName(), PackageManager.GET_ACTIVITIES);
             //获取版本号
-            version = packageInfo.versionName;
+            version = packageInfo.versionCode + "";
 
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

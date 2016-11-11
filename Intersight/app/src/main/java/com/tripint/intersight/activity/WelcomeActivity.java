@@ -23,7 +23,7 @@ public class WelcomeActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences("version",MODE_PRIVATE);
 
         //相当于旧版本
-        final String version = sp.getString("version", null);
+        final String version = ACache.get(this).getAsString(EnumKey.ACacheKey.APP_VERSION_CODE);
 
         //相当于新版本
         final String newVersion = PackageUtils.getPackageVersion(this);

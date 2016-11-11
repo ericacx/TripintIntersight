@@ -286,7 +286,7 @@ public class LoginFragment extends BaseCloseFragment {
             public void onAuthError(LIAuthError error) {
                 dismissProgressDialog();
                 setUpdateState();
-                Toast.makeText(InterSightApp.getApp().getApplicationContext(), "failed " + error.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(InterSightApp.getApp().getApplicationContext(), "授权登录失败", Toast.LENGTH_LONG).show();
             }
         }, true);
     }

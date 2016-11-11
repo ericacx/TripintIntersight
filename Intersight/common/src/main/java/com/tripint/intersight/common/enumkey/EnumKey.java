@@ -43,6 +43,8 @@ public class EnumKey {
         public static final String USER_COMPANY = "user_company";
         public static final String USER_PHONE = "user_phone";
         public static final String USER_EMAIL = "user_email";
+        public static final String APP_VERSION_CODE = "app_version_code";
+
 
     }
 }
