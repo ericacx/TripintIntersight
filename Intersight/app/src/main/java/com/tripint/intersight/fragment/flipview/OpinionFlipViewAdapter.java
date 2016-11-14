@@ -35,8 +35,7 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
 
     private Context context;
     private List<TextView> textViews;
-    private List<ArticlesEntity> resList;//数据源
-    private RequestLoadMoreListener mRequestLoadMoreListener;
+    private List<ArticlesEntity> resList = new ArrayList<ArticlesEntity>();//数据源
     private final int VIEWTYPE_ONE = 0;//首页,带有banner
     private final int VIEWTYPE_TWO = 1;//图文
     private final int VIEWTYPE_THREE = 2;//只有文字
@@ -48,9 +47,6 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
         this.resList = list;
     }
 
-    public void setOnLoadMoreListener(RequestLoadMoreListener requestLoadMoreListener) {
-        this.mRequestLoadMoreListener = requestLoadMoreListener;
-    }
 
     @Override
     public int getItemViewType(int position) {
@@ -84,6 +80,7 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
     public int getViewTypeCount() {
         return 3;//三种类型的布局
     }
+
 
     @Override
     public int getCount() {

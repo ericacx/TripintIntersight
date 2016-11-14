@@ -41,7 +41,7 @@ import butterknife.OnClick;
  * 观点(文章)画面
  * A simple {@link Fragment} subclass.
  */
-public class OpinionFragment extends BaseBackFragment implements OpinionFlipViewAdapter.RequestLoadMoreListener {
+public class OpinionFragment extends BaseBackFragment implements FlipView.OnFlipListener,FlipView.OnOverFlipListener{
 
     @Bind(R.id.opinionFlipView)
     FlipView opinionFlipView;
@@ -55,7 +55,6 @@ public class OpinionFragment extends BaseBackFragment implements OpinionFlipView
     private int mCurrentCounter = 0;//当前条目的位置
 
     private OpinionFlipViewAdapter mAdapter;
-    private List<ArticlesEntity> resList = new ArrayList<ArticlesEntity>();
     private BasePageableResponse<ArticlesEntity> data = new BasePageableResponse<ArticlesEntity>();
     private PageDataSubscriberOnNext<BasePageableResponse<ArticlesEntity>> subscriber;
 
@@ -76,10 +75,15 @@ public class OpinionFragment extends BaseBackFragment implements OpinionFlipView
         View view = inflater.inflate(R.layout.fragment_opinion, container, false);
         ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
-        toolbarTitle.setText("观点");
-        toolbarSearchButton.setImageResource(R.mipmap.iconfont_wgz);
+        initToolbar();
+        initAdapter();
         httpRequestData();
         return view;
+    }
+
+    private void initToolbar() {
+        toolbarTitle.setText("观点");
+        toolbarSearchButton.setImageResource(R.mipmap.iconfont_wgz);
     }
 
 
@@ -88,13 +92,14 @@ public class OpinionFragment extends BaseBackFragment implements OpinionFlipView
             @Override
             public void onNext(BasePageableResponse<ArticlesEntity> entity) {
                 data = entity;
-                initAdapter();
-                if (mCurrentCounter > 0) {
-                    mAdapter.addResList(data.getLists());
-                }
-                TOTAL_COUNTER = data.getTotal();
 
-                mCurrentCounter = mAdapter.getResList().size();
+//                if (mCurrentCounter >= 0) {
+//                    mAdapter.addResList(data.getLists());
+//                    Log.e("data",String.valueOf(data.getLists().size()));
+//                }
+//                TOTAL_COUNTER = data.getTotal();
+//
+//                mCurrentCounter = mAdapter.getResList().size();
 
             }
         };
@@ -105,22 +110,12 @@ public class OpinionFragment extends BaseBackFragment implements OpinionFlipView
     private void initAdapter() {
 
         mAdapter = new OpinionFlipViewAdapter(mActivity, data.getLists());
-        mAdapter.setOnLoadMoreListener(this);
         opinionFlipView.setAdapter(mAdapter);
-        opinionFlipView.setOnFlipListener(new FlipView.OnFlipListener() {
-            @Override
-            public void onFlippedToPage(FlipView v, int position, long id) {
+        opinionFlipView.setOnFlipListener(this);
+        opinionFlipView.setOnOverFlipListener(this);
 
-            }
-        });
-
-        opinionFlipView.setOnOverFlipListener(new FlipView.OnOverFlipListener() {
-            @Override
-            public void onOverFlip(FlipView v, OverFlipMode mode, boolean overFlippingPrevious, float overFlipDistance, float flipDistancePerPage) {
-
-            }
-        });
     }
+
 
     @Override
     public void onDestroyView() {
@@ -135,23 +130,6 @@ public class OpinionFragment extends BaseBackFragment implements OpinionFlipView
     }
 
 
-    @Override
-    public void onLoadMoreRequested() {
-        opinionFlipView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mCurrentCounter >= TOTAL_COUNTER) {
-                    Log.e("mCurrentCounter", String.valueOf(mCurrentCounter));
-                    Log.e("total", String.valueOf(TOTAL_COUNTER));
-                    ToastUtil.showToast(mActivity, "加载完成");
-                } else {
-                    BaseDataHttpRequest.getInstance(mActivity).getArticles(
-                            new ProgressSubscriber(subscriber, mActivity), getCurrentPage());
-                }
-            }
-        }, 200);
-
-    }
 
     public int getCurrentPage() {
         return mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE + 1;
@@ -160,5 +138,21 @@ public class OpinionFragment extends BaseBackFragment implements OpinionFlipView
     @OnClick(R.id.toolbar_search_button)
     public void onClick() {
         EventBus.getDefault().post(new StartFragmentEvent(CreateOpinionFragment.newInstance()));
+    }
+
+    @Override
+    public void onFlippedToPage(FlipView v, int position, long id) {
+//        if (position > opinionFlipView.getPageCount() - 3 && opinionFlipView.getPageCount() < TOTAL_COUNTER){
+//
+//            BaseDataHttpRequest.getInstance(mActivity).getArticles(
+//                    new ProgressSubscriber(subscriber, mActivity), getCurrentPage());
+//            Log.e("mCurrentCounter1",String.valueOf(mCurrentCounter));
+//            mAdapter.addResList(data.getLists());
+//        }
+    }
+
+    @Override
+    public void onOverFlip(FlipView v, OverFlipMode mode, boolean overFlippingPrevious, float overFlipDistance, float flipDistancePerPage) {
+
     }
 }

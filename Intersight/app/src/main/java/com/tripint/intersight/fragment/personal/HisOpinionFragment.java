@@ -46,6 +46,7 @@ import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.fragment.create.CreateDiscussFragment;
 import com.tripint.intersight.fragment.create.CreateInterviewFragment;
+import com.tripint.intersight.fragment.home.OpinionDetailFragment;
 import com.tripint.intersight.helper.AliPayUtils;
 import com.tripint.intersight.helper.PayUtils;
 import com.tripint.intersight.model.MineMultipleItemModel;
@@ -198,9 +199,9 @@ public class HisOpinionFragment extends BaseBackFragment implements BaseQuickAda
 
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String content = null;
-//                DiscussEntiry entity = (DiscussEntiry) adapter.getItem(position);
-//                EventBus.getDefault().post(new StartFragmentEvent(AskAnswerDetailFragment.newInstance(entity)));
+                int type = data.getLists().get(position).getType();
+                int id = data.getLists().get(position).getId();
+                EventBus.getDefault().post(new StartFragmentEvent(OpinionDetailFragment.newInstance(type, id)));
             }
         });
         mAdapter.setLoadingView(getLoadMoreView());

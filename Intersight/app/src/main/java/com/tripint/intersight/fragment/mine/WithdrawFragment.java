@@ -84,6 +84,7 @@ public class WithdrawFragment extends BaseBackFragment {
             case R.id.withdraw_bind_weixin:
                 break;
             case R.id.personal_info_submit:
+
                 break;
             case R.id.withdraw_rule://提现规则
                 initDialog();

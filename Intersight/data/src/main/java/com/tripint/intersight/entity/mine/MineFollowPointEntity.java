@@ -29,6 +29,7 @@ public class MineFollowPointEntity implements Serializable{
 
 
     private int id;
+    private int type;
     private int userId;
     private String title;//标题
     private String content;//内容
@@ -40,6 +41,15 @@ public class MineFollowPointEntity implements Serializable{
     private String userAbility;//职位
     private String userOrganization;//公司名
     private String industryName;//行业
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     /**
      * id : 2
      * title : 沃尔玛埃及棉床垫下架
