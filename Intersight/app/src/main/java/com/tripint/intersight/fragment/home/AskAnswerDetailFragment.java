@@ -294,7 +294,6 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
         ButterKnife.bind(this, view);
 
         EventBus.getDefault().register(this);
-
         toolbar.setTitle("问答详情");
         initToolbarNav(toolbar);
         httpRequestData();
@@ -302,7 +301,6 @@ public class AskAnswerDetailFragment extends BaseBackFragment {
     }
 
     private void initView(View view) {
-
         inithttpPutRequestData();
 
         //问答标题与作者

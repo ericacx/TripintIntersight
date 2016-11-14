@@ -1,29 +1,23 @@
 package com.tripint.intersight.fragment.mine;
 
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
@@ -31,20 +25,11 @@ import com.tripint.intersight.R;
 import com.tripint.intersight.activity.LoginActivity;
 import com.tripint.intersight.activity.PermissionsActivity;
 import com.tripint.intersight.app.InterSightApp;
-import com.tripint.intersight.common.Constants;
 import com.tripint.intersight.common.cache.ACache;
 import com.tripint.intersight.common.enumkey.EnumKey;
 import com.tripint.intersight.common.imagepicker.AndroidImagePicker;
-import com.tripint.intersight.common.utils.FileUtils;
 import com.tripint.intersight.common.utils.ImageUtils;
-import com.tripint.intersight.common.widget.cropiamge.CropImageActivity;
 import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
-import com.tripint.intersight.common.widget.filter.ItemModel;
-import com.tripint.intersight.common.widget.filter.adapter.SimpleTextAdapter;
-import com.tripint.intersight.common.widget.filter.interfaces.OnFilterItemClickListener;
-import com.tripint.intersight.common.widget.filter.typeview.SingleListView;
-import com.tripint.intersight.common.widget.filter.util.UIUtil;
-import com.tripint.intersight.common.widget.filter.view.FilterCheckedTextView;
 import com.tripint.intersight.entity.CodeDataEntity;
 import com.tripint.intersight.entity.mine.QiniuTokenEntity;
 import com.tripint.intersight.entity.mine.UserHomeEntity;
@@ -54,7 +39,6 @@ import com.tripint.intersight.event.StartFragmentForResultEvent;
 import com.tripint.intersight.fragment.PersonalInfoFragment;
 import com.tripint.intersight.fragment.base.BaseLazyMainFragment;
 import com.tripint.intersight.fragment.mine.message.NewMessageFragment;
-import com.tripint.intersight.fragment.mine.photo.photo.PhotoWallActivity;
 import com.tripint.intersight.fragment.mine.setting.SettingFragment;
 import com.tripint.intersight.service.MineDataHttpRequest;
 import com.tripint.intersight.widget.image.CircleImageView;
@@ -66,9 +50,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.Random;
 
 import butterknife.Bind;
@@ -97,12 +78,8 @@ public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLa
     TextView textViewMyOption;
     @Bind(R.id.text_view_my_money)
     TextView textViewMyMoney;
-    @Bind(R.id.text_view_my_account_detail)
-    TextView textViewMyAccountDetail;
     @Bind(R.id.textView_my_focus)
     TextView textViewMyFocus;
-    //    @Bind(R.id.text_view_my_star)
-//    TextView textViewMyStar;
     @Bind(R.id.text_view_setting)
     TextView textViewSetting;
 
@@ -116,6 +93,10 @@ public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLa
     ImageView toolbarSearchButton;
     @Bind(R.id.text_view_help)
     TextView textViewHelp;
+    @Bind(R.id.mine_rl_money)
+    RelativeLayout mineRlMoney;
+    @Bind(R.id.toolbar_back)
+    ImageView toolbarBack;
 
 
     private PageDataSubscriberOnNext<UserHomeEntity> subscriber;
@@ -160,21 +141,26 @@ public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLa
         View view = inflater.inflate(R.layout.fragment_mine1, container, false);
         ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
+        initToolbar();
+        return view;
+    }
+
+    private void initToolbar() {
         toolbarTitle.setText("个人");
         toolbarSearchButton.setImageResource(R.mipmap.iconfont_wodexx);
+        toolbarBack.setImageResource(R.mipmap.iconfont_wodexx);
         swipeRefreshLayout.setOnRefreshListener(this);
-        return view;
     }
 
     @Subscribe
     private void initView(View view) {
-        if (data.getNickname() != null){
+        if (data.getNickname() != null) {
             ACache.get(mActivity).put(EnumKey.ACacheKey.USER_NAME, data.getNickname());
         }
-        if (data.getMobile()!= null){
+        if (data.getMobile() != null) {
             ACache.get(mActivity).put(EnumKey.ACacheKey.USER_PHONE, data.getMobile());
         }
-        if (data.getEmail()!= null){
+        if (data.getEmail() != null) {
             ACache.get(mActivity).put(EnumKey.ACacheKey.USER_EMAIL, data.getEmail());
         }
 
@@ -260,9 +246,9 @@ public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLa
     }
 
     @OnClick({R.id.mineIvRewriteInfo, R.id.text_view_mine_ask_answer, R.id.text_view_mine_interview,
-            R.id.text_view_my_option, R.id.text_view_my_money, R.id.text_view_my_account_detail,
+            R.id.text_view_my_option, R.id.text_view_my_money,R.id.toolbar_back,
             R.id.textView_my_focus, R.id.text_view_help, R.id.text_view_setting
-            , R.id.mineCIVPersonalInfo,R.id.toolbar_search_button})
+            , R.id.mineCIVPersonalInfo, R.id.toolbar_search_button, R.id.mine_rl_money})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.mineCIVPersonalInfo:
@@ -338,9 +324,9 @@ public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLa
             case R.id.text_view_my_money://账户余额
 
                 break;
-            case R.id.text_view_my_account_detail://账户明细
-                EventBus.getDefault().post(new StartFragmentEvent(AccountDetailFragment.newInstance()));
-                break;
+//            case R.id.text_view_my_account_detail://账户明细
+//                EventBus.getDefault().post(new StartFragmentEvent(AccountDetailFragment.newInstance()));
+//                break;
             case R.id.textView_my_focus://我的关注
                 EventBus.getDefault().post(new StartFragmentEvent(MyFocusedFragment.newInstance()));
                 break;
@@ -357,6 +343,12 @@ public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLa
             case R.id.toolbar_search_button://消息
                 EventBus.getDefault().post(new StartFragmentEvent(NewMessageFragment.newInstance()));
                 break;
+            case R.id.mine_rl_money://账户余额
+                EventBus.getDefault().post(new StartFragmentEvent(AccountBalanceFragment.newInstance()));
+                break;
+            case R.id.toolbar_back://消息
+                EventBus.getDefault().post(new StartFragmentEvent(NewMessageFragment.newInstance()));
+                break;
         }
     }
 
@@ -366,4 +358,5 @@ public class MineFragment extends BaseLazyMainFragment implements SwipeRefreshLa
         MineDataHttpRequest.getInstance(mActivity).getUserHome(new ProgressSubscriber(subscriber, mActivity));
         swipeRefreshLayout.setRefreshing(false);
     }
+
 }

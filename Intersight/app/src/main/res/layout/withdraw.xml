@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title"
+        android:text="提现规则"
+        android:layout_marginLeft="@dimen/spacing"
+        android:layout_marginRight="@dimen/spacing"
+        android:layout_marginTop="@dimen/spacing"
+        android:textSize="@dimen/text_size_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/content"
+        android:layout_below="@id/title"
+        android:layout_margin="@dimen/spacing"
+        android:text="每日只可提现一次,单次最低￥100,最高不超过￥10000"
+        android:textSize="@dimen/text_size_12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_below="@id/content"
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="我知道了"
+        android:layout_marginBottom="@dimen/spacing"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/bg_btn_shape_gray"
+        android:textSize="@dimen/text_size_12" />
+</RelativeLayout>

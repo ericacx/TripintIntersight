@@ -33,6 +33,7 @@ public class HeaderInterceptor implements Interceptor {
         Request request = original.newBuilder()
                 .header("Token", token)
                 .header("Client", "App/V1")
+                .header("Terminal","1")
                 .method(original.method(), original.body())
                 .build();
 

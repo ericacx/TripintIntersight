@@ -8,6 +8,7 @@ import com.tripint.intersight.entity.PersonalUserInfoEntity;
 import com.tripint.intersight.entity.discuss.CreateInterviewResponseEntity;
 import com.tripint.intersight.entity.mine.AccountDetailEntity;
 import com.tripint.intersight.entity.mine.AskAnswerEntity;
+import com.tripint.intersight.entity.mine.BalanceEntity;
 import com.tripint.intersight.entity.mine.FocusEntity;
 import com.tripint.intersight.entity.mine.HelpAndProtocolEntity;
 import com.tripint.intersight.entity.mine.InterviewDetailEntity;
@@ -84,6 +85,10 @@ public interface MineDataService {
     //账户明细
     @GET("accountList")
     Observable<BaseResponse<BasePageableResponse<AccountDetailEntity>>> getAccountDetail(@Query("page") int page, @Query("size") int size);
+
+    //账户余额
+    @POST("user/balance")
+    Observable<BaseResponse<BalanceEntity>> postUserBalance();
 
     //修改密码
     @FormUrlEncoded

@@ -8,6 +8,7 @@ import com.tripint.intersight.entity.PersonalUserInfoEntity;
 import com.tripint.intersight.entity.discuss.CreateInterviewResponseEntity;
 import com.tripint.intersight.entity.mine.AccountDetailEntity;
 import com.tripint.intersight.entity.mine.AskAnswerEntity;
+import com.tripint.intersight.entity.mine.BalanceEntity;
 import com.tripint.intersight.entity.mine.FocusEntity;
 import com.tripint.intersight.entity.mine.HelpAndProtocolEntity;
 import com.tripint.intersight.entity.mine.InterviewDetailEntity;
@@ -306,5 +307,15 @@ public class MineDataHttpRequest extends HttpRequest {
         Observable observable = service.getUserHelpAndProtocol()
                 .map(new HttpResultFunc<HelpAndProtocolEntity>());
         toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 账户余额
+     * @param subscriber
+     */
+    public void postUserBalance(Subscriber<BalanceEntity> subscriber){
+        Observable observable = service.postUserBalance()
+                .map(new HttpResultFunc<BalanceEntity>());
+        toSubscribe(observable,subscriber);
     }
 }

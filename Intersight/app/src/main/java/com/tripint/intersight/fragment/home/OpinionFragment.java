@@ -77,7 +77,7 @@ public class OpinionFragment extends BaseBackFragment implements OpinionFlipView
         ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         toolbarTitle.setText("观点");
-        toolbarSearchButton.setImageResource(R.mipmap.icon_guandian);
+        toolbarSearchButton.setImageResource(R.mipmap.iconfont_wgz);
         httpRequestData();
         return view;
     }

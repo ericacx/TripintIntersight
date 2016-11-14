@@ -126,6 +126,7 @@
                         android:padding="@dimen/spacing_pad04">
 
                         <RelativeLayout
+                            android:id="@+id/mine_rl_money"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -160,25 +161,25 @@
                             android:layout_margin="@dimen/spacing_pad04"
                             android:background="@color/line" />
 
-                        <TextView
-                            android:id="@+id/text_view_my_account_detail"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/height_5_80"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/spacing"
-                            android:drawableLeft="@mipmap/iconfont_mingxi"
-                            android:drawablePadding="@dimen/spacing"
-                            android:drawableRight="@mipmap/iconfont_nextarticle"
-                            android:gravity="left|center_vertical"
-                            android:text="账户明细"
-                            android:textColor="@color/line" />
+                        <!--<TextView-->
+                            <!--android:id="@+id/text_view_my_account_detail"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="@dimen/height_5_80"-->
+                            <!--android:layout_centerVertical="true"-->
+                            <!--android:layout_marginLeft="@dimen/spacing"-->
+                            <!--android:drawableLeft="@mipmap/iconfont_mingxi"-->
+                            <!--android:drawablePadding="@dimen/spacing"-->
+                            <!--android:drawableRight="@mipmap/iconfont_nextarticle"-->
+                            <!--android:gravity="left|center_vertical"-->
+                            <!--android:text="账户明细"-->
+                            <!--android:textColor="@color/line" />-->
 
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_margin="@dimen/spacing_pad04"
-                            android:background="@color/line" />
+                        <!--<View-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="1dp"-->
+                            <!--android:layout_margin="@dimen/spacing_pad04"-->
+                            <!--android:background="@color/line" />-->
 
 
                         <TextView

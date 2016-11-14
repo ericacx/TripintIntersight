@@ -107,6 +107,7 @@ public class AskAnswerFragment extends BaseFragment implements BaseQuickAdapter.
         ButterKnife.bind(this, view);
 
         toolbarTitle.setText("问答");
+        toolbarSearchButton.setImageResource(R.mipmap.iconfont_search);
         initView(null);
         return view;
     }
