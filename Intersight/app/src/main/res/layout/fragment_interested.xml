@@ -10,15 +10,6 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/height_2_80"
-        android:src="@mipmap/img_choseone" />
-
     <Button
         android:id="@+id/interestedNext"
         android:layout_width="match_parent"
@@ -43,6 +34,15 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/height_2_80"
         android:dividerHeight="@dimen/height_2_80" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:src="@mipmap/img_choseone"
+        android:layout_below="@+id/toolbar"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

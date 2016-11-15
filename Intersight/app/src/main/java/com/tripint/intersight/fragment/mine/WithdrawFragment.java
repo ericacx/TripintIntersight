@@ -4,7 +4,11 @@ package com.tripint.intersight.fragment.mine;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.Html;
+import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +22,11 @@ import com.tripint.intersight.common.widget.dialogplus.DialogPlus;
 import com.tripint.intersight.common.widget.dialogplus.OnClickListener;
 import com.tripint.intersight.common.widget.dialogplus.OnDismissListener;
 import com.tripint.intersight.common.widget.dialogplus.ViewHolder;
+import com.tripint.intersight.entity.payment.ReflectEntity;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
+import com.tripint.intersight.service.PaymentDataHttpRequest;
+import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
+import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,7 +54,9 @@ public class WithdrawFragment extends BaseBackFragment {
     Button personalInfoSubmit;
     @Bind(R.id.withdraw_rule)
     TextView withdrawRule;
-
+    private PageDataSubscriberOnNext<ReflectEntity> subscriber;
+    private ReflectEntity data = new ReflectEntity();
+    private PageDataSubscriberOnNext<ReflectEntity> subscriberBalance;
     private DialogPlus dialogPlus;
     public static WithdrawFragment getInstance() {
         // Required empty public constructor
@@ -64,7 +74,59 @@ public class WithdrawFragment extends BaseBackFragment {
         View view = inflater.inflate(R.layout.fragment_withdraw, container, false);
         ButterKnife.bind(this, view);
         initToolbar();
+        httpRequestData();
         return view;
+    }
+
+    private void httpRequestData() {
+        subscriberBalance = new PageDataSubscriberOnNext<ReflectEntity>() {
+            @Override
+            public void onNext(ReflectEntity reflectEntity) {
+                data = reflectEntity;
+
+                withdrawTotalCoin.setText(data.getTotalPcoin()+ "");
+                String totalMoney =
+                        "<font color='#BABABA' size='12'>" + "P.coin(合" + "</font>"
+                                + "<font color='#ED5564' size='12'>" + "￥" + data.getTotalMoney() + "</font>"
+                                + "<font color='#BABABA' size='12'>" + ")" + "</font>";
+                withdrawTotalMoney.setText(Html.fromHtml(totalMoney));
+            }
+        };
+
+        subscriber = new PageDataSubscriberOnNext<ReflectEntity>() {
+            @Override
+            public void onNext(ReflectEntity reflectEntity) {
+                data = reflectEntity;
+                initView();
+            }
+        };
+
+        PaymentDataHttpRequest.getInstance(mActivity).postBalance(new ProgressSubscriber<ReflectEntity>(subscriberBalance,mActivity));
+    }
+
+    private void initView() {
+
+        withdrawEditCoin.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                float withdraw = Integer.parseInt(withdrawEditCoin.getText().toString()) / 10;
+                String money =
+                        "<font color='#BABABA' size='12'>" + "(合" + "</font>"
+                                + "<font color='#ED5564' size='12'>" + "￥" + withdraw + "</font>"
+                                + "<font color='#BABABA' size='12'>" + ")" + "</font>";
+
+                withdrawMoney.setText(Html.fromHtml(money));
+                return false;
+            }
+        });
+
+
+        withdrawTotalCoin.setText(data.getTotalPcoin()+"");
+        String totalMoney =
+                "<font color='#BABABA' size='12'>" + "P.coin(合" + "</font>"
+                + "<font color='#ED5564' size='12'>" + "￥" + data.getTotalMoney() + "</font>"
+                + "<font color='#BABABA' size='12'>" + ")" + "</font>";
+        withdrawTotalMoney.setText(Html.fromHtml(totalMoney));
     }
 
     private void initToolbar() {

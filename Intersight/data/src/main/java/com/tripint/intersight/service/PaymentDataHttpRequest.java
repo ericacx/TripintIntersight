@@ -3,6 +3,8 @@ package com.tripint.intersight.service;
 import android.content.Context;
 
 import com.tripint.intersight.entity.payment.AliPayResponseEntity;
+import com.tripint.intersight.entity.payment.RechargeEntity;
+import com.tripint.intersight.entity.payment.ReflectEntity;
 import com.tripint.intersight.entity.payment.WXPayResponseEntity;
 
 import rx.Observable;
@@ -79,4 +81,43 @@ public class PaymentDataHttpRequest extends HttpRequest {
         toSubscribe(observable, subscriber);
     }
 
+
+    /**
+     * 充值
+     * @param subscriber
+     * @param type
+     * @param totalMoney
+     * @param pCoin
+     */
+    public void postRecharge(Subscriber<RechargeEntity> subscriber,int type,int totalMoney,int pCoin){
+        Observable observable = service.postRecharge(type,totalMoney,pCoin)
+                .map(new HttpResultFunc<RechargeEntity>());
+
+        toSubscribe(observable,subscriber);
+    }
+
+
+    /**
+     * 提现
+     * @param subscriber
+     * @param reflectMoney
+     * @param pCoin
+     */
+    public void postReflect(Subscriber<ReflectEntity> subscriber,int reflectMoney,int pCoin){
+        Observable observable = service.postReflect(reflectMoney,pCoin)
+                .map(new HttpResultFunc<ReflectEntity>());
+
+        toSubscribe(observable,subscriber);
+    }
+
+    /**
+     * 提现
+     * @param subscriber
+     */
+    public void postBalance(Subscriber<ReflectEntity> subscriber){
+        Observable observable = service.postBalance()
+                .map(new HttpResultFunc<ReflectEntity>());
+
+        toSubscribe(observable,subscriber);
+    }
 }

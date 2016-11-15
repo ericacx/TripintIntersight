@@ -84,7 +84,10 @@ public class OpinionFlipViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return resList.size();
+//        if (resList != null){
+//            return resList.size();
+//        }
+        return  resList == null ? 0 : resList.size();
     }
 
     @Override

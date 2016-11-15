@@ -121,7 +121,6 @@ public class MyOpinionFragment extends BaseBackFragment implements BaseQuickAdap
     private List<MineMultipleItemModel> getMineMultipleItemModel(List<MineFollowPointEntity> entiries) {
         List<MineMultipleItemModel> models = new ArrayList<>();
         int type = mCurrentTab == 0 ? MineMultipleItemModel.MY_OPTION : MineMultipleItemModel.MY_OPTION_FOLLOW;
-        Log.e("currenttab",String.valueOf(mCurrentTab));
         if (entiries == null) return models;
 
         for (MineFollowPointEntity entiry : entiries) {

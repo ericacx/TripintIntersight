@@ -3,6 +3,7 @@ package com.tripint.intersight.fragment.mine;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,12 @@ import android.widget.TextView;
 
 import com.tripint.intersight.R;
 import com.tripint.intersight.entity.mine.BalanceEntity;
+import com.tripint.intersight.entity.payment.RechargeEntity;
+import com.tripint.intersight.event.PersonalEvent;
 import com.tripint.intersight.event.StartFragmentEvent;
 import com.tripint.intersight.fragment.base.BaseBackFragment;
 import com.tripint.intersight.service.MineDataHttpRequest;
+import com.tripint.intersight.service.PaymentDataHttpRequest;
 import com.tripint.intersight.widget.subscribers.PageDataSubscriberOnNext;
 import com.tripint.intersight.widget.subscribers.ProgressSubscriber;
 
@@ -29,7 +33,7 @@ import butterknife.OnClick;
  * 账户余额
  * A simple {@link Fragment} subclass.
  */
-public class AccountBalanceFragment extends BaseBackFragment {
+public class AccountBalanceFragment extends BaseBackFragment{
 
 
     @Bind(R.id.toolbar_right)
@@ -79,8 +83,11 @@ public class AccountBalanceFragment extends BaseBackFragment {
     @Bind(R.id.toolbar_title)
     TextView toolbarTitle;
 
+
     private BalanceEntity data = new BalanceEntity();
     private PageDataSubscriberOnNext<BalanceEntity> subscriber;
+    private PageDataSubscriberOnNext<RechargeEntity> subscriberRecharge;
+    private RechargeEntity rechargeEntity = new RechargeEntity();
 
     public static AccountBalanceFragment newInstance() {
         // Required empty public constructor
@@ -103,6 +110,16 @@ public class AccountBalanceFragment extends BaseBackFragment {
     }
 
     private void httpRequestData() {
+
+        subscriberRecharge = new PageDataSubscriberOnNext<RechargeEntity>() {
+            @Override
+            public void onNext(RechargeEntity entity) {
+                rechargeEntity = entity;
+                MineDataHttpRequest.getInstance(mActivity).postUserBalance(new ProgressSubscriber<BalanceEntity>(subscriber, mActivity));
+                EventBus.getDefault().post(new PersonalEvent());
+            }
+        };
+
         subscriber = new PageDataSubscriberOnNext<BalanceEntity>() {
             @Override
             public void onNext(BalanceEntity balanceEntity) {
@@ -144,7 +161,7 @@ public class AccountBalanceFragment extends BaseBackFragment {
     }
 
     @OnClick({R.id.account_balance_withdraw, R.id.payment_one, R.id.payment_two, R.id.payment_three,
-            R.id.payment_four, R.id.payment_five, R.id.payment_six,R.id.toolbar_right})
+            R.id.payment_four, R.id.payment_five, R.id.payment_six, R.id.toolbar_right})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.account_balance_withdraw://提现
@@ -153,18 +170,25 @@ public class AccountBalanceFragment extends BaseBackFragment {
             case R.id.toolbar_right://账户明细
                 EventBus.getDefault().post(new StartFragmentEvent(AccountDetailFragment.newInstance()));
                 break;
-            case R.id.payment_one:
+            case R.id.payment_one://6
+                PaymentDataHttpRequest.getInstance(mActivity).postRecharge(new ProgressSubscriber<RechargeEntity>(subscriberRecharge, mActivity), 1, data.getPayment1(), data.getPayment1() * 10);
                 break;
-            case R.id.payment_two:
+            case R.id.payment_two://18
+                PaymentDataHttpRequest.getInstance(mActivity).postRecharge(new ProgressSubscriber<RechargeEntity>(subscriberRecharge, mActivity), 1, data.getPayment2(), data.getPayment2() * 10);
                 break;
-            case R.id.payment_three:
+            case R.id.payment_three://50
+                PaymentDataHttpRequest.getInstance(mActivity).postRecharge(new ProgressSubscriber<RechargeEntity>(subscriberRecharge, mActivity), 1, data.getPayment3(), data.getPayment3() * 10);
                 break;
-            case R.id.payment_four:
+            case R.id.payment_four://88
+                PaymentDataHttpRequest.getInstance(mActivity).postRecharge(new ProgressSubscriber<RechargeEntity>(subscriberRecharge, mActivity), 1, data.getPayment4(), data.getPayment4() * 10);
                 break;
-            case R.id.payment_five:
+            case R.id.payment_five://188
+                PaymentDataHttpRequest.getInstance(mActivity).postRecharge(new ProgressSubscriber<RechargeEntity>(subscriberRecharge, mActivity), 1, data.getPayment5(), data.getPayment5() * 10);
                 break;
-            case R.id.payment_six:
+            case R.id.payment_six://288
+                PaymentDataHttpRequest.getInstance(mActivity).postRecharge(new ProgressSubscriber<RechargeEntity>(subscriberRecharge, mActivity), 1, data.getPayment6(), data.getPayment6() * 10);
                 break;
         }
     }
+
 }

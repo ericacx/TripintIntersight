@@ -41,7 +41,7 @@ import butterknife.OnClick;
  * 观点(文章)画面
  * A simple {@link Fragment} subclass.
  */
-public class OpinionFragment extends BaseBackFragment implements FlipView.OnFlipListener,FlipView.OnOverFlipListener{
+public class OpinionFragment extends BaseBackFragment implements FlipView.OnFlipListener, FlipView.OnOverFlipListener {
 
     @Bind(R.id.opinionFlipView)
     FlipView opinionFlipView;
@@ -56,6 +56,7 @@ public class OpinionFragment extends BaseBackFragment implements FlipView.OnFlip
 
     private OpinionFlipViewAdapter mAdapter;
     private BasePageableResponse<ArticlesEntity> data = new BasePageableResponse<ArticlesEntity>();
+    private List<ArticlesEntity> entityList = new ArrayList<ArticlesEntity>();
     private PageDataSubscriberOnNext<BasePageableResponse<ArticlesEntity>> subscriber;
 
     public static OpinionFragment newInstance() {
@@ -92,15 +93,11 @@ public class OpinionFragment extends BaseBackFragment implements FlipView.OnFlip
             @Override
             public void onNext(BasePageableResponse<ArticlesEntity> entity) {
                 data = entity;
-
-//                if (mCurrentCounter >= 0) {
-//                    mAdapter.addResList(data.getLists());
-//                    Log.e("data",String.valueOf(data.getLists().size()));
-//                }
-//                TOTAL_COUNTER = data.getTotal();
-//
-//                mCurrentCounter = mAdapter.getResList().size();
-
+                entityList = entity.getLists();
+                mAdapter.addResList(entityList);
+                TOTAL_COUNTER = entity.getTotal();
+                mCurrentCounter = mAdapter.getResList().size();
+                Log.e("mCurrentCounter1", String.valueOf(mCurrentCounter));
             }
         };
         BaseDataHttpRequest.getInstance(mActivity).getArticles(
@@ -109,11 +106,10 @@ public class OpinionFragment extends BaseBackFragment implements FlipView.OnFlip
 
     private void initAdapter() {
 
-        mAdapter = new OpinionFlipViewAdapter(mActivity, data.getLists());
-        opinionFlipView.setAdapter(mAdapter);
+        mAdapter = new OpinionFlipViewAdapter(mActivity, entityList);
         opinionFlipView.setOnFlipListener(this);
         opinionFlipView.setOnOverFlipListener(this);
-
+        opinionFlipView.setAdapter(mAdapter);
     }
 
 
@@ -130,7 +126,6 @@ public class OpinionFragment extends BaseBackFragment implements FlipView.OnFlip
     }
 
 
-
     public int getCurrentPage() {
         return mCurrentCounter / HttpRequest.DEFAULT_PAGE_SIZE + 1;
     }
@@ -142,13 +137,12 @@ public class OpinionFragment extends BaseBackFragment implements FlipView.OnFlip
 
     @Override
     public void onFlippedToPage(FlipView v, int position, long id) {
-//        if (position > opinionFlipView.getPageCount() - 3 && opinionFlipView.getPageCount() < TOTAL_COUNTER){
-//
-//            BaseDataHttpRequest.getInstance(mActivity).getArticles(
-//                    new ProgressSubscriber(subscriber, mActivity), getCurrentPage());
-//            Log.e("mCurrentCounter1",String.valueOf(mCurrentCounter));
-//            mAdapter.addResList(data.getLists());
-//        }
+        if (position > opinionFlipView.getPageCount() - 3 && opinionFlipView.getPageCount() < TOTAL_COUNTER) {
+
+            BaseDataHttpRequest.getInstance(mActivity).getArticles(
+                    new ProgressSubscriber(subscriber, mActivity), getCurrentPage());
+            mAdapter.addResList(data.getLists());
+        }
     }
 
     @Override

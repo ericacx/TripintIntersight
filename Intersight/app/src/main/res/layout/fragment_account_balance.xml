@@ -2,274 +2,295 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@mipmap/background_default"
+    android:orientation="vertical"
     tools:context="com.tripint.intersight.fragment.mine.AccountBalanceFragment">
 
-    <include layout="@layout/toolbar_balance"/>
-
-    <ImageView
-        android:layout_gravity="center_horizontal"
-        android:src="@mipmap/p_coin_88"
-        android:layout_marginTop="@dimen/spacing_02"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <LinearLayout
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginTop="@dimen/spacing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/account_balance_money"
-            android:text="6000"
-            android:textSize="@dimen/text_size_14"
-            android:textColor="@color/white"
-            android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:text="P.coin"
-            android:textColor="@color/white"
-            android:layout_marginLeft="5dp"
-            android:layout_gravity="center_vertical"
-            android:textSize="@dimen/text_size_10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/account_balance_withdraw"
-        android:layout_width="wrap_content"
-        android:layout_height="31dp"
-        android:background="@drawable/btn_shape1"
-        android:gravity="center_horizontal"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/spacing_02"
-        android:text="提现"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_12" />
+    <include layout="@layout/toolbar_balance" />
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_margin="@dimen/spacing"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:text="P.coin充值"
-            android:textSize="@dimen/text_size_12"
-            android:textColor="@color/line"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/spacing_02"
+            android:src="@mipmap/p_coin_88" />
 
         <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/spacing"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/payment_one"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/bg_corners_text"
-                android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/account_balance_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_14" />
 
-                <TextView
-                    android:id="@+id/payment_one_text_one"
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/red"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:src="@mipmap/p_coin_6"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/payment_one_text_two"
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/white"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/payment_two"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="@dimen/spacing"
-                android:orientation="vertical"
-                android:background="@drawable/bg_corners_text"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/payment_two_text_one"
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/red"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:src="@mipmap/p_coin_18"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/payment_two_text_two"
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/white"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:text="P.coin"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_10" />
         </LinearLayout>
 
+        <Button
+            android:id="@+id/account_balance_withdraw"
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/spacing_02"
+            android:background="@drawable/btn_shape1"
+            android:gravity="center_horizontal"
+            android:text="提现"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_12" />
 
         <LinearLayout
-            android:layout_marginTop="@dimen/spacing"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:text="P.coin充值"
+                android:textColor="@color/line"
+                android:textSize="@dimen/text_size_12" />
 
             <LinearLayout
-                android:id="@+id/payment_three"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/bg_corners_text"
-                android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/payment_three_text_one"
-                    android:text=""
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/red"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:src="@mipmap/p_coin_50"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/payment_three_text_two"
-                    android:text=""
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/white"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:id="@+id/payment_one"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_corners_text"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/payment_one_text_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/text_size_12" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@mipmap/p_coin_6" />
+
+                    <TextView
+                        android:id="@+id/payment_one_text_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_12" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/payment_two"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_corners_text"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/payment_two_text_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/text_size_12" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@mipmap/p_coin_18" />
+
+                    <TextView
+                        android:id="@+id/payment_two_text_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_12" />
+                </LinearLayout>
             </LinearLayout>
 
 
             <LinearLayout
-                android:id="@+id/payment_four"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="@dimen/spacing"
-                android:orientation="vertical"
-                android:background="@drawable/bg_corners_text"
-                android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/payment_four_text_one"
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/red"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:src="@mipmap/p_coin_88"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/payment_four_text_two"
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/white"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:id="@+id/payment_three"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_corners_text"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/payment_three_text_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text=""
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/text_size_12" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@mipmap/p_coin_50" />
+
+                    <TextView
+                        android:id="@+id/payment_three_text_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_12" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/payment_four"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_corners_text"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/payment_four_text_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/text_size_12" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@mipmap/p_coin_88" />
+
+                    <TextView
+                        android:id="@+id/payment_four_text_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_12" />
+                </LinearLayout>
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/payment_five"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_corners_text"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/payment_five_text_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/text_size_12" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@mipmap/p_coin_188" />
+
+                    <TextView
+                        android:id="@+id/payment_five_text_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_12" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/payment_six"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/spacing"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_corners_text"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/payment_six_text_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/text_size_12" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@mipmap/p_coin_288" />
+
+                    <TextView
+                        android:id="@+id/payment_six_text_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_12" />
+                </LinearLayout>
+            </LinearLayout>
+
+
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="@dimen/spacing"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:id="@+id/payment_five"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/bg_corners_text"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/payment_five_text_one"
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/red"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:src="@mipmap/p_coin_188"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/payment_five_text_two"
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/white"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/payment_six"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="@dimen/spacing"
-                android:orientation="vertical"
-                android:background="@drawable/bg_corners_text"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/payment_six_text_one"
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/red"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:src="@mipmap/p_coin_288"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/payment_six_text_two"
-                    android:textSize="@dimen/text_size_12"
-                    android:textColor="@color/white"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </LinearLayout>
-
 
     </LinearLayout>
 
